@@ -4,6 +4,8 @@ class LWESolver:public Solver{
 
 private:
 
+wp c=1.0;
+
 public:
 
 LWESolver(Mesh& mesh);

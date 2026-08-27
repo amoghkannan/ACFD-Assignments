@@ -17,11 +17,12 @@ std::array<int,6> Solver::size(){
 
 void Solver::setVar(){
        std::array<int,6>dims=this->size();
-       vars.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5])); 
+       vars.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+       nVars=nVars+1;
 };
 
 void Solver::setVar(int ind, Grid& VarIn){
-       vars[ind]=VarIn; 
+       vars[ind]=VarIn;
 };
 
 void Solver::setScheme(Scheme& schemeIn){

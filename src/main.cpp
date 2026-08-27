@@ -29,13 +29,14 @@ int main(void){
 
         LWESolver solver2(mesh);
         solver2.setScheme(timeStepping,RK4);
-        solver2.setScheme(derivativeX,FOU);
+        solver2.setScheme(derivativeX,C4);
         solver2.setBC(0,periodic,1);
         solver2.setBC(1,periodic,0);
 
         Integrator I;
 
         I.setCFL(1.0);
+        I.maxSteps=1000;
 
         I.addSolver(solver1);
         I.addSolver(solver2);

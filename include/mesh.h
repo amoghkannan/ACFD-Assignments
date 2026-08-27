@@ -16,7 +16,7 @@ int imx=0;
 int jmx=0;
 int bufE,bufW,bufN,bufS=0;
 
-Node* data;
+Node* data=nullptr;
 
 public:
 

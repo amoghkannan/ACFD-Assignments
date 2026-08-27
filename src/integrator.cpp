@@ -12,8 +12,55 @@ void Integrator::addSolver(Solver& solverIn){
 
         Solver* newSolver=&solverIn;
         solvers.push_back(newSolver);
-       
+ 
         std::array<int,6> dims=newSolver->size();
+
+        if(newSolver->getScheme().getScheme(timeStepping)==RK4){
+                int n=uStore.size();
+                
+                if(n==0){
+                        for(int i=0;i<newSolver->nVars;i++){
+                                uStore.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+                                rStore.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+                        };
+                }
+                else{
+                        std::array<int,6> dimsOG=uStore[0].size();
+               
+                        if(dimsOG[0]<dims[0] || dimsOG[1]<dims[1] || dimsOG[2]<dims[2] ||
+                           dimsOG[3]<dims[3] || dimsOG[4]<dims[4] || dimsOG[5]<dims[5]){
+
+                                uStore.clear();
+                                rStore.clear();
+
+                                n=n>newSolver->nVars?n:newSolver->nVars;
+
+                                for(int i=0;i<n;i++){
+                                        uStore.emplace_back(Grid(dims[0],dims[1],dims[2],
+                                                                 dims[3],dims[4],dims[5]));
+                                        rStore.emplace_back(Grid(dims[0],dims[1],dims[2],
+                                                                 dims[3],dims[4],dims[5]));
+
+                                };
+                       
+                        }
+                        else{
+                                if(n<newSolver->nVars){
+                                        for(int i=0;i<newSolver->nVars-n;i++){
+                                                uStore.emplace_back(Grid(dimsOG[0],dimsOG[1],dimsOG[2],
+                                                                        dimsOG[3],dimsOG[4],dimsOG[5]));
+                                                rStore.emplace_back(Grid(dimsOG[0],dimsOG[1],dimsOG[2],
+                                                                        dimsOG[3],dimsOG[4],dimsOG[5]));
+
+                                        };
+                                };
+                        };
+
+                };
+        
+                
+        };
+
         deltaT.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
 
         converged.push_back(false);
@@ -56,17 +103,32 @@ void Integrator::takeTimeStep(){
 
 void Integrator::integrate(){
 
+       for(int i=0;i<nSolvers;i++){
+                solvers[i].initialCondition();
+       };
+
         while(nSteps<maxSteps){
                takeTimeStep(); 
         };
 };
 
-void Integrator::rk4(Solver* s){
+void Integrator::rk4(int ind){
 
+        Solver *s=solvers[ind];
+
+        s->computeTimeStep(deltaT[ind]);
+
+        s->QDot();
+        s->updateVars(deltaT[ind]);
 
 };
 
-void Integrator::euler(Solver* s){
+void Integrator::euler(int ind){
 
+        Solver *s=solvers[ind];
+
+        s->computeTimeStep(deltaT[ind]);
+        s->QDot();
+        s->updateVars(deltaT[ind]);
 
 };

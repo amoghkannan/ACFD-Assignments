@@ -102,3 +102,55 @@ void Scheme::EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
 
 };
 
+void Scheme::EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+
+       std::array<int,6> gridDims=phi.size();
+       
+       int imx=gridDims[0];
+       int jmx=gridDims[1];
+
+       wp delta;
+
+       if(dirFlag=='x'){
+               for(int j=1;j<=jmx;j++){
+                  for(int i=1;i<=imx;i++){
+                       delta=mesh(i+1,j).x-mesh(i,j).x;
+                       derivative(i,j)=(phi(i+1,j)-phi(i,j))/delta;
+                  };
+               };
+       }
+       else if(dirFlag=='y'){
+               for(int j=1;j<=jmx;j++){
+                  for(int i=1;i<=imx;i++){
+                       delta=mesh(i,j+1).y-mesh(i,j).y;
+                       derivative(i,j)=(phi(i,j+1)-phi(i,j))/delta;
+                  };
+               };
+       };
+
+};
+
+void Scheme::ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+
+       std::array<int,6> gridDims=phi.size();
+       
+       int imx=gridDims[0];
+       int jmx=gridDims[1];
+
+       wp delta;
+
+       if(dirFlag=='x'){
+               for(int j=1;j<=jmx;j++){
+                  for(int i=1;i<=imx;i++){
+                  };
+               };
+       }
+       else if(dirFlag=='y'){
+               for(int j=1;j<=jmx;j++){
+                  for(int i=1;i<=imx;i++){
+                  };
+               };
+       };
+
+};
+

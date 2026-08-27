@@ -14,7 +14,6 @@ std::queue<std::string>logs;
 std::string logfileName="log.dat";
 std::string dumpfileName="dump.dat";
 
-
 public:
 
 

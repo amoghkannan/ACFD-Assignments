@@ -6,7 +6,7 @@
 
 class Solver{
 
-private:
+protected:
 
 Mesh* mesh=nullptr;
 
@@ -16,7 +16,7 @@ Scheme scheme;
 
 public:
 
-int nVars;
+int nVars=0;
 
 std::vector<Grid> varsDot;
 
@@ -36,9 +36,12 @@ Grid& getVar(int ind);
 Scheme& getScheme();
 
 ~Solver(){
+
 };
 
 virtual void initialCondition()=0;
+
+virtual void applyBC()=0;
 
 virtual void QDot()=0;
 
@@ -49,4 +52,5 @@ virtual void updateVars(Grid& dt)=0;
 virtual wp getResNorm()=0;
 
 virtual bool isConverged()=0;
+
 };
