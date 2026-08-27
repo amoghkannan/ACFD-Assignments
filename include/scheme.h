@@ -1,0 +1,63 @@
+#pragma once
+#include"utils.h"
+#include"mesh.h"
+#include"vars.h"
+#include<string.h>
+#include<vector>
+
+enum BCType{
+        periodic,
+        dirichlet,
+        neumann
+};
+
+enum schemeKey{
+        timeStepping,
+        derivativeX,
+        derivativeY,
+        derivativeXX,
+        derivativeYY,
+        derivativeXY,
+};
+
+enum schemeVal{
+        EULER,
+        RK4,
+        FOU, //First-order upwind
+        C4,   //Fourth-order compact
+        INVALID
+};
+
+
+class Scheme{
+
+private:
+
+schemeVal invalidScheme=INVALID;
+std::vector<schemeKey> keys;
+std::vector<schemeVal> values;
+
+BCType BC[4];
+wp BCVal[4];
+
+std::vector<wp> a,b,c,RHS;
+std::vector<wp> x;
+
+public:
+
+schemeVal getScheme(schemeKey key);
+void setScheme(schemeKey key, schemeVal val);
+void setBC(int ind, BCType type, wp val);
+std::pair<BCType,wp>getBC(int ind);
+
+//Derivative formulas
+
+void TDMA(int n);
+
+void EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit backward difference (1st order)
+void EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit forward difference (1st order)
+void ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
+
+void ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
+
+};
