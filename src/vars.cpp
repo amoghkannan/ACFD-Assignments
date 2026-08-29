@@ -20,7 +20,41 @@ wp& Grid::operator()(int i,int j){
         return data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
 };
 
+void Grid::operator=(Grid& otherGrid){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = otherGrid(i,j);
+                };
+        };
+};
+
+void Grid::operator+(Grid& otherGrid){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] + otherGrid(i,j);
+                };
+        };
+};
+
+void Grid::operator*(wp val){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] * val;
+                };
+        };
+};
+
+void Grid::operator/(wp val){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] / val;
+                };
+        };
+};
+
 Grid::~Grid(){
 
         delete[] data;
+
+        logger.log("Debug: Destroying grid",1);
 };

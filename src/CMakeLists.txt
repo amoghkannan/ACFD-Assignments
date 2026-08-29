@@ -1,9 +1,9 @@
 add_library(my_objects OBJECT
+logger.cpp
 utils.cpp
 mesh.cpp
 vars.cpp
 scheme.cpp
-IO.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp

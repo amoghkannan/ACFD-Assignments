@@ -9,6 +9,8 @@ Mesh::Mesh(int imx,int jmx,int bufW, int bufE, int bufS, int bufN){
         this->bufS=bufS;
 
         data=new Node[(imx+bufE+bufW)*(jmx+bufN+bufS)];
+
+        logger.log("Debug:Mesh initialization",1);
 };
 
 std::array<int,6> Mesh::size(){
@@ -32,5 +34,6 @@ Node& Mesh::operator()(int i,int j){
 };
 
 Mesh::~Mesh(){
-        delete[] data;
+delete[] data;
+logger.log("Debug: destroying mesh",1);
 };

@@ -10,17 +10,26 @@ public:
 
 LWESolver(Mesh& mesh);
 
-virtual void initialCondition() override;
+void initialCondition() override;
 
-virtual void QDot() override;
+void applyBC() override;
 
-virtual void computeTimeStep(Grid& dt) override;
+void QDot() override;
 
-virtual void updateVars(Grid& dt) override;
+void computeTimeStep(Grid& dt) override;
 
-virtual wp getResNorm() override;
+void updateVars(Grid& dt, wp storeFactor) override;
 
-virtual bool isConverged() override;
+void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore) override;
 
+void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore, std::vector<Grid>& rStore) override;
+
+wp getResNorm() override;
+
+bool isConverged() override;
+
+~LWESolver() override{
+        logger.log("Debug: Destroying LWEsolver",1);
+};
 
 };

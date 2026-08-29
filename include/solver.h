@@ -35,8 +35,8 @@ Mesh* getMesh();
 Grid& getVar(int ind);
 Scheme& getScheme();
 
-~Solver(){
-
+virtual ~Solver(){
+        logger.log("Debug: Destroying solver",1);
 };
 
 virtual void initialCondition()=0;
@@ -47,7 +47,11 @@ virtual void QDot()=0;
 
 virtual void computeTimeStep(Grid& dt)=0;
 
-virtual void updateVars(Grid& dt)=0;
+virtual void updateVars(Grid& dt, wp storeFactor)=0;
+
+virtual void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore)=0;
+
+virtual void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore, std::vector<Grid>& rStore)=0;
 
 virtual wp getResNorm()=0;
 

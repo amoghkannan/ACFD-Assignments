@@ -10,19 +10,23 @@ private:
 wp CFL=1.0;
 std::vector<Grid>deltaT;
 std::vector<Grid>uStore; //For multi-step schemes
-std::vector<Grid>dotStore; //For multi-step schemes
-std::vector<Solver*>solvers={nullptr};
+std::vector<Grid>rStore; //For multi-step schemes
+std::vector<Solver*>solvers;
 std::vector<bool>converged;
 
 int nSolvers=0;
+int dumpNumber=0;
 
-std::queue<int>updateOrder;
-
+void dumpSolution(Solver* s, int ID);
+void incDumpNumber();
 
 public:
 
+Integrator();
+
 int nSteps=0;
 int maxSteps=1;
+int dumpSteps=1;
 
 void setCFL(wp CFLIn);
 wp getCFL();
@@ -36,5 +40,9 @@ void integrate();
 
 void rk4(int ind);
 void euler(int ind);
+
+~Integrator(){
+        logger.log("Debug: Destroying integrator",1);
+};
 
 };

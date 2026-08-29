@@ -40,8 +40,12 @@ std::vector<schemeVal> values;
 BCType BC[4];
 wp BCVal[4];
 
-std::vector<wp> a,b,c,RHS;
-std::vector<wp> x;
+//TDMA coefficients
+wp *a=nullptr;
+wp *b=nullptr;
+wp *c=nullptr;
+wp *RHS=nullptr;
+wp *x=nullptr;
 
 public:
 
@@ -59,5 +63,14 @@ void EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit for
 void ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
 
 void ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
+
+~Scheme(){
+        if(a!=nullptr) delete[] a;
+        if(b!=nullptr) delete[] b;
+        if(c!=nullptr) delete[] c;
+        if(RHS!=nullptr) delete[] RHS;
+        if(x!=nullptr) delete[] x;
+        logger.log("Debug: destroying scheme",1);
+};
 
 };

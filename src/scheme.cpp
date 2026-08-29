@@ -20,6 +20,7 @@ schemeVal Scheme::getScheme(schemeKey keyIn){
 };
 
 void Scheme::setScheme(schemeKey keyIn, schemeVal valIn){
+
         int ind=-1;
 
         int counter=0;
@@ -45,13 +46,18 @@ skip:     if(ind==-1){
                 values[ind]=valIn;
         };
 
+
+        logger.log("Debug: Scheme setting",1);
         return;
 };
 
 void Scheme::setBC(int ind, BCType type, wp val){
+
         BC[ind]=type;
         BCVal[ind]=val;
 
+
+        logger.log("Debug: BC setting",1);
 };
 
 std::pair<BCType,wp> Scheme::getBC(int ind){
@@ -137,18 +143,51 @@ void Scheme::ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
        int imx=gridDims[0];
        int jmx=gridDims[1];
 
-       wp delta;
+       wp delta=dirFlag=='x'?mesh(2,1).x-mesh(1,1).x:mesh(1,2).y-mesh(1,1).y; //TODO: Make this general
+       int sysDims=dirFlag=='x'?imx:jmx;
+
+       if(a==nullptr){
+                a=new wp[std::max(imx,jmx)];
+                b=new wp[std::max(imx,jmx)];
+                c=new wp[std::max(imx,jmx)];
+                RHS=new wp[std::max(imx,jmx)];
+                x=new wp[std::max(imx,jmx)];
+       };
 
        if(dirFlag=='x'){
                for(int j=1;j<=jmx;j++){
-                  for(int i=1;i<=imx;i++){
+                  
+                  for(int n=0;n<imx;n++){
+                           a[n]=0.25;
+                           b[n]=1.0;
+                           c[n]=0.25;
+                           RHS[n]=1.5*(phi(n+2,j)-phi(n,j))/(2.0*delta);
                   };
+
+                  TDMA(imx);
+
+                  for(int n=0;n<imx;n++){
+                           derivative(n+1,j)=x[n];
+                  };
+
                };
        }
        else if(dirFlag=='y'){
-               for(int j=1;j<=jmx;j++){
-                  for(int i=1;i<=imx;i++){
+               for(int i=1;i<=imx;i++){
+                  
+                  for(int n=0;n<imx;n++){
+                           a[n]=0.25;
+                           b[n]=1.0;
+                           c[n]=0.25;
+                           RHS[n]=1.5*(phi(i,n+2)-phi(i,n))/(2.0*delta);
                   };
+
+                  TDMA(jmx);
+
+                  for(int n=0;n<imx;n++){
+                           derivative(i,n+1)=x[n];
+                  };
+
                };
        };
 

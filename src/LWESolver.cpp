@@ -3,6 +3,7 @@
 LWESolver::LWESolver(Mesh& meshIn){
        setMesh(meshIn);
        setVar();
+       logger.log("Debug: LWE solver initialization",1);
 };
 
 void LWESolver::initialCondition(){
@@ -17,16 +18,17 @@ void LWESolver::initialCondition(){
                 };
         };
 
+        logger.log("Debug: LWE solver initial condition",1);
 };
 
 void LWESolver::applyBC(){
        std::array<int,6>dims=this->size();
+       
+       int imx=dims[0];
+       int jmx=dims[1];
 
-        int imx=dims[0];
-
-        vars[0](0,1)=vars[0](imx-1,1);
-        vars[0](imx,1)=vars[0](1,1);
-
+       vars[0](0,1)=vars[0](imx,1);
+       vars[0](imx+1,1)=vars[0](1,1);
 };
 
 void LWESolver::QDot(){
@@ -42,11 +44,9 @@ void LWESolver::QDot(){
                                 scheme.EFD1(vars[0],varsDot[0],*mesh,'x');
                         };
                         break;
-
                 case C4:
                         scheme.ICD4(vars[0],varsDot[0],*mesh,'x');
                         break;
-
                 default:
                         break;
 
@@ -67,7 +67,7 @@ void LWESolver::computeTimeStep(Grid& dt){
        
 };
 
-void LWESolver::updateVars(Grid& dt){
+void LWESolver::updateVars(Grid& dt, wp storeFactor){
 
        wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
 
@@ -75,10 +75,35 @@ void LWESolver::updateVars(Grid& dt){
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)= vars[0](i,j)+dt(i,j)*varsDot[0](i,j);
+                        vars[0](i,j)= vars[0](i,j)+dt(i,j)*storeFactor*varsDot[0](i,j);
                 };
         };
+};
 
+void LWESolver::updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore){
+
+       wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
+
+       std::array<int,6>dims=dt.size();
+
+        for(int j=1;j<=dims[1];j++){
+                for(int i=1;i<=dims[0];i++){
+                        vars[0](i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*varsDot[0](i,j);
+                };
+        };
+};
+
+void LWESolver::updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore, std::vector<Grid>& rStore){
+
+       wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
+
+       std::array<int,6>dims=dt.size();
+
+        for(int j=1;j<=dims[1];j++){
+                for(int i=1;i<=dims[0];i++){
+                        vars[0](i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*rStore[0](i,j);
+                };
+        };
 };
 
 wp LWESolver::getResNorm(){
@@ -87,7 +112,7 @@ wp LWESolver::getResNorm(){
 
 bool LWESolver::isConverged(){
 
-        return true;
+        return false;
 };
 
 
