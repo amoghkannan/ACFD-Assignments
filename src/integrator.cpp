@@ -184,7 +184,6 @@ void Integrator::euler(int ind){
         s->computeTimeStep(deltaT[ind]);
         s->QDot();
         s->updateVars(deltaT[ind],CFL);
-
 };
 
 void Integrator::dumpSolution(Solver *s, int ID){

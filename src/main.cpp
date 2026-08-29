@@ -23,7 +23,7 @@ int main(void){
         };
 
         LWESolver solver1(mesh);
-        solver1.setScheme(timeStepping,EULER);
+        solver1.setScheme(timeStepping,RK4);
         solver1.setScheme(derivativeX,FOU);
         solver1.setBC(0,periodic,1);
         solver1.setBC(1,periodic,0);
