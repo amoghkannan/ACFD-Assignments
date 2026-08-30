@@ -46,6 +46,7 @@ wp *b=nullptr;
 wp *c=nullptr;
 wp *RHS=nullptr;
 wp *x=nullptr;
+wp *y=nullptr;
 
 public:
 
@@ -56,12 +57,14 @@ std::pair<BCType,wp>getBC(int ind);
 
 //Derivative formulas
 
-void TDMA(int n);
+void TDMA(int n, wp* x);
 
 void EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit backward difference (1st order)
 void EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit forward difference (1st order)
 void ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
+void ECD2NonUniform(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //2nd order CD for non-uniform grid
 
+void fillCoeffs(Grid& phi, char dirFlag); //Prepare TDMA
 void ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
 
 ~Scheme(){
@@ -70,6 +73,8 @@ void ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Implicit (co
         if(c!=nullptr) delete[] c;
         if(RHS!=nullptr) delete[] RHS;
         if(x!=nullptr) delete[] x;
+        if(y!=nullptr) delete[] y;
+
         logger.log("Debug: destroying scheme",1);
 };
 

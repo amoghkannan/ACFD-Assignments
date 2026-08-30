@@ -207,13 +207,9 @@ void Integrator::dumpSolution(Solver *s, int ID){
         outputfile<<"Varlocation=([1-"<<std::to_string(nVars+3)<<"]=Nodal)"<<std::endl;
         outputfile<<"STRANDID="<<std::to_string(dumpNumber)<<std::endl;
 
-        for(int n=0;n<nVars;n++){
-                outputfile<<"var"+std::to_string(n)<<std::endl;       
-        };
-
         for(int j=1;j<=jmx;j++){
            for(int i=1;i<=imx;i++){
-                outputfile<<(*(s->getMesh()))(i,j).x<<(*(s->getMesh()))(i,j).y<<0.0<<std::endl;
+                outputfile<<(*(s->getMesh()))(i,j).x<<"\t"<<(*(s->getMesh()))(i,j).y<<"\t"<<0.0<<std::endl;
            }
         };
 

@@ -7,7 +7,6 @@ scheme.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp
-main.cpp
 )
 
-target_include_directories(my_objects PRIVATE ${CMAKE_SOURCE_DIR}/include)  
+target_include_directories(my_objects PUBLIC ${CMAKE_SOURCE_DIR}/include)  

@@ -14,7 +14,7 @@ void LWESolver::initialCondition(){
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)=sin(M_PI*(*mesh)(i,j).x/(2.0*deltaX));
+                        vars[0](i,j)=sin(M_PI*(*mesh)(i,j).x/(10.0*deltaX));
                 };
         };
 
@@ -48,7 +48,7 @@ void LWESolver::QDot(){
                         break;
                 case C4:
                         scheme.ICD4(vars[0],varsDot[0],*mesh,'x');
-                        varsDot[0]*c;
+                        varsDot[0]*(-c);
                         break;
                 default:
                         break;
