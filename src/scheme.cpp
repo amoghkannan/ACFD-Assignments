@@ -80,7 +80,7 @@ void Scheme::TDMA(int n, wp* xIn){
 
 };
 
-void Scheme::EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+void Scheme::EBD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        
@@ -108,7 +108,7 @@ void Scheme::EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
 
 };
 
-void Scheme::ECD2NonUniform(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+void Scheme::ECD2NonUniform(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        
@@ -134,7 +134,7 @@ void Scheme::ECD2NonUniform(Grid& phi, Grid& derivative, Mesh& mesh, char dirFla
 
 };
 
-void Scheme::ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+void Scheme::ECD2(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        
@@ -162,7 +162,7 @@ void Scheme::ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
 
 };
 
-void Scheme::EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+void Scheme::EFD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        
@@ -190,7 +190,7 @@ void Scheme::EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
 
 };
 
-void Scheme::fillCoeffs(Grid& phi, char dirFlag){
+void Scheme::fillCoeffs(Grid<wp>& phi, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        
@@ -224,7 +224,7 @@ void Scheme::fillCoeffs(Grid& phi, char dirFlag){
 
 };
 
-void Scheme::ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag){
+void Scheme::ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag){
 
        std::array<int,6> gridDims=phi.size();
        

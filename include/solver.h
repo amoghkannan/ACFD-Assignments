@@ -10,7 +10,7 @@ protected:
 
 Mesh* mesh=nullptr;
 
-std::vector<Grid> vars;
+std::vector<Grid<wp>> vars;
 
 Scheme scheme;
 
@@ -18,7 +18,7 @@ public:
 
 int nVars=0;
 
-std::vector<Grid> varsDot;
+std::vector<Grid<wp>> varsDot;
 
 Solver();
 
@@ -26,13 +26,13 @@ void setMesh(Mesh& meshIn);
 void setMesh(int imx, int jmx, int bufW, int bufE, int bufS, int bufN);
 std::array<int,6>size();
 void setVar();
-void setVar(int ind, Grid& VarIn);
+void setVar(int ind, Grid<wp>& VarIn);
 void setScheme(Scheme& schemeIn);
 void setScheme(schemeKey key, schemeVal val);
 void setBC(int ind, BCType type, wp val);
 
 Mesh* getMesh();
-Grid& getVar(int ind);
+Grid<wp>& getVar(int ind);
 Scheme& getScheme();
 
 virtual ~Solver(){
@@ -45,13 +45,13 @@ virtual void applyBC()=0;
 
 virtual void QDot()=0;
 
-virtual void computeTimeStep(Grid& dt)=0;
+virtual void computeTimeStep(Grid<wp>& dt)=0;
 
-virtual void updateVars(Grid& dt, wp storeFactor)=0;
+virtual void updateVars(Grid<wp>& dt, wp storeFactor)=0;
 
-virtual void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore)=0;
+virtual void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore)=0;
 
-virtual void updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore, std::vector<Grid>& rStore)=0;
+virtual void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore)=0;
 
 virtual wp getResNorm()=0;
 

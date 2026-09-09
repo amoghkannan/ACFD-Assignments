@@ -56,7 +56,7 @@ void LWESolver::QDot(){
        };
 };
 
-void LWESolver::computeTimeStep(Grid& dt){
+void LWESolver::computeTimeStep(Grid<wp>& dt){
  
        wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
 
@@ -70,7 +70,7 @@ void LWESolver::computeTimeStep(Grid& dt){
        
 };
 
-void LWESolver::updateVars(Grid& dt, wp storeFactor){
+void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor){
 
        std::array<int,6>dims=dt.size();
 
@@ -83,7 +83,7 @@ void LWESolver::updateVars(Grid& dt, wp storeFactor){
         applyBC();
 };
 
-void LWESolver::updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore){
+void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore){
 
        wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
 
@@ -97,7 +97,7 @@ void LWESolver::updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore){
         applyBC();
 };
 
-void LWESolver::updateVars(Grid& dt, wp storeFactor, std::vector<Grid>& uStore, std::vector<Grid>& rStore){
+void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore){
 
        wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
 

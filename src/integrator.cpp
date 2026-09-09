@@ -24,8 +24,8 @@ void Integrator::addSolver(Solver& solverIn){
                 
                 if(n==0){
                         for(int i=0;i<newSolver->nVars;i++){
-                                uStore.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
-                                rStore.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+                                uStore.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+                                rStore.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
                         };
                 }
                 else{
@@ -40,9 +40,9 @@ void Integrator::addSolver(Solver& solverIn){
                                 n=n>newSolver->nVars?n:newSolver->nVars;
 
                                 for(int i=0;i<n;i++){
-                                        uStore.emplace_back(Grid(dims[0],dims[1],dims[2],
+                                        uStore.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],
                                                                  dims[3],dims[4],dims[5]));
-                                        rStore.emplace_back(Grid(dims[0],dims[1],dims[2],
+                                        rStore.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],
                                                                  dims[3],dims[4],dims[5]));
 
                                 };
@@ -51,9 +51,9 @@ void Integrator::addSolver(Solver& solverIn){
                         else{
                                 if(n<newSolver->nVars){
                                         for(int i=0;i<newSolver->nVars-n;i++){
-                                                uStore.emplace_back(Grid(dimsOG[0],dimsOG[1],dimsOG[2],
+                                                uStore.emplace_back(Grid<wp>(dimsOG[0],dimsOG[1],dimsOG[2],
                                                                         dimsOG[3],dimsOG[4],dimsOG[5]));
-                                                rStore.emplace_back(Grid(dimsOG[0],dimsOG[1],dimsOG[2],
+                                                rStore.emplace_back(Grid<wp>(dimsOG[0],dimsOG[1],dimsOG[2],
                                                                         dimsOG[3],dimsOG[4],dimsOG[5]));
 
                                         };
@@ -65,7 +65,7 @@ void Integrator::addSolver(Solver& solverIn){
                 
         };
 
-        deltaT.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+        deltaT.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
 
         converged.push_back(false);
 

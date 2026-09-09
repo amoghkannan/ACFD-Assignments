@@ -18,12 +18,12 @@ std::array<int,6> Solver::size(){
 
 void Solver::setVar(){
        std::array<int,6>dims=this->size();
-       vars.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
-       varsDot.emplace_back(Grid(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+       vars.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+       varsDot.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
        nVars=nVars+1;
 };
 
-void Solver::setVar(int ind, Grid& VarIn){
+void Solver::setVar(int ind, Grid<wp>& VarIn){
        vars[ind]=VarIn;
 };
 
@@ -43,7 +43,7 @@ Mesh* Solver::getMesh(){
         return mesh;
 };
 
-Grid& Solver::getVar(int ind){
+Grid<wp>& Solver::getVar(int ind){
         if(ind>nVars-1){
                 std::cout<<"Invalid variable array access in solver, exiting";
                 std::exit(-1);

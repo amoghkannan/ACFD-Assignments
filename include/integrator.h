@@ -8,9 +8,9 @@ class Integrator{
 private:
 
 wp CFL=1.0;
-std::vector<Grid>deltaT;
-std::vector<Grid>uStore; //For multi-step schemes
-std::vector<Grid>rStore; //For multi-step schemes
+std::vector<Grid<wp>>deltaT;
+std::vector<Grid<wp>>uStore; //For multi-step schemes
+std::vector<Grid<wp>>rStore; //For multi-step schemes
 std::vector<Solver*>solvers;
 std::vector<bool>converged;
 

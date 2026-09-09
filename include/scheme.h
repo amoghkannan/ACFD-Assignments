@@ -59,13 +59,13 @@ std::pair<BCType,wp>getBC(int ind);
 
 void TDMA(int n, wp* x);
 
-void EBD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit backward difference (1st order)
-void EFD1(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Explicit forward difference (1st order)
-void ECD2(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
-void ECD2NonUniform(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //2nd order CD for non-uniform grid
+void EBD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Explicit backward difference (1st order)
+void EFD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Explicit forward difference (1st order)
+void ECD2(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
+void ECD2NonUniform(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //2nd order CD for non-uniform grid
 
-void fillCoeffs(Grid& phi, char dirFlag); //Prepare TDMA
-void ICD4(Grid& phi, Grid& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
+void fillCoeffs(Grid<wp>& phi, char dirFlag); //Prepare TDMA
+void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;
