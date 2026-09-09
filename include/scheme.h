@@ -58,14 +58,16 @@ std::pair<BCType,wp>getBC(int ind);
 //Derivative formulas
 
 void TDMA(int n, wp* x);
+void fillCoeffs(Grid<wp>& phi, char dirFlag); //Prepare TDMA
 
+//Finite difference
 void EBD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Explicit backward difference (1st order)
 void EFD1(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Explicit forward difference (1st order)
 void ECD2(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); // Explicit central difference (2nd order)
 void ECD2NonUniform(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //2nd order CD for non-uniform grid
-
-void fillCoeffs(Grid<wp>& phi, char dirFlag); //Prepare TDMA
 void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
+
+//Finite volume
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;
