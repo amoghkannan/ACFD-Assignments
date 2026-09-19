@@ -5,6 +5,7 @@ class GMRES: public LinearSolver{
 protected:
 
 int subspaceSize;
+int nRestarts;
 Grid<wp>residualVec;
 std::vector<Grid<wp>>krylovVectors;
 Grid<wp>H;
@@ -15,7 +16,8 @@ Grid<wp>temp;
 
 public:
 
-GMRES(int maxIters_, wp tol_, int ss, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_), subspaceSize(ss), residualVec(varsIn){
+GMRES(int maxIters_, wp tol_, int ss, int nR, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_), subspaceSize(ss), 
+        nRestarts(nR), residualVec(varsIn){
         logger.log("Setting up GMRES solver",1);
         for(int i=0;i<=subspaceSize;i++){
                 krylovVectors.emplace_back(Grid<wp>(varsIn));

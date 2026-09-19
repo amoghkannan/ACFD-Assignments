@@ -219,5 +219,4 @@ Grid<T>::~Grid(){
 
         delete[] data;
 
-        logger.log("Debug: Destroying grid",1);
 };

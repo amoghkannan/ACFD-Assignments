@@ -149,9 +149,11 @@ void GMRES::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("GMRES iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-
-        doIteration(var);
-
+        
+        while(currIter<nRestarts){
+                doIteration(var);
+                currIter=currIter+1;
+        };
         logger.log("GMRES iteration finished: "+std::to_string(residualCalc(var))+"\n",1);
 };
 
