@@ -1,67 +1,24 @@
 #include"scheme.h"
 
-schemeVal Scheme::getScheme(schemeKey keyIn){
-        schemeVal ans=invalidScheme;
-
-        if(keys.size()==0) return ans;
-
-        int counter=0;
-
-        for(auto key:keys){
-                if(key==keyIn){
-                        ans=values[counter];
-                        return ans;
-                };
-
-                counter=counter+1;
-        };
-
-        return ans;
+schemeVal& Scheme::getScheme(schemeKey keyIn){
+        return schemeDict[keyIn];
 };
 
 void Scheme::setScheme(schemeKey keyIn, schemeVal valIn){
 
-        int ind=-1;
-
-        int counter=0;
-
-
-        if(keys.size()==0) goto skip;
-
-
-        for(auto key:keys){
-                if(key==keyIn){
-                        ind=counter;
-                        goto skip;
-                };
-
-                counter=counter+1;
-        };
-
-skip:     if(ind==-1){
-                keys.push_back(keyIn);
-                values.push_back(valIn);
-        }
-        else{
-                values[ind]=valIn;
-        };
-
-
+        schemeDict[keyIn]=valIn;
         logger.log("Debug: Scheme setting",1);
-        return;
 };
 
-void Scheme::setBC(int ind, BCType type, wp val){
+void Scheme::setBC(std::string boundary, BCType type, wp val){
 
-        BC[ind]=type;
-        BCVal[ind]=val;
-
+        BCDict[boundary]={type,val};
 
         logger.log("Debug: BC setting",1);
 };
 
-std::pair<BCType,wp> Scheme::getBC(int ind){
-        return {BC[ind],BCVal[ind]};
+std::pair<BCType,wp> Scheme::getBC(std::string boundary){
+        return BCDict[boundary];
 
 };
 

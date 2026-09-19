@@ -4,6 +4,8 @@ utils.cpp
 vars.cpp
 mesh.cpp
 scheme.cpp
+LinearSolvers/LinearSolver.cpp
+LinearSolvers/Jacobi.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp

@@ -29,7 +29,7 @@ void setVar();
 void setVar(int ind, Grid<wp>& VarIn);
 void setScheme(Scheme& schemeIn);
 void setScheme(schemeKey key, schemeVal val);
-void setBC(int ind, BCType type, wp val);
+void setBC(std::string boundary, BCType type, wp val);
 
 Mesh* getMesh();
 Grid<wp>& getVar(int ind);

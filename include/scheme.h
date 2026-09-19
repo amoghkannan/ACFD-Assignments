@@ -18,27 +18,28 @@ enum schemeKey{
         derivativeXX,
         derivativeYY,
         derivativeXY,
+        stateReconstructionX,
+        stateReconstructionY,
+        gradientCalc
 };
 
 enum schemeVal{
         EULER,
         RK4,
         FOU, //First-order upwind
-        C4,   //Fourth-order compact
+        MUSCL,
+        C4,   //Fourth-order compact,
+        GREENGAUSS,
         INVALID
 };
-
 
 class Scheme{
 
 private:
 
-schemeVal invalidScheme=INVALID;
-std::vector<schemeKey> keys;
-std::vector<schemeVal> values;
+dictionary<schemeKey,schemeVal> schemeDict;
 
-BCType BC[4];
-wp BCVal[4];
+dictionary<std::string,std::pair<BCType,wp>> BCDict;
 
 //TDMA coefficients
 wp *a=nullptr;
@@ -50,10 +51,10 @@ wp *y=nullptr;
 
 public:
 
-schemeVal getScheme(schemeKey key);
+schemeVal& getScheme(schemeKey keyIn);
 void setScheme(schemeKey key, schemeVal val);
-void setBC(int ind, BCType type, wp val);
-std::pair<BCType,wp>getBC(int ind);
+void setBC(std::string boundary, BCType type, wp val);
+std::pair<BCType,wp>getBC(std::string boundary);
 
 //Derivative formulas
 

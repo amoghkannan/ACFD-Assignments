@@ -35,8 +35,8 @@ void Solver::setScheme(schemeKey key, schemeVal val){
         scheme.setScheme(key,val);
 };
 
-void Solver::setBC(int ind, BCType type, wp val){
-        scheme.setBC(ind,type,val);
+void Solver::setBC(std::string boundary, BCType type, wp val){
+        scheme.setBC(boundary,type,val);
 };
 
 Mesh* Solver::getMesh(){
