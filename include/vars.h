@@ -53,7 +53,7 @@ void operator=(Grid& otherGrid);
 void operator+(Grid& otherGrid);
 void operator*(wp val);
 void operator/(wp val);
-
+void print(std::ostream& os);
 ~Grid();
 
 };
@@ -82,6 +82,25 @@ T& Grid<T>::operator()(int i,int j){
 
 template<typename T>
 void Grid<T>::operator=(Grid<T>& otherGrid){
+
+       if(imx!=otherGrid.imx ||
+          jmx!=otherGrid.jmx ||
+          bufE!=otherGrid.bufE ||
+          bufW!=otherGrid.bufW ||
+          bufN!=otherGrid.bufN ||
+          bufS!=otherGrid.bufS){
+                delete[] data;
+                imx=otherGrid.imx;
+                jmx=otherGrid.jmx;
+                bufE=otherGrid.bufE;
+                bufW=otherGrid.bufW;
+                bufN=otherGrid.bufN;
+                bufS=otherGrid.bufS;
+
+                data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
+          };
+
+
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = otherGrid(i,j);
@@ -112,6 +131,15 @@ void Grid<T>::operator/(wp val){
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] / val;
+                };
+        };
+};
+
+template<typename T>
+void Grid<T>::print(std::ostream& os){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        os<<i<<"\t"<<j<<"\t"<<data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]<<std::endl;
                 };
         };
 };

@@ -1,6 +1,6 @@
-#include"LinearSolvers/Jacobi.h"
+#include"LinearSolvers/SGS.h"
 
-void Jacobi::doIteration(Grid<wp>& var){
+void SGS::doIteration(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
@@ -25,33 +25,54 @@ void Jacobi::doIteration(Grid<wp>& var){
                                         continue;
                                };
 
-                               newElem=newElem-data*varOld(p.first,p.second); 
+                               newElem=newElem-data*var(p.first,p.second); 
                         };
 
                         var(i,j)=newElem/diag; 
                 };
         };
-        
-        varOld=var;
+       
+        for(int j=jmx-1;j>=2;j--){
+                for(int i=imx-1;i>=2;i--){
+                        RHS=getRHS(i,j);
+                        dependencies=getA(i,j);
+                        newElem=RHS;
+
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                               
+                               if(p.first==i && p.second==j){
+                                        diag=data;
+                                        continue;
+                               };
+
+                               newElem=newElem-data*var(p.first,p.second); 
+                        };
+
+                        var(i,j)=newElem/diag; 
+                };
+        };
+
         applyBC();
 };
 
-void Jacobi::solve(Grid<wp>& var){
+void SGS::solve(Grid<wp>& var){
         currIter=0;
 
-        logger.log("Jacobi iteration start: "+std::to_string(residualCalc(var))+"\n",1);
+        logger.log("SGS iteration start: "+std::to_string(residualCalc(var))+"\n",1);
         applyBC();
 
         while(!isConverged(var)){
-                logger.log("Jacobi iteration no: "+std::to_string(currIter)+"\n",1);
-                logger.log("Jacobi residual: "+std::to_string(res)+"\n",1);
+                logger.log("SGS iteration no: "+std::to_string(currIter)+"\n",1);
+                logger.log("SGS residual: "+std::to_string(res)+"\n",1);
                 doIteration(var);
                 currIter=currIter+1;
         };
 
 };
 
-wp Jacobi::residualCalc(Grid<wp>& var){
+wp SGS::residualCalc(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
@@ -85,7 +106,7 @@ wp Jacobi::residualCalc(Grid<wp>& var){
 
 };
 
-bool Jacobi::isConverged(Grid<wp>& var){
+bool SGS::isConverged(Grid<wp>& var){
         if(currIter>maxIters || residualCalc(var)<tol) return true;
         return false;
 };

@@ -6,6 +6,9 @@ mesh.cpp
 scheme.cpp
 LinearSolvers/LinearSolver.cpp
 LinearSolvers/Jacobi.cpp
+LinearSolvers/GaussSeidel.cpp
+LinearSolvers/SGS.cpp
+LinearSolvers/ILU.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp

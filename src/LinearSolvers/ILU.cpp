@@ -1,6 +1,6 @@
-#include"LinearSolvers/Jacobi.h"
+#include"LinearSolvers/ILU.h"
 
-void Jacobi::doIteration(Grid<wp>& var){
+void ILU::doIteration(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
@@ -25,33 +25,32 @@ void Jacobi::doIteration(Grid<wp>& var){
                                         continue;
                                };
 
-                               newElem=newElem-data*varOld(p.first,p.second); 
+                               newElem=newElem-data*var(p.first,p.second); 
                         };
 
                         var(i,j)=newElem/diag; 
                 };
         };
         
-        varOld=var;
         applyBC();
 };
 
-void Jacobi::solve(Grid<wp>& var){
+void ILU::solve(Grid<wp>& var){
         currIter=0;
 
-        logger.log("Jacobi iteration start: "+std::to_string(residualCalc(var))+"\n",1);
+        logger.log("ILU iteration start: "+std::to_string(residualCalc(var))+"\n",1);
         applyBC();
 
         while(!isConverged(var)){
-                logger.log("Jacobi iteration no: "+std::to_string(currIter)+"\n",1);
-                logger.log("Jacobi residual: "+std::to_string(res)+"\n",1);
+                logger.log("ILU iteration no: "+std::to_string(currIter)+"\n",1);
+                logger.log("ILU residual: "+std::to_string(res)+"\n",1);
                 doIteration(var);
                 currIter=currIter+1;
         };
 
 };
 
-wp Jacobi::residualCalc(Grid<wp>& var){
+wp ILU::residualCalc(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
@@ -85,7 +84,7 @@ wp Jacobi::residualCalc(Grid<wp>& var){
 
 };
 
-bool Jacobi::isConverged(Grid<wp>& var){
+bool ILU::isConverged(Grid<wp>& var){
         if(currIter>maxIters || residualCalc(var)<tol) return true;
         return false;
 };
