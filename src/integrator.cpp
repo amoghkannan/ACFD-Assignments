@@ -144,7 +144,7 @@ void Integrator::rk4(int ind){
         s->updateVars(deltaT[ind],CFL*0.5);
         
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot[i])/6.0;
+                (s->varsDot[i])/=6.0;
                 rStore[i]=s->varsDot[i];
         };
 
@@ -153,8 +153,8 @@ void Integrator::rk4(int ind){
         s->updateVars(deltaT[ind],CFL*0.5,uStore);
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/3.0;
-                rStore[i]+(s->varsDot)[i];
+                (s->varsDot)[i]/=3.0;
+                rStore[i]+=(s->varsDot)[i];
         };
 
         s->QDot();
@@ -162,15 +162,15 @@ void Integrator::rk4(int ind){
         s->updateVars(deltaT[ind],CFL,uStore);
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/3.0;
-                rStore[i]+(s->varsDot)[i];
+                (s->varsDot)[i]/=3.0;
+                rStore[i]+=(s->varsDot)[i];
         };
 
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/6.0;
-                rStore[i]+(s->varsDot)[i];
+                (s->varsDot)[i]/=6.0;
+                rStore[i]+=(s->varsDot)[i];
         };
 
         s->updateVars(deltaT[ind],CFL,uStore,rStore);

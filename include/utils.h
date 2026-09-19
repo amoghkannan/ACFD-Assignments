@@ -9,6 +9,7 @@
 
 using Point=std::pair<int,int> ;
 using boundMatEntry=std::pair<Point,wp>;
+using boundMatRow=std::vector<boundMatEntry>;
 
 extern Logger logger;
 

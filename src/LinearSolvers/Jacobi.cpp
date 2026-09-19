@@ -12,8 +12,8 @@ void Jacobi::doIteration(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){
@@ -33,14 +33,14 @@ void Jacobi::doIteration(Grid<wp>& var){
         };
         
         varOld=var;
-        applyBC();
+        applyBC(var);
 };
 
 void Jacobi::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("Jacobi iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC();
+        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("Jacobi iteration no: "+std::to_string(currIter)+"\n",1);
@@ -64,8 +64,8 @@ wp Jacobi::residualCalc(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){

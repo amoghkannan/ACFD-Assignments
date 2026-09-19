@@ -9,6 +9,7 @@ LinearSolvers/Jacobi.cpp
 LinearSolvers/GaussSeidel.cpp
 LinearSolvers/SGS.cpp
 LinearSolvers/ILU.cpp
+LinearSolvers/GMRES.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp

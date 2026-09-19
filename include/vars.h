@@ -15,7 +15,9 @@ T* data=nullptr;
 
 public:
 
-Grid(const Grid& otherGrid){
+Grid(){};
+
+Grid<T>(const Grid<T>&otherGrid){
        
        imx=otherGrid.imx;
        jmx=otherGrid.jmx;
@@ -24,6 +26,7 @@ Grid(const Grid& otherGrid){
        bufN=otherGrid.bufN;
        bufS=otherGrid.bufS;
 
+       if(data!=nullptr) delete [] data;
        data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
         
        for(int j=0;j<jmx+bufN+bufS;j++){
@@ -42,6 +45,7 @@ Grid(int imx, int jmx, int bufW, int bufE, int bufS, int bufN){
         this->bufN=bufN;
         this->bufS=bufS;
 
+        if(data!=nullptr) delete [] data;
         data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
 
 };
@@ -49,11 +53,16 @@ Grid(int imx, int jmx, int bufW, int bufE, int bufS, int bufN){
 std::array<int,6>size();
 
 T& operator()(int i, int j);
-void operator=(Grid& otherGrid);
-void operator+(Grid& otherGrid);
-void operator*(wp val);
-void operator/(wp val);
+void operator=(Grid otherGrid);
+void operator+=(Grid& otherGrid);
+void operator-=(Grid& otherGrid);
+void operator*=(wp val);
+Grid<T> operator*(wp val);
+void operator/=(wp val);
 void print(std::ostream& os);
+wp norm2();
+wp dotProduct(Grid& otherGrid);
+void initVal(T val);
 ~Grid();
 
 };
@@ -81,7 +90,7 @@ T& Grid<T>::operator()(int i,int j){
 };
 
 template<typename T>
-void Grid<T>::operator=(Grid<T>& otherGrid){
+void Grid<T>::operator=(Grid<T> otherGrid){
 
        if(imx!=otherGrid.imx ||
           jmx!=otherGrid.jmx ||
@@ -97,6 +106,7 @@ void Grid<T>::operator=(Grid<T>& otherGrid){
                 bufN=otherGrid.bufN;
                 bufS=otherGrid.bufS;
 
+                if(data!=nullptr) delete [] data;
                 data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
           };
 
@@ -109,7 +119,7 @@ void Grid<T>::operator=(Grid<T>& otherGrid){
 };
 
 template<typename T>
-void Grid<T>::operator+(Grid<T>& otherGrid){
+void Grid<T>::operator+=(Grid<T>& otherGrid){
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] + otherGrid(i,j);
@@ -118,7 +128,16 @@ void Grid<T>::operator+(Grid<T>& otherGrid){
 };
 
 template<typename T>
-void Grid<T>::operator*(wp val){
+void Grid<T>::operator-=(Grid<T>& otherGrid){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] - otherGrid(i,j);
+                };
+        };
+};
+
+template<typename T>
+void Grid<T>::operator*=(wp val){
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] * val;
@@ -127,7 +146,20 @@ void Grid<T>::operator*(wp val){
 };
 
 template<typename T>
-void Grid<T>::operator/(wp val){
+Grid<T> Grid<T>::operator*(wp val){
+
+        Grid<T> newGrid(*this);
+
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        newGrid.data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]=
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] * val;
+                };
+        };
+};
+
+template<typename T>
+void Grid<T>::operator/=(wp val){
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] / val;
@@ -142,6 +174,44 @@ void Grid<T>::print(std::ostream& os){
                         os<<i<<"\t"<<j<<"\t"<<data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]<<std::endl;
                 };
         };
+};
+
+template<typename T>
+wp Grid<T>::norm2(){
+        wp ans=0.0;
+
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        ans=ans+pow(data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1],2.0);
+                };
+        };
+
+        ans=sqrt(ans);
+        return ans;
+};
+
+template<typename T>
+wp Grid<T>::dotProduct(Grid<T>& otherGrid){
+        wp ans=0.0;
+
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        ans=ans+data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]*
+                      otherGrid.data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
+                };
+        };
+
+        return ans;
+};
+
+template<typename T>
+void Grid<T>::initVal(T val){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]=val;
+                };
+        };
+
 };
 
 template<typename T>

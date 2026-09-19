@@ -12,8 +12,8 @@ void GaussSeidel::doIteration(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){
@@ -32,14 +32,14 @@ void GaussSeidel::doIteration(Grid<wp>& var){
                 };
         };
         
-        applyBC();
+        applyBC(var);
 };
 
 void GaussSeidel::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("GaussSeidel iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC();
+        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("GaussSeidel iteration no: "+std::to_string(currIter)+"\n",1);
@@ -63,8 +63,8 @@ wp GaussSeidel::residualCalc(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){

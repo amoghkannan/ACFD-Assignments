@@ -12,8 +12,8 @@ void SGS::doIteration(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){
@@ -34,8 +34,8 @@ void SGS::doIteration(Grid<wp>& var){
        
         for(int j=jmx-1;j>=2;j--){
                 for(int i=imx-1;i>=2;i--){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){
@@ -54,14 +54,14 @@ void SGS::doIteration(Grid<wp>& var){
                 };
         };
 
-        applyBC();
+        applyBC(var);
 };
 
 void SGS::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("SGS iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC();
+        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("SGS iteration no: "+std::to_string(currIter)+"\n",1);
@@ -85,8 +85,8 @@ wp SGS::residualCalc(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){

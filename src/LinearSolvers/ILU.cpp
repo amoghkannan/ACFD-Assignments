@@ -1,5 +1,14 @@
 #include"LinearSolvers/ILU.h"
 
+void ILU::LUDecompose(Grid<wp>& var){
+
+
+};
+
+std::vector<boundMatEntry> ILU::getA_ILU(int,int){
+        
+};
+
 void ILU::doIteration(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
@@ -12,8 +21,8 @@ void ILU::doIteration(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){
@@ -32,14 +41,14 @@ void ILU::doIteration(Grid<wp>& var){
                 };
         };
         
-        applyBC();
+        applyBC(var);
 };
 
 void ILU::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("ILU iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC();
+        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("ILU iteration no: "+std::to_string(currIter)+"\n",1);
@@ -63,8 +72,8 @@ wp ILU::residualCalc(Grid<wp>& var){
 
         for(int j=2;j<=jmx-1;j++){
                 for(int i=2;i<=imx-1;i++){
-                        RHS=getRHS(i,j);
-                        dependencies=getA(i,j);
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
                         newElem=RHS;
 
                         for(boundMatEntry item:dependencies){

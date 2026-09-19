@@ -39,16 +39,16 @@ void LWESolver::QDot(){
                 case FOU:
                         if(c>0.0){
                                 scheme.EBD1(vars[0],varsDot[0],*mesh,'x');
-                                varsDot[0]*(-c);
+                                varsDot[0]*=(-c);
                         }
                         else{
                                 scheme.EFD1(vars[0],varsDot[0],*mesh,'x');
-                                varsDot[0]*(-c);
+                                varsDot[0]*=(-c);
                         };
                         break;
                 case C4:
                         scheme.ICD4(vars[0],varsDot[0],*mesh,'x');
-                        varsDot[0]*(-c);
+                        varsDot[0]*=(-c);
                         break;
                 default:
                         break;
