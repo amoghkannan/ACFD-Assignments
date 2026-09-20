@@ -2,6 +2,7 @@
 #include"Jacobi.h"
 #include"GaussSeidel.h"
 #include"SGS.h"
+#include"ILU.h"
 
 class GMRES: public LinearSolver{
 

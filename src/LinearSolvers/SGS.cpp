@@ -8,70 +8,52 @@ void SGS::doIteration(Grid<wp>& var){
         std::vector<boundMatEntry> dependencies;
         wp RHS;
         Point p;
-        wp data,diag,newElem;
+        wp data,newElem;
 
-        //Get LD^-1U x+RHS
-
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,var);
-
-                        for(boundMatEntry item:dependencies){
-                               p=item.first; 
-                               data=item.second;
-                               
-                               if(p.second>j || (p.second==j && p.first>i)){
-                                        var(i,j)=var(i,j)+data*var(p.first,p.second); 
-                               };
-
-                        };
-                        
-                };
-        };
-     
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,var);
-
-                        for(boundMatEntry item:dependencies){
-                               p=item.first; 
-                               data=item.second;
-                               
-                               if(p.first==i && p.second==j){
-                                        var(i,j)=var(i,j)/data;
-                               };
-
-                        };
-                        
-                };
-        };
-
-        for(int j=jmx;j>=1;j--){
-                for(int i=imx;i>=1;i--){
-                        dependencies=getA(i,j,var);
-
-                        for(boundMatEntry item:dependencies){
-                               p=item.first; 
-                               data=item.second;
-                               
-                               if(p.second<j || (p.second==j && p.first<i)){
-                                       var(i,j)=var(i,j)+data*var(p.first,p.second); 
-                               };
-
-                        };
-
-                };
-        };
-       
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
-                        var(i,j)=var(i,j)+RHS; 
+                        dependencies=getA(i,j,var);
+                        newElem=RHS;
+
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                              
+                               if(p.second>j || (p.second==j && p.first>i)){
+                                        newElem=newElem-data*var(p.first,p.second); 
+                               };
+
+                        };
                         
+                        var(i,j)=newElem;
                 };
         };
 
-        invertA(var);
+        invertAForward(var);
+
+        for(int j=jmx;j>=1;j--){
+                for(int i=imx;i>=1;i--){
+                        RHS=getRHS(i,j,var);
+                        dependencies=getA(i,j,var);
+                        newElem=RHS;
+
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                              
+                               if(p.second<j || (p.second==j && p.first<i)){
+                                        newElem=newElem-data*var(p.first,p.second); 
+                               };
+
+                        };
+                        
+                        var(i,j)=newElem;
+                };
+        };
+
+        invertABackward(var);
+
 };
 
 void SGS::solve(Grid<wp>& var){
@@ -127,7 +109,7 @@ bool SGS::isConverged(Grid<wp>& var){
         return false;
 };
 
-void SGS::invertA(Grid<wp>& var){
+void SGS::invertAForward(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
@@ -136,9 +118,6 @@ void SGS::invertA(Grid<wp>& var){
         Point p;
         wp data,diag;
 
-        //Solve (D+L)D^-1(D+U) x=var
-
-        //Solve (D+L)z=var
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         dependencies=getA(i,j,var);
@@ -147,12 +126,14 @@ void SGS::invertA(Grid<wp>& var){
                                p=item.first; 
                                data=item.second;
                                
+
                                if(p.second<j || (p.second==j && p.first<i)){
                                         var(i,j)=var(i,j)-data*var(p.first,p.second); 
                                };
 
                                if(p.first==i && p.second==j){
-                                        diag=data; 
+                                        diag=data;
+                                        continue;
                                };
 
                         };
@@ -160,26 +141,19 @@ void SGS::invertA(Grid<wp>& var){
                         var(i,j)=var(i,j)/diag;
                 };
         };
-     
-        //Solve D^-1 y=z
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,var);
 
-                        for(boundMatEntry item:dependencies){
-                               p=item.first; 
-                               data=item.second;
-                               
-                               if(p.first==i && p.second==j){
-                                        var(i,j)=var(i,j)*data;
-                               };
 
-                        };
-                        
-                };
-        };
+};
 
-        //Solve (D+U)x=y
+void SGS::invertABackward(Grid<wp>& var){
+        std::array<int,6>sizeArr=var.size();
+        int imx=sizeArr[0];
+        int jmx=sizeArr[1];
+
+        std::vector<boundMatEntry> dependencies;
+        Point p;
+        wp data,diag;
+
         for(int j=jmx;j>=1;j--){
                 for(int i=imx;i>=1;i--){
                         dependencies=getA(i,j,var);
@@ -188,22 +162,21 @@ void SGS::invertA(Grid<wp>& var){
                                p=item.first; 
                                data=item.second;
                                
+
                                if(p.second>j || (p.second==j && p.first>i)){
-                                       var(i,j)=var(i,j)-data*var(p.first,p.second); 
+                                        var(i,j)=var(i,j)-data*var(p.first,p.second); 
                                };
 
                                if(p.first==i && p.second==j){
-                                        diag=data; 
+                                        diag=data;
+                                        continue;
                                };
 
                         };
-
+                        
                         var(i,j)=var(i,j)/diag;
-
                 };
         };
-
-
 
 
 };
