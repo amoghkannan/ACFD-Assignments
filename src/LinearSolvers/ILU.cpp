@@ -19,8 +19,8 @@ void ILU::doIteration(Grid<wp>& var){
         Point p;
         wp data,diag,newElem;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;
@@ -41,14 +41,12 @@ void ILU::doIteration(Grid<wp>& var){
                 };
         };
         
-        applyBC(var);
 };
 
 void ILU::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("ILU iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("ILU iteration no: "+std::to_string(currIter)+"\n",1);
@@ -70,8 +68,8 @@ wp ILU::residualCalc(Grid<wp>& var){
         wp data,diag,newElem;
         wp ans=0.0;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;

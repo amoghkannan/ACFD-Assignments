@@ -1,4 +1,7 @@
 #include"LinearSolver.h"
+#include"Jacobi.h"
+#include"GaussSeidel.h"
+#include"SGS.h"
 
 class GMRES: public LinearSolver{
 
@@ -16,7 +19,10 @@ Grid<wp>temp;
 
 public:
 
-GMRES(int maxIters_, wp tol_, int ss, int nR, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_), subspaceSize(ss), 
+LinearSolver *preconditioner=nullptr;
+preconditionerPos pp;
+
+GMRES(int maxIters_, wp tol_, wp rel_, int ss, int nR, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_,rel_), subspaceSize(ss), 
         nRestarts(nR), residualVec(varsIn){
         logger.log("Setting up GMRES solver",1);
         for(int i=0;i<=subspaceSize;i++){
@@ -41,4 +47,6 @@ void givensRotation();
 void solveForCoeffs();
 void updateSoln(Grid<wp>& var);
 
+void setupPreconditioner(solverType, preconditionerPos);
+void applyPreconditioner();
 };

@@ -10,7 +10,7 @@ std::vector<boundMatRow>LU;
 
 public:
 
-ILU(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn): LinearSolver(maxIters_,tol_), rel(rel_){
+ILU(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn): LinearSolver(maxIters_,tol_,rel_){
         logger.log("Setting up ILU solver",1);
 };
 void setLevel(int l){level=l;};

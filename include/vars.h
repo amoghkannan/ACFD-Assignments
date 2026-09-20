@@ -56,6 +56,7 @@ T& operator()(int i, int j);
 void operator=(Grid otherGrid);
 void operator+=(Grid& otherGrid);
 void operator-=(Grid& otherGrid);
+void operator-();
 void operator*=(wp val);
 Grid<T> operator*(wp val);
 void operator/=(wp val);
@@ -132,6 +133,15 @@ void Grid<T>::operator-=(Grid<T>& otherGrid){
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] - otherGrid(i,j);
+                };
+        };
+};
+
+template<typename T>
+void Grid<T>::operator-(){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = -data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
                 };
         };
 };

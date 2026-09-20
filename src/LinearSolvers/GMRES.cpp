@@ -153,7 +153,9 @@ void GMRES::solve(Grid<wp>& var){
         while(currIter<nRestarts){
                 doIteration(var);
                 currIter=currIter+1;
+                logger.log("GMRES restart; resnorm "+std::to_string(residualCalc(var))+"\n",1);
         };
+
         logger.log("GMRES iteration finished: "+std::to_string(residualCalc(var))+"\n",1);
 };
 
@@ -194,4 +196,35 @@ wp GMRES::residualCalc(Grid<wp>& var){
 bool GMRES::isConverged(Grid<wp>& var){
         if(currIter>maxIters || residualCalc(var)<tol) return true;
         return false;
+};
+
+void GMRES::setupPreconditioner(solverType st, preconditionerPos pp_){
+       if(st==JACOBI_SOLVER){
+                preconditioner = new Jacobi(maxIters,tol,rel,residualVec);
+       }
+       else if(st==GAUSS_SEIDEL_SOLVER){
+                preconditioner = new GaussSeidel(maxIters,tol,rel,residualVec);
+       }
+       else if(st==SGS_SOLVER){
+                preconditioner = new SGS(maxIters,tol,rel,residualVec);
+       };
+
+       pp=pp_;
+};
+
+void GMRES::applyPreconditioner(){
+        if(preconditioner==nullptr) return;
+
+        if(pp==LEFT_PRECONDITIONER){
+
+        }
+        else if(pp==RIGHT_PRECONDITIONER){
+
+        }
+        else if(pp==SPLIT_PRECONDITIONER){
+
+        }
+        else{
+                logger.log("Preconditioner pos not set",1);
+        };
 };

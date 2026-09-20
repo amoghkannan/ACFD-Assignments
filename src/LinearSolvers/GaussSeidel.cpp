@@ -8,10 +8,10 @@ void GaussSeidel::doIteration(Grid<wp>& var){
         std::vector<boundMatEntry> dependencies;
         wp RHS;
         Point p;
-        wp data,diag,newElem;
+        wp data,newElem;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;
@@ -19,27 +19,25 @@ void GaussSeidel::doIteration(Grid<wp>& var){
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
                                data=item.second;
-                               
-                               if(p.first==i && p.second==j){
-                                        diag=data;
-                                        continue;
+                              
+                               if(p.second>j || (p.second==j && p.first>i)){
+                                        newElem=newElem-data*var(p.first,p.second); 
                                };
 
-                               newElem=newElem-data*var(p.first,p.second); 
                         };
-
-                        var(i,j)=newElem/diag; 
+                        
+                        var(i,j)=newElem;
                 };
         };
+
+        invertA(var);
         
-        applyBC(var);
 };
 
 void GaussSeidel::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("GaussSeidel iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("GaussSeidel iteration no: "+std::to_string(currIter)+"\n",1);
@@ -61,8 +59,8 @@ wp GaussSeidel::residualCalc(Grid<wp>& var){
         wp data,diag,newElem;
         wp ans=0.0;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;
@@ -87,4 +85,39 @@ wp GaussSeidel::residualCalc(Grid<wp>& var){
 bool GaussSeidel::isConverged(Grid<wp>& var){
         if(currIter>maxIters || residualCalc(var)<tol) return true;
         return false;
+};
+
+void GaussSeidel::invertA(Grid<wp>& var){
+        std::array<int,6>sizeArr=var.size();
+        int imx=sizeArr[0];
+        int jmx=sizeArr[1];
+
+        std::vector<boundMatEntry> dependencies;
+        Point p;
+        wp data,diag;
+
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        dependencies=getA(i,j,var);
+
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                               
+
+                               if(p.second<j || (p.second==j && p.first<i)){
+                                        var(i,j)=var(i,j)-data*var(p.first,p.second); 
+                               };
+
+                               if(p.first==i && p.second==j){
+                                        diag=data;
+                                        continue;
+                               };
+
+                        };
+                        
+                        var(i,j)=var(i,j)/diag;
+                };
+        };
+
 };

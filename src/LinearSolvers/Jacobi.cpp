@@ -8,10 +8,10 @@ void Jacobi::doIteration(Grid<wp>& var){
         std::vector<boundMatEntry> dependencies;
         wp RHS;
         Point p;
-        wp data,diag,newElem;
+        wp data,newElem;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;
@@ -20,27 +20,23 @@ void Jacobi::doIteration(Grid<wp>& var){
                                p=item.first; 
                                data=item.second;
                                
-                               if(p.first==i && p.second==j){
-                                        diag=data;
-                                        continue;
+                               if(p.first!=i || p.second!=j){
+                                        newElem=newElem-data*varOld(p.first,p.second); 
                                };
-
-                               newElem=newElem-data*varOld(p.first,p.second); 
                         };
 
-                        var(i,j)=newElem/diag; 
+                        var(i,j)=newElem; 
                 };
         };
         
+        invertA(var);
         varOld=var;
-        applyBC(var);
 };
 
 void Jacobi::solve(Grid<wp>& var){
         currIter=0;
 
         logger.log("Jacobi iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        applyBC(var);
 
         while(!isConverged(var)){
                 logger.log("Jacobi iteration no: "+std::to_string(currIter)+"\n",1);
@@ -62,8 +58,8 @@ wp Jacobi::residualCalc(Grid<wp>& var){
         wp data,diag,newElem;
         wp ans=0.0;
 
-        for(int j=2;j<=jmx-1;j++){
-                for(int i=2;i<=imx-1;i++){
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);
                         dependencies=getA(i,j,var);
                         newElem=RHS;
@@ -88,4 +84,31 @@ wp Jacobi::residualCalc(Grid<wp>& var){
 bool Jacobi::isConverged(Grid<wp>& var){
         if(currIter>maxIters || residualCalc(var)<tol) return true;
         return false;
+};
+
+void Jacobi::invertA(Grid<wp>& var){
+        std::array<int,6>sizeArr=var.size();
+        int imx=sizeArr[0];
+        int jmx=sizeArr[1];
+
+        std::vector<boundMatEntry> dependencies;
+        Point p;
+        wp data;
+
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        dependencies=getA(i,j,var);
+
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                               
+                               if(p.first==i && p.second==j){
+                                        var(i,j)=var(i,j)/data;
+                               };
+
+                        };
+                };
+        };
+
 };
