@@ -26,7 +26,15 @@ void GMRES::computeResidual(Grid<wp>& var){
                         residualVec(i,j)=newElem; 
                 };
         };
-        
+       
+       if(pp==LEFT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertA(residualVec);
+       };
+
+       if(pp==SPLIT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertAForward(residualVec);
+       };
+
 };
 
 void GMRES::ATimesVec(Grid<wp>& vec, Grid<wp>& ans){
@@ -38,19 +46,36 @@ void GMRES::ATimesVec(Grid<wp>& vec, Grid<wp>& ans){
         Point p;
         wp data,newElem;
 
+
+       temp=vec;
+       if(pp==RIGHT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertA(temp);
+       };
+       if(pp==SPLIT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertABackward(temp);
+       };
+
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,vec);
+                        dependencies=getA(i,j,temp);
                         ans(i,j)=0.0;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
                                data=item.second;
-                               ans(i,j)=ans(i,j)+data*vec(p.first,p.second);
+                               ans(i,j)=ans(i,j)+data*temp(p.first,p.second);
                         };
 
                 };
         };
+
+       if(pp==LEFT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertA(ans);
+       };
+       if(pp==SPLIT_PRECONDITIONER && preconditioner!=nullptr){
+                preconditioner->invertAForward(ans);
+       };
+
 
 };
 
@@ -115,6 +140,12 @@ void GMRES::solveForCoeffs(){
 void GMRES::updateSoln(Grid<wp>&var){
         
         for(int i=0;i<subspaceSize;i++){
+                if(pp==RIGHT_PRECONDITIONER && preconditioner!=nullptr){
+                         preconditioner->invertA(krylovVectors[i]);
+                };
+                if(pp==SPLIT_PRECONDITIONER && preconditioner!=nullptr){
+                         preconditioner->invertABackward(krylovVectors[i]);
+                };
                 krylovVectors[i]*=minCoeffs[i];
                 var+=krylovVectors[i];
         };
@@ -201,30 +232,27 @@ bool GMRES::isConverged(Grid<wp>& var){
 void GMRES::setupPreconditioner(solverType st, preconditionerPos pp_){
        if(st==JACOBI_SOLVER){
                 preconditioner = new Jacobi(maxIters,tol,rel,residualVec);
+                preconditioner->setMatFunc(getA);
+                preconditioner->setRHSFunc(getRHS);
        }
        else if(st==GAUSS_SEIDEL_SOLVER){
                 preconditioner = new GaussSeidel(maxIters,tol,rel,residualVec);
+                preconditioner->setMatFunc(getA);
+                preconditioner->setRHSFunc(getRHS);
        }
        else if(st==SGS_SOLVER){
                 preconditioner = new SGS(maxIters,tol,rel,residualVec);
+                preconditioner->setMatFunc(getA);
+                preconditioner->setRHSFunc(getRHS);
+       }
+       else if(st==ILU_SOLVER){
+                preconditioner = new ILU(maxIters,tol,rel,residualVec,0);
+                preconditioner->setMatFunc(getA);
+                preconditioner->setRHSFunc(getRHS);
+                (static_cast<ILU*>(preconditioner))->LUDecompose(residualVec);
        };
 
        pp=pp_;
 };
 
-void GMRES::applyPreconditioner(){
-        if(preconditioner==nullptr) return;
 
-        if(pp==LEFT_PRECONDITIONER){
-
-        }
-        else if(pp==RIGHT_PRECONDITIONER){
-
-        }
-        else if(pp==SPLIT_PRECONDITIONER){
-
-        }
-        else{
-                logger.log("Preconditioner pos not set",1);
-        };
-};

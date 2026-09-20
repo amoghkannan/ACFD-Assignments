@@ -188,6 +188,8 @@ void ILU::solve(Grid<wp>& var){
         LUDecompose(var);
         doIteration(var);
 
+        logger.log("ILU iteration end: "+std::to_string(residualCalc(var))+"\n",1);
+
 };
 
 wp ILU::residualCalc(Grid<wp>& var){

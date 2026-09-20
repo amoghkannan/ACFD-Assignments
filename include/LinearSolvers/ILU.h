@@ -24,6 +24,6 @@ wp findElement(int iCell,int jCell, int iEntry, int jEntry);
 void insertElement(int iCell,int jCell, int iEntry, int jEntry, wp val);
 void changeElement(int iCell,int jCell, int iEntry, int jEntry, wp val);
 void LUDecompose(Grid<wp>& var);
-void invertAForward(Grid<wp>& var);
-void invertABackward(Grid<wp>& var);
+void invertAForward(Grid<wp>& var) override;
+void invertABackward(Grid<wp>& var) override;
 };

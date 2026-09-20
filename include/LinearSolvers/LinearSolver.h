@@ -40,5 +40,8 @@ virtual void doIteration(Grid<wp>&)=0;
 virtual void solve(Grid<wp>&)=0;
 virtual wp residualCalc(Grid<wp>&)=0;
 virtual bool isConverged(Grid<wp>&)=0;
+virtual void invertA(Grid<wp>&){};
+virtual void invertAForward(Grid<wp>&){};
+virtual void invertABackward(Grid<wp>&){};
 
 };

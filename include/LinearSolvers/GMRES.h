@@ -49,5 +49,4 @@ void solveForCoeffs();
 void updateSoln(Grid<wp>& var);
 
 void setupPreconditioner(solverType, preconditionerPos);
-void applyPreconditioner();
 };

@@ -17,5 +17,5 @@ void solve(Grid<wp>&) override;
 wp residualCalc(Grid<wp>&) override;
 bool isConverged(Grid<wp>&) override;
 
-void invertA(Grid<wp>& var);
+void invertA(Grid<wp>& var) override;
 };
