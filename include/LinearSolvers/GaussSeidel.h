@@ -5,8 +5,6 @@ class GaussSeidel: public LinearSolver{
 
 protected:
 
-wp rel;
-
 public:
 
 GaussSeidel(int maxIters_, wp tol_, wp rel_, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_,rel_){

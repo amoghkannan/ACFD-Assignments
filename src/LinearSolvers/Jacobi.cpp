@@ -40,7 +40,7 @@ void Jacobi::solve(Grid<wp>& var){
 
         while(!isConverged(var)){
                 logger.log("Jacobi iteration no: "+std::to_string(currIter)+"\n",1);
-                logger.log("Jacobi residual: "+std::to_string(res)+"\n",1);
+                std::cout<<"Jacobi residual: "<<std::scientific<<res<<std::endl;
                 doIteration(var);
                 currIter=currIter+1;
         };

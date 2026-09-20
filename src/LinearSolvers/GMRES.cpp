@@ -179,15 +179,15 @@ void GMRES::doIteration(Grid<wp>& var){
 void GMRES::solve(Grid<wp>& var){
         currIter=0;
 
-        logger.log("GMRES iteration start: "+std::to_string(residualCalc(var))+"\n",1);
-        
+        std::cout<<"GMRES start; resnorm: "<<std::scientific<<residualCalc(var)<<std::endl;
+
         while(currIter<nRestarts){
                 doIteration(var);
                 currIter=currIter+1;
-                logger.log("GMRES restart; resnorm "+std::to_string(residualCalc(var))+"\n",1);
+                std::cout<<"GMRES restart; resnorm: "<<std::scientific<<residualCalc(var)<<std::endl;
         };
 
-        logger.log("GMRES iteration finished: "+std::to_string(residualCalc(var))+"\n",1);
+        std::cout<<"GMRES iteration finished: "<<std::scientific<<residualCalc(var)<<std::endl;
 };
 
 wp GMRES::residualCalc(Grid<wp>& var){

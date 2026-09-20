@@ -63,7 +63,7 @@ void SGS::solve(Grid<wp>& var){
 
         while(!isConverged(var)){
                 logger.log("SGS iteration no: "+std::to_string(currIter)+"\n",1);
-                logger.log("SGS residual: "+std::to_string(res)+"\n",1);
+                std::cout<<"SGS residual: "<<std::scientific<<res<<std::endl;
                 doIteration(var);
                 currIter=currIter+1;
         };

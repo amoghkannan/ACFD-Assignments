@@ -9,6 +9,7 @@ void GaussSeidel::doIteration(Grid<wp>& var){
         wp RHS;
         Point p;
         wp data,newElem;
+        wp diag;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
@@ -22,6 +23,10 @@ void GaussSeidel::doIteration(Grid<wp>& var){
                               
                                if(p.second>j || (p.second==j && p.first>i)){
                                         newElem=newElem-data*var(p.first,p.second); 
+                               };
+
+                               if(p.first==i && p.second==j){
+                                        newElem=newElem+data*var(i,j)*(1.0-rel)/rel;
                                };
 
                         };
@@ -41,7 +46,7 @@ void GaussSeidel::solve(Grid<wp>& var){
 
         while(!isConverged(var)){
                 logger.log("GaussSeidel iteration no: "+std::to_string(currIter)+"\n",1);
-                logger.log("GaussSeidel residual: "+std::to_string(res)+"\n",1);
+                std::cout<<"GaussSeidel residual: "<<std::scientific<<res<<std::endl;
                 doIteration(var);
                 currIter=currIter+1;
         };
@@ -111,12 +116,11 @@ void GaussSeidel::invertA(Grid<wp>& var){
 
                                if(p.first==i && p.second==j){
                                         diag=data;
-                                        continue;
                                };
 
                         };
                         
-                        var(i,j)=var(i,j)/diag;
+                        var(i,j)=var(i,j)*rel/diag;
                 };
         };
 
