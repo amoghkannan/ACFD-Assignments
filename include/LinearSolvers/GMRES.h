@@ -3,6 +3,7 @@
 #include"GaussSeidel.h"
 #include"SGS.h"
 #include"ILU.h"
+#include"Cholesky.h"
 
 class GMRES: public LinearSolver{
 

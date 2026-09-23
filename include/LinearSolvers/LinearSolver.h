@@ -7,6 +7,7 @@ enum solverType{
         GAUSS_SEIDEL_SOLVER,
         SGS_SOLVER,
         ILU_SOLVER,
+        CHOLESKY_SOLVER,
         GMRES_SOLVER
 };
 

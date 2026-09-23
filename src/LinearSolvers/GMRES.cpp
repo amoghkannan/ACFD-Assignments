@@ -250,6 +250,12 @@ void GMRES::setupPreconditioner(solverType st, preconditionerPos pp_){
                 preconditioner->setMatFunc(getA);
                 preconditioner->setRHSFunc(getRHS);
                 (static_cast<ILU*>(preconditioner))->LUDecompose(residualVec);
+       }
+       else if(st==CHOLESKY_SOLVER){
+                preconditioner = new Cholesky(maxIters,tol,rel,residualVec,0);
+                preconditioner->setMatFunc(getA);
+                preconditioner->setRHSFunc(getRHS);
+                (static_cast<Cholesky*>(preconditioner))->LUDecompose(residualVec);
        };
 
        pp=pp_;
