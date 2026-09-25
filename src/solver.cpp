@@ -16,15 +16,15 @@ std::array<int,6> Solver::size(){
         return mesh->size();
 };
 
-void Solver::setVar(){
+void Solver::setVar(std::string name){
        std::array<int,6>dims=this->size();
-       vars.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
-       varsDot.emplace_back(Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]));
+       vars[name]=Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]);
+       varsDot[name]=Grid<wp>(dims[0],dims[1],dims[2],dims[3],dims[4],dims[5]);
        nVars=nVars+1;
 };
 
 void Solver::setVar(int ind, Grid<wp>& VarIn){
-       vars[ind]=VarIn;
+       vars(ind)=VarIn;
 };
 
 void Solver::setScheme(Scheme& schemeIn){
@@ -41,15 +41,6 @@ void Solver::setBC(std::string boundary, BCType type, wp val){
 
 Mesh* Solver::getMesh(){
         return mesh;
-};
-
-Grid<wp>& Solver::getVar(int ind){
-        if(ind>nVars-1){
-                std::cout<<"Invalid variable array access in solver, exiting";
-                std::exit(-1);
-        };
-
-        return vars[ind];
 };
 
 Scheme& Solver::getScheme(){

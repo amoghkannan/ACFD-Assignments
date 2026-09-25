@@ -52,5 +52,10 @@ val& operator[](key keyIn){
 
 };
 
+val& operator()(int ind){
+
+        return vals[ind];
+
+};
 
 };

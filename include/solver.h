@@ -10,29 +10,28 @@ protected:
 
 Mesh* mesh=nullptr;
 
-std::vector<Grid<wp>> vars;
-
 Scheme scheme;
 
 public:
 
+dictionary<std::string,Grid<wp>> vars;
+
 int nVars=0;
 
-std::vector<Grid<wp>> varsDot;
+dictionary<std::string,Grid<wp>> varsDot;
 
 Solver();
 
 void setMesh(Mesh& meshIn);
 void setMesh(int imx, int jmx, int bufW, int bufE, int bufS, int bufN);
 std::array<int,6>size();
-void setVar();
+void setVar(std::string name);
 void setVar(int ind, Grid<wp>& VarIn);
 void setScheme(Scheme& schemeIn);
 void setScheme(schemeKey key, schemeVal val);
 void setBC(std::string boundary, BCType type, wp val);
 
 Mesh* getMesh();
-Grid<wp>& getVar(int ind);
 Scheme& getScheme();
 
 virtual ~Solver(){

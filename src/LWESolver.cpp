@@ -2,7 +2,7 @@
 
 LWESolver::LWESolver(Mesh& meshIn){
        setMesh(meshIn);
-       setVar();
+       setVar("u");
        logger.log("Debug: LWE solver initialization",1);
 };
 
@@ -14,7 +14,7 @@ void LWESolver::initialCondition(){
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)=sin(M_PI*(*mesh)(i,j).x/(10.0*deltaX));
+                        vars(0)(i,j)=sin(M_PI*(*mesh)(i,j).x/(10.0*deltaX));
                 };
         };
 
@@ -27,8 +27,8 @@ void LWESolver::applyBC(){
        int imx=dims[0];
        int jmx=dims[1];
 
-       vars[0](0,1)=vars[0](imx,1);
-       vars[0](imx+1,1)=vars[0](1,1);
+       vars(0)(0,1)=vars(0)(imx,1);
+       vars(0)(imx+1,1)=vars(0)(1,1);
 };
 
 void LWESolver::QDot(){
@@ -38,17 +38,17 @@ void LWESolver::QDot(){
        switch(derivativeXScheme){
                 case FOU:
                         if(c>0.0){
-                                scheme.EBD1(vars[0],varsDot[0],*mesh,'x');
-                                varsDot[0]*=(-c);
+                                scheme.EBD1(vars(0),varsDot(0),*mesh,'x');
+                                varsDot(0)*=(-c);
                         }
                         else{
-                                scheme.EFD1(vars[0],varsDot[0],*mesh,'x');
-                                varsDot[0]*=(-c);
+                                scheme.EFD1(vars(0),varsDot(0),*mesh,'x');
+                                varsDot(0)*=(-c);
                         };
                         break;
                 case C4:
-                        scheme.ICD4(vars[0],varsDot[0],*mesh,'x');
-                        varsDot[0]*=(-c);
+                        scheme.ICD4(vars(0),varsDot(0),*mesh,'x');
+                        varsDot(0)*=(-c);
                         break;
                 default:
                         break;
@@ -76,7 +76,7 @@ void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor){
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)= vars[0](i,j)+dt(i,j)*storeFactor*varsDot[0](i,j);
+                        vars(0)(i,j)= vars(0)(i,j)+dt(i,j)*storeFactor*varsDot(0)(i,j);
                 };
         };
 
@@ -91,7 +91,7 @@ void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& 
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*varsDot[0](i,j);
+                        vars(0)(i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*varsDot(0)(i,j);
                 };
         };
         applyBC();
@@ -105,7 +105,7 @@ void LWESolver::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& 
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
-                        vars[0](i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*rStore[0](i,j);
+                        vars(0)(i,j)= uStore[0](i,j)+dt(i,j)*storeFactor*rStore[0](i,j);
                 };
         };
 

@@ -12,10 +12,10 @@ wp Integrator::getCFL(){
         return CFL;
 };
 
-void Integrator::addSolver(Solver& solverIn){
+void Integrator::addSolver(Solver& solverIn, std::string name){
 
         Solver* newSolver=&solverIn;
-        solvers.push_back(newSolver);
+        solvers[name]=newSolver;
  
         std::array<int,6> dims=newSolver->size();
 
@@ -83,7 +83,7 @@ void Integrator::takeTimeStep(){
 
                if(!converged[i]){
 
-               solver=solvers[i];
+               solver=solvers(i);
 
                timeSteppingScheme=solver->getScheme().getScheme(timeStepping);
 
@@ -106,7 +106,7 @@ void Integrator::takeTimeStep(){
 
         if(nSteps%dumpSteps==0){
                for(int i=0;i<nSolvers;i++){
-                        dumpSolution(solvers[i],i);
+                        dumpSolution(solvers(i),i);
                 };
                 incDumpNumber();
         };
@@ -118,34 +118,45 @@ void Integrator::takeTimeStep(){
 void Integrator::integrate(){
 
        for(int i=0;i<nSolvers;i++){
-                solvers[i]->initialCondition();
-                solvers[i]->applyBC();
+                solvers(i)->initialCondition();
+                solvers(i)->applyBC();
        };
 
        logger.log("Debug: Initial condition",1);
 
+
         while(nSteps<maxSteps){
                logger.log("Time step number: "+std::to_string(nSteps),LOGCODE);
+               switch(controller){
+                        case NO_CONTROLLER:
+                                break;
+                        case MULTIGRID_CONTROLLER:
+                               multigridController();
+                               break;
+                        default:
+                                break;
+                
+               };
                takeTimeStep(); 
         };
 };
 
 void Integrator::rk4(int ind){
 
-        Solver *s=solvers[ind];
+        Solver *s=solvers(ind);
 
         s->computeTimeStep(deltaT[ind]);
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-                uStore[i]=s->getVar(i);
+                uStore[i]=s->vars(i);
         };
 
         s->updateVars(deltaT[ind],CFL*0.5);
         
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot[i])/=6.0;
-                rStore[i]=s->varsDot[i];
+                (s->varsDot(i))/=6.0;
+                rStore[i]=(s->varsDot)(i);
         };
 
         s->QDot();
@@ -153,8 +164,8 @@ void Integrator::rk4(int ind){
         s->updateVars(deltaT[ind],CFL*0.5,uStore);
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/=3.0;
-                rStore[i]+=(s->varsDot)[i];
+                (s->varsDot)(i)/=3.0;
+                rStore[i]+=(s->varsDot)(i);
         };
 
         s->QDot();
@@ -162,15 +173,15 @@ void Integrator::rk4(int ind){
         s->updateVars(deltaT[ind],CFL,uStore);
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/=3.0;
-                rStore[i]+=(s->varsDot)[i];
+                (s->varsDot)(i)/=3.0;
+                rStore[i]+=(s->varsDot)(i);
         };
 
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-                (s->varsDot)[i]/=6.0;
-                rStore[i]+=(s->varsDot)[i];
+                (s->varsDot)(i)/=6.0;
+                rStore[i]+=(s->varsDot)(i);
         };
 
         s->updateVars(deltaT[ind],CFL,uStore,rStore);
@@ -179,7 +190,7 @@ void Integrator::rk4(int ind){
 
 void Integrator::euler(int ind){
 
-        Solver *s=solvers[ind];
+        Solver *s=solvers(ind);
 
         s->computeTimeStep(deltaT[ind]);
         s->QDot();
@@ -217,7 +228,7 @@ void Integrator::dumpSolution(Solver *s, int ID){
 
            for(int j=1;j<=jmx;j++){
               for(int i=1;i<=imx;i++){
-                   outputfile<<s->getVar(n)(i,j)<<std::endl;
+                   outputfile<<s->vars(n)(i,j)<<std::endl;
               }
            };
         };
@@ -229,6 +240,14 @@ void Integrator::dumpSolution(Solver *s, int ID){
         while(!logger.isEmpty()){
                 logfile<<logger.getLog();
         };
+};
+
+void Integrator::noController(){
+
+};
+
+void Integrator::multigridController(){
+
 };
 
 void Integrator::incDumpNumber(){
