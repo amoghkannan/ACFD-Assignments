@@ -3,9 +3,7 @@
 #include"solver.h"
 #include<stack>
 
-enum integrationController{
-        NO_CONTROLLER,
-        MULTIGRID_CONTROLLER
+struct multigridDriver{
 };
 
 class Integrator{
@@ -13,9 +11,8 @@ class Integrator{
 private:
 
 wp CFL=1.0;
-integrationController controller;
 std::stack<int>turnStack; //Whose turn is it to take a time step?
-std::vector<Grid<wp>>deltaT;
+Grid<wp>deltaT;
 std::vector<Grid<wp>>uStore; //For multi-step schemes
 std::vector<Grid<wp>>rStore; //For multi-step schemes
 dictionary<std::string,Solver*>solvers;
@@ -26,6 +23,10 @@ int dumpNumber=0;
 
 void dumpSolution(Solver* s, int ID);
 void incDumpNumber();
+
+int maxMultigridLevel=1;
+int timeStepsPerLevel=1;
+void multigridController(Solver *s, int level);
 
 public:
 
@@ -40,17 +41,13 @@ wp getCFL();
 
 void addSolver(Solver& solverIn, std::string name);
 
-void takeTimeStep();
+void takeTimeStep(Solver *solver);
 void integrate();
 
 //Time integration schemes
 
-void rk4(int ind);
-void euler(int ind);
-
-//Integration controllers
-void noController();
-void multigridController();
+void rk4(Solver *s);
+void euler(Solver *s);
 
 ~Integrator(){
         logger.log("Debug: Destroying integrator",1);

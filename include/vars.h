@@ -2,58 +2,103 @@
 #include"utils.h"
 #include<array>
 
+enum idtype{
+        NODE,
+        CELL
+};
+
+struct Box{ //(Nodal) box in index space on which the grid is defined
+        int imx=0; //Based on nodes; not representative of actual number of I items
+        int jmx=0; //Ditto
+        int bufW,bufE,bufS,bufN=0;
+        Box(){};
+        Box(int imx_, int jmx_, int bufW_, int bufE_, int bufS_, int bufN_): imx(imx_),jmx(jmx_),bufW(bufW_),
+        bufE(bufE_),bufS(bufS_),bufN(bufN_){};
+        bool operator!=(Box& otherBox){
+                return (imx!=otherBox.imx) || (jmx!=otherBox.jmx) || (bufE!=otherBox.bufE) || (bufW!=otherBox.bufW) 
+                       || (bufN!=otherBox.bufN) || (bufS!=otherBox.bufS);
+        };
+};
+
 template<typename T>
 class Grid{
 
 protected:
 
-int imx=0;
-int jmx=0;
-int bufE,bufW,bufN,bufS=0;
-
 T* data=nullptr;
 
 public:
 
+Box box;
+std::array<idtype,2> indexType; //Node, Iface, Jface, cell
+std::array<int,2> intVect; //Actual dimension: eg 1:imx-1 for cells
+int trueSize=0; //Grid sometimes allocated more space than it needs to save on allocation time in future
+//Even then, indexing into grid done using intVect, buffers 
+
+//Copying rules:
+//Hidden cells are never copied
+//If current storage is larger than copied grid, current storage is retained
+//Hidden data never copied
+
 Grid(){};
 
 Grid<T>(const Grid<T>&otherGrid){
-       
-       imx=otherGrid.imx;
-       jmx=otherGrid.jmx;
-       bufE=otherGrid.bufE;
-       bufW=otherGrid.bufW;
-       bufN=otherGrid.bufN;
-       bufS=otherGrid.bufS;
+      
+       if(data!=nullptr){
+                if((otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                   (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS)>trueSize){ 
+                        delete [] data;
+                        trueSize=(otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                           (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS);
+                        data=new T[trueSize];
+                };
 
-       if(data!=nullptr) delete [] data;
-       data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
-        
-       for(int j=0;j<jmx+bufN+bufS;j++){
-                for(int i=0;i<imx+bufE+bufW;i++){
-                        data[j*(imx+bufE+bufW)+i]=otherGrid.data[j*(imx+bufE+bufW)+i];
+       }
+       else{
+                trueSize=(otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                           (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS);
+                data=new T[trueSize];
+       };
+
+       box=otherGrid.box;
+
+       indexType=otherGrid.indexType;
+       intVect=otherGrid.intVect;
+
+       for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j)=otherGrid.data[(j+box.bufS-1)*(intVect[0]+box.bufE+box.bufW)+i+box.bufW-1];
                 };
         };
 
 };
 
-Grid(int imx, int jmx, int bufW, int bufE, int bufS, int bufN){
-        this->imx=imx;
-        this->jmx=jmx;
-        this->bufE=bufE;
-        this->bufW=bufW;
-        this->bufN=bufN;
-        this->bufS=bufS;
+Grid(Box box_, std::array<idtype,2>indexType_){
 
-        if(data!=nullptr) delete [] data;
-        data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
+        box=box_;
+        indexType=indexType_;
+        intVect[0]=indexType[0]==CELL?box.imx-1:box.imx;
+        intVect[1]=indexType[1]==CELL?box.jmx-1:box.jmx;
+
+       if(data!=nullptr){
+                if((intVect[0]+box_.bufE+box_.bufW)*(intVect[1]+box_.bufN+box_.bufS)>trueSize){ 
+                        delete [] data;
+                        trueSize=(intVect[0]+box_.bufE+box_.bufW)*(intVect[1]+box_.bufN+box_.bufS);
+                        data=new T[trueSize];
+                };
+
+       }
+       else{
+               trueSize=(intVect[0]+box_.bufE+box_.bufW)*(intVect[1]+box_.bufN+box_.bufS);
+               data=new T[trueSize];
+       };
 
 };
 
 std::array<int,6>size();
 
 T& operator()(int i, int j);
-void operator=(Grid otherGrid);
+void operator=(const Grid& otherGrid);
 void operator+=(Grid& otherGrid);
 void operator-=(Grid& otherGrid);
 void operator-();
@@ -70,87 +115,96 @@ void initVal(T val);
 
 template<typename T>
 std::array<int,6> Grid<T>::size(){
-        std::array<int,6>ans={imx,jmx,bufW,bufE,bufS,bufN};
+        std::array<int,6>ans={intVect[0],intVect[1],box.bufW,box.bufE,box.bufS,box.bufN};
         return ans;
 };
 
 template<typename T>
 T& Grid<T>::operator()(int i,int j){
         
-        if(i<1-bufW || i>imx+bufE){
+        if(i<1-box.bufW || i>intVect[0]+box.bufE){
                 std::cout<<"Invalid I index, exiting";
                 std::exit(-1);
         };
 
-        if(j<1-bufS || j>jmx+bufE){
+        if(j<1-box.bufS || j>intVect[1]+box.bufN){
                 std::cout<<"Invalid J index, exiting";
                 std::exit(-1);
         };
 
-        return data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
+        return data[(j+box.bufS-1)*(intVect[0]+box.bufE+box.bufW)+i+box.bufW-1];
 };
 
 template<typename T>
-void Grid<T>::operator=(Grid<T> otherGrid){
+void Grid<T>::operator=(const Grid<T>& otherGrid){
+       if(data!=nullptr){
+                if((otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                   (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS)>trueSize){ 
+                        delete [] data;
+                        trueSize=(otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                           (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS);
+                        data=new T[trueSize];
+                };
 
-       if(imx!=otherGrid.imx ||
-          jmx!=otherGrid.jmx ||
-          bufE!=otherGrid.bufE ||
-          bufW!=otherGrid.bufW ||
-          bufN!=otherGrid.bufN ||
-          bufS!=otherGrid.bufS){
-                delete[] data;
-                imx=otherGrid.imx;
-                jmx=otherGrid.jmx;
-                bufE=otherGrid.bufE;
-                bufW=otherGrid.bufW;
-                bufN=otherGrid.bufN;
-                bufS=otherGrid.bufS;
+       }
+       else{
+                trueSize=(otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
+                           (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS);
+                data=new T[trueSize];
+       };
 
-                if(data!=nullptr) delete [] data;
-                data=new T[(imx+bufE+bufW)*(jmx+bufN+bufS)];
-          };
+       box=otherGrid.box;
 
+       indexType=otherGrid.indexType;
+       intVect=otherGrid.intVect;
 
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = otherGrid(i,j);
+       for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j)=otherGrid.data[(j+box.bufS-1)*(intVect[0]+box.bufE+box.bufW)+i+box.bufW-1];
                 };
         };
+
 };
 
 template<typename T>
 void Grid<T>::operator+=(Grid<T>& otherGrid){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] + otherGrid(i,j);
+        if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
+        logger.log("Warning, adding non-equivalent fields!",1);
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j) = (*this)(i,j) + otherGrid(i,j);
                 };
         };
 };
 
 template<typename T>
 void Grid<T>::operator-=(Grid<T>& otherGrid){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] - otherGrid(i,j);
+        if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
+        logger.log("Warning, subtracting non-equivalent fields!",1);
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j) = (*this)(i,j) - otherGrid(i,j);
                 };
         };
 };
 
 template<typename T>
 void Grid<T>::operator-(){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = -data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j) = -(*this)(i,j);
                 };
         };
 };
 
 template<typename T>
 void Grid<T>::operator*=(wp val){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] * val;
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j) = (*this)(i,j) * val;
                 };
         };
 };
@@ -159,29 +213,27 @@ template<typename T>
 Grid<T> Grid<T>::operator*(wp val){
 
         Grid<T> newGrid(*this);
+        newGrid*=val;
+        return newGrid;
 
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        newGrid.data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]=
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] * val;
-                };
-        };
 };
 
 template<typename T>
 void Grid<T>::operator/=(wp val){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] = data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1] / val;
+        if(val==0.0) logger.log("Error, grid division by 0",1);
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j) = (*this)(i,j) / val;
                 };
         };
 };
 
 template<typename T>
 void Grid<T>::print(std::ostream& os){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        os<<i<<"\t"<<j<<"\t"<<data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]<<std::endl;
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        os<<i<<"\t"<<j<<"\t"<<(*this)(i,j)<<std::endl;
                 };
         };
 };
@@ -190,9 +242,9 @@ template<typename T>
 wp Grid<T>::norm2(){
         wp ans=0.0;
 
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        ans=ans+pow(data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1],2.0);
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        ans=ans+pow((*this)(i,j),2.0);
                 };
         };
 
@@ -202,12 +254,14 @@ wp Grid<T>::norm2(){
 
 template<typename T>
 wp Grid<T>::dotProduct(Grid<T>& otherGrid){
+        if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
+        logger.log("Warning, dot product of non-equivalent fields!",1);
+
         wp ans=0.0;
 
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        ans=ans+data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]*
-                      otherGrid.data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1];
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        ans=ans+(*this)(i,j)*otherGrid(i,j);
                 };
         };
 
@@ -216,9 +270,9 @@ wp Grid<T>::dotProduct(Grid<T>& otherGrid){
 
 template<typename T>
 void Grid<T>::initVal(T val){
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        data[(j+bufS-1)*(imx+bufE+bufW)+i+bufW-1]=val;
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        (*this)(i,j)=val;
                 };
         };
 

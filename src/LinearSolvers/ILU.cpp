@@ -89,7 +89,7 @@ void ILU::LUDecompose(Grid<wp>& var){
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
 
-        LU=Grid<std::vector<boundMatEntry>>(sizeArr[0],sizeArr[1],sizeArr[2],sizeArr[3],sizeArr[4],sizeArr[5]);
+        LU=Grid<std::vector<boundMatEntry>>(var.box,var.indexType);
         
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
@@ -102,7 +102,6 @@ void ILU::LUDecompose(Grid<wp>& var){
         wp data,diag;
         wp factor;
         wp elem;
-
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){

@@ -2,7 +2,7 @@
 
 LWESolver::LWESolver(Mesh& meshIn){
        setMesh(meshIn);
-       setVar("u");
+       setVar("u",{NODE,NODE});
        logger.log("Debug: LWE solver initialization",1);
 };
 
@@ -10,7 +10,7 @@ void LWESolver::initialCondition(){
 
        wp deltaX=(*mesh)(2,1).x-(*mesh)(1,1).x;
 
-       std::array<int,6>dims=this->size();
+       std::array<int,6>dims=vars["u"].size();
 
         for(int j=1;j<=dims[1];j++){
                 for(int i=1;i<=dims[0];i++){
@@ -22,7 +22,7 @@ void LWESolver::initialCondition(){
 };
 
 void LWESolver::applyBC(){
-       std::array<int,6>dims=this->size();
+       std::array<int,6>dims=vars["u"].size();
        
        int imx=dims[0];
        int jmx=dims[1];

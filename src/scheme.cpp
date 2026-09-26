@@ -22,6 +22,10 @@ std::pair<BCType,wp> Scheme::getBC(std::string boundary){
 
 };
 
+bool Scheme::hasScheme(schemeKey key){
+        return schemeDict.hasKey(key); 
+};
+
 void Scheme::TDMA(int n, wp* xIn){
 
        for(int i=1;i<n;i++){

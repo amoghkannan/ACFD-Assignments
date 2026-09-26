@@ -3,16 +3,26 @@
 #include"vars.h"
 #include"mesh.h"
 #include"scheme.h"
+#include"LinearSolvers/Jacobi.h"
+#include"LinearSolvers/GaussSeidel.h"
+#include"LinearSolvers/SGS.h"
+#include"LinearSolvers/ILU.h"
+#include"LinearSolvers/Cholesky.h"
+#include"LinearSolvers/GMRES.h"
 
 class Solver{
 
 protected:
 
+public:
+
 Mesh* mesh=nullptr;
 
 Scheme scheme;
 
-public:
+//For multigrid
+Solver *coarser=nullptr;
+Solver *finer=nullptr;
 
 dictionary<std::string,Grid<wp>> vars;
 
@@ -20,12 +30,13 @@ int nVars=0;
 
 dictionary<std::string,Grid<wp>> varsDot;
 
+LinearSolver *ls=nullptr;
+
 Solver();
 
 void setMesh(Mesh& meshIn);
-void setMesh(int imx, int jmx, int bufW, int bufE, int bufS, int bufN);
-std::array<int,6>size();
-void setVar(std::string name);
+void setMesh(Box box_);
+void setVar(std::string name, std::array<idtype,2>indexType_);
 void setVar(int ind, Grid<wp>& VarIn);
 void setScheme(Scheme& schemeIn);
 void setScheme(schemeKey key, schemeVal val);
@@ -44,6 +55,8 @@ virtual void applyBC()=0;
 
 virtual void QDot()=0;
 
+virtual void lSolve(){logger.log("Warning, using undefined lsolve function",1);}; //In case a linear solver is used
+
 virtual void computeTimeStep(Grid<wp>& dt)=0;
 
 virtual void updateVars(Grid<wp>& dt, wp storeFactor)=0;
@@ -55,5 +68,9 @@ virtual void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uSt
 virtual wp getResNorm()=0;
 
 virtual bool isConverged()=0;
+
+//For multigrid
+virtual Solver* restriction(){ logger.log("Warning, using undefined restriction function",1);return nullptr;};
+virtual void prolongation(){ logger.log("Warning, using undefined prolongation function",1);};
 
 };

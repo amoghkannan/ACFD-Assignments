@@ -89,8 +89,8 @@ void Cholesky::LUDecompose(Grid<wp>& var){
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
 
-        LU=Grid<std::vector<boundMatEntry>>(sizeArr[0],sizeArr[1],sizeArr[2],sizeArr[3],sizeArr[4],sizeArr[5]);
-        S=Grid<std::vector<std::pair<int,int>>>(sizeArr[0],sizeArr[1],sizeArr[2],sizeArr[3],sizeArr[4],sizeArr[5]);
+        LU=Grid<std::vector<boundMatEntry>>(var.box,var.indexType);
+        S=Grid<std::vector<std::pair<int,int>>>(var.box,var.indexType);
 
         boundMatRow currRow,currRowL;
 

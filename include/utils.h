@@ -58,4 +58,14 @@ val& operator()(int ind){
 
 };
 
+bool hasKey(key keyIn){
+        
+        for(auto keyIter:keys){
+                if(keyIter==keyIn) return true;
+        };
+
+        return false;
+};
+
+
 };

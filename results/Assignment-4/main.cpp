@@ -17,7 +17,7 @@ int bufE=1;
 int bufS=1;
 int bufN=1;
 
-Grid<wp> phi(imx,jmx,bufW,bufE,bufS,bufN);
+Grid<wp> phi(Box(imx,jmx,bufW,bufE,bufS,bufN),{NODE,NODE});
 
 std::vector<boundMatEntry> getA(int i,int j,Grid<wp>&var){
         std::array<int,6>sizeArr=var.size();
@@ -77,7 +77,7 @@ int main(void){
         wp L=1.0;
         wp delta=L/(imx-1);
 
-        Mesh mesh(imx,jmx,bufW,bufE,bufS,bufN);
+        Mesh mesh(Box(imx,jmx,bufW,bufE,bufS,bufN),{NODE,NODE});
 
         for(int j=0;j<=jmx+1;j++){
                 for(int i=0;i<=imx+1;i++){

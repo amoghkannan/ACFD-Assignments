@@ -18,18 +18,17 @@ enum schemeKey{
         derivativeXX,
         derivativeYY,
         derivativeXY,
-        stateReconstructionX,
-        stateReconstructionY,
-        gradientCalc
+        multigrid
 };
 
 enum schemeVal{
         EULER,
         RK4,
+        LINEARSOLVER,
         FOU, //First-order upwind
-        MUSCL,
         C4,   //Fourth-order compact,
-        GREENGAUSS,
+        V_CYCLE,
+        W_CYCLE,
         INVALID
 };
 
@@ -55,6 +54,7 @@ schemeVal& getScheme(schemeKey keyIn);
 void setScheme(schemeKey key, schemeVal val);
 void setBC(std::string boundary, BCType type, wp val);
 std::pair<BCType,wp>getBC(std::string boundary);
+bool hasScheme(schemeKey key);
 
 //Derivative formulas
 

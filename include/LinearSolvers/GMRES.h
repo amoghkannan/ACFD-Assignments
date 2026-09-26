@@ -31,7 +31,7 @@ GMRES(int maxIters_, wp tol_, wp rel_, int ss, int nR, Grid<wp>& varsIn): Linear
                 krylovVectors.emplace_back(Grid<wp>(varsIn));
         };
 
-        H=Grid<wp>(subspaceSize+1,subspaceSize,0,0,0,0);
+        H=Grid<wp>(Box(subspaceSize+1,subspaceSize,0,0,0,0),{NODE,NODE});
         H.initVal(0.0);
         minCoeffs.resize(subspaceSize);
         minRHS.resize(subspaceSize+1);
