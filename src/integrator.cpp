@@ -147,6 +147,8 @@ void Integrator::multigridController(Solver *s, int level){
 
         if(level>maxMultigridLevel) return;
 
+        if(s->coarser==nullptr) s->setupMultigrid();
+
         switch(s->getScheme().getScheme(multigrid)){
                 case(V_CYCLE):
                         takeTimeStep(s);

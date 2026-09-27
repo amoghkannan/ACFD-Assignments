@@ -67,5 +67,8 @@ bool hasKey(key keyIn){
         return false;
 };
 
+std::vector<key>getKeys(){
+        return keys;
+};
 
 };
