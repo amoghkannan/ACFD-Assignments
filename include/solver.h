@@ -25,7 +25,7 @@ Solver *coarser=nullptr;
 Solver *finer=nullptr;
 
 dictionary<std::string,Grid<wp>> vars;
-
+Grid<wp>res_store;
 int nVars=0;
 
 dictionary<std::string,Grid<wp>> varsDot;

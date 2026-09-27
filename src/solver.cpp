@@ -106,24 +106,24 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                 for(int j=1;j<coarseVar.intVect[1];j++){
                         for(int i=1;i<coarseVar.intVect[0];i++){
 
-                                fineVar(2*i-1,2*j-1)=coarseVar(i,j);
-                                fineVar(2*i,2*j-1)=bilinearInterp2({fineMesh(2*i-1,2*j-1),fineMesh(2*i+1,2*j-1)},
+                                fineVar(2*i-1,2*j-1)+=coarseVar(i,j);
+                                fineVar(2*i,2*j-1)+=bilinearInterp2({fineMesh(2*i-1,2*j-1),fineMesh(2*i+1,2*j-1)},
                                                                    {coarseVar(i,j),coarseVar(i+1,j)},fineMesh(2*i,2*j-1));
-                                fineVar(2*i+1,2*j-1)=coarseVar(i+1,j);
+                                fineVar(2*i+1,2*j-1)+=coarseVar(i+1,j);
                                 
-                                fineVar(2*i-1,2*j)=bilinearInterp2({fineMesh(2*i-1,2*j-1),fineMesh(2*i-1,2*j+1)},
+                                fineVar(2*i-1,2*j)+=bilinearInterp2({fineMesh(2*i-1,2*j-1),fineMesh(2*i-1,2*j+1)},
                                                                    {coarseVar(i,j),coarseVar(i,j+1)},fineMesh(2*i-1,2*j));
-                                fineVar(2*i,2*j)=bilinearInterp4({fineMesh(2*i-1,2*j-1),fineMesh(2*i+1,2*j-1),
+                                fineVar(2*i,2*j)+=bilinearInterp4({fineMesh(2*i-1,2*j-1),fineMesh(2*i+1,2*j-1),
                                                                   fineMesh(2*i-1,2*j+1),fineMesh(2*i+1,2*j+1)},
                                                                   {coarseVar(i,j),coarseVar(i,j+1),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},fineMesh(2*i,2*j));
-                                fineVar(2*i+1,2*j)=bilinearInterp2({fineMesh(2*i+1,2*j-1),fineMesh(2*i+1,2*j+1)},
+                                fineVar(2*i+1,2*j)+=bilinearInterp2({fineMesh(2*i+1,2*j-1),fineMesh(2*i+1,2*j+1)},
                                                                    {coarseVar(i+1,j),coarseVar(i+1,j+1)},fineMesh(2*i+1,2*j));
 
-                                fineVar(2*i-1,2*j+1)=coarseVar(i,j+1);
-                                fineVar(2*i,2*j+1)=bilinearInterp2({fineMesh(2*i-1,2*j+1),fineMesh(2*i+1,2*j+1)},
+                                fineVar(2*i-1,2*j+1)+=coarseVar(i,j+1);
+                                fineVar(2*i,2*j+1)+=bilinearInterp2({fineMesh(2*i-1,2*j+1),fineMesh(2*i+1,2*j+1)},
                                                                    {coarseVar(i,j+1),coarseVar(i+1,j+1)},fineMesh(2*i,2*j+1));
-                                fineVar(2*i+1,2*j+1)=coarseVar(i+1,j+1);
+                                fineVar(2*i+1,2*j+1)+=coarseVar(i+1,j+1);
 
                         };
                 };
@@ -133,22 +133,22 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                 for(int j=1;j<coarseVar.intVect[1];j++){
                         for(int i=1;i<coarseVar.intVect[0];i++){
 
-                                fineVar(2*i,2*j)=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
+                                fineVar(2*i,2*j)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
                                                                    cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
                                                                    cc(2*i,2*j,fineMesh));
-                                fineVar(2*i+1,2*j)=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
+                                fineVar(2*i+1,2*j)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
                                                                    cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
                                                                    cc(2*i+1,2*j,fineMesh));
-                                fineVar(2*i+1,2*j+1)=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
+                                fineVar(2*i+1,2*j+1)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
                                                                    cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
                                                                    cc(2*i+1,2*j+1,fineMesh));
-                                fineVar(2*i,2*j+1)=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
+                                fineVar(2*i,2*j+1)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
                                                                    cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
@@ -161,15 +161,25 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
 };
 
 void Solver::restriction(){
+        res_store=vars["res"];
+        getResNorm();
         for(auto key:vars.getKeys()){
+                if(key!="res"){
+                        coarser->vars[key].initVal(0.0);
+                        continue;
+                };
                 coarser->vars[key]=restrictVar(*mesh,vars[key]);
         };
+
+        (coarser->ls)->setRHSFunc(coarser->vars["res"]);
 };
 
 void Solver::prolongation(){
         for(auto key:vars.getKeys()){
+                if(key=="res") continue;
                 prolongateVar(*(finer->mesh),(*mesh),finer->vars[key],vars[key]);
         };
+        finer->vars["res"]=finer->res_store;
 };
 
 wp Solver::bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd){

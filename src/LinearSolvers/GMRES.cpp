@@ -6,15 +6,15 @@ void GMRES::computeResidual(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
         Point p;
         wp data,diag,newElem;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
+                        RHSCurr=RHS(i,j);
                         dependencies=getA(i,j,var);
-                        newElem=RHS;
+                        newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
@@ -196,16 +196,16 @@ wp GMRES::residualCalc(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
         Point p;
         wp data,diag,newElem;
         wp ans=0.0;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
+                        RHSCurr=RHS(i,j);
                         dependencies=getA(i,j,var);
-                        newElem=RHS;
+                        newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
@@ -233,28 +233,28 @@ void GMRES::setupPreconditioner(solverType st, preconditionerPos pp_){
        if(st==JACOBI_SOLVER){
                 preconditioner = new Jacobi(maxIters,tol,rel,residualVec);
                 preconditioner->setMatFunc(getA);
-                preconditioner->setRHSFunc(getRHS);
+                preconditioner->setRHSFunc(RHS);
        }
        else if(st==GAUSS_SEIDEL_SOLVER){
                 preconditioner = new GaussSeidel(maxIters,tol,rel,residualVec);
                 preconditioner->setMatFunc(getA);
-                preconditioner->setRHSFunc(getRHS);
+                preconditioner->setRHSFunc(RHS);
        }
        else if(st==SGS_SOLVER){
                 preconditioner = new SGS(maxIters,tol,rel,residualVec);
                 preconditioner->setMatFunc(getA);
-                preconditioner->setRHSFunc(getRHS);
+                preconditioner->setRHSFunc(RHS);
        }
        else if(st==ILU_SOLVER){
                 preconditioner = new ILU(maxIters,tol,rel,residualVec,0);
                 preconditioner->setMatFunc(getA);
-                preconditioner->setRHSFunc(getRHS);
+                preconditioner->setRHSFunc(RHS);
                 (static_cast<ILU*>(preconditioner))->LUDecompose(residualVec);
        }
        else if(st==CHOLESKY_SOLVER){
                 preconditioner = new Cholesky(maxIters,tol,rel,residualVec,0);
                 preconditioner->setMatFunc(getA);
-                preconditioner->setRHSFunc(getRHS);
+                preconditioner->setRHSFunc(RHS);
                 (static_cast<Cholesky*>(preconditioner))->LUDecompose(residualVec);
        };
 

@@ -6,16 +6,16 @@ void GaussSeidel::doIteration(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
         Point p;
         wp data,newElem;
         wp diag;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
+                        RHSCurr=RHS(i,j);
                         dependencies=getA(i,j,var);
-                        newElem=RHS;
+                        newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
@@ -59,16 +59,16 @@ wp GaussSeidel::residualCalc(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
         Point p;
         wp data,diag,newElem;
         wp ans=0.0;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
+                        RHSCurr=RHS(i,j);
                         dependencies=getA(i,j,var);
-                        newElem=RHS;
+                        newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 

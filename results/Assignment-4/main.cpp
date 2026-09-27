@@ -86,13 +86,19 @@ int main(void){
                 };
         };
 
+        Grid<wp>res(Box(imx,jmx,bufW,bufE,bufS,bufN),{NODE,NODE});
+        for(int j=1;j<=jmx;j++){
+                for(int i=1;i<=imx;i++){
+                        res(i,j)=getRHS(i,j,phi);
+                };
+        };
 
         phi.initVal(0.5);
         std::ofstream outfile("result.dat");
 
         GMRES solver(1000,1E-7,1.5,10,100,phi);
         solver.setMatFunc(getA);
-        solver.setRHSFunc(getRHS);
+        solver.setRHSFunc(res);
         solver.setupPreconditioner(CHOLESKY_SOLVER,SPLIT_PRECONDITIONER);
         solver.solve(phi);
         phi.print(outfile);

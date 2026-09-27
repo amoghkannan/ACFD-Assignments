@@ -166,11 +166,12 @@ void Integrator::multigridController(Solver *s, int level){
                         if(level!=maxMultigridLevel){
                                 s->restriction();
                                 multigridController(s->coarser,level+1);
-                                s->prolongation();
+                                s->coarser->prolongation();
                                 takeTimeStep(s);
                                 s->restriction();
                                 multigridController(s->coarser,level+1);
-                                s->prolongation();
+                                s->coarser->prolongation();
+                                takeTimeStep(s);
                         };
                         return;
                 default:

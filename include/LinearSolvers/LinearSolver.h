@@ -28,14 +28,13 @@ wp tol;
 wp res;
 
 std::vector<boundMatEntry>(*getA)(int,int,Grid<wp>&)=nullptr;
-wp (*getRHS)(int,int,Grid<wp>&)=nullptr;
-
 
 public:
 
+Grid<wp>RHS;
 LinearSolver(int maxIters_, wp tol_, wp rel_): currIter(0), maxIters(maxIters_), tol(tol_), rel(rel_){};
 void setMatFunc(std::vector<boundMatEntry>(*func)(int,int,Grid<wp>&)){getA=func;logger.log("Setting up A",1);};
-void setRHSFunc(wp (*func)(int,int,Grid<wp>&)){getRHS=func;logger.log("Setting up RHS",1);};
+void setRHSFunc(Grid<wp>&func){RHS=func;logger.log("Setting up RHS",1);};
 
 virtual void doIteration(Grid<wp>&)=0;
 virtual void solve(Grid<wp>&)=0;

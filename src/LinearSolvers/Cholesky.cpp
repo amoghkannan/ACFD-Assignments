@@ -176,12 +176,12 @@ void Cholesky::doIteration(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
-                        var(i,j)=RHS;
+                        RHSCurr=RHS(i,j);
+                        var(i,j)=RHSCurr;
 
                 };
         };
@@ -209,16 +209,16 @@ wp Cholesky::residualCalc(Grid<wp>& var){
         int jmx=sizeArr[1];
 
         std::vector<boundMatEntry> dependencies;
-        wp RHS;
+        wp RHSCurr;
         Point p;
         wp data,diag,newElem;
         wp ans=0.0;
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHS=getRHS(i,j,var);
+                        RHSCurr=RHS(i,j);
                         dependencies=getA(i,j,var);
-                        newElem=RHS;
+                        newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
