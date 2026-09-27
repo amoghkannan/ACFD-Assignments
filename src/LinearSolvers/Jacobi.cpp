@@ -4,12 +4,11 @@ void Jacobi::doIteration(Grid<wp>& var){
         std::array<int,6>sizeArr=var.size();
         int imx=sizeArr[0];
         int jmx=sizeArr[1];
-
         std::vector<boundMatEntry> dependencies;
         wp RHS;
         Point p;
         wp data,newElem;
-
+   
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         RHS=getRHS(i,j,var);

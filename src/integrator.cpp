@@ -13,7 +13,6 @@ wp Integrator::getCFL(){
 };
 
 void Integrator::addSolver(Solver& solverIn, std::string name){
-
         Solver* newSolver=&solverIn;
         solvers[name]=newSolver;
  
@@ -30,8 +29,9 @@ void Integrator::addSolver(Solver& solverIn, std::string name){
                 };
 
         };
-
-        deltaT=uStore[0];
+        if(newSolver->getScheme().getScheme(timeStepping)==RK4 || newSolver->getScheme().getScheme(timeStepping)==EULER){
+                deltaT=newSolver->vars(0);
+        };
 
         converged.push_back(false);
 
@@ -75,8 +75,12 @@ void Integrator::integrate(){
                logger.log("Time step number: "+std::to_string(nSteps),LOGCODE);
                for(int i=0;i<nSolvers;i++){
                         if(converged[i]) continue;
-                        takeTimeStep(solvers(i));
-                        if(solvers(i)->getScheme().hasScheme(multigrid)) multigridController(solvers(i)->coarser,2);
+                        if(solvers(i)->getScheme().hasScheme(multigrid)){
+                                multigridController(solvers(i),1);
+                        }
+                        else{
+                                takeTimeStep(solvers(i));
+                        };
                         if(solvers(i)->isConverged()) converged[i]=true;
                };
 
@@ -145,24 +149,28 @@ void Integrator::euler(Solver *s){
 
 void Integrator::multigridController(Solver *s, int level){
 
-        if(level>maxMultigridLevel) return;
-
         if(s->coarser==nullptr) s->setupMultigrid();
 
         switch(s->getScheme().getScheme(multigrid)){
                 case(V_CYCLE):
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
+                                s->coarser->prolongation();
                                 takeTimeStep(s);
                         };
                         return;
                 case(W_CYCLE):
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
+                                s->prolongation();
                                 takeTimeStep(s);
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
+                                s->prolongation();
                         };
                         return;
                 default:

@@ -54,14 +54,14 @@ void Mesh::setGhostNodes(){
 
 Mesh Mesh::coarsen(){
         Box coarseBox;
-        coarseBox.imx=(int)(box.imx/2)+1;
-        coarseBox.jmx=(int)(box.jmx/2)+1;
+        coarseBox.imx=(box.imx+1)/2;
+        coarseBox.jmx=(box.jmx+1)/2;
         coarseBox.bufW=box.bufW;
         coarseBox.bufE=box.bufE;
         coarseBox.bufS=box.bufS;
         coarseBox.bufN=box.bufN;
 
-        Mesh coarseMesh(box,{NODE,NODE});
+        Mesh coarseMesh(coarseBox,{NODE,NODE});
 
         for(int j=1;j<=box.jmx;j+=2){
                 for(int i=1;i<=box.imx;i+=2){
@@ -71,7 +71,6 @@ Mesh Mesh::coarsen(){
         };
 
         coarseMesh.setGhostNodes();
-
         return coarseMesh;
 };
 

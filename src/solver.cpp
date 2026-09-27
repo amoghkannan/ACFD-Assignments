@@ -5,7 +5,7 @@ Solver::Solver(){
 };
 
 void Solver::setMesh(Mesh& meshIn){
-       mesh=&meshIn; 
+       mesh=&meshIn;
 };
 
 void Solver::setMesh(Box box_){
@@ -42,28 +42,10 @@ Scheme& Solver::getScheme(){
         return scheme;
 };
 
-//void Solver::setupMultigrid(int level, int maxLevel){
-//
-//        coarser=new Solver();
-//        coarser->finer=this;
-//        coarser->mesh=(this->mesh)->coarsen();
-//        coarser->scheme=this->scheme;
-//        coarser->nVars=this->nVars;
-//
-//        std::vector<string>keys=vars.getKeys();
-//        for(string key:keys){
-//                coarser->vars[key]=restrictVar(mesh,vars[key]);
-//                coarser->varsDot[key]=restrictVar(mesh,varsDot[key]);
-//        };
-//
-//        if(level==maxLevel) return;
-//        setupMultigrid(level+1,maxLevel);
-//};
-
 Grid<wp> Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar){
         Box coarseBox;
-        coarseBox.imx=(int)(fineVar.box.imx/2)+1;
-        coarseBox.jmx=(int)(fineVar.box.jmx/2)+1;
+        coarseBox.imx=(fineVar.box.imx+1)/2;
+        coarseBox.jmx=(fineVar.box.jmx+1)/2;
         coarseBox.bufW=fineVar.box.bufW;
         coarseBox.bufE=fineVar.box.bufE;
         coarseBox.bufS=fineVar.box.bufS;
@@ -71,7 +53,7 @@ Grid<wp> Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar){
 
         if(fineVar.indexType[0]==NODE && fineVar.indexType[1]==NODE){
 
-                Grid<wp> coarseVar(fineVar.box,{NODE,NODE});
+                Grid<wp> coarseVar(coarseBox,{NODE,NODE});
         
                 for(int j=1;j<=fineVar.box.jmx;j+=2){
                         for(int i=1;i<=fineVar.box.imx;i+=2){
@@ -84,7 +66,7 @@ Grid<wp> Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar){
 
         }
         else if(fineVar.indexType[0]==CELL && fineVar.indexType[1]==CELL){
-                Grid<wp> coarseVar(fineVar.box,{CELL,CELL});
+                Grid<wp> coarseVar(coarseBox,{CELL,CELL});
                 if(fineMesh.volumes.trueSize==0) logger.log("Warning: Volumes uninitialized",1);
         
                 for(int j=1;j<=fineVar.intVect[1];j+=2){

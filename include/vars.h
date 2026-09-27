@@ -14,6 +14,14 @@ struct Box{ //(Nodal) box in index space on which the grid is defined
         Box(){};
         Box(int imx_, int jmx_, int bufW_, int bufE_, int bufS_, int bufN_): imx(imx_),jmx(jmx_),bufW(bufW_),
         bufE(bufE_),bufS(bufS_),bufN(bufN_){};
+        void operator=(const Box& otherBox){
+                imx=otherBox.imx;
+                jmx=otherBox.jmx;
+                bufW=otherBox.bufW;
+                bufE=otherBox.bufE;
+                bufS=otherBox.bufS;
+                bufN=otherBox.bufN;
+        };
         bool operator!=(Box& otherBox){
                 return (imx!=otherBox.imx) || (jmx!=otherBox.jmx) || (bufE!=otherBox.bufE) || (bufW!=otherBox.bufW) 
                        || (bufN!=otherBox.bufN) || (bufS!=otherBox.bufS);
@@ -150,6 +158,7 @@ void Grid<T>::operator=(const Grid<T>& otherGrid){
        else{
                 trueSize=(otherGrid.intVect[0]+otherGrid.box.bufE+otherGrid.box.bufW)*
                            (otherGrid.intVect[1]+otherGrid.box.bufN+otherGrid.box.bufS);
+
                 data=new T[trueSize];
        };
 
