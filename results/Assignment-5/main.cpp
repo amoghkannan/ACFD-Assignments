@@ -3,8 +3,8 @@
 
 Logger logger;
 
-int imx=255;
-int jmx=255;
+int imx=121;
+int jmx=121;
 
 int main(void){
       
@@ -12,10 +12,9 @@ int main(void){
         ps.setScheme(multigrid,V_CYCLE);
         
         Integrator I;
-        I.maxSteps=1;
+        I.maxSteps=500;
         I.dumpSteps=I.maxSteps;
         I.maxMultigridLevel=4;
-        I.timeStepsPerLevel=1;
         
         I.addSolver(ps,"PoissonSolver");
         I.integrate();

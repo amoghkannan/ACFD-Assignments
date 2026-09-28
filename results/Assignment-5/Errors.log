@@ -1,0 +1,331 @@
+Debug: Base solver initialization
+Setting up GaussSeidel solver
+Setting up A
+Setting up RHS
+Debug: Scheme setting
+Debug: Poisson solver initialization
+Debug: Scheme setting
+Debug: Integrator initialization
+Debug: Base solver initialization
+Setting up GaussSeidel solver
+Setting up A
+Debug: Scheme setting
+Debug: Poisson solver initialization
+Setting up GaussSeidel solver
+Setting up A
+Debug: multigrid level set up
+Debug: Solver added
+Debug: Poisson solver initial condition
+Debug: Initial condition
+Time step number: 0
+Multigrid level: 1 initial relaxation
+GaussSeidel iteration start: 21.908902
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 2.190890e+01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 3.230599e+01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 4.707107e+01
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 4.888804e+01
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 4.674302e+01
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 4.265338e+01
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 3.809331e+01
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 3.342108e+01
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 2.907469e+01
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 2.507505e+01
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 2.155505e+01
+Multigrid level: 1 restriction
+Setting up RHS
+Multigrid level: 2 initial relaxation
+GaussSeidel iteration start: 8.288819
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 8.288819e+00
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 7.143035e+00
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 6.329761e+00
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 5.759139e+00
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 5.303877e+00
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 4.925345e+00
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 4.603703e+00
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 4.326290e+00
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 4.084191e+00
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 3.870825e+00
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 3.681184e+00
+Multigrid level: 1 prolongation
+Multigrid level: 1 final relaxation
+GaussSeidel iteration start: 16.619052
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 1.661905e+01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 1.445937e+01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 1.207782e+01
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 1.015780e+01
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 8.603202e+00
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 7.337199e+00
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 6.299259e+00
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 5.441741e+00
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 4.727637e+00
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 4.128093e+00
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 3.620790e+00
+Time step number: 1
+Multigrid level: 1 initial relaxation
+GaussSeidel iteration start: 3.188342
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 3.188342e+00
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 2.817211e+00
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 2.496749e+00
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 2.218544e+00
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 1.975866e+00
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 1.763303e+00
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 1.576463e+00
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 1.411764e+00
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 1.266252e+00
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 1.137464e+00
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 1.023321e+00
+Multigrid level: 1 restriction
+Setting up RHS
+Multigrid level: 2 initial relaxation
+GaussSeidel iteration start: 0.451424
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 4.514240e-01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 4.004599e-01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 3.688695e-01
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 3.452511e-01
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 3.261344e-01
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 3.099884e-01
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 2.959673e-01
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 2.835458e-01
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 2.723758e-01
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 2.622151e-01
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 2.528891e-01
+Multigrid level: 1 prolongation
+Multigrid level: 1 final relaxation
+GaussSeidel iteration start: 0.930706
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 9.307061e-01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 8.385158e-01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 7.568033e-01
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 6.843884e-01
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 6.202215e-01
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 5.633100e-01
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 5.128623e-01
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 4.681349e-01
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 4.285116e-01
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 3.934172e-01
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 3.623621e-01
+Time step number: 2
+Multigrid level: 1 initial relaxation
+GaussSeidel iteration start: 0.334893
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 3.348926e-01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 3.106143e-01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 2.891638e-01
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 2.702212e-01
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 2.534933e-01
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 2.387199e-01
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 2.256648e-01
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 2.141178e-01
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 2.038898e-01
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 1.948134e-01
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 1.867393e-01
+Multigrid level: 1 restriction
+Setting up RHS
+Multigrid level: 2 initial relaxation
+GaussSeidel iteration start: 0.096850
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 9.684968e-02
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 9.416966e-02
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 9.213335e-02
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 9.040481e-02
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 8.887227e-02
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 8.748135e-02
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 8.619996e-02
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 8.500702e-02
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 8.388779e-02
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 8.283139e-02
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 8.182950e-02
+Multigrid level: 1 prolongation
+Multigrid level: 1 final relaxation
+GaussSeidel iteration start: 0.174902
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 1.749021e-01
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 1.686675e-01
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 1.629703e-01

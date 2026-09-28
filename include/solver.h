@@ -21,6 +21,7 @@ Mesh* mesh=nullptr;
 Scheme scheme;
 
 //For multigrid
+std::vector<Grid<wp>>res_store;
 Solver *coarser=nullptr;
 Solver *finer=nullptr;
 
@@ -65,6 +66,7 @@ virtual void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uSt
 virtual void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore)=0;
 
 virtual wp getResNorm()=0;
+virtual void getResidual()=0;
 
 virtual bool isConverged()=0;
 

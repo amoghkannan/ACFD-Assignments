@@ -117,6 +117,10 @@ wp LWESolver::getResNorm(){
         return 0.0;
 };
 
+void LWESolver::getResidual(){
+        
+};
+
 bool LWESolver::isConverged(){
 
         return false;

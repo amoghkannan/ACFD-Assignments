@@ -64,7 +64,7 @@ PoissonSolver::PoissonSolver(int nx, int ny, int level){
        
        setVar("phi",{NODE,NODE});
        vars["phi"].initVal(0.0);
-       ls=new Jacobi(100,1E-15,1.0,vars["phi"]);
+       ls=new GaussSeidel(10,1E-4,1.8,vars["phi"]);
        ls->setMatFunc(getAPoisson);
        if(level==1){
                 for(int j=1;j<=mesh->intVect[1];j++){
@@ -115,7 +115,34 @@ wp PoissonSolver::getResNorm(){
         wp data,diag,newElem;
 
         std::vector<boundMatEntry> dependencies;
+        
+        for(int j=1;j<=mesh->intVect[1];j++){
+                for(int i=1;i<=mesh->intVect[0];i++){
+                        RHSCurr=varsDot["phi"](i,j);
+                        dependencies=getAPoisson(i,j,vars["phi"]);
+                        newElem=RHSCurr;
 
+                        for(boundMatEntry item:dependencies){
+                               p=item.first; 
+                               data=item.second;
+                               
+                               newElem=newElem-data*vars["phi"](p.first,p.second); 
+                        };
+
+                        ans=std::max(ans,fabs(newElem));
+                };
+        };
+
+        return ans;
+};
+
+void PoissonSolver::getResidual(){
+        wp RHSCurr;
+        Point p;
+        wp data,diag,newElem;
+
+        std::vector<boundMatEntry> dependencies;
+        
         for(int j=1;j<=mesh->intVect[1];j++){
                 for(int i=1;i<=mesh->intVect[0];i++){
                         RHSCurr=varsDot["phi"](i,j);
@@ -130,19 +157,18 @@ wp PoissonSolver::getResNorm(){
                         };
 
                         varsDot["phi"](i,j)=newElem;
-                        ans=ans+pow(newElem,2.0);
                 };
         };
 
-        return sqrt(ans);
 };
 
 bool PoissonSolver::isConverged(){
-
+        if(getResNorm()<=1E-4) return true;
         return false;
 };
 
 void PoissonSolver::lSolve(){
+        
         ls->solve(vars["phi"]);
 };
 
@@ -154,7 +180,7 @@ void PoissonSolver::setupMultigrid(int level,int maxLevel){
         coarser->mesh=new Mesh((this->mesh)->coarsen());
         coarser->mesh->setGhostNodes();
         coarser->scheme=this->scheme;
-        coarser->ls=new Jacobi(100,1E-15,1.0,coarser->vars["phi"]);
+        coarser->ls=new GaussSeidel(10,1E-4,1.8,coarser->vars["phi"]);
         (coarser->ls)->setMatFunc(getAPoisson);
         logger.log("Debug: multigrid level set up",1);
         coarser->setupMultigrid(level+1,maxLevel);

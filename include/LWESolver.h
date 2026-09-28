@@ -25,6 +25,7 @@ void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore) ove
 void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore) override;
 
 wp getResNorm() override;
+void getResidual() override;
 
 bool isConverged() override;
 

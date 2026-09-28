@@ -31,7 +31,6 @@ int maxSteps=1;
 int dumpSteps=1;
 //Multigrid parameters
 int maxMultigridLevel=1;
-int timeStepsPerLevel=1;
 
 void setCFL(wp CFLIn);
 wp getCFL();

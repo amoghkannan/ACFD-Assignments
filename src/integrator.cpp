@@ -74,11 +74,14 @@ void Integrator::integrate(){
 
        logger.log("Debug: Initial condition",1);
 
+        int notConvergedCounter;
 
         while(nSteps<maxSteps){
                logger.log("Time step number: "+std::to_string(nSteps),LOGCODE);
+               notConvergedCounter=0;
                for(int i=0;i<nSolvers;i++){
                         if(converged[i]) continue;
+                        notConvergedCounter++;
                         if(solvers(i)->getScheme().hasScheme(multigrid)){
                                 multigridController(solvers(i),1);
                         }
@@ -95,8 +98,11 @@ void Integrator::integrate(){
                        };
                        incDumpNumber();
                };
-
+               
+               if(notConvergedCounter==0) break;
         };
+
+        logger.log("Finished!",1);
 };
 
 void Integrator::rk4(Solver *s){
@@ -152,14 +158,18 @@ void Integrator::euler(Solver *s){
 };
 
 void Integrator::multigridController(Solver *s, int level){
-
+        
         switch(s->getScheme().getScheme(multigrid)){
                 case(V_CYCLE):
+                        logger.log("Multigrid level: "+std::to_string(level)+" initial relaxation",1);
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
+                                logger.log("Multigrid level: "+std::to_string(level)+" restriction",1);
                                 s->restriction(rStore);
                                 multigridController(s->coarser,level+1);
+                                logger.log("Multigrid level: "+std::to_string(level)+" prolongation",1);
                                 s->coarser->prolongation(rStore);
+                                logger.log("Multigrid level: "+std::to_string(level)+" final relaxation",1);
                                 takeTimeStep(s);
                         };
                         return;

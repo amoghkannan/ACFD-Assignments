@@ -159,11 +159,13 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
 };
 
 void Solver::restriction(std::vector<Grid<wp>>&R_store){
-        for(int i=0;i<nVars;i++){
-                R_store[i]=varsDot(i);
-        };
+        res_store.clear();
 
-        getResNorm();
+        for(int i=0;i<nVars;i++){
+                res_store.push_back(varsDot(i));
+        };
+        
+        getResidual();
         
         for(auto key:vars.getKeys()){
                 coarser->vars[key]=restrictVar(*mesh,vars[key]);
@@ -175,14 +177,15 @@ void Solver::restriction(std::vector<Grid<wp>>&R_store){
 };
 
 void Solver::prolongation(std::vector<Grid<wp>>&R_store){
-        
+
         for(auto key:vars.getKeys()){
                 prolongateVar(*(finer->mesh),(*mesh),finer->vars[key],vars[key]);
         };
 
         for(int i=0;i<nVars;i++){
-                finer->varsDot(i)=R_store[i];
+                finer->varsDot(i)=finer->res_store[i];
         };
+
 };
 
 wp Solver::bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd){
