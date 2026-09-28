@@ -67,6 +67,8 @@ void Integrator::takeTimeStep(Solver *solver){
 
 void Integrator::integrate(){
 
+        auto start=std::chrono::high_resolution_clock::now();
+
        for(int i=0;i<nSolvers;i++){
                 solvers(i)->initialCondition();
                 solvers(i)->applyBC();
@@ -103,6 +105,12 @@ void Integrator::integrate(){
         };
 
         logger.log("Finished!",1);
+
+        auto end=std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double>elapsed=end-start;
+
+        std::cout<<"Solved finished task in ",elapsed.count()<<" seconds"<<std::endl;
 };
 
 void Integrator::rk4(Solver *s){
@@ -161,7 +169,7 @@ void Integrator::multigridController(Solver *s, int level){
         
         switch(s->getScheme().getScheme(multigrid)){
                 case(V_CYCLE):
-                        logger.log("Multigrid level: "+std::to_string(level)+" initial relaxation",1);
+                        logger.log("Multigrid level: "+std::to_string(level),1);
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
                                 logger.log("Multigrid level: "+std::to_string(level)+" restriction",1);
