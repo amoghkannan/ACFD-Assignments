@@ -12,7 +12,7 @@ int main(void){
         ps.setScheme(multigrid,W_CYCLE);
         
         Integrator I;
-        I.maxSteps=500;
+        I.maxSteps=5000;
         I.dumpSteps=I.maxSteps;
         I.maxMultigridLevel=5;
         

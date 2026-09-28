@@ -110,7 +110,7 @@ void Integrator::integrate(){
 
         std::chrono::duration<double>elapsed=end-start;
 
-        std::cout<<"Solved finished task in ",elapsed.count()<<" seconds"<<std::endl;
+        std::cout<<"Solved finished task in "<<elapsed.count()<<" seconds"<<std::endl;
 };
 
 void Integrator::rk4(Solver *s){
