@@ -25,7 +25,6 @@ Solver *coarser=nullptr;
 Solver *finer=nullptr;
 
 dictionary<std::string,Grid<wp>> vars;
-Grid<wp>res_store;
 int nVars=0;
 
 dictionary<std::string,Grid<wp>> varsDot;
@@ -70,12 +69,12 @@ virtual wp getResNorm()=0;
 virtual bool isConverged()=0;
 
 //For multigrid
-virtual void setupMultigrid(){logger.log("Invalid multigrid setup",1);};
+virtual void setupMultigrid(int level, int maxLevel){logger.log("Invalid multigrid setup",1);};
 Grid<wp> restrictVar(Mesh& fineMesh, Grid<wp>& fineVar);
 wp volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int i,int j);
 void prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, Grid<wp>& coarseVar);
-void restriction();
-void prolongation();
+void restriction(std::vector<Grid<wp>>&R_store);
+void prolongation(std::vector<Grid<wp>>&R_store);
 
 static wp bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd);
 static wp bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd);

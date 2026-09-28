@@ -36,7 +36,6 @@ class Scheme{
 
 private:
 
-dictionary<schemeKey,schemeVal> schemeDict;
 
 dictionary<std::string,std::pair<BCType,wp>> BCDict;
 
@@ -49,6 +48,7 @@ wp *x=nullptr;
 wp *y=nullptr;
 
 public:
+dictionary<schemeKey,schemeVal> schemeDict;
 
 schemeVal& getScheme(schemeKey keyIn);
 void setScheme(schemeKey key, schemeVal val);

@@ -16,7 +16,7 @@ void Integrator::addSolver(Solver& solverIn, std::string name){
         Solver* newSolver=&solverIn;
         solvers[name]=newSolver;
  
-        if(newSolver->getScheme().getScheme(timeStepping)==RK4){
+        if(newSolver->getScheme().getScheme(timeStepping)==RK4 || newSolver->getScheme().schemeDict.hasKey(multigrid)){
                 int n=uStore.size();
                 if(n<newSolver->nVars){
                         uStore.resize(newSolver->nVars);
@@ -33,6 +33,10 @@ void Integrator::addSolver(Solver& solverIn, std::string name){
                 deltaT=newSolver->vars(0);
         };
 
+         if(newSolver->getScheme().schemeDict.hasKey(multigrid)){
+                newSolver->setupMultigrid(1,maxMultigridLevel);
+        };
+ 
         converged.push_back(false);
 
         nSolvers=nSolvers+1;
@@ -149,28 +153,26 @@ void Integrator::euler(Solver *s){
 
 void Integrator::multigridController(Solver *s, int level){
 
-        if(s->coarser==nullptr) s->setupMultigrid();
-
         switch(s->getScheme().getScheme(multigrid)){
                 case(V_CYCLE):
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
-                                s->restriction();
+                                s->restriction(rStore);
                                 multigridController(s->coarser,level+1);
-                                s->coarser->prolongation();
+                                s->coarser->prolongation(rStore);
                                 takeTimeStep(s);
                         };
                         return;
                 case(W_CYCLE):
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
-                                s->restriction();
+                                s->restriction(rStore);
                                 multigridController(s->coarser,level+1);
-                                s->coarser->prolongation();
+                                s->coarser->prolongation(rStore);
                                 takeTimeStep(s);
-                                s->restriction();
+                                s->restriction(rStore);
                                 multigridController(s->coarser,level+1);
-                                s->coarser->prolongation();
+                                s->coarser->prolongation(rStore);
                                 takeTimeStep(s);
                         };
                         return;

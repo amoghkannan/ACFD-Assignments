@@ -8,7 +8,7 @@ void Jacobi::doIteration(Grid<wp>& var){
         wp RHSCurr;
         Point p;
         wp data,newElem;
-   
+        varOld=var; 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
                         RHSCurr=RHS(i,j);
@@ -29,7 +29,6 @@ void Jacobi::doIteration(Grid<wp>& var){
         };
         
         invertA(var);
-        varOld=var;
 };
 
 void Jacobi::solve(Grid<wp>& var){
