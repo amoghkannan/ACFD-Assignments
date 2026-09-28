@@ -1,0 +1,4010 @@
+Setting up GaussSeidel solver
+Setting up A
+Setting up RHS
+GaussSeidel iteration start: 198.252364
+
+GaussSeidel iteration no: 0
+
+GaussSeidel residual: 198.252364
+
+GaussSeidel iteration no: 1
+
+GaussSeidel residual: 194.378888
+
+GaussSeidel iteration no: 2
+
+GaussSeidel residual: 192.778131
+
+GaussSeidel iteration no: 3
+
+GaussSeidel residual: 191.503870
+
+GaussSeidel iteration no: 4
+
+GaussSeidel residual: 190.394163
+
+GaussSeidel iteration no: 5
+
+GaussSeidel residual: 189.396862
+
+GaussSeidel iteration no: 6
+
+GaussSeidel residual: 188.483518
+
+GaussSeidel iteration no: 7
+
+GaussSeidel residual: 187.636090
+
+GaussSeidel iteration no: 8
+
+GaussSeidel residual: 186.842201
+
+GaussSeidel iteration no: 9
+
+GaussSeidel residual: 186.092911
+
+GaussSeidel iteration no: 10
+
+GaussSeidel residual: 185.381509
+
+GaussSeidel iteration no: 11
+
+GaussSeidel residual: 184.702809
+
+GaussSeidel iteration no: 12
+
+GaussSeidel residual: 184.052704
+
+GaussSeidel iteration no: 13
+
+GaussSeidel residual: 183.427878
+
+GaussSeidel iteration no: 14
+
+GaussSeidel residual: 182.825607
+
+GaussSeidel iteration no: 15
+
+GaussSeidel residual: 182.243622
+
+GaussSeidel iteration no: 16
+
+GaussSeidel residual: 181.680010
+
+GaussSeidel iteration no: 17
+
+GaussSeidel residual: 181.133140
+
+GaussSeidel iteration no: 18
+
+GaussSeidel residual: 180.601607
+
+GaussSeidel iteration no: 19
+
+GaussSeidel residual: 180.084194
+
+GaussSeidel iteration no: 20
+
+GaussSeidel residual: 179.579834
+
+GaussSeidel iteration no: 21
+
+GaussSeidel residual: 179.087590
+
+GaussSeidel iteration no: 22
+
+GaussSeidel residual: 178.606630
+
+GaussSeidel iteration no: 23
+
+GaussSeidel residual: 178.136214
+
+GaussSeidel iteration no: 24
+
+GaussSeidel residual: 177.675679
+
+GaussSeidel iteration no: 25
+
+GaussSeidel residual: 177.224428
+
+GaussSeidel iteration no: 26
+
+GaussSeidel residual: 176.781922
+
+GaussSeidel iteration no: 27
+
+GaussSeidel residual: 176.347673
+
+GaussSeidel iteration no: 28
+
+GaussSeidel residual: 175.921237
+
+GaussSeidel iteration no: 29
+
+GaussSeidel residual: 175.502205
+
+GaussSeidel iteration no: 30
+
+GaussSeidel residual: 175.090207
+
+GaussSeidel iteration no: 31
+
+GaussSeidel residual: 174.684900
+
+GaussSeidel iteration no: 32
+
+GaussSeidel residual: 174.285968
+
+GaussSeidel iteration no: 33
+
+GaussSeidel residual: 173.893121
+
+GaussSeidel iteration no: 34
+
+GaussSeidel residual: 173.506088
+
+GaussSeidel iteration no: 35
+
+GaussSeidel residual: 173.124619
+
+GaussSeidel iteration no: 36
+
+GaussSeidel residual: 172.748481
+
+GaussSeidel iteration no: 37
+
+GaussSeidel residual: 172.377456
+
+GaussSeidel iteration no: 38
+
+GaussSeidel residual: 172.011343
+
+GaussSeidel iteration no: 39
+
+GaussSeidel residual: 171.649950
+
+GaussSeidel iteration no: 40
+
+GaussSeidel residual: 171.293101
+
+GaussSeidel iteration no: 41
+
+GaussSeidel residual: 170.940628
+
+GaussSeidel iteration no: 42
+
+GaussSeidel residual: 170.592374
+
+GaussSeidel iteration no: 43
+
+GaussSeidel residual: 170.248191
+
+GaussSeidel iteration no: 44
+
+GaussSeidel residual: 169.907940
+
+GaussSeidel iteration no: 45
+
+GaussSeidel residual: 169.571490
+
+GaussSeidel iteration no: 46
+
+GaussSeidel residual: 169.238715
+
+GaussSeidel iteration no: 47
+
+GaussSeidel residual: 168.909498
+
+GaussSeidel iteration no: 48
+
+GaussSeidel residual: 168.583727
+
+GaussSeidel iteration no: 49
+
+GaussSeidel residual: 168.261297
+
+GaussSeidel iteration no: 50
+
+GaussSeidel residual: 167.942106
+
+GaussSeidel iteration no: 51
+
+GaussSeidel residual: 167.626059
+
+GaussSeidel iteration no: 52
+
+GaussSeidel residual: 167.313065
+
+GaussSeidel iteration no: 53
+
+GaussSeidel residual: 167.003038
+
+GaussSeidel iteration no: 54
+
+GaussSeidel residual: 166.695894
+
+GaussSeidel iteration no: 55
+
+GaussSeidel residual: 166.391554
+
+GaussSeidel iteration no: 56
+
+GaussSeidel residual: 166.089944
+
+GaussSeidel iteration no: 57
+
+GaussSeidel residual: 165.790991
+
+GaussSeidel iteration no: 58
+
+GaussSeidel residual: 165.494626
+
+GaussSeidel iteration no: 59
+
+GaussSeidel residual: 165.200782
+
+GaussSeidel iteration no: 60
+
+GaussSeidel residual: 164.909398
+
+GaussSeidel iteration no: 61
+
+GaussSeidel residual: 164.620412
+
+GaussSeidel iteration no: 62
+
+GaussSeidel residual: 164.333765
+
+GaussSeidel iteration no: 63
+
+GaussSeidel residual: 164.049402
+
+GaussSeidel iteration no: 64
+
+GaussSeidel residual: 163.767270
+
+GaussSeidel iteration no: 65
+
+GaussSeidel residual: 163.487316
+
+GaussSeidel iteration no: 66
+
+GaussSeidel residual: 163.209491
+
+GaussSeidel iteration no: 67
+
+GaussSeidel residual: 162.933748
+
+GaussSeidel iteration no: 68
+
+GaussSeidel residual: 162.660039
+
+GaussSeidel iteration no: 69
+
+GaussSeidel residual: 162.388321
+
+GaussSeidel iteration no: 70
+
+GaussSeidel residual: 162.118550
+
+GaussSeidel iteration no: 71
+
+GaussSeidel residual: 161.850687
+
+GaussSeidel iteration no: 72
+
+GaussSeidel residual: 161.584690
+
+GaussSeidel iteration no: 73
+
+GaussSeidel residual: 161.320521
+
+GaussSeidel iteration no: 74
+
+GaussSeidel residual: 161.058143
+
+GaussSeidel iteration no: 75
+
+GaussSeidel residual: 160.797521
+
+GaussSeidel iteration no: 76
+
+GaussSeidel residual: 160.538618
+
+GaussSeidel iteration no: 77
+
+GaussSeidel residual: 160.281403
+
+GaussSeidel iteration no: 78
+
+GaussSeidel residual: 160.025842
+
+GaussSeidel iteration no: 79
+
+GaussSeidel residual: 159.771903
+
+GaussSeidel iteration no: 80
+
+GaussSeidel residual: 159.519557
+
+GaussSeidel iteration no: 81
+
+GaussSeidel residual: 159.268773
+
+GaussSeidel iteration no: 82
+
+GaussSeidel residual: 159.019523
+
+GaussSeidel iteration no: 83
+
+GaussSeidel residual: 158.771780
+
+GaussSeidel iteration no: 84
+
+GaussSeidel residual: 158.525516
+
+GaussSeidel iteration no: 85
+
+GaussSeidel residual: 158.280704
+
+GaussSeidel iteration no: 86
+
+GaussSeidel residual: 158.037321
+
+GaussSeidel iteration no: 87
+
+GaussSeidel residual: 157.795340
+
+GaussSeidel iteration no: 88
+
+GaussSeidel residual: 157.554738
+
+GaussSeidel iteration no: 89
+
+GaussSeidel residual: 157.315492
+
+GaussSeidel iteration no: 90
+
+GaussSeidel residual: 157.077579
+
+GaussSeidel iteration no: 91
+
+GaussSeidel residual: 156.840977
+
+GaussSeidel iteration no: 92
+
+GaussSeidel residual: 156.605665
+
+GaussSeidel iteration no: 93
+
+GaussSeidel residual: 156.371621
+
+GaussSeidel iteration no: 94
+
+GaussSeidel residual: 156.138825
+
+GaussSeidel iteration no: 95
+
+GaussSeidel residual: 155.907258
+
+GaussSeidel iteration no: 96
+
+GaussSeidel residual: 155.676901
+
+GaussSeidel iteration no: 97
+
+GaussSeidel residual: 155.447734
+
+GaussSeidel iteration no: 98
+
+GaussSeidel residual: 155.219739
+
+GaussSeidel iteration no: 99
+
+GaussSeidel residual: 154.992900
+
+GaussSeidel iteration no: 100
+
+GaussSeidel residual: 154.767197
+
+GaussSeidel iteration no: 101
+
+GaussSeidel residual: 154.542614
+
+GaussSeidel iteration no: 102
+
+GaussSeidel residual: 154.319136
+
+GaussSeidel iteration no: 103
+
+GaussSeidel residual: 154.096745
+
+GaussSeidel iteration no: 104
+
+GaussSeidel residual: 153.875425
+
+GaussSeidel iteration no: 105
+
+GaussSeidel residual: 153.655163
+
+GaussSeidel iteration no: 106
+
+GaussSeidel residual: 153.435942
+
+GaussSeidel iteration no: 107
+
+GaussSeidel residual: 153.217748
+
+GaussSeidel iteration no: 108
+
+GaussSeidel residual: 153.000566
+
+GaussSeidel iteration no: 109
+
+GaussSeidel residual: 152.784384
+
+GaussSeidel iteration no: 110
+
+GaussSeidel residual: 152.569186
+
+GaussSeidel iteration no: 111
+
+GaussSeidel residual: 152.354960
+
+GaussSeidel iteration no: 112
+
+GaussSeidel residual: 152.141693
+
+GaussSeidel iteration no: 113
+
+GaussSeidel residual: 151.929371
+
+GaussSeidel iteration no: 114
+
+GaussSeidel residual: 151.717983
+
+GaussSeidel iteration no: 115
+
+GaussSeidel residual: 151.507517
+
+GaussSeidel iteration no: 116
+
+GaussSeidel residual: 151.297959
+
+GaussSeidel iteration no: 117
+
+GaussSeidel residual: 151.089299
+
+GaussSeidel iteration no: 118
+
+GaussSeidel residual: 150.881526
+
+GaussSeidel iteration no: 119
+
+GaussSeidel residual: 150.674627
+
+GaussSeidel iteration no: 120
+
+GaussSeidel residual: 150.468592
+
+GaussSeidel iteration no: 121
+
+GaussSeidel residual: 150.263411
+
+GaussSeidel iteration no: 122
+
+GaussSeidel residual: 150.059072
+
+GaussSeidel iteration no: 123
+
+GaussSeidel residual: 149.855566
+
+GaussSeidel iteration no: 124
+
+GaussSeidel residual: 149.652882
+
+GaussSeidel iteration no: 125
+
+GaussSeidel residual: 149.451011
+
+GaussSeidel iteration no: 126
+
+GaussSeidel residual: 149.249942
+
+GaussSeidel iteration no: 127
+
+GaussSeidel residual: 149.049667
+
+GaussSeidel iteration no: 128
+
+GaussSeidel residual: 148.850176
+
+GaussSeidel iteration no: 129
+
+GaussSeidel residual: 148.651460
+
+GaussSeidel iteration no: 130
+
+GaussSeidel residual: 148.453509
+
+GaussSeidel iteration no: 131
+
+GaussSeidel residual: 148.256316
+
+GaussSeidel iteration no: 132
+
+GaussSeidel residual: 148.059871
+
+GaussSeidel iteration no: 133
+
+GaussSeidel residual: 147.864166
+
+GaussSeidel iteration no: 134
+
+GaussSeidel residual: 147.669193
+
+GaussSeidel iteration no: 135
+
+GaussSeidel residual: 147.474944
+
+GaussSeidel iteration no: 136
+
+GaussSeidel residual: 147.281410
+
+GaussSeidel iteration no: 137
+
+GaussSeidel residual: 147.088584
+
+GaussSeidel iteration no: 138
+
+GaussSeidel residual: 146.896457
+
+GaussSeidel iteration no: 139
+
+GaussSeidel residual: 146.705024
+
+GaussSeidel iteration no: 140
+
+GaussSeidel residual: 146.514275
+
+GaussSeidel iteration no: 141
+
+GaussSeidel residual: 146.324204
+
+GaussSeidel iteration no: 142
+
+GaussSeidel residual: 146.134804
+
+GaussSeidel iteration no: 143
+
+GaussSeidel residual: 145.946067
+
+GaussSeidel iteration no: 144
+
+GaussSeidel residual: 145.757987
+
+GaussSeidel iteration no: 145
+
+GaussSeidel residual: 145.570556
+
+GaussSeidel iteration no: 146
+
+GaussSeidel residual: 145.383769
+
+GaussSeidel iteration no: 147
+
+GaussSeidel residual: 145.197618
+
+GaussSeidel iteration no: 148
+
+GaussSeidel residual: 145.012097
+
+GaussSeidel iteration no: 149
+
+GaussSeidel residual: 144.827200
+
+GaussSeidel iteration no: 150
+
+GaussSeidel residual: 144.642921
+
+GaussSeidel iteration no: 151
+
+GaussSeidel residual: 144.459253
+
+GaussSeidel iteration no: 152
+
+GaussSeidel residual: 144.276190
+
+GaussSeidel iteration no: 153
+
+GaussSeidel residual: 144.093726
+
+GaussSeidel iteration no: 154
+
+GaussSeidel residual: 143.911856
+
+GaussSeidel iteration no: 155
+
+GaussSeidel residual: 143.730573
+
+GaussSeidel iteration no: 156
+
+GaussSeidel residual: 143.549873
+
+GaussSeidel iteration no: 157
+
+GaussSeidel residual: 143.369749
+
+GaussSeidel iteration no: 158
+
+GaussSeidel residual: 143.190196
+
+GaussSeidel iteration no: 159
+
+GaussSeidel residual: 143.011209
+
+GaussSeidel iteration no: 160
+
+GaussSeidel residual: 142.832782
+
+GaussSeidel iteration no: 161
+
+GaussSeidel residual: 142.654910
+
+GaussSeidel iteration no: 162
+
+GaussSeidel residual: 142.477589
+
+GaussSeidel iteration no: 163
+
+GaussSeidel residual: 142.300812
+
+GaussSeidel iteration no: 164
+
+GaussSeidel residual: 142.124575
+
+GaussSeidel iteration no: 165
+
+GaussSeidel residual: 141.948872
+
+GaussSeidel iteration no: 166
+
+GaussSeidel residual: 141.773700
+
+GaussSeidel iteration no: 167
+
+GaussSeidel residual: 141.599054
+
+GaussSeidel iteration no: 168
+
+GaussSeidel residual: 141.424928
+
+GaussSeidel iteration no: 169
+
+GaussSeidel residual: 141.251318
+
+GaussSeidel iteration no: 170
+
+GaussSeidel residual: 141.078219
+
+GaussSeidel iteration no: 171
+
+GaussSeidel residual: 140.905628
+
+GaussSeidel iteration no: 172
+
+GaussSeidel residual: 140.733539
+
+GaussSeidel iteration no: 173
+
+GaussSeidel residual: 140.561948
+
+GaussSeidel iteration no: 174
+
+GaussSeidel residual: 140.390851
+
+GaussSeidel iteration no: 175
+
+GaussSeidel residual: 140.220244
+
+GaussSeidel iteration no: 176
+
+GaussSeidel residual: 140.050122
+
+GaussSeidel iteration no: 177
+
+GaussSeidel residual: 139.880482
+
+GaussSeidel iteration no: 178
+
+GaussSeidel residual: 139.711319
+
+GaussSeidel iteration no: 179
+
+GaussSeidel residual: 139.542629
+
+GaussSeidel iteration no: 180
+
+GaussSeidel residual: 139.374409
+
+GaussSeidel iteration no: 181
+
+GaussSeidel residual: 139.206654
+
+GaussSeidel iteration no: 182
+
+GaussSeidel residual: 139.039361
+
+GaussSeidel iteration no: 183
+
+GaussSeidel residual: 138.872525
+
+GaussSeidel iteration no: 184
+
+GaussSeidel residual: 138.706144
+
+GaussSeidel iteration no: 185
+
+GaussSeidel residual: 138.540213
+
+GaussSeidel iteration no: 186
+
+GaussSeidel residual: 138.374728
+
+GaussSeidel iteration no: 187
+
+GaussSeidel residual: 138.209687
+
+GaussSeidel iteration no: 188
+
+GaussSeidel residual: 138.045086
+
+GaussSeidel iteration no: 189
+
+GaussSeidel residual: 137.880921
+
+GaussSeidel iteration no: 190
+
+GaussSeidel residual: 137.717188
+
+GaussSeidel iteration no: 191
+
+GaussSeidel residual: 137.553885
+
+GaussSeidel iteration no: 192
+
+GaussSeidel residual: 137.391008
+
+GaussSeidel iteration no: 193
+
+GaussSeidel residual: 137.228553
+
+GaussSeidel iteration no: 194
+
+GaussSeidel residual: 137.066518
+
+GaussSeidel iteration no: 195
+
+GaussSeidel residual: 136.904899
+
+GaussSeidel iteration no: 196
+
+GaussSeidel residual: 136.743692
+
+GaussSeidel iteration no: 197
+
+GaussSeidel residual: 136.582896
+
+GaussSeidel iteration no: 198
+
+GaussSeidel residual: 136.422507
+
+GaussSeidel iteration no: 199
+
+GaussSeidel residual: 136.262521
+
+GaussSeidel iteration no: 200
+
+GaussSeidel residual: 136.102935
+
+GaussSeidel iteration no: 201
+
+GaussSeidel residual: 135.943747
+
+GaussSeidel iteration no: 202
+
+GaussSeidel residual: 135.784954
+
+GaussSeidel iteration no: 203
+
+GaussSeidel residual: 135.626553
+
+GaussSeidel iteration no: 204
+
+GaussSeidel residual: 135.468541
+
+GaussSeidel iteration no: 205
+
+GaussSeidel residual: 135.310914
+
+GaussSeidel iteration no: 206
+
+GaussSeidel residual: 135.153671
+
+GaussSeidel iteration no: 207
+
+GaussSeidel residual: 134.996809
+
+GaussSeidel iteration no: 208
+
+GaussSeidel residual: 134.840324
+
+GaussSeidel iteration no: 209
+
+GaussSeidel residual: 134.684214
+
+GaussSeidel iteration no: 210
+
+GaussSeidel residual: 134.528476
+
+GaussSeidel iteration no: 211
+
+GaussSeidel residual: 134.373108
+
+GaussSeidel iteration no: 212
+
+GaussSeidel residual: 134.218107
+
+GaussSeidel iteration no: 213
+
+GaussSeidel residual: 134.063471
+
+GaussSeidel iteration no: 214
+
+GaussSeidel residual: 133.909197
+
+GaussSeidel iteration no: 215
+
+GaussSeidel residual: 133.755282
+
+GaussSeidel iteration no: 216
+
+GaussSeidel residual: 133.601724
+
+GaussSeidel iteration no: 217
+
+GaussSeidel residual: 133.448520
+
+GaussSeidel iteration no: 218
+
+GaussSeidel residual: 133.295669
+
+GaussSeidel iteration no: 219
+
+GaussSeidel residual: 133.143167
+
+GaussSeidel iteration no: 220
+
+GaussSeidel residual: 132.991012
+
+GaussSeidel iteration no: 221
+
+GaussSeidel residual: 132.839202
+
+GaussSeidel iteration no: 222
+
+GaussSeidel residual: 132.687735
+
+GaussSeidel iteration no: 223
+
+GaussSeidel residual: 132.536608
+
+GaussSeidel iteration no: 224
+
+GaussSeidel residual: 132.385819
+
+GaussSeidel iteration no: 225
+
+GaussSeidel residual: 132.235366
+
+GaussSeidel iteration no: 226
+
+GaussSeidel residual: 132.085246
+
+GaussSeidel iteration no: 227
+
+GaussSeidel residual: 131.935458
+
+GaussSeidel iteration no: 228
+
+GaussSeidel residual: 131.785999
+
+GaussSeidel iteration no: 229
+
+GaussSeidel residual: 131.636867
+
+GaussSeidel iteration no: 230
+
+GaussSeidel residual: 131.488060
+
+GaussSeidel iteration no: 231
+
+GaussSeidel residual: 131.339576
+
+GaussSeidel iteration no: 232
+
+GaussSeidel residual: 131.191412
+
+GaussSeidel iteration no: 233
+
+GaussSeidel residual: 131.043567
+
+GaussSeidel iteration no: 234
+
+GaussSeidel residual: 130.896038
+
+GaussSeidel iteration no: 235
+
+GaussSeidel residual: 130.748825
+
+GaussSeidel iteration no: 236
+
+GaussSeidel residual: 130.601924
+
+GaussSeidel iteration no: 237
+
+GaussSeidel residual: 130.455333
+
+GaussSeidel iteration no: 238
+
+GaussSeidel residual: 130.309052
+
+GaussSeidel iteration no: 239
+
+GaussSeidel residual: 130.163077
+
+GaussSeidel iteration no: 240
+
+GaussSeidel residual: 130.017407
+
+GaussSeidel iteration no: 241
+
+GaussSeidel residual: 129.872040
+
+GaussSeidel iteration no: 242
+
+GaussSeidel residual: 129.726974
+
+GaussSeidel iteration no: 243
+
+GaussSeidel residual: 129.582207
+
+GaussSeidel iteration no: 244
+
+GaussSeidel residual: 129.437738
+
+GaussSeidel iteration no: 245
+
+GaussSeidel residual: 129.293564
+
+GaussSeidel iteration no: 246
+
+GaussSeidel residual: 129.149685
+
+GaussSeidel iteration no: 247
+
+GaussSeidel residual: 129.006097
+
+GaussSeidel iteration no: 248
+
+GaussSeidel residual: 128.862800
+
+GaussSeidel iteration no: 249
+
+GaussSeidel residual: 128.719792
+
+GaussSeidel iteration no: 250
+
+GaussSeidel residual: 128.577070
+
+GaussSeidel iteration no: 251
+
+GaussSeidel residual: 128.434633
+
+GaussSeidel iteration no: 252
+
+GaussSeidel residual: 128.292481
+
+GaussSeidel iteration no: 253
+
+GaussSeidel residual: 128.150610
+
+GaussSeidel iteration no: 254
+
+GaussSeidel residual: 128.009019
+
+GaussSeidel iteration no: 255
+
+GaussSeidel residual: 127.867706
+
+GaussSeidel iteration no: 256
+
+GaussSeidel residual: 127.726671
+
+GaussSeidel iteration no: 257
+
+GaussSeidel residual: 127.585911
+
+GaussSeidel iteration no: 258
+
+GaussSeidel residual: 127.445425
+
+GaussSeidel iteration no: 259
+
+GaussSeidel residual: 127.305211
+
+GaussSeidel iteration no: 260
+
+GaussSeidel residual: 127.165268
+
+GaussSeidel iteration no: 261
+
+GaussSeidel residual: 127.025594
+
+GaussSeidel iteration no: 262
+
+GaussSeidel residual: 126.886187
+
+GaussSeidel iteration no: 263
+
+GaussSeidel residual: 126.747047
+
+GaussSeidel iteration no: 264
+
+GaussSeidel residual: 126.608171
+
+GaussSeidel iteration no: 265
+
+GaussSeidel residual: 126.469558
+
+GaussSeidel iteration no: 266
+
+GaussSeidel residual: 126.331207
+
+GaussSeidel iteration no: 267
+
+GaussSeidel residual: 126.193117
+
+GaussSeidel iteration no: 268
+
+GaussSeidel residual: 126.055285
+
+GaussSeidel iteration no: 269
+
+GaussSeidel residual: 125.917710
+
+GaussSeidel iteration no: 270
+
+GaussSeidel residual: 125.780392
+
+GaussSeidel iteration no: 271
+
+GaussSeidel residual: 125.643328
+
+GaussSeidel iteration no: 272
+
+GaussSeidel residual: 125.506517
+
+GaussSeidel iteration no: 273
+
+GaussSeidel residual: 125.369958
+
+GaussSeidel iteration no: 274
+
+GaussSeidel residual: 125.233650
+
+GaussSeidel iteration no: 275
+
+GaussSeidel residual: 125.097591
+
+GaussSeidel iteration no: 276
+
+GaussSeidel residual: 124.961779
+
+GaussSeidel iteration no: 277
+
+GaussSeidel residual: 124.826214
+
+GaussSeidel iteration no: 278
+
+GaussSeidel residual: 124.690895
+
+GaussSeidel iteration no: 279
+
+GaussSeidel residual: 124.555819
+
+GaussSeidel iteration no: 280
+
+GaussSeidel residual: 124.420986
+
+GaussSeidel iteration no: 281
+
+GaussSeidel residual: 124.286394
+
+GaussSeidel iteration no: 282
+
+GaussSeidel residual: 124.152042
+
+GaussSeidel iteration no: 283
+
+GaussSeidel residual: 124.017929
+
+GaussSeidel iteration no: 284
+
+GaussSeidel residual: 123.884054
+
+GaussSeidel iteration no: 285
+
+GaussSeidel residual: 123.750416
+
+GaussSeidel iteration no: 286
+
+GaussSeidel residual: 123.617012
+
+GaussSeidel iteration no: 287
+
+GaussSeidel residual: 123.483843
+
+GaussSeidel iteration no: 288
+
+GaussSeidel residual: 123.350906
+
+GaussSeidel iteration no: 289
+
+GaussSeidel residual: 123.218201
+
+GaussSeidel iteration no: 290
+
+GaussSeidel residual: 123.085727
+
+GaussSeidel iteration no: 291
+
+GaussSeidel residual: 122.953482
+
+GaussSeidel iteration no: 292
+
+GaussSeidel residual: 122.821465
+
+GaussSeidel iteration no: 293
+
+GaussSeidel residual: 122.689675
+
+GaussSeidel iteration no: 294
+
+GaussSeidel residual: 122.558111
+
+GaussSeidel iteration no: 295
+
+GaussSeidel residual: 122.426772
+
+GaussSeidel iteration no: 296
+
+GaussSeidel residual: 122.295657
+
+GaussSeidel iteration no: 297
+
+GaussSeidel residual: 122.164764
+
+GaussSeidel iteration no: 298
+
+GaussSeidel residual: 122.034093
+
+GaussSeidel iteration no: 299
+
+GaussSeidel residual: 121.903642
+
+GaussSeidel iteration no: 300
+
+GaussSeidel residual: 121.773411
+
+GaussSeidel iteration no: 301
+
+GaussSeidel residual: 121.643398
+
+GaussSeidel iteration no: 302
+
+GaussSeidel residual: 121.513603
+
+GaussSeidel iteration no: 303
+
+GaussSeidel residual: 121.384023
+
+GaussSeidel iteration no: 304
+
+GaussSeidel residual: 121.254659
+
+GaussSeidel iteration no: 305
+
+GaussSeidel residual: 121.125510
+
+GaussSeidel iteration no: 306
+
+GaussSeidel residual: 120.996573
+
+GaussSeidel iteration no: 307
+
+GaussSeidel residual: 120.867849
+
+GaussSeidel iteration no: 308
+
+GaussSeidel residual: 120.739336
+
+GaussSeidel iteration no: 309
+
+GaussSeidel residual: 120.611033
+
+GaussSeidel iteration no: 310
+
+GaussSeidel residual: 120.482939
+
+GaussSeidel iteration no: 311
+
+GaussSeidel residual: 120.355054
+
+GaussSeidel iteration no: 312
+
+GaussSeidel residual: 120.227376
+
+GaussSeidel iteration no: 313
+
+GaussSeidel residual: 120.099905
+
+GaussSeidel iteration no: 314
+
+GaussSeidel residual: 119.972639
+
+GaussSeidel iteration no: 315
+
+GaussSeidel residual: 119.845577
+
+GaussSeidel iteration no: 316
+
+GaussSeidel residual: 119.718720
+
+GaussSeidel iteration no: 317
+
+GaussSeidel residual: 119.592065
+
+GaussSeidel iteration no: 318
+
+GaussSeidel residual: 119.465611
+
+GaussSeidel iteration no: 319
+
+GaussSeidel residual: 119.339359
+
+GaussSeidel iteration no: 320
+
+GaussSeidel residual: 119.213306
+
+GaussSeidel iteration no: 321
+
+GaussSeidel residual: 119.087453
+
+GaussSeidel iteration no: 322
+
+GaussSeidel residual: 118.961798
+
+GaussSeidel iteration no: 323
+
+GaussSeidel residual: 118.836340
+
+GaussSeidel iteration no: 324
+
+GaussSeidel residual: 118.711079
+
+GaussSeidel iteration no: 325
+
+GaussSeidel residual: 118.586013
+
+GaussSeidel iteration no: 326
+
+GaussSeidel residual: 118.461142
+
+GaussSeidel iteration no: 327
+
+GaussSeidel residual: 118.336465
+
+GaussSeidel iteration no: 328
+
+GaussSeidel residual: 118.211981
+
+GaussSeidel iteration no: 329
+
+GaussSeidel residual: 118.087690
+
+GaussSeidel iteration no: 330
+
+GaussSeidel residual: 117.963590
+
+GaussSeidel iteration no: 331
+
+GaussSeidel residual: 117.839680
+
+GaussSeidel iteration no: 332
+
+GaussSeidel residual: 117.715961
+
+GaussSeidel iteration no: 333
+
+GaussSeidel residual: 117.592430
+
+GaussSeidel iteration no: 334
+
+GaussSeidel residual: 117.469088
+
+GaussSeidel iteration no: 335
+
+GaussSeidel residual: 117.345933
+
+GaussSeidel iteration no: 336
+
+GaussSeidel residual: 117.222965
+
+GaussSeidel iteration no: 337
+
+GaussSeidel residual: 117.100183
+
+GaussSeidel iteration no: 338
+
+GaussSeidel residual: 116.977586
+
+GaussSeidel iteration no: 339
+
+GaussSeidel residual: 116.855173
+
+GaussSeidel iteration no: 340
+
+GaussSeidel residual: 116.732944
+
+GaussSeidel iteration no: 341
+
+GaussSeidel residual: 116.610897
+
+GaussSeidel iteration no: 342
+
+GaussSeidel residual: 116.489033
+
+GaussSeidel iteration no: 343
+
+GaussSeidel residual: 116.367351
+
+GaussSeidel iteration no: 344
+
+GaussSeidel residual: 116.245848
+
+GaussSeidel iteration no: 345
+
+GaussSeidel residual: 116.124526
+
+GaussSeidel iteration no: 346
+
+GaussSeidel residual: 116.003383
+
+GaussSeidel iteration no: 347
+
+GaussSeidel residual: 115.882419
+
+GaussSeidel iteration no: 348
+
+GaussSeidel residual: 115.761632
+
+GaussSeidel iteration no: 349
+
+GaussSeidel residual: 115.641022
+
+GaussSeidel iteration no: 350
+
+GaussSeidel residual: 115.520589
+
+GaussSeidel iteration no: 351
+
+GaussSeidel residual: 115.400331
+
+GaussSeidel iteration no: 352
+
+GaussSeidel residual: 115.280249
+
+GaussSeidel iteration no: 353
+
+GaussSeidel residual: 115.160341
+
+GaussSeidel iteration no: 354
+
+GaussSeidel residual: 115.040606
+
+GaussSeidel iteration no: 355
+
+GaussSeidel residual: 114.921044
+
+GaussSeidel iteration no: 356
+
+GaussSeidel residual: 114.801655
+
+GaussSeidel iteration no: 357
+
+GaussSeidel residual: 114.682437
+
+GaussSeidel iteration no: 358
+
+GaussSeidel residual: 114.563391
+
+GaussSeidel iteration no: 359
+
+GaussSeidel residual: 114.444515
+
+GaussSeidel iteration no: 360
+
+GaussSeidel residual: 114.325808
+
+GaussSeidel iteration no: 361
+
+GaussSeidel residual: 114.207270
+
+GaussSeidel iteration no: 362
+
+GaussSeidel residual: 114.088901
+
+GaussSeidel iteration no: 363
+
+GaussSeidel residual: 113.970700
+
+GaussSeidel iteration no: 364
+
+GaussSeidel residual: 113.852666
+
+GaussSeidel iteration no: 365
+
+GaussSeidel residual: 113.734798
+
+GaussSeidel iteration no: 366
+
+GaussSeidel residual: 113.617097
+
+GaussSeidel iteration no: 367
+
+GaussSeidel residual: 113.499561
+
+GaussSeidel iteration no: 368
+
+GaussSeidel residual: 113.382189
+
+GaussSeidel iteration no: 369
+
+GaussSeidel residual: 113.264982
+
+GaussSeidel iteration no: 370
+
+GaussSeidel residual: 113.147938
+
+GaussSeidel iteration no: 371
+
+GaussSeidel residual: 113.031057
+
+GaussSeidel iteration no: 372
+
+GaussSeidel residual: 112.914339
+
+GaussSeidel iteration no: 373
+
+GaussSeidel residual: 112.797782
+
+GaussSeidel iteration no: 374
+
+GaussSeidel residual: 112.681386
+
+GaussSeidel iteration no: 375
+
+GaussSeidel residual: 112.565151
+
+GaussSeidel iteration no: 376
+
+GaussSeidel residual: 112.449076
+
+GaussSeidel iteration no: 377
+
+GaussSeidel residual: 112.333161
+
+GaussSeidel iteration no: 378
+
+GaussSeidel residual: 112.217405
+
+GaussSeidel iteration no: 379
+
+GaussSeidel residual: 112.101807
+
+GaussSeidel iteration no: 380
+
+GaussSeidel residual: 111.986366
+
+GaussSeidel iteration no: 381
+
+GaussSeidel residual: 111.871083
+
+GaussSeidel iteration no: 382
+
+GaussSeidel residual: 111.755957
+
+GaussSeidel iteration no: 383
+
+GaussSeidel residual: 111.640987
+
+GaussSeidel iteration no: 384
+
+GaussSeidel residual: 111.526173
+
+GaussSeidel iteration no: 385
+
+GaussSeidel residual: 111.411514
+
+GaussSeidel iteration no: 386
+
+GaussSeidel residual: 111.297009
+
+GaussSeidel iteration no: 387
+
+GaussSeidel residual: 111.182659
+
+GaussSeidel iteration no: 388
+
+GaussSeidel residual: 111.068462
+
+GaussSeidel iteration no: 389
+
+GaussSeidel residual: 110.954418
+
+GaussSeidel iteration no: 390
+
+GaussSeidel residual: 110.840526
+
+GaussSeidel iteration no: 391
+
+GaussSeidel residual: 110.726787
+
+GaussSeidel iteration no: 392
+
+GaussSeidel residual: 110.613199
+
+GaussSeidel iteration no: 393
+
+GaussSeidel residual: 110.499762
+
+GaussSeidel iteration no: 394
+
+GaussSeidel residual: 110.386476
+
+GaussSeidel iteration no: 395
+
+GaussSeidel residual: 110.273340
+
+GaussSeidel iteration no: 396
+
+GaussSeidel residual: 110.160353
+
+GaussSeidel iteration no: 397
+
+GaussSeidel residual: 110.047515
+
+GaussSeidel iteration no: 398
+
+GaussSeidel residual: 109.934826
+
+GaussSeidel iteration no: 399
+
+GaussSeidel residual: 109.822285
+
+GaussSeidel iteration no: 400
+
+GaussSeidel residual: 109.709892
+
+GaussSeidel iteration no: 401
+
+GaussSeidel residual: 109.597646
+
+GaussSeidel iteration no: 402
+
+GaussSeidel residual: 109.485546
+
+GaussSeidel iteration no: 403
+
+GaussSeidel residual: 109.373593
+
+GaussSeidel iteration no: 404
+
+GaussSeidel residual: 109.261785
+
+GaussSeidel iteration no: 405
+
+GaussSeidel residual: 109.150123
+
+GaussSeidel iteration no: 406
+
+GaussSeidel residual: 109.038605
+
+GaussSeidel iteration no: 407
+
+GaussSeidel residual: 108.927232
+
+GaussSeidel iteration no: 408
+
+GaussSeidel residual: 108.816003
+
+GaussSeidel iteration no: 409
+
+GaussSeidel residual: 108.704918
+
+GaussSeidel iteration no: 410
+
+GaussSeidel residual: 108.593975
+
+GaussSeidel iteration no: 411
+
+GaussSeidel residual: 108.483175
+
+GaussSeidel iteration no: 412
+
+GaussSeidel residual: 108.372517
+
+GaussSeidel iteration no: 413
+
+GaussSeidel residual: 108.262001
+
+GaussSeidel iteration no: 414
+
+GaussSeidel residual: 108.151626
+
+GaussSeidel iteration no: 415
+
+GaussSeidel residual: 108.041392
+
+GaussSeidel iteration no: 416
+
+GaussSeidel residual: 107.931299
+
+GaussSeidel iteration no: 417
+
+GaussSeidel residual: 107.821346
+
+GaussSeidel iteration no: 418
+
+GaussSeidel residual: 107.711532
+
+GaussSeidel iteration no: 419
+
+GaussSeidel residual: 107.601857
+
+GaussSeidel iteration no: 420
+
+GaussSeidel residual: 107.492321
+
+GaussSeidel iteration no: 421
+
+GaussSeidel residual: 107.382924
+
+GaussSeidel iteration no: 422
+
+GaussSeidel residual: 107.273665
+
+GaussSeidel iteration no: 423
+
+GaussSeidel residual: 107.164543
+
+GaussSeidel iteration no: 424
+
+GaussSeidel residual: 107.055558
+
+GaussSeidel iteration no: 425
+
+GaussSeidel residual: 106.946710
+
+GaussSeidel iteration no: 426
+
+GaussSeidel residual: 106.837999
+
+GaussSeidel iteration no: 427
+
+GaussSeidel residual: 106.729423
+
+GaussSeidel iteration no: 428
+
+GaussSeidel residual: 106.620983
+
+GaussSeidel iteration no: 429
+
+GaussSeidel residual: 106.512679
+
+GaussSeidel iteration no: 430
+
+GaussSeidel residual: 106.404509
+
+GaussSeidel iteration no: 431
+
+GaussSeidel residual: 106.296473
+
+GaussSeidel iteration no: 432
+
+GaussSeidel residual: 106.188572
+
+GaussSeidel iteration no: 433
+
+GaussSeidel residual: 106.080804
+
+GaussSeidel iteration no: 434
+
+GaussSeidel residual: 105.973170
+
+GaussSeidel iteration no: 435
+
+GaussSeidel residual: 105.865668
+
+GaussSeidel iteration no: 436
+
+GaussSeidel residual: 105.758299
+
+GaussSeidel iteration no: 437
+
+GaussSeidel residual: 105.651063
+
+GaussSeidel iteration no: 438
+
+GaussSeidel residual: 105.543958
+
+GaussSeidel iteration no: 439
+
+GaussSeidel residual: 105.436985
+
+GaussSeidel iteration no: 440
+
+GaussSeidel residual: 105.330142
+
+GaussSeidel iteration no: 441
+
+GaussSeidel residual: 105.223431
+
+GaussSeidel iteration no: 442
+
+GaussSeidel residual: 105.116850
+
+GaussSeidel iteration no: 443
+
+GaussSeidel residual: 105.010399
+
+GaussSeidel iteration no: 444
+
+GaussSeidel residual: 104.904078
+
+GaussSeidel iteration no: 445
+
+GaussSeidel residual: 104.797886
+
+GaussSeidel iteration no: 446
+
+GaussSeidel residual: 104.691823
+
+GaussSeidel iteration no: 447
+
+GaussSeidel residual: 104.585889
+
+GaussSeidel iteration no: 448
+
+GaussSeidel residual: 104.480083
+
+GaussSeidel iteration no: 449
+
+GaussSeidel residual: 104.374405
+
+GaussSeidel iteration no: 450
+
+GaussSeidel residual: 104.268855
+
+GaussSeidel iteration no: 451
+
+GaussSeidel residual: 104.163432
+
+GaussSeidel iteration no: 452
+
+GaussSeidel residual: 104.058136
+
+GaussSeidel iteration no: 453
+
+GaussSeidel residual: 103.952967
+
+GaussSeidel iteration no: 454
+
+GaussSeidel residual: 103.847924
+
+GaussSeidel iteration no: 455
+
+GaussSeidel residual: 103.743007
+
+GaussSeidel iteration no: 456
+
+GaussSeidel residual: 103.638216
+
+GaussSeidel iteration no: 457
+
+GaussSeidel residual: 103.533550
+
+GaussSeidel iteration no: 458
+
+GaussSeidel residual: 103.429010
+
+GaussSeidel iteration no: 459
+
+GaussSeidel residual: 103.324594
+
+GaussSeidel iteration no: 460
+
+GaussSeidel residual: 103.220302
+
+GaussSeidel iteration no: 461
+
+GaussSeidel residual: 103.116135
+
+GaussSeidel iteration no: 462
+
+GaussSeidel residual: 103.012091
+
+GaussSeidel iteration no: 463
+
+GaussSeidel residual: 102.908171
+
+GaussSeidel iteration no: 464
+
+GaussSeidel residual: 102.804374
+
+GaussSeidel iteration no: 465
+
+GaussSeidel residual: 102.700700
+
+GaussSeidel iteration no: 466
+
+GaussSeidel residual: 102.597148
+
+GaussSeidel iteration no: 467
+
+GaussSeidel residual: 102.493719
+
+GaussSeidel iteration no: 468
+
+GaussSeidel residual: 102.390411
+
+GaussSeidel iteration no: 469
+
+GaussSeidel residual: 102.287226
+
+GaussSeidel iteration no: 470
+
+GaussSeidel residual: 102.184161
+
+GaussSeidel iteration no: 471
+
+GaussSeidel residual: 102.081218
+
+GaussSeidel iteration no: 472
+
+GaussSeidel residual: 101.978396
+
+GaussSeidel iteration no: 473
+
+GaussSeidel residual: 101.875694
+
+GaussSeidel iteration no: 474
+
+GaussSeidel residual: 101.773112
+
+GaussSeidel iteration no: 475
+
+GaussSeidel residual: 101.670650
+
+GaussSeidel iteration no: 476
+
+GaussSeidel residual: 101.568308
+
+GaussSeidel iteration no: 477
+
+GaussSeidel residual: 101.466086
+
+GaussSeidel iteration no: 478
+
+GaussSeidel residual: 101.363982
+
+GaussSeidel iteration no: 479
+
+GaussSeidel residual: 101.261997
+
+GaussSeidel iteration no: 480
+
+GaussSeidel residual: 101.160131
+
+GaussSeidel iteration no: 481
+
+GaussSeidel residual: 101.058383
+
+GaussSeidel iteration no: 482
+
+GaussSeidel residual: 100.956753
+
+GaussSeidel iteration no: 483
+
+GaussSeidel residual: 100.855240
+
+GaussSeidel iteration no: 484
+
+GaussSeidel residual: 100.753845
+
+GaussSeidel iteration no: 485
+
+GaussSeidel residual: 100.652567
+
+GaussSeidel iteration no: 486
+
+GaussSeidel residual: 100.551406
+
+GaussSeidel iteration no: 487
+
+GaussSeidel residual: 100.450362
+
+GaussSeidel iteration no: 488
+
+GaussSeidel residual: 100.349434
+
+GaussSeidel iteration no: 489
+
+GaussSeidel residual: 100.248622
+
+GaussSeidel iteration no: 490
+
+GaussSeidel residual: 100.147926
+
+GaussSeidel iteration no: 491
+
+GaussSeidel residual: 100.047346
+
+GaussSeidel iteration no: 492
+
+GaussSeidel residual: 99.946881
+
+GaussSeidel iteration no: 493
+
+GaussSeidel residual: 99.846531
+
+GaussSeidel iteration no: 494
+
+GaussSeidel residual: 99.746296
+
+GaussSeidel iteration no: 495
+
+GaussSeidel residual: 99.646175
+
+GaussSeidel iteration no: 496
+
+GaussSeidel residual: 99.546169
+
+GaussSeidel iteration no: 497
+
+GaussSeidel residual: 99.446276
+
+GaussSeidel iteration no: 498
+
+GaussSeidel residual: 99.346498
+
+GaussSeidel iteration no: 499
+
+GaussSeidel residual: 99.246833
+
+GaussSeidel iteration no: 500
+
+GaussSeidel residual: 99.147281
+
+GaussSeidel iteration no: 501
+
+GaussSeidel residual: 99.047843
+
+GaussSeidel iteration no: 502
+
+GaussSeidel residual: 98.948517
+
+GaussSeidel iteration no: 503
+
+GaussSeidel residual: 98.849304
+
+GaussSeidel iteration no: 504
+
+GaussSeidel residual: 98.750203
+
+GaussSeidel iteration no: 505
+
+GaussSeidel residual: 98.651215
+
+GaussSeidel iteration no: 506
+
+GaussSeidel residual: 98.552338
+
+GaussSeidel iteration no: 507
+
+GaussSeidel residual: 98.453572
+
+GaussSeidel iteration no: 508
+
+GaussSeidel residual: 98.354919
+
+GaussSeidel iteration no: 509
+
+GaussSeidel residual: 98.256376
+
+GaussSeidel iteration no: 510
+
+GaussSeidel residual: 98.157944
+
+GaussSeidel iteration no: 511
+
+GaussSeidel residual: 98.059623
+
+GaussSeidel iteration no: 512
+
+GaussSeidel residual: 97.961413
+
+GaussSeidel iteration no: 513
+
+GaussSeidel residual: 97.863312
+
+GaussSeidel iteration no: 514
+
+GaussSeidel residual: 97.765322
+
+GaussSeidel iteration no: 515
+
+GaussSeidel residual: 97.667442
+
+GaussSeidel iteration no: 516
+
+GaussSeidel residual: 97.569671
+
+GaussSeidel iteration no: 517
+
+GaussSeidel residual: 97.472009
+
+GaussSeidel iteration no: 518
+
+GaussSeidel residual: 97.374456
+
+GaussSeidel iteration no: 519
+
+GaussSeidel residual: 97.277013
+
+GaussSeidel iteration no: 520
+
+GaussSeidel residual: 97.179678
+
+GaussSeidel iteration no: 521
+
+GaussSeidel residual: 97.082451
+
+GaussSeidel iteration no: 522
+
+GaussSeidel residual: 96.985333
+
+GaussSeidel iteration no: 523
+
+GaussSeidel residual: 96.888323
+
+GaussSeidel iteration no: 524
+
+GaussSeidel residual: 96.791420
+
+GaussSeidel iteration no: 525
+
+GaussSeidel residual: 96.694625
+
+GaussSeidel iteration no: 526
+
+GaussSeidel residual: 96.597938
+
+GaussSeidel iteration no: 527
+
+GaussSeidel residual: 96.501358
+
+GaussSeidel iteration no: 528
+
+GaussSeidel residual: 96.404884
+
+GaussSeidel iteration no: 529
+
+GaussSeidel residual: 96.308518
+
+GaussSeidel iteration no: 530
+
+GaussSeidel residual: 96.212258
+
+GaussSeidel iteration no: 531
+
+GaussSeidel residual: 96.116104
+
+GaussSeidel iteration no: 532
+
+GaussSeidel residual: 96.020056
+
+GaussSeidel iteration no: 533
+
+GaussSeidel residual: 95.924115
+
+GaussSeidel iteration no: 534
+
+GaussSeidel residual: 95.828279
+
+GaussSeidel iteration no: 535
+
+GaussSeidel residual: 95.732548
+
+GaussSeidel iteration no: 536
+
+GaussSeidel residual: 95.636923
+
+GaussSeidel iteration no: 537
+
+GaussSeidel residual: 95.541403
+
+GaussSeidel iteration no: 538
+
+GaussSeidel residual: 95.445988
+
+GaussSeidel iteration no: 539
+
+GaussSeidel residual: 95.350678
+
+GaussSeidel iteration no: 540
+
+GaussSeidel residual: 95.255472
+
+GaussSeidel iteration no: 541
+
+GaussSeidel residual: 95.160370
+
+GaussSeidel iteration no: 542
+
+GaussSeidel residual: 95.065373
+
+GaussSeidel iteration no: 543
+
+GaussSeidel residual: 94.970480
+
+GaussSeidel iteration no: 544
+
+GaussSeidel residual: 94.875690
+
+GaussSeidel iteration no: 545
+
+GaussSeidel residual: 94.781004
+
+GaussSeidel iteration no: 546
+
+GaussSeidel residual: 94.686421
+
+GaussSeidel iteration no: 547
+
+GaussSeidel residual: 94.591941
+
+GaussSeidel iteration no: 548
+
+GaussSeidel residual: 94.497565
+
+GaussSeidel iteration no: 549
+
+GaussSeidel residual: 94.403291
+
+GaussSeidel iteration no: 550
+
+GaussSeidel residual: 94.309120
+
+GaussSeidel iteration no: 551
+
+GaussSeidel residual: 94.215051
+
+GaussSeidel iteration no: 552
+
+GaussSeidel residual: 94.121084
+
+GaussSeidel iteration no: 553
+
+GaussSeidel residual: 94.027219
+
+GaussSeidel iteration no: 554
+
+GaussSeidel residual: 93.933457
+
+GaussSeidel iteration no: 555
+
+GaussSeidel residual: 93.839796
+
+GaussSeidel iteration no: 556
+
+GaussSeidel residual: 93.746236
+
+GaussSeidel iteration no: 557
+
+GaussSeidel residual: 93.652778
+
+GaussSeidel iteration no: 558
+
+GaussSeidel residual: 93.559421
+
+GaussSeidel iteration no: 559
+
+GaussSeidel residual: 93.466165
+
+GaussSeidel iteration no: 560
+
+GaussSeidel residual: 93.373009
+
+GaussSeidel iteration no: 561
+
+GaussSeidel residual: 93.279955
+
+GaussSeidel iteration no: 562
+
+GaussSeidel residual: 93.187000
+
+GaussSeidel iteration no: 563
+
+GaussSeidel residual: 93.094146
+
+GaussSeidel iteration no: 564
+
+GaussSeidel residual: 93.001392
+
+GaussSeidel iteration no: 565
+
+GaussSeidel residual: 92.908738
+
+GaussSeidel iteration no: 566
+
+GaussSeidel residual: 92.816184
+
+GaussSeidel iteration no: 567
+
+GaussSeidel residual: 92.723729
+
+GaussSeidel iteration no: 568
+
+GaussSeidel residual: 92.631374
+
+GaussSeidel iteration no: 569
+
+GaussSeidel residual: 92.539117
+
+GaussSeidel iteration no: 570
+
+GaussSeidel residual: 92.446960
+
+GaussSeidel iteration no: 571
+
+GaussSeidel residual: 92.354902
+
+GaussSeidel iteration no: 572
+
+GaussSeidel residual: 92.262942
+
+GaussSeidel iteration no: 573
+
+GaussSeidel residual: 92.171081
+
+GaussSeidel iteration no: 574
+
+GaussSeidel residual: 92.079319
+
+GaussSeidel iteration no: 575
+
+GaussSeidel residual: 91.987654
+
+GaussSeidel iteration no: 576
+
+GaussSeidel residual: 91.896088
+
+GaussSeidel iteration no: 577
+
+GaussSeidel residual: 91.804619
+
+GaussSeidel iteration no: 578
+
+GaussSeidel residual: 91.713248
+
+GaussSeidel iteration no: 579
+
+GaussSeidel residual: 91.621975
+
+GaussSeidel iteration no: 580
+
+GaussSeidel residual: 91.530799
+
+GaussSeidel iteration no: 581
+
+GaussSeidel residual: 91.439720
+
+GaussSeidel iteration no: 582
+
+GaussSeidel residual: 91.348739
+
+GaussSeidel iteration no: 583
+
+GaussSeidel residual: 91.257854
+
+GaussSeidel iteration no: 584
+
+GaussSeidel residual: 91.167066
+
+GaussSeidel iteration no: 585
+
+GaussSeidel residual: 91.076375
+
+GaussSeidel iteration no: 586
+
+GaussSeidel residual: 90.985780
+
+GaussSeidel iteration no: 587
+
+GaussSeidel residual: 90.895281
+
+GaussSeidel iteration no: 588
+
+GaussSeidel residual: 90.804878
+
+GaussSeidel iteration no: 589
+
+GaussSeidel residual: 90.714572
+
+GaussSeidel iteration no: 590
+
+GaussSeidel residual: 90.624361
+
+GaussSeidel iteration no: 591
+
+GaussSeidel residual: 90.534246
+
+GaussSeidel iteration no: 592
+
+GaussSeidel residual: 90.444226
+
+GaussSeidel iteration no: 593
+
+GaussSeidel residual: 90.354302
+
+GaussSeidel iteration no: 594
+
+GaussSeidel residual: 90.264473
+
+GaussSeidel iteration no: 595
+
+GaussSeidel residual: 90.174739
+
+GaussSeidel iteration no: 596
+
+GaussSeidel residual: 90.085099
+
+GaussSeidel iteration no: 597
+
+GaussSeidel residual: 89.995555
+
+GaussSeidel iteration no: 598
+
+GaussSeidel residual: 89.906105
+
+GaussSeidel iteration no: 599
+
+GaussSeidel residual: 89.816750
+
+GaussSeidel iteration no: 600
+
+GaussSeidel residual: 89.727489
+
+GaussSeidel iteration no: 601
+
+GaussSeidel residual: 89.638322
+
+GaussSeidel iteration no: 602
+
+GaussSeidel residual: 89.549249
+
+GaussSeidel iteration no: 603
+
+GaussSeidel residual: 89.460269
+
+GaussSeidel iteration no: 604
+
+GaussSeidel residual: 89.371384
+
+GaussSeidel iteration no: 605
+
+GaussSeidel residual: 89.282592
+
+GaussSeidel iteration no: 606
+
+GaussSeidel residual: 89.193894
+
+GaussSeidel iteration no: 607
+
+GaussSeidel residual: 89.105289
+
+GaussSeidel iteration no: 608
+
+GaussSeidel residual: 89.016776
+
+GaussSeidel iteration no: 609
+
+GaussSeidel residual: 88.928357
+
+GaussSeidel iteration no: 610
+
+GaussSeidel residual: 88.840031
+
+GaussSeidel iteration no: 611
+
+GaussSeidel residual: 88.751798
+
+GaussSeidel iteration no: 612
+
+GaussSeidel residual: 88.663657
+
+GaussSeidel iteration no: 613
+
+GaussSeidel residual: 88.575608
+
+GaussSeidel iteration no: 614
+
+GaussSeidel residual: 88.487652
+
+GaussSeidel iteration no: 615
+
+GaussSeidel residual: 88.399788
+
+GaussSeidel iteration no: 616
+
+GaussSeidel residual: 88.312016
+
+GaussSeidel iteration no: 617
+
+GaussSeidel residual: 88.224335
+
+GaussSeidel iteration no: 618
+
+GaussSeidel residual: 88.136747
+
+GaussSeidel iteration no: 619
+
+GaussSeidel residual: 88.049250
+
+GaussSeidel iteration no: 620
+
+GaussSeidel residual: 87.961845
+
+GaussSeidel iteration no: 621
+
+GaussSeidel residual: 87.874530
+
+GaussSeidel iteration no: 622
+
+GaussSeidel residual: 87.787307
+
+GaussSeidel iteration no: 623
+
+GaussSeidel residual: 87.700175
+
+GaussSeidel iteration no: 624
+
+GaussSeidel residual: 87.613134
+
+GaussSeidel iteration no: 625
+
+GaussSeidel residual: 87.526184
+
+GaussSeidel iteration no: 626
+
+GaussSeidel residual: 87.439325
+
+GaussSeidel iteration no: 627
+
+GaussSeidel residual: 87.352555
+
+GaussSeidel iteration no: 628
+
+GaussSeidel residual: 87.265877
+
+GaussSeidel iteration no: 629
+
+GaussSeidel residual: 87.179288
+
+GaussSeidel iteration no: 630
+
+GaussSeidel residual: 87.092790
+
+GaussSeidel iteration no: 631
+
+GaussSeidel residual: 87.006382
+
+GaussSeidel iteration no: 632
+
+GaussSeidel residual: 86.920063
+
+GaussSeidel iteration no: 633
+
+GaussSeidel residual: 86.833834
+
+GaussSeidel iteration no: 634
+
+GaussSeidel residual: 86.747695
+
+GaussSeidel iteration no: 635
+
+GaussSeidel residual: 86.661645
+
+GaussSeidel iteration no: 636
+
+GaussSeidel residual: 86.575685
+
+GaussSeidel iteration no: 637
+
+GaussSeidel residual: 86.489814
+
+GaussSeidel iteration no: 638
+
+GaussSeidel residual: 86.404032
+
+GaussSeidel iteration no: 639
+
+GaussSeidel residual: 86.318339
+
+GaussSeidel iteration no: 640
+
+GaussSeidel residual: 86.232734
+
+GaussSeidel iteration no: 641
+
+GaussSeidel residual: 86.147219
+
+GaussSeidel iteration no: 642
+
+GaussSeidel residual: 86.061792
+
+GaussSeidel iteration no: 643
+
+GaussSeidel residual: 85.976453
+
+GaussSeidel iteration no: 644
+
+GaussSeidel residual: 85.891203
+
+GaussSeidel iteration no: 645
+
+GaussSeidel residual: 85.806041
+
+GaussSeidel iteration no: 646
+
+GaussSeidel residual: 85.720967
+
+GaussSeidel iteration no: 647
+
+GaussSeidel residual: 85.635981
+
+GaussSeidel iteration no: 648
+
+GaussSeidel residual: 85.551083
+
+GaussSeidel iteration no: 649
+
+GaussSeidel residual: 85.466272
+
+GaussSeidel iteration no: 650
+
+GaussSeidel residual: 85.381549
+
+GaussSeidel iteration no: 651
+
+GaussSeidel residual: 85.296914
+
+GaussSeidel iteration no: 652
+
+GaussSeidel residual: 85.212366
+
+GaussSeidel iteration no: 653
+
+GaussSeidel residual: 85.127905
+
+GaussSeidel iteration no: 654
+
+GaussSeidel residual: 85.043531
+
+GaussSeidel iteration no: 655
+
+GaussSeidel residual: 84.959245
+
+GaussSeidel iteration no: 656
+
+GaussSeidel residual: 84.875045
+
+GaussSeidel iteration no: 657
+
+GaussSeidel residual: 84.790932
+
+GaussSeidel iteration no: 658
+
+GaussSeidel residual: 84.706905
+
+GaussSeidel iteration no: 659
+
+GaussSeidel residual: 84.622965
+
+GaussSeidel iteration no: 660
+
+GaussSeidel residual: 84.539112
+
+GaussSeidel iteration no: 661
+
+GaussSeidel residual: 84.455344
+
+GaussSeidel iteration no: 662
+
+GaussSeidel residual: 84.371663
+
+GaussSeidel iteration no: 663
+
+GaussSeidel residual: 84.288068
+
+GaussSeidel iteration no: 664
+
+GaussSeidel residual: 84.204559
+
+GaussSeidel iteration no: 665
+
+GaussSeidel residual: 84.121136
+
+GaussSeidel iteration no: 666
+
+GaussSeidel residual: 84.037798
+
+GaussSeidel iteration no: 667
+
+GaussSeidel residual: 83.954546
+
+GaussSeidel iteration no: 668
+
+GaussSeidel residual: 83.871379
+
+GaussSeidel iteration no: 669
+
+GaussSeidel residual: 83.788298
+
+GaussSeidel iteration no: 670
+
+GaussSeidel residual: 83.705302
+
+GaussSeidel iteration no: 671
+
+GaussSeidel residual: 83.622391
+
+GaussSeidel iteration no: 672
+
+GaussSeidel residual: 83.539565
+
+GaussSeidel iteration no: 673
+
+GaussSeidel residual: 83.456824
+
+GaussSeidel iteration no: 674
+
+GaussSeidel residual: 83.374168
+
+GaussSeidel iteration no: 675
+
+GaussSeidel residual: 83.291596
+
+GaussSeidel iteration no: 676
+
+GaussSeidel residual: 83.209109
+
+GaussSeidel iteration no: 677
+
+GaussSeidel residual: 83.126707
+
+GaussSeidel iteration no: 678
+
+GaussSeidel residual: 83.044389
+
+GaussSeidel iteration no: 679
+
+GaussSeidel residual: 82.962155
+
+GaussSeidel iteration no: 680
+
+GaussSeidel residual: 82.880005
+
+GaussSeidel iteration no: 681
+
+GaussSeidel residual: 82.797939
+
+GaussSeidel iteration no: 682
+
+GaussSeidel residual: 82.715957
+
+GaussSeidel iteration no: 683
+
+GaussSeidel residual: 82.634059
+
+GaussSeidel iteration no: 684
+
+GaussSeidel residual: 82.552245
+
+GaussSeidel iteration no: 685
+
+GaussSeidel residual: 82.470514
+
+GaussSeidel iteration no: 686
+
+GaussSeidel residual: 82.388866
+
+GaussSeidel iteration no: 687
+
+GaussSeidel residual: 82.307302
+
+GaussSeidel iteration no: 688
+
+GaussSeidel residual: 82.225822
+
+GaussSeidel iteration no: 689
+
+GaussSeidel residual: 82.144424
+
+GaussSeidel iteration no: 690
+
+GaussSeidel residual: 82.063109
+
+GaussSeidel iteration no: 691
+
+GaussSeidel residual: 81.981878
+
+GaussSeidel iteration no: 692
+
+GaussSeidel residual: 81.900729
+
+GaussSeidel iteration no: 693
+
+GaussSeidel residual: 81.819663
+
+GaussSeidel iteration no: 694
+
+GaussSeidel residual: 81.738679
+
+GaussSeidel iteration no: 695
+
+GaussSeidel residual: 81.657778
+
+GaussSeidel iteration no: 696
+
+GaussSeidel residual: 81.576959
+
+GaussSeidel iteration no: 697
+
+GaussSeidel residual: 81.496223
+
+GaussSeidel iteration no: 698
+
+GaussSeidel residual: 81.415569
+
+GaussSeidel iteration no: 699
+
+GaussSeidel residual: 81.334997
+
+GaussSeidel iteration no: 700
+
+GaussSeidel residual: 81.254507
+
+GaussSeidel iteration no: 701
+
+GaussSeidel residual: 81.174099
+
+GaussSeidel iteration no: 702
+
+GaussSeidel residual: 81.093772
+
+GaussSeidel iteration no: 703
+
+GaussSeidel residual: 81.013528
+
+GaussSeidel iteration no: 704
+
+GaussSeidel residual: 80.933364
+
+GaussSeidel iteration no: 705
+
+GaussSeidel residual: 80.853283
+
+GaussSeidel iteration no: 706
+
+GaussSeidel residual: 80.773282
+
+GaussSeidel iteration no: 707
+
+GaussSeidel residual: 80.693363
+
+GaussSeidel iteration no: 708
+
+GaussSeidel residual: 80.613526
+
+GaussSeidel iteration no: 709
+
+GaussSeidel residual: 80.533769
+
+GaussSeidel iteration no: 710
+
+GaussSeidel residual: 80.454093
+
+GaussSeidel iteration no: 711
+
+GaussSeidel residual: 80.374498
+
+GaussSeidel iteration no: 712
+
+GaussSeidel residual: 80.294984
+
+GaussSeidel iteration no: 713
+
+GaussSeidel residual: 80.215550
+
+GaussSeidel iteration no: 714
+
+GaussSeidel residual: 80.136197
+
+GaussSeidel iteration no: 715
+
+GaussSeidel residual: 80.056925
+
+GaussSeidel iteration no: 716
+
+GaussSeidel residual: 79.977732
+
+GaussSeidel iteration no: 717
+
+GaussSeidel residual: 79.898621
+
+GaussSeidel iteration no: 718
+
+GaussSeidel residual: 79.819589
+
+GaussSeidel iteration no: 719
+
+GaussSeidel residual: 79.740637
+
+GaussSeidel iteration no: 720
+
+GaussSeidel residual: 79.661766
+
+GaussSeidel iteration no: 721
+
+GaussSeidel residual: 79.582974
+
+GaussSeidel iteration no: 722
+
+GaussSeidel residual: 79.504262
+
+GaussSeidel iteration no: 723
+
+GaussSeidel residual: 79.425629
+
+GaussSeidel iteration no: 724
+
+GaussSeidel residual: 79.347077
+
+GaussSeidel iteration no: 725
+
+GaussSeidel residual: 79.268603
+
+GaussSeidel iteration no: 726
+
+GaussSeidel residual: 79.190209
+
+GaussSeidel iteration no: 727
+
+GaussSeidel residual: 79.111895
+
+GaussSeidel iteration no: 728
+
+GaussSeidel residual: 79.033659
+
+GaussSeidel iteration no: 729
+
+GaussSeidel residual: 78.955503
+
+GaussSeidel iteration no: 730
+
+GaussSeidel residual: 78.877426
+
+GaussSeidel iteration no: 731
+
+GaussSeidel residual: 78.799427
+
+GaussSeidel iteration no: 732
+
+GaussSeidel residual: 78.721508
+
+GaussSeidel iteration no: 733
+
+GaussSeidel residual: 78.643667
+
+GaussSeidel iteration no: 734
+
+GaussSeidel residual: 78.565905
+
+GaussSeidel iteration no: 735
+
+GaussSeidel residual: 78.488221
+
+GaussSeidel iteration no: 736
+
+GaussSeidel residual: 78.410616
+
+GaussSeidel iteration no: 737
+
+GaussSeidel residual: 78.333089
+
+GaussSeidel iteration no: 738
+
+GaussSeidel residual: 78.255640
+
+GaussSeidel iteration no: 739
+
+GaussSeidel residual: 78.178270
+
+GaussSeidel iteration no: 740
+
+GaussSeidel residual: 78.100977
+
+GaussSeidel iteration no: 741
+
+GaussSeidel residual: 78.023763
+
+GaussSeidel iteration no: 742
+
+GaussSeidel residual: 77.946626
+
+GaussSeidel iteration no: 743
+
+GaussSeidel residual: 77.869568
+
+GaussSeidel iteration no: 744
+
+GaussSeidel residual: 77.792586
+
+GaussSeidel iteration no: 745
+
+GaussSeidel residual: 77.715683
+
+GaussSeidel iteration no: 746
+
+GaussSeidel residual: 77.638857
+
+GaussSeidel iteration no: 747
+
+GaussSeidel residual: 77.562108
+
+GaussSeidel iteration no: 748
+
+GaussSeidel residual: 77.485437
+
+GaussSeidel iteration no: 749
+
+GaussSeidel residual: 77.408843
+
+GaussSeidel iteration no: 750
+
+GaussSeidel residual: 77.332326
+
+GaussSeidel iteration no: 751
+
+GaussSeidel residual: 77.255887
+
+GaussSeidel iteration no: 752
+
+GaussSeidel residual: 77.179524
+
+GaussSeidel iteration no: 753
+
+GaussSeidel residual: 77.103238
+
+GaussSeidel iteration no: 754
+
+GaussSeidel residual: 77.027029
+
+GaussSeidel iteration no: 755
+
+GaussSeidel residual: 76.950896
+
+GaussSeidel iteration no: 756
+
+GaussSeidel residual: 76.874840
+
+GaussSeidel iteration no: 757
+
+GaussSeidel residual: 76.798861
+
+GaussSeidel iteration no: 758
+
+GaussSeidel residual: 76.722958
+
+GaussSeidel iteration no: 759
+
+GaussSeidel residual: 76.647131
+
+GaussSeidel iteration no: 760
+
+GaussSeidel residual: 76.571381
+
+GaussSeidel iteration no: 761
+
+GaussSeidel residual: 76.495707
+
+GaussSeidel iteration no: 762
+
+GaussSeidel residual: 76.420109
+
+GaussSeidel iteration no: 763
+
+GaussSeidel residual: 76.344587
+
+GaussSeidel iteration no: 764
+
+GaussSeidel residual: 76.269141
+
+GaussSeidel iteration no: 765
+
+GaussSeidel residual: 76.193770
+
+GaussSeidel iteration no: 766
+
+GaussSeidel residual: 76.118476
+
+GaussSeidel iteration no: 767
+
+GaussSeidel residual: 76.043257
+
+GaussSeidel iteration no: 768
+
+GaussSeidel residual: 75.968113
+
+GaussSeidel iteration no: 769
+
+GaussSeidel residual: 75.893045
+
+GaussSeidel iteration no: 770
+
+GaussSeidel residual: 75.818052
+
+GaussSeidel iteration no: 771
+
+GaussSeidel residual: 75.743135
+
+GaussSeidel iteration no: 772
+
+GaussSeidel residual: 75.668293
+
+GaussSeidel iteration no: 773
+
+GaussSeidel residual: 75.593526
+
+GaussSeidel iteration no: 774
+
+GaussSeidel residual: 75.518834
+
+GaussSeidel iteration no: 775
+
+GaussSeidel residual: 75.444217
+
+GaussSeidel iteration no: 776
+
+GaussSeidel residual: 75.369675
+
+GaussSeidel iteration no: 777
+
+GaussSeidel residual: 75.295207
+
+GaussSeidel iteration no: 778
+
+GaussSeidel residual: 75.220815
+
+GaussSeidel iteration no: 779
+
+GaussSeidel residual: 75.146496
+
+GaussSeidel iteration no: 780
+
+GaussSeidel residual: 75.072253
+
+GaussSeidel iteration no: 781
+
+GaussSeidel residual: 74.998084
+
+GaussSeidel iteration no: 782
+
+GaussSeidel residual: 74.923989
+
+GaussSeidel iteration no: 783
+
+GaussSeidel residual: 74.849968
+
+GaussSeidel iteration no: 784
+
+GaussSeidel residual: 74.776022
+
+GaussSeidel iteration no: 785
+
+GaussSeidel residual: 74.702150
+
+GaussSeidel iteration no: 786
+
+GaussSeidel residual: 74.628351
+
+GaussSeidel iteration no: 787
+
+GaussSeidel residual: 74.554627
+
+GaussSeidel iteration no: 788
+
+GaussSeidel residual: 74.480977
+
+GaussSeidel iteration no: 789
+
+GaussSeidel residual: 74.407400
+
+GaussSeidel iteration no: 790
+
+GaussSeidel residual: 74.333897
+
+GaussSeidel iteration no: 791
+
+GaussSeidel residual: 74.260467
+
+GaussSeidel iteration no: 792
+
+GaussSeidel residual: 74.187112
+
+GaussSeidel iteration no: 793
+
+GaussSeidel residual: 74.113829
+
+GaussSeidel iteration no: 794
+
+GaussSeidel residual: 74.040620
+
+GaussSeidel iteration no: 795
+
+GaussSeidel residual: 73.967484
+
+GaussSeidel iteration no: 796
+
+GaussSeidel residual: 73.894421
+
+GaussSeidel iteration no: 797
+
+GaussSeidel residual: 73.821432
+
+GaussSeidel iteration no: 798
+
+GaussSeidel residual: 73.748515
+
+GaussSeidel iteration no: 799
+
+GaussSeidel residual: 73.675672
+
+GaussSeidel iteration no: 800
+
+GaussSeidel residual: 73.602901
+
+GaussSeidel iteration no: 801
+
+GaussSeidel residual: 73.530203
+
+GaussSeidel iteration no: 802
+
+GaussSeidel residual: 73.457578
+
+GaussSeidel iteration no: 803
+
+GaussSeidel residual: 73.385025
+
+GaussSeidel iteration no: 804
+
+GaussSeidel residual: 73.312545
+
+GaussSeidel iteration no: 805
+
+GaussSeidel residual: 73.240137
+
+GaussSeidel iteration no: 806
+
+GaussSeidel residual: 73.167802
+
+GaussSeidel iteration no: 807
+
+GaussSeidel residual: 73.095539
+
+GaussSeidel iteration no: 808
+
+GaussSeidel residual: 73.023349
+
+GaussSeidel iteration no: 809
+
+GaussSeidel residual: 72.951230
+
+GaussSeidel iteration no: 810
+
+GaussSeidel residual: 72.879183
+
+GaussSeidel iteration no: 811
+
+GaussSeidel residual: 72.807209
+
+GaussSeidel iteration no: 812
+
+GaussSeidel residual: 72.735306
+
+GaussSeidel iteration no: 813
+
+GaussSeidel residual: 72.663475
+
+GaussSeidel iteration no: 814
+
+GaussSeidel residual: 72.591716
+
+GaussSeidel iteration no: 815
+
+GaussSeidel residual: 72.520029
+
+GaussSeidel iteration no: 816
+
+GaussSeidel residual: 72.448413
+
+GaussSeidel iteration no: 817
+
+GaussSeidel residual: 72.376868
+
+GaussSeidel iteration no: 818
+
+GaussSeidel residual: 72.305396
+
+GaussSeidel iteration no: 819
+
+GaussSeidel residual: 72.233994
+
+GaussSeidel iteration no: 820
+
+GaussSeidel residual: 72.162664
+
+GaussSeidel iteration no: 821
+
+GaussSeidel residual: 72.091405
+
+GaussSeidel iteration no: 822
+
+GaussSeidel residual: 72.020216
+
+GaussSeidel iteration no: 823
+
+GaussSeidel residual: 71.949100
+
+GaussSeidel iteration no: 824
+
+GaussSeidel residual: 71.878053
+
+GaussSeidel iteration no: 825
+
+GaussSeidel residual: 71.807078
+
+GaussSeidel iteration no: 826
+
+GaussSeidel residual: 71.736174
+
+GaussSeidel iteration no: 827
+
+GaussSeidel residual: 71.665340
+
+GaussSeidel iteration no: 828
+
+GaussSeidel residual: 71.594577
+
+GaussSeidel iteration no: 829
+
+GaussSeidel residual: 71.523885
+
+GaussSeidel iteration no: 830
+
+GaussSeidel residual: 71.453263
+
+GaussSeidel iteration no: 831
+
+GaussSeidel residual: 71.382712
+
+GaussSeidel iteration no: 832
+
+GaussSeidel residual: 71.312230
+
+GaussSeidel iteration no: 833
+
+GaussSeidel residual: 71.241820
+
+GaussSeidel iteration no: 834
+
+GaussSeidel residual: 71.171479
+
+GaussSeidel iteration no: 835
+
+GaussSeidel residual: 71.101208
+
+GaussSeidel iteration no: 836
+
+GaussSeidel residual: 71.031008
+
+GaussSeidel iteration no: 837
+
+GaussSeidel residual: 70.960877
+
+GaussSeidel iteration no: 838
+
+GaussSeidel residual: 70.890817
+
+GaussSeidel iteration no: 839
+
+GaussSeidel residual: 70.820826
+
+GaussSeidel iteration no: 840
+
+GaussSeidel residual: 70.750905
+
+GaussSeidel iteration no: 841
+
+GaussSeidel residual: 70.681053
+
+GaussSeidel iteration no: 842
+
+GaussSeidel residual: 70.611271
+
+GaussSeidel iteration no: 843
+
+GaussSeidel residual: 70.541559
+
+GaussSeidel iteration no: 844
+
+GaussSeidel residual: 70.471916
+
+GaussSeidel iteration no: 845
+
+GaussSeidel residual: 70.402342
+
+GaussSeidel iteration no: 846
+
+GaussSeidel residual: 70.332838
+
+GaussSeidel iteration no: 847
+
+GaussSeidel residual: 70.263403
+
+GaussSeidel iteration no: 848
+
+GaussSeidel residual: 70.194037
+
+GaussSeidel iteration no: 849
+
+GaussSeidel residual: 70.124740
+
+GaussSeidel iteration no: 850
+
+GaussSeidel residual: 70.055512
+
+GaussSeidel iteration no: 851
+
+GaussSeidel residual: 69.986353
+
+GaussSeidel iteration no: 852
+
+GaussSeidel residual: 69.917263
+
+GaussSeidel iteration no: 853
+
+GaussSeidel residual: 69.848241
+
+GaussSeidel iteration no: 854
+
+GaussSeidel residual: 69.779289
+
+GaussSeidel iteration no: 855
+
+GaussSeidel residual: 69.710405
+
+GaussSeidel iteration no: 856
+
+GaussSeidel residual: 69.641589
+
+GaussSeidel iteration no: 857
+
+GaussSeidel residual: 69.572842
+
+GaussSeidel iteration no: 858
+
+GaussSeidel residual: 69.504163
+
+GaussSeidel iteration no: 859
+
+GaussSeidel residual: 69.435553
+
+GaussSeidel iteration no: 860
+
+GaussSeidel residual: 69.367011
+
+GaussSeidel iteration no: 861
+
+GaussSeidel residual: 69.298537
+
+GaussSeidel iteration no: 862
+
+GaussSeidel residual: 69.230131
+
+GaussSeidel iteration no: 863
+
+GaussSeidel residual: 69.161793
+
+GaussSeidel iteration no: 864
+
+GaussSeidel residual: 69.093524
+
+GaussSeidel iteration no: 865
+
+GaussSeidel residual: 69.025322
+
+GaussSeidel iteration no: 866
+
+GaussSeidel residual: 68.957188
+
+GaussSeidel iteration no: 867
+
+GaussSeidel residual: 68.889121
+
+GaussSeidel iteration no: 868
+
+GaussSeidel residual: 68.821123
+
+GaussSeidel iteration no: 869
+
+GaussSeidel residual: 68.753192
+
+GaussSeidel iteration no: 870
+
+GaussSeidel residual: 68.685328
+
+GaussSeidel iteration no: 871
+
+GaussSeidel residual: 68.617532
+
+GaussSeidel iteration no: 872
+
+GaussSeidel residual: 68.549803
+
+GaussSeidel iteration no: 873
+
+GaussSeidel residual: 68.482142
+
+GaussSeidel iteration no: 874
+
+GaussSeidel residual: 68.414548
+
+GaussSeidel iteration no: 875
+
+GaussSeidel residual: 68.347021
+
+GaussSeidel iteration no: 876
+
+GaussSeidel residual: 68.279561
+
+GaussSeidel iteration no: 877
+
+GaussSeidel residual: 68.212168
+
+GaussSeidel iteration no: 878
+
+GaussSeidel residual: 68.144842
+
+GaussSeidel iteration no: 879
+
+GaussSeidel residual: 68.077583
+
+GaussSeidel iteration no: 880
+
+GaussSeidel residual: 68.010391
+
+GaussSeidel iteration no: 881
+
+GaussSeidel residual: 67.943266
+
+GaussSeidel iteration no: 882
+
+GaussSeidel residual: 67.876207
+
+GaussSeidel iteration no: 883
+
+GaussSeidel residual: 67.809215
+
+GaussSeidel iteration no: 884
+
+GaussSeidel residual: 67.742290
+
+GaussSeidel iteration no: 885
+
+GaussSeidel residual: 67.675430
+
+GaussSeidel iteration no: 886
+
+GaussSeidel residual: 67.608638
+
+GaussSeidel iteration no: 887
+
+GaussSeidel residual: 67.541911
+
+GaussSeidel iteration no: 888
+
+GaussSeidel residual: 67.475251
+
+GaussSeidel iteration no: 889
+
+GaussSeidel residual: 67.408657
+
+GaussSeidel iteration no: 890
+
+GaussSeidel residual: 67.342130
+
+GaussSeidel iteration no: 891
+
+GaussSeidel residual: 67.275668
+
+GaussSeidel iteration no: 892
+
+GaussSeidel residual: 67.209272
+
+GaussSeidel iteration no: 893
+
+GaussSeidel residual: 67.142942
+
+GaussSeidel iteration no: 894
+
+GaussSeidel residual: 67.076678
+
+GaussSeidel iteration no: 895
+
+GaussSeidel residual: 67.010480
+
+GaussSeidel iteration no: 896
+
+GaussSeidel residual: 66.944348
+
+GaussSeidel iteration no: 897
+
+GaussSeidel residual: 66.878281
+
+GaussSeidel iteration no: 898
+
+GaussSeidel residual: 66.812279
+
+GaussSeidel iteration no: 899
+
+GaussSeidel residual: 66.746344
+
+GaussSeidel iteration no: 900
+
+GaussSeidel residual: 66.680473
+
+GaussSeidel iteration no: 901
+
+GaussSeidel residual: 66.614668
+
+GaussSeidel iteration no: 902
+
+GaussSeidel residual: 66.548929
+
+GaussSeidel iteration no: 903
+
+GaussSeidel residual: 66.483254
+
+GaussSeidel iteration no: 904
+
+GaussSeidel residual: 66.417645
+
+GaussSeidel iteration no: 905
+
+GaussSeidel residual: 66.352100
+
+GaussSeidel iteration no: 906
+
+GaussSeidel residual: 66.286621
+
+GaussSeidel iteration no: 907
+
+GaussSeidel residual: 66.221207
+
+GaussSeidel iteration no: 908
+
+GaussSeidel residual: 66.155858
+
+GaussSeidel iteration no: 909
+
+GaussSeidel residual: 66.090573
+
+GaussSeidel iteration no: 910
+
+GaussSeidel residual: 66.025353
+
+GaussSeidel iteration no: 911
+
+GaussSeidel residual: 65.960198
+
+GaussSeidel iteration no: 912
+
+GaussSeidel residual: 65.895108
+
+GaussSeidel iteration no: 913
+
+GaussSeidel residual: 65.830082
+
+GaussSeidel iteration no: 914
+
+GaussSeidel residual: 65.765120
+
+GaussSeidel iteration no: 915
+
+GaussSeidel residual: 65.700223
+
+GaussSeidel iteration no: 916
+
+GaussSeidel residual: 65.635391
+
+GaussSeidel iteration no: 917
+
+GaussSeidel residual: 65.570622
+
+GaussSeidel iteration no: 918
+
+GaussSeidel residual: 65.505918
+
+GaussSeidel iteration no: 919
+
+GaussSeidel residual: 65.441278
+
+GaussSeidel iteration no: 920
+
+GaussSeidel residual: 65.376702
+
+GaussSeidel iteration no: 921
+
+GaussSeidel residual: 65.312190
+
+GaussSeidel iteration no: 922
+
+GaussSeidel residual: 65.247742
+
+GaussSeidel iteration no: 923
+
+GaussSeidel residual: 65.183358
+
+GaussSeidel iteration no: 924
+
+GaussSeidel residual: 65.119038
+
+GaussSeidel iteration no: 925
+
+GaussSeidel residual: 65.054781
+
+GaussSeidel iteration no: 926
+
+GaussSeidel residual: 64.990589
+
+GaussSeidel iteration no: 927
+
+GaussSeidel residual: 64.926459
+
+GaussSeidel iteration no: 928
+
+GaussSeidel residual: 64.862394
+
+GaussSeidel iteration no: 929
+
+GaussSeidel residual: 64.798392
+
+GaussSeidel iteration no: 930
+
+GaussSeidel residual: 64.734453
+
+GaussSeidel iteration no: 931
+
+GaussSeidel residual: 64.670577
+
+GaussSeidel iteration no: 932
+
+GaussSeidel residual: 64.606765
+
+GaussSeidel iteration no: 933
+
+GaussSeidel residual: 64.543017
+
+GaussSeidel iteration no: 934
+
+GaussSeidel residual: 64.479331
+
+GaussSeidel iteration no: 935
+
+GaussSeidel residual: 64.415708
+
+GaussSeidel iteration no: 936
+
+GaussSeidel residual: 64.352149
+
+GaussSeidel iteration no: 937
+
+GaussSeidel residual: 64.288652
+
+GaussSeidel iteration no: 938
+
+GaussSeidel residual: 64.225218
+
+GaussSeidel iteration no: 939
+
+GaussSeidel residual: 64.161848
+
+GaussSeidel iteration no: 940
+
+GaussSeidel residual: 64.098540
+
+GaussSeidel iteration no: 941
+
+GaussSeidel residual: 64.035294
+
+GaussSeidel iteration no: 942
+
+GaussSeidel residual: 63.972111
+
+GaussSeidel iteration no: 943
+
+GaussSeidel residual: 63.908991
+
+GaussSeidel iteration no: 944
+
+GaussSeidel residual: 63.845934
+
+GaussSeidel iteration no: 945
+
+GaussSeidel residual: 63.782939
+
+GaussSeidel iteration no: 946
+
+GaussSeidel residual: 63.720006
+
+GaussSeidel iteration no: 947
+
+GaussSeidel residual: 63.657135
+
+GaussSeidel iteration no: 948
+
+GaussSeidel residual: 63.594327
+
+GaussSeidel iteration no: 949
+
+GaussSeidel residual: 63.531581
+
+GaussSeidel iteration no: 950
+
+GaussSeidel residual: 63.468897
+
+GaussSeidel iteration no: 951
+
+GaussSeidel residual: 63.406275
+
+GaussSeidel iteration no: 952
+
+GaussSeidel residual: 63.343716
+
+GaussSeidel iteration no: 953
+
+GaussSeidel residual: 63.281218
+
+GaussSeidel iteration no: 954
+
+GaussSeidel residual: 63.218782
+
+GaussSeidel iteration no: 955
+
+GaussSeidel residual: 63.156408
+
+GaussSeidel iteration no: 956
+
+GaussSeidel residual: 63.094095
+
+GaussSeidel iteration no: 957
+
+GaussSeidel residual: 63.031845
+
+GaussSeidel iteration no: 958
+
+GaussSeidel residual: 62.969656
+
+GaussSeidel iteration no: 959
+
+GaussSeidel residual: 62.907528
+
+GaussSeidel iteration no: 960
+
+GaussSeidel residual: 62.845462
+
+GaussSeidel iteration no: 961
+
+GaussSeidel residual: 62.783457
+
+GaussSeidel iteration no: 962
+
+GaussSeidel residual: 62.721514
+
+GaussSeidel iteration no: 963
+
+GaussSeidel residual: 62.659632
+
+GaussSeidel iteration no: 964
+
+GaussSeidel residual: 62.597812
+
+GaussSeidel iteration no: 965
+
+GaussSeidel residual: 62.536052
+
+GaussSeidel iteration no: 966
+
+GaussSeidel residual: 62.474354
+
+GaussSeidel iteration no: 967
+
+GaussSeidel residual: 62.412716
+
+GaussSeidel iteration no: 968
+
+GaussSeidel residual: 62.351140
+
+GaussSeidel iteration no: 969
+
+GaussSeidel residual: 62.289625
+
+GaussSeidel iteration no: 970
+
+GaussSeidel residual: 62.228170
+
+GaussSeidel iteration no: 971
+
+GaussSeidel residual: 62.166777
+
+GaussSeidel iteration no: 972
+
+GaussSeidel residual: 62.105444
+
+GaussSeidel iteration no: 973
+
+GaussSeidel residual: 62.044172
+
+GaussSeidel iteration no: 974
+
+GaussSeidel residual: 61.982960
+
+GaussSeidel iteration no: 975
+
+GaussSeidel residual: 61.921809
+
+GaussSeidel iteration no: 976
+
+GaussSeidel residual: 61.860718
+
+GaussSeidel iteration no: 977
+
+GaussSeidel residual: 61.799688
+
+GaussSeidel iteration no: 978
+
+GaussSeidel residual: 61.738719
+
+GaussSeidel iteration no: 979
+
+GaussSeidel residual: 61.677809
+
+GaussSeidel iteration no: 980
+
+GaussSeidel residual: 61.616960
+
+GaussSeidel iteration no: 981
+
+GaussSeidel residual: 61.556171
+
+GaussSeidel iteration no: 982
+
+GaussSeidel residual: 61.495442
+
+GaussSeidel iteration no: 983
+
+GaussSeidel residual: 61.434774
+
+GaussSeidel iteration no: 984
+
+GaussSeidel residual: 61.374165
+
+GaussSeidel iteration no: 985
+
+GaussSeidel residual: 61.313616
+
+GaussSeidel iteration no: 986
+
+GaussSeidel residual: 61.253127
+
+GaussSeidel iteration no: 987
+
+GaussSeidel residual: 61.192698
+
+GaussSeidel iteration no: 988
+
+GaussSeidel residual: 61.132329
+
+GaussSeidel iteration no: 989
+
+GaussSeidel residual: 61.072019
+
+GaussSeidel iteration no: 990
+
+GaussSeidel residual: 61.011770
+
+GaussSeidel iteration no: 991
+
+GaussSeidel residual: 60.951579
+
+GaussSeidel iteration no: 992
+
+GaussSeidel residual: 60.891448
+
+GaussSeidel iteration no: 993
+
+GaussSeidel residual: 60.831377
+
+GaussSeidel iteration no: 994
+
+GaussSeidel residual: 60.771365
+
+GaussSeidel iteration no: 995
+
+GaussSeidel residual: 60.711413
+
+GaussSeidel iteration no: 996
+
+GaussSeidel residual: 60.651519
+
+GaussSeidel iteration no: 997
+
+GaussSeidel residual: 60.591685
+
+GaussSeidel iteration no: 998
+
+GaussSeidel residual: 60.531910
+
+GaussSeidel iteration no: 999
+
+GaussSeidel residual: 60.472194
+
+GaussSeidel iteration no: 1000
+
+GaussSeidel residual: 60.412538
+
+Debug: destroying mesh

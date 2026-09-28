@@ -1,0 +1,4010 @@
+Setting up SGS solver
+Setting up A
+Setting up RHS
+SGS iteration start: 198.252364
+
+SGS iteration no: 0
+
+SGS residual: 198.252364
+
+SGS iteration no: 1
+
+SGS residual: 192.706718
+
+SGS iteration no: 2
+
+SGS residual: 190.347891
+
+SGS iteration no: 3
+
+SGS residual: 188.444229
+
+SGS iteration no: 4
+
+SGS residual: 186.806870
+
+SGS iteration no: 5
+
+SGS residual: 185.349016
+
+SGS iteration no: 6
+
+SGS residual: 184.022438
+
+SGS iteration no: 7
+
+SGS residual: 182.797169
+
+SGS iteration no: 8
+
+SGS residual: 181.653115
+
+SGS iteration no: 9
+
+SGS residual: 180.576042
+
+SGS iteration no: 10
+
+SGS residual: 179.555431
+
+SGS iteration no: 11
+
+SGS residual: 178.583256
+
+SGS iteration no: 12
+
+SGS residual: 177.653225
+
+SGS iteration no: 13
+
+SGS residual: 176.760298
+
+SGS iteration no: 14
+
+SGS residual: 175.900366
+
+SGS iteration no: 15
+
+SGS residual: 175.070024
+
+SGS iteration no: 16
+
+SGS residual: 174.266418
+
+SGS iteration no: 17
+
+SGS residual: 173.487122
+
+SGS iteration no: 18
+
+SGS residual: 172.730056
+
+SGS iteration no: 19
+
+SGS residual: 171.993422
+
+SGS iteration no: 20
+
+SGS residual: 171.275651
+
+SGS iteration no: 21
+
+SGS residual: 170.575366
+
+SGS iteration no: 22
+
+SGS residual: 169.891347
+
+SGS iteration no: 23
+
+SGS residual: 169.222512
+
+SGS iteration no: 24
+
+SGS residual: 168.567893
+
+SGS iteration no: 25
+
+SGS residual: 167.926622
+
+SGS iteration no: 26
+
+SGS residual: 167.297913
+
+SGS iteration no: 27
+
+SGS residual: 166.681057
+
+SGS iteration no: 28
+
+SGS residual: 166.075407
+
+SGS iteration no: 29
+
+SGS residual: 165.480375
+
+SGS iteration no: 30
+
+SGS residual: 164.895421
+
+SGS iteration no: 31
+
+SGS residual: 164.320050
+
+SGS iteration no: 32
+
+SGS residual: 163.753806
+
+SGS iteration no: 33
+
+SGS residual: 163.196269
+
+SGS iteration no: 34
+
+SGS residual: 162.647047
+
+SGS iteration no: 35
+
+SGS residual: 162.105781
+
+SGS iteration no: 36
+
+SGS residual: 161.572135
+
+SGS iteration no: 37
+
+SGS residual: 161.045795
+
+SGS iteration no: 38
+
+SGS residual: 160.526469
+
+SGS iteration no: 39
+
+SGS residual: 160.013885
+
+SGS iteration no: 40
+
+SGS residual: 159.507786
+
+SGS iteration no: 41
+
+SGS residual: 159.007932
+
+SGS iteration no: 42
+
+SGS residual: 158.514099
+
+SGS iteration no: 43
+
+SGS residual: 158.026073
+
+SGS iteration no: 44
+
+SGS residual: 157.543654
+
+SGS iteration no: 45
+
+SGS residual: 157.066653
+
+SGS iteration no: 46
+
+SGS residual: 156.594893
+
+SGS iteration no: 47
+
+SGS residual: 156.128203
+
+SGS iteration no: 48
+
+SGS residual: 155.666425
+
+SGS iteration no: 49
+
+SGS residual: 155.209405
+
+SGS iteration no: 50
+
+SGS residual: 154.757000
+
+SGS iteration no: 51
+
+SGS residual: 154.309073
+
+SGS iteration no: 52
+
+SGS residual: 153.865494
+
+SGS iteration no: 53
+
+SGS residual: 153.426138
+
+SGS iteration no: 54
+
+SGS residual: 152.990887
+
+SGS iteration no: 55
+
+SGS residual: 152.559628
+
+SGS iteration no: 56
+
+SGS residual: 152.132254
+
+SGS iteration no: 57
+
+SGS residual: 151.708660
+
+SGS iteration no: 58
+
+SGS residual: 151.288749
+
+SGS iteration no: 59
+
+SGS residual: 150.872427
+
+SGS iteration no: 60
+
+SGS residual: 150.459602
+
+SGS iteration no: 61
+
+SGS residual: 150.050187
+
+SGS iteration no: 62
+
+SGS residual: 149.644101
+
+SGS iteration no: 63
+
+SGS residual: 149.241263
+
+SGS iteration no: 64
+
+SGS residual: 148.841596
+
+SGS iteration no: 65
+
+SGS residual: 148.445027
+
+SGS iteration no: 66
+
+SGS residual: 148.051484
+
+SGS iteration no: 67
+
+SGS residual: 147.660900
+
+SGS iteration no: 68
+
+SGS residual: 147.273209
+
+SGS iteration no: 69
+
+SGS residual: 146.888347
+
+SGS iteration no: 70
+
+SGS residual: 146.506253
+
+SGS iteration no: 71
+
+SGS residual: 146.126869
+
+SGS iteration no: 72
+
+SGS residual: 145.750137
+
+SGS iteration no: 73
+
+SGS residual: 145.376003
+
+SGS iteration no: 74
+
+SGS residual: 145.004414
+
+SGS iteration no: 75
+
+SGS residual: 144.635319
+
+SGS iteration no: 76
+
+SGS residual: 144.268667
+
+SGS iteration no: 77
+
+SGS residual: 143.904412
+
+SGS iteration no: 78
+
+SGS residual: 143.542506
+
+SGS iteration no: 79
+
+SGS residual: 143.182905
+
+SGS iteration no: 80
+
+SGS residual: 142.825566
+
+SGS iteration no: 81
+
+SGS residual: 142.470445
+
+SGS iteration no: 82
+
+SGS residual: 142.117504
+
+SGS iteration no: 83
+
+SGS residual: 141.766701
+
+SGS iteration no: 84
+
+SGS residual: 141.417998
+
+SGS iteration no: 85
+
+SGS residual: 141.071359
+
+SGS iteration no: 86
+
+SGS residual: 140.726747
+
+SGS iteration no: 87
+
+SGS residual: 140.384126
+
+SGS iteration no: 88
+
+SGS residual: 140.043463
+
+SGS iteration no: 89
+
+SGS residual: 139.704725
+
+SGS iteration no: 90
+
+SGS residual: 139.367879
+
+SGS iteration no: 91
+
+SGS residual: 139.032895
+
+SGS iteration no: 92
+
+SGS residual: 138.699740
+
+SGS iteration no: 93
+
+SGS residual: 138.368387
+
+SGS iteration no: 94
+
+SGS residual: 138.038805
+
+SGS iteration no: 95
+
+SGS residual: 137.710968
+
+SGS iteration no: 96
+
+SGS residual: 137.384847
+
+SGS iteration no: 97
+
+SGS residual: 137.060415
+
+SGS iteration no: 98
+
+SGS residual: 136.737648
+
+SGS iteration no: 99
+
+SGS residual: 136.416519
+
+SGS iteration no: 100
+
+SGS residual: 136.097004
+
+SGS iteration no: 101
+
+SGS residual: 135.779079
+
+SGS iteration no: 102
+
+SGS residual: 135.462721
+
+SGS iteration no: 103
+
+SGS residual: 135.147906
+
+SGS iteration no: 104
+
+SGS residual: 134.834612
+
+SGS iteration no: 105
+
+SGS residual: 134.522818
+
+SGS iteration no: 106
+
+SGS residual: 134.212502
+
+SGS iteration no: 107
+
+SGS residual: 133.903643
+
+SGS iteration no: 108
+
+SGS residual: 133.596222
+
+SGS iteration no: 109
+
+SGS residual: 133.290218
+
+SGS iteration no: 110
+
+SGS residual: 132.985612
+
+SGS iteration no: 111
+
+SGS residual: 132.682384
+
+SGS iteration no: 112
+
+SGS residual: 132.380518
+
+SGS iteration no: 113
+
+SGS residual: 132.079994
+
+SGS iteration no: 114
+
+SGS residual: 131.780795
+
+SGS iteration no: 115
+
+SGS residual: 131.482904
+
+SGS iteration no: 116
+
+SGS residual: 131.186303
+
+SGS iteration no: 117
+
+SGS residual: 130.890977
+
+SGS iteration no: 118
+
+SGS residual: 130.596908
+
+SGS iteration no: 119
+
+SGS residual: 130.304082
+
+SGS iteration no: 120
+
+SGS residual: 130.012483
+
+SGS iteration no: 121
+
+SGS residual: 129.722095
+
+SGS iteration no: 122
+
+SGS residual: 129.432904
+
+SGS iteration no: 123
+
+SGS residual: 129.144895
+
+SGS iteration no: 124
+
+SGS residual: 128.858054
+
+SGS iteration no: 125
+
+SGS residual: 128.572367
+
+SGS iteration no: 126
+
+SGS residual: 128.287821
+
+SGS iteration no: 127
+
+SGS residual: 128.004402
+
+SGS iteration no: 128
+
+SGS residual: 127.722097
+
+SGS iteration no: 129
+
+SGS residual: 127.440893
+
+SGS iteration no: 130
+
+SGS residual: 127.160777
+
+SGS iteration no: 131
+
+SGS residual: 126.881738
+
+SGS iteration no: 132
+
+SGS residual: 126.603763
+
+SGS iteration no: 133
+
+SGS residual: 126.326840
+
+SGS iteration no: 134
+
+SGS residual: 126.050957
+
+SGS iteration no: 135
+
+SGS residual: 125.776104
+
+SGS iteration no: 136
+
+SGS residual: 125.502269
+
+SGS iteration no: 137
+
+SGS residual: 125.229441
+
+SGS iteration no: 138
+
+SGS residual: 124.957610
+
+SGS iteration no: 139
+
+SGS residual: 124.686764
+
+SGS iteration no: 140
+
+SGS residual: 124.416893
+
+SGS iteration no: 141
+
+SGS residual: 124.147988
+
+SGS iteration no: 142
+
+SGS residual: 123.880038
+
+SGS iteration no: 143
+
+SGS residual: 123.613033
+
+SGS iteration no: 144
+
+SGS residual: 123.346965
+
+SGS iteration no: 145
+
+SGS residual: 123.081822
+
+SGS iteration no: 146
+
+SGS residual: 122.817597
+
+SGS iteration no: 147
+
+SGS residual: 122.554280
+
+SGS iteration no: 148
+
+SGS residual: 122.291862
+
+SGS iteration no: 149
+
+SGS residual: 122.030334
+
+SGS iteration no: 150
+
+SGS residual: 121.769688
+
+SGS iteration no: 151
+
+SGS residual: 121.509915
+
+SGS iteration no: 152
+
+SGS residual: 121.251007
+
+SGS iteration no: 153
+
+SGS residual: 120.992956
+
+SGS iteration no: 154
+
+SGS residual: 120.735753
+
+SGS iteration no: 155
+
+SGS residual: 120.479392
+
+SGS iteration no: 156
+
+SGS residual: 120.223863
+
+SGS iteration no: 157
+
+SGS residual: 119.969160
+
+SGS iteration no: 158
+
+SGS residual: 119.715274
+
+SGS iteration no: 159
+
+SGS residual: 119.462200
+
+SGS iteration no: 160
+
+SGS residual: 119.209928
+
+SGS iteration no: 161
+
+SGS residual: 118.958453
+
+SGS iteration no: 162
+
+SGS residual: 118.707767
+
+SGS iteration no: 163
+
+SGS residual: 118.457864
+
+SGS iteration no: 164
+
+SGS residual: 118.208736
+
+SGS iteration no: 165
+
+SGS residual: 117.960377
+
+SGS iteration no: 166
+
+SGS residual: 117.712780
+
+SGS iteration no: 167
+
+SGS residual: 117.465940
+
+SGS iteration no: 168
+
+SGS residual: 117.219849
+
+SGS iteration no: 169
+
+SGS residual: 116.974501
+
+SGS iteration no: 170
+
+SGS residual: 116.729891
+
+SGS iteration no: 171
+
+SGS residual: 116.486012
+
+SGS iteration no: 172
+
+SGS residual: 116.242859
+
+SGS iteration no: 173
+
+SGS residual: 116.000425
+
+SGS iteration no: 174
+
+SGS residual: 115.758704
+
+SGS iteration no: 175
+
+SGS residual: 115.517692
+
+SGS iteration no: 176
+
+SGS residual: 115.277383
+
+SGS iteration no: 177
+
+SGS residual: 115.037771
+
+SGS iteration no: 178
+
+SGS residual: 114.798850
+
+SGS iteration no: 179
+
+SGS residual: 114.560616
+
+SGS iteration no: 180
+
+SGS residual: 114.323064
+
+SGS iteration no: 181
+
+SGS residual: 114.086187
+
+SGS iteration no: 182
+
+SGS residual: 113.849982
+
+SGS iteration no: 183
+
+SGS residual: 113.614442
+
+SGS iteration no: 184
+
+SGS residual: 113.379564
+
+SGS iteration no: 185
+
+SGS residual: 113.145342
+
+SGS iteration no: 186
+
+SGS residual: 112.911772
+
+SGS iteration no: 187
+
+SGS residual: 112.678849
+
+SGS iteration no: 188
+
+SGS residual: 112.446569
+
+SGS iteration no: 189
+
+SGS residual: 112.214926
+
+SGS iteration no: 190
+
+SGS residual: 111.983916
+
+SGS iteration no: 191
+
+SGS residual: 111.753536
+
+SGS iteration no: 192
+
+SGS residual: 111.523780
+
+SGS iteration no: 193
+
+SGS residual: 111.294645
+
+SGS iteration no: 194
+
+SGS residual: 111.066126
+
+SGS iteration no: 195
+
+SGS residual: 110.838219
+
+SGS iteration no: 196
+
+SGS residual: 110.610920
+
+SGS iteration no: 197
+
+SGS residual: 110.384225
+
+SGS iteration no: 198
+
+SGS residual: 110.158130
+
+SGS iteration no: 199
+
+SGS residual: 109.932631
+
+SGS iteration no: 200
+
+SGS residual: 109.707724
+
+SGS iteration no: 201
+
+SGS residual: 109.483406
+
+SGS iteration no: 202
+
+SGS residual: 109.259673
+
+SGS iteration no: 203
+
+SGS residual: 109.036521
+
+SGS iteration no: 204
+
+SGS residual: 108.813946
+
+SGS iteration no: 205
+
+SGS residual: 108.591945
+
+SGS iteration no: 206
+
+SGS residual: 108.370514
+
+SGS iteration no: 207
+
+SGS residual: 108.149650
+
+SGS iteration no: 208
+
+SGS residual: 107.929350
+
+SGS iteration no: 209
+
+SGS residual: 107.709610
+
+SGS iteration no: 210
+
+SGS residual: 107.490426
+
+SGS iteration no: 211
+
+SGS residual: 107.271796
+
+SGS iteration no: 212
+
+SGS residual: 107.053716
+
+SGS iteration no: 213
+
+SGS residual: 106.836184
+
+SGS iteration no: 214
+
+SGS residual: 106.619195
+
+SGS iteration no: 215
+
+SGS residual: 106.402746
+
+SGS iteration no: 216
+
+SGS residual: 106.186836
+
+SGS iteration no: 217
+
+SGS residual: 105.971460
+
+SGS iteration no: 218
+
+SGS residual: 105.756616
+
+SGS iteration no: 219
+
+SGS residual: 105.542301
+
+SGS iteration no: 220
+
+SGS residual: 105.328511
+
+SGS iteration no: 221
+
+SGS residual: 105.115245
+
+SGS iteration no: 222
+
+SGS residual: 104.902499
+
+SGS iteration no: 223
+
+SGS residual: 104.690270
+
+SGS iteration no: 224
+
+SGS residual: 104.478555
+
+SGS iteration no: 225
+
+SGS residual: 104.267353
+
+SGS iteration no: 226
+
+SGS residual: 104.056660
+
+SGS iteration no: 227
+
+SGS residual: 103.846474
+
+SGS iteration no: 228
+
+SGS residual: 103.636791
+
+SGS iteration no: 229
+
+SGS residual: 103.427610
+
+SGS iteration no: 230
+
+SGS residual: 103.218928
+
+SGS iteration no: 231
+
+SGS residual: 103.010742
+
+SGS iteration no: 232
+
+SGS residual: 102.803050
+
+SGS iteration no: 233
+
+SGS residual: 102.595849
+
+SGS iteration no: 234
+
+SGS residual: 102.389138
+
+SGS iteration no: 235
+
+SGS residual: 102.182913
+
+SGS iteration no: 236
+
+SGS residual: 101.977173
+
+SGS iteration no: 237
+
+SGS residual: 101.771914
+
+SGS iteration no: 238
+
+SGS residual: 101.567135
+
+SGS iteration no: 239
+
+SGS residual: 101.362834
+
+SGS iteration no: 240
+
+SGS residual: 101.159007
+
+SGS iteration no: 241
+
+SGS residual: 100.955654
+
+SGS iteration no: 242
+
+SGS residual: 100.752771
+
+SGS iteration no: 243
+
+SGS residual: 100.550357
+
+SGS iteration no: 244
+
+SGS residual: 100.348410
+
+SGS iteration no: 245
+
+SGS residual: 100.146927
+
+SGS iteration no: 246
+
+SGS residual: 99.945906
+
+SGS iteration no: 247
+
+SGS residual: 99.745345
+
+SGS iteration no: 248
+
+SGS residual: 99.545243
+
+SGS iteration no: 249
+
+SGS residual: 99.345596
+
+SGS iteration no: 250
+
+SGS residual: 99.146404
+
+SGS iteration no: 251
+
+SGS residual: 98.947664
+
+SGS iteration no: 252
+
+SGS residual: 98.749375
+
+SGS iteration no: 253
+
+SGS residual: 98.551533
+
+SGS iteration no: 254
+
+SGS residual: 98.354139
+
+SGS iteration no: 255
+
+SGS residual: 98.157188
+
+SGS iteration no: 256
+
+SGS residual: 97.960681
+
+SGS iteration no: 257
+
+SGS residual: 97.764614
+
+SGS iteration no: 258
+
+SGS residual: 97.568987
+
+SGS iteration no: 259
+
+SGS residual: 97.373797
+
+SGS iteration no: 260
+
+SGS residual: 97.179042
+
+SGS iteration no: 261
+
+SGS residual: 96.984722
+
+SGS iteration no: 262
+
+SGS residual: 96.790833
+
+SGS iteration no: 263
+
+SGS residual: 96.597374
+
+SGS iteration no: 264
+
+SGS residual: 96.404345
+
+SGS iteration no: 265
+
+SGS residual: 96.211742
+
+SGS iteration no: 266
+
+SGS residual: 96.019565
+
+SGS iteration no: 267
+
+SGS residual: 95.827811
+
+SGS iteration no: 268
+
+SGS residual: 95.636479
+
+SGS iteration no: 269
+
+SGS residual: 95.445568
+
+SGS iteration no: 270
+
+SGS residual: 95.255075
+
+SGS iteration no: 271
+
+SGS residual: 95.065000
+
+SGS iteration no: 272
+
+SGS residual: 94.875341
+
+SGS iteration no: 273
+
+SGS residual: 94.686095
+
+SGS iteration no: 274
+
+SGS residual: 94.497263
+
+SGS iteration no: 275
+
+SGS residual: 94.308841
+
+SGS iteration no: 276
+
+SGS residual: 94.120829
+
+SGS iteration no: 277
+
+SGS residual: 93.933225
+
+SGS iteration no: 278
+
+SGS residual: 93.746028
+
+SGS iteration no: 279
+
+SGS residual: 93.559237
+
+SGS iteration no: 280
+
+SGS residual: 93.372849
+
+SGS iteration no: 281
+
+SGS residual: 93.186863
+
+SGS iteration no: 282
+
+SGS residual: 93.001278
+
+SGS iteration no: 283
+
+SGS residual: 92.816093
+
+SGS iteration no: 284
+
+SGS residual: 92.631306
+
+SGS iteration no: 285
+
+SGS residual: 92.446916
+
+SGS iteration no: 286
+
+SGS residual: 92.262922
+
+SGS iteration no: 287
+
+SGS residual: 92.079322
+
+SGS iteration no: 288
+
+SGS residual: 91.896114
+
+SGS iteration no: 289
+
+SGS residual: 91.713298
+
+SGS iteration no: 290
+
+SGS residual: 91.530872
+
+SGS iteration no: 291
+
+SGS residual: 91.348835
+
+SGS iteration no: 292
+
+SGS residual: 91.167186
+
+SGS iteration no: 293
+
+SGS residual: 90.985922
+
+SGS iteration no: 294
+
+SGS residual: 90.805044
+
+SGS iteration no: 295
+
+SGS residual: 90.624550
+
+SGS iteration no: 296
+
+SGS residual: 90.444439
+
+SGS iteration no: 297
+
+SGS residual: 90.264708
+
+SGS iteration no: 298
+
+SGS residual: 90.085358
+
+SGS iteration no: 299
+
+SGS residual: 89.906387
+
+SGS iteration no: 300
+
+SGS residual: 89.727794
+
+SGS iteration no: 301
+
+SGS residual: 89.549577
+
+SGS iteration no: 302
+
+SGS residual: 89.371736
+
+SGS iteration no: 303
+
+SGS residual: 89.194268
+
+SGS iteration no: 304
+
+SGS residual: 89.017174
+
+SGS iteration no: 305
+
+SGS residual: 88.840452
+
+SGS iteration no: 306
+
+SGS residual: 88.664101
+
+SGS iteration no: 307
+
+SGS residual: 88.488119
+
+SGS iteration no: 308
+
+SGS residual: 88.312506
+
+SGS iteration no: 309
+
+SGS residual: 88.137260
+
+SGS iteration no: 310
+
+SGS residual: 87.962381
+
+SGS iteration no: 311
+
+SGS residual: 87.787867
+
+SGS iteration no: 312
+
+SGS residual: 87.613717
+
+SGS iteration no: 313
+
+SGS residual: 87.439930
+
+SGS iteration no: 314
+
+SGS residual: 87.266505
+
+SGS iteration no: 315
+
+SGS residual: 87.093441
+
+SGS iteration no: 316
+
+SGS residual: 86.920737
+
+SGS iteration no: 317
+
+SGS residual: 86.748392
+
+SGS iteration no: 318
+
+SGS residual: 86.576405
+
+SGS iteration no: 319
+
+SGS residual: 86.404775
+
+SGS iteration no: 320
+
+SGS residual: 86.233501
+
+SGS iteration no: 321
+
+SGS residual: 86.062581
+
+SGS iteration no: 322
+
+SGS residual: 85.892015
+
+SGS iteration no: 323
+
+SGS residual: 85.721802
+
+SGS iteration no: 324
+
+SGS residual: 85.551941
+
+SGS iteration no: 325
+
+SGS residual: 85.382431
+
+SGS iteration no: 326
+
+SGS residual: 85.213270
+
+SGS iteration no: 327
+
+SGS residual: 85.044458
+
+SGS iteration no: 328
+
+SGS residual: 84.875995
+
+SGS iteration no: 329
+
+SGS residual: 84.707878
+
+SGS iteration no: 330
+
+SGS residual: 84.540108
+
+SGS iteration no: 331
+
+SGS residual: 84.372682
+
+SGS iteration no: 332
+
+SGS residual: 84.205601
+
+SGS iteration no: 333
+
+SGS residual: 84.038863
+
+SGS iteration no: 334
+
+SGS residual: 83.872467
+
+SGS iteration no: 335
+
+SGS residual: 83.706412
+
+SGS iteration no: 336
+
+SGS residual: 83.540699
+
+SGS iteration no: 337
+
+SGS residual: 83.375324
+
+SGS iteration no: 338
+
+SGS residual: 83.210289
+
+SGS iteration no: 339
+
+SGS residual: 83.045591
+
+SGS iteration no: 340
+
+SGS residual: 82.881230
+
+SGS iteration no: 341
+
+SGS residual: 82.717205
+
+SGS iteration no: 342
+
+SGS residual: 82.553516
+
+SGS iteration no: 343
+
+SGS residual: 82.390160
+
+SGS iteration no: 344
+
+SGS residual: 82.227138
+
+SGS iteration no: 345
+
+SGS residual: 82.064449
+
+SGS iteration no: 346
+
+SGS residual: 81.902091
+
+SGS iteration no: 347
+
+SGS residual: 81.740065
+
+SGS iteration no: 348
+
+SGS residual: 81.578368
+
+SGS iteration no: 349
+
+SGS residual: 81.417000
+
+SGS iteration no: 350
+
+SGS residual: 81.255961
+
+SGS iteration no: 351
+
+SGS residual: 81.095249
+
+SGS iteration no: 352
+
+SGS residual: 80.934864
+
+SGS iteration no: 353
+
+SGS residual: 80.774805
+
+SGS iteration no: 354
+
+SGS residual: 80.615071
+
+SGS iteration no: 355
+
+SGS residual: 80.455662
+
+SGS iteration no: 356
+
+SGS residual: 80.296575
+
+SGS iteration no: 357
+
+SGS residual: 80.137812
+
+SGS iteration no: 358
+
+SGS residual: 79.979370
+
+SGS iteration no: 359
+
+SGS residual: 79.821249
+
+SGS iteration no: 360
+
+SGS residual: 79.663449
+
+SGS iteration no: 361
+
+SGS residual: 79.505968
+
+SGS iteration no: 362
+
+SGS residual: 79.348805
+
+SGS iteration no: 363
+
+SGS residual: 79.191961
+
+SGS iteration no: 364
+
+SGS residual: 79.035434
+
+SGS iteration no: 365
+
+SGS residual: 78.879223
+
+SGS iteration no: 366
+
+SGS residual: 78.723328
+
+SGS iteration no: 367
+
+SGS residual: 78.567748
+
+SGS iteration no: 368
+
+SGS residual: 78.412482
+
+SGS iteration no: 369
+
+SGS residual: 78.257530
+
+SGS iteration no: 370
+
+SGS residual: 78.102889
+
+SGS iteration no: 371
+
+SGS residual: 77.948561
+
+SGS iteration no: 372
+
+SGS residual: 77.794544
+
+SGS iteration no: 373
+
+SGS residual: 77.640838
+
+SGS iteration no: 374
+
+SGS residual: 77.487441
+
+SGS iteration no: 375
+
+SGS residual: 77.334353
+
+SGS iteration no: 376
+
+SGS residual: 77.181573
+
+SGS iteration no: 377
+
+SGS residual: 77.029101
+
+SGS iteration no: 378
+
+SGS residual: 76.876936
+
+SGS iteration no: 379
+
+SGS residual: 76.725076
+
+SGS iteration no: 380
+
+SGS residual: 76.573522
+
+SGS iteration no: 381
+
+SGS residual: 76.422273
+
+SGS iteration no: 382
+
+SGS residual: 76.271328
+
+SGS iteration no: 383
+
+SGS residual: 76.120686
+
+SGS iteration no: 384
+
+SGS residual: 75.970346
+
+SGS iteration no: 385
+
+SGS residual: 75.820308
+
+SGS iteration no: 386
+
+SGS residual: 75.670572
+
+SGS iteration no: 387
+
+SGS residual: 75.521136
+
+SGS iteration no: 388
+
+SGS residual: 75.371999
+
+SGS iteration no: 389
+
+SGS residual: 75.223162
+
+SGS iteration no: 390
+
+SGS residual: 75.074623
+
+SGS iteration no: 391
+
+SGS residual: 74.926382
+
+SGS iteration no: 392
+
+SGS residual: 74.778438
+
+SGS iteration no: 393
+
+SGS residual: 74.630791
+
+SGS iteration no: 394
+
+SGS residual: 74.483439
+
+SGS iteration no: 395
+
+SGS residual: 74.336382
+
+SGS iteration no: 396
+
+SGS residual: 74.189620
+
+SGS iteration no: 397
+
+SGS residual: 74.043151
+
+SGS iteration no: 398
+
+SGS residual: 73.896975
+
+SGS iteration no: 399
+
+SGS residual: 73.751092
+
+SGS iteration no: 400
+
+SGS residual: 73.605501
+
+SGS iteration no: 401
+
+SGS residual: 73.460201
+
+SGS iteration no: 402
+
+SGS residual: 73.315191
+
+SGS iteration no: 403
+
+SGS residual: 73.170471
+
+SGS iteration no: 404
+
+SGS residual: 73.026040
+
+SGS iteration no: 405
+
+SGS residual: 72.881898
+
+SGS iteration no: 406
+
+SGS residual: 72.738044
+
+SGS iteration no: 407
+
+SGS residual: 72.594477
+
+SGS iteration no: 408
+
+SGS residual: 72.451196
+
+SGS iteration no: 409
+
+SGS residual: 72.308202
+
+SGS iteration no: 410
+
+SGS residual: 72.165493
+
+SGS iteration no: 411
+
+SGS residual: 72.023069
+
+SGS iteration no: 412
+
+SGS residual: 71.880929
+
+SGS iteration no: 413
+
+SGS residual: 71.739072
+
+SGS iteration no: 414
+
+SGS residual: 71.597499
+
+SGS iteration no: 415
+
+SGS residual: 71.456207
+
+SGS iteration no: 416
+
+SGS residual: 71.315198
+
+SGS iteration no: 417
+
+SGS residual: 71.174469
+
+SGS iteration no: 418
+
+SGS residual: 71.034021
+
+SGS iteration no: 419
+
+SGS residual: 70.893853
+
+SGS iteration no: 420
+
+SGS residual: 70.753964
+
+SGS iteration no: 421
+
+SGS residual: 70.614353
+
+SGS iteration no: 422
+
+SGS residual: 70.475021
+
+SGS iteration no: 423
+
+SGS residual: 70.335966
+
+SGS iteration no: 424
+
+SGS residual: 70.197188
+
+SGS iteration no: 425
+
+SGS residual: 70.058686
+
+SGS iteration no: 426
+
+SGS residual: 69.920460
+
+SGS iteration no: 427
+
+SGS residual: 69.782508
+
+SGS iteration no: 428
+
+SGS residual: 69.644832
+
+SGS iteration no: 429
+
+SGS residual: 69.507429
+
+SGS iteration no: 430
+
+SGS residual: 69.370299
+
+SGS iteration no: 431
+
+SGS residual: 69.233443
+
+SGS iteration no: 432
+
+SGS residual: 69.096858
+
+SGS iteration no: 433
+
+SGS residual: 68.960545
+
+SGS iteration no: 434
+
+SGS residual: 68.824503
+
+SGS iteration no: 435
+
+SGS residual: 68.688731
+
+SGS iteration no: 436
+
+SGS residual: 68.553229
+
+SGS iteration no: 437
+
+SGS residual: 68.417997
+
+SGS iteration no: 438
+
+SGS residual: 68.283033
+
+SGS iteration no: 439
+
+SGS residual: 68.148337
+
+SGS iteration no: 440
+
+SGS residual: 68.013909
+
+SGS iteration no: 441
+
+SGS residual: 67.879748
+
+SGS iteration no: 442
+
+SGS residual: 67.745853
+
+SGS iteration no: 443
+
+SGS residual: 67.612224
+
+SGS iteration no: 444
+
+SGS residual: 67.478861
+
+SGS iteration no: 445
+
+SGS residual: 67.345762
+
+SGS iteration no: 446
+
+SGS residual: 67.212928
+
+SGS iteration no: 447
+
+SGS residual: 67.080357
+
+SGS iteration no: 448
+
+SGS residual: 66.948049
+
+SGS iteration no: 449
+
+SGS residual: 66.816004
+
+SGS iteration no: 450
+
+SGS residual: 66.684220
+
+SGS iteration no: 451
+
+SGS residual: 66.552698
+
+SGS iteration no: 452
+
+SGS residual: 66.421438
+
+SGS iteration no: 453
+
+SGS residual: 66.290437
+
+SGS iteration no: 454
+
+SGS residual: 66.159696
+
+SGS iteration no: 455
+
+SGS residual: 66.029215
+
+SGS iteration no: 456
+
+SGS residual: 65.898992
+
+SGS iteration no: 457
+
+SGS residual: 65.769028
+
+SGS iteration no: 458
+
+SGS residual: 65.639321
+
+SGS iteration no: 459
+
+SGS residual: 65.509871
+
+SGS iteration no: 460
+
+SGS residual: 65.380678
+
+SGS iteration no: 461
+
+SGS residual: 65.251741
+
+SGS iteration no: 462
+
+SGS residual: 65.123059
+
+SGS iteration no: 463
+
+SGS residual: 64.994633
+
+SGS iteration no: 464
+
+SGS residual: 64.866461
+
+SGS iteration no: 465
+
+SGS residual: 64.738543
+
+SGS iteration no: 466
+
+SGS residual: 64.610878
+
+SGS iteration no: 467
+
+SGS residual: 64.483466
+
+SGS iteration no: 468
+
+SGS residual: 64.356307
+
+SGS iteration no: 469
+
+SGS residual: 64.229400
+
+SGS iteration no: 470
+
+SGS residual: 64.102743
+
+SGS iteration no: 471
+
+SGS residual: 63.976338
+
+SGS iteration no: 472
+
+SGS residual: 63.850183
+
+SGS iteration no: 473
+
+SGS residual: 63.724278
+
+SGS iteration no: 474
+
+SGS residual: 63.598622
+
+SGS iteration no: 475
+
+SGS residual: 63.473215
+
+SGS iteration no: 476
+
+SGS residual: 63.348056
+
+SGS iteration no: 477
+
+SGS residual: 63.223145
+
+SGS iteration no: 478
+
+SGS residual: 63.098481
+
+SGS iteration no: 479
+
+SGS residual: 62.974064
+
+SGS iteration no: 480
+
+SGS residual: 62.849893
+
+SGS iteration no: 481
+
+SGS residual: 62.725968
+
+SGS iteration no: 482
+
+SGS residual: 62.602289
+
+SGS iteration no: 483
+
+SGS residual: 62.478853
+
+SGS iteration no: 484
+
+SGS residual: 62.355663
+
+SGS iteration no: 485
+
+SGS residual: 62.232715
+
+SGS iteration no: 486
+
+SGS residual: 62.110011
+
+SGS iteration no: 487
+
+SGS residual: 61.987550
+
+SGS iteration no: 488
+
+SGS residual: 61.865331
+
+SGS iteration no: 489
+
+SGS residual: 61.743354
+
+SGS iteration no: 490
+
+SGS residual: 61.621618
+
+SGS iteration no: 491
+
+SGS residual: 61.500123
+
+SGS iteration no: 492
+
+SGS residual: 61.378868
+
+SGS iteration no: 493
+
+SGS residual: 61.257853
+
+SGS iteration no: 494
+
+SGS residual: 61.137078
+
+SGS iteration no: 495
+
+SGS residual: 61.016541
+
+SGS iteration no: 496
+
+SGS residual: 60.896242
+
+SGS iteration no: 497
+
+SGS residual: 60.776181
+
+SGS iteration no: 498
+
+SGS residual: 60.656358
+
+SGS iteration no: 499
+
+SGS residual: 60.536772
+
+SGS iteration no: 500
+
+SGS residual: 60.417422
+
+SGS iteration no: 501
+
+SGS residual: 60.298307
+
+SGS iteration no: 502
+
+SGS residual: 60.179429
+
+SGS iteration no: 503
+
+SGS residual: 60.060785
+
+SGS iteration no: 504
+
+SGS residual: 59.942376
+
+SGS iteration no: 505
+
+SGS residual: 59.824201
+
+SGS iteration no: 506
+
+SGS residual: 59.706259
+
+SGS iteration no: 507
+
+SGS residual: 59.588551
+
+SGS iteration no: 508
+
+SGS residual: 59.471075
+
+SGS iteration no: 509
+
+SGS residual: 59.353831
+
+SGS iteration no: 510
+
+SGS residual: 59.236819
+
+SGS iteration no: 511
+
+SGS residual: 59.120038
+
+SGS iteration no: 512
+
+SGS residual: 59.003488
+
+SGS iteration no: 513
+
+SGS residual: 58.887168
+
+SGS iteration no: 514
+
+SGS residual: 58.771078
+
+SGS iteration no: 515
+
+SGS residual: 58.655218
+
+SGS iteration no: 516
+
+SGS residual: 58.539586
+
+SGS iteration no: 517
+
+SGS residual: 58.424183
+
+SGS iteration no: 518
+
+SGS residual: 58.309007
+
+SGS iteration no: 519
+
+SGS residual: 58.194060
+
+SGS iteration no: 520
+
+SGS residual: 58.079339
+
+SGS iteration no: 521
+
+SGS residual: 57.964845
+
+SGS iteration no: 522
+
+SGS residual: 57.850577
+
+SGS iteration no: 523
+
+SGS residual: 57.736534
+
+SGS iteration no: 524
+
+SGS residual: 57.622717
+
+SGS iteration no: 525
+
+SGS residual: 57.509125
+
+SGS iteration no: 526
+
+SGS residual: 57.395757
+
+SGS iteration no: 527
+
+SGS residual: 57.282613
+
+SGS iteration no: 528
+
+SGS residual: 57.169692
+
+SGS iteration no: 529
+
+SGS residual: 57.056994
+
+SGS iteration no: 530
+
+SGS residual: 56.944519
+
+SGS iteration no: 531
+
+SGS residual: 56.832266
+
+SGS iteration no: 532
+
+SGS residual: 56.720235
+
+SGS iteration no: 533
+
+SGS residual: 56.608424
+
+SGS iteration no: 534
+
+SGS residual: 56.496835
+
+SGS iteration no: 535
+
+SGS residual: 56.385466
+
+SGS iteration no: 536
+
+SGS residual: 56.274316
+
+SGS iteration no: 537
+
+SGS residual: 56.163387
+
+SGS iteration no: 538
+
+SGS residual: 56.052676
+
+SGS iteration no: 539
+
+SGS residual: 55.942184
+
+SGS iteration no: 540
+
+SGS residual: 55.831909
+
+SGS iteration no: 541
+
+SGS residual: 55.721853
+
+SGS iteration no: 542
+
+SGS residual: 55.612014
+
+SGS iteration no: 543
+
+SGS residual: 55.502391
+
+SGS iteration no: 544
+
+SGS residual: 55.392985
+
+SGS iteration no: 545
+
+SGS residual: 55.283795
+
+SGS iteration no: 546
+
+SGS residual: 55.174821
+
+SGS iteration no: 547
+
+SGS residual: 55.066061
+
+SGS iteration no: 548
+
+SGS residual: 54.957516
+
+SGS iteration no: 549
+
+SGS residual: 54.849186
+
+SGS iteration no: 550
+
+SGS residual: 54.741069
+
+SGS iteration no: 551
+
+SGS residual: 54.633166
+
+SGS iteration no: 552
+
+SGS residual: 54.525475
+
+SGS iteration no: 553
+
+SGS residual: 54.417997
+
+SGS iteration no: 554
+
+SGS residual: 54.310731
+
+SGS iteration no: 555
+
+SGS residual: 54.203677
+
+SGS iteration no: 556
+
+SGS residual: 54.096834
+
+SGS iteration no: 557
+
+SGS residual: 53.990202
+
+SGS iteration no: 558
+
+SGS residual: 53.883781
+
+SGS iteration no: 559
+
+SGS residual: 53.777569
+
+SGS iteration no: 560
+
+SGS residual: 53.671567
+
+SGS iteration no: 561
+
+SGS residual: 53.565774
+
+SGS iteration no: 562
+
+SGS residual: 53.460190
+
+SGS iteration no: 563
+
+SGS residual: 53.354814
+
+SGS iteration no: 564
+
+SGS residual: 53.249646
+
+SGS iteration no: 565
+
+SGS residual: 53.144686
+
+SGS iteration no: 566
+
+SGS residual: 53.039932
+
+SGS iteration no: 567
+
+SGS residual: 52.935386
+
+SGS iteration no: 568
+
+SGS residual: 52.831045
+
+SGS iteration no: 569
+
+SGS residual: 52.726911
+
+SGS iteration no: 570
+
+SGS residual: 52.622982
+
+SGS iteration no: 571
+
+SGS residual: 52.519258
+
+SGS iteration no: 572
+
+SGS residual: 52.415738
+
+SGS iteration no: 573
+
+SGS residual: 52.312423
+
+SGS iteration no: 574
+
+SGS residual: 52.209312
+
+SGS iteration no: 575
+
+SGS residual: 52.106404
+
+SGS iteration no: 576
+
+SGS residual: 52.003699
+
+SGS iteration no: 577
+
+SGS residual: 51.901196
+
+SGS iteration no: 578
+
+SGS residual: 51.798896
+
+SGS iteration no: 579
+
+SGS residual: 51.696798
+
+SGS iteration no: 580
+
+SGS residual: 51.594901
+
+SGS iteration no: 581
+
+SGS residual: 51.493205
+
+SGS iteration no: 582
+
+SGS residual: 51.391710
+
+SGS iteration no: 583
+
+SGS residual: 51.290414
+
+SGS iteration no: 584
+
+SGS residual: 51.189319
+
+SGS iteration no: 585
+
+SGS residual: 51.088423
+
+SGS iteration no: 586
+
+SGS residual: 50.987726
+
+SGS iteration no: 587
+
+SGS residual: 50.887228
+
+SGS iteration no: 588
+
+SGS residual: 50.786928
+
+SGS iteration no: 589
+
+SGS residual: 50.686825
+
+SGS iteration no: 590
+
+SGS residual: 50.586920
+
+SGS iteration no: 591
+
+SGS residual: 50.487213
+
+SGS iteration no: 592
+
+SGS residual: 50.387701
+
+SGS iteration no: 593
+
+SGS residual: 50.288387
+
+SGS iteration no: 594
+
+SGS residual: 50.189268
+
+SGS iteration no: 595
+
+SGS residual: 50.090344
+
+SGS iteration no: 596
+
+SGS residual: 49.991616
+
+SGS iteration no: 597
+
+SGS residual: 49.893082
+
+SGS iteration no: 598
+
+SGS residual: 49.794742
+
+SGS iteration no: 599
+
+SGS residual: 49.696597
+
+SGS iteration no: 600
+
+SGS residual: 49.598645
+
+SGS iteration no: 601
+
+SGS residual: 49.500886
+
+SGS iteration no: 602
+
+SGS residual: 49.403320
+
+SGS iteration no: 603
+
+SGS residual: 49.305947
+
+SGS iteration no: 604
+
+SGS residual: 49.208765
+
+SGS iteration no: 605
+
+SGS residual: 49.111775
+
+SGS iteration no: 606
+
+SGS residual: 49.014977
+
+SGS iteration no: 607
+
+SGS residual: 48.918369
+
+SGS iteration no: 608
+
+SGS residual: 48.821952
+
+SGS iteration no: 609
+
+SGS residual: 48.725725
+
+SGS iteration no: 610
+
+SGS residual: 48.629687
+
+SGS iteration no: 611
+
+SGS residual: 48.533839
+
+SGS iteration no: 612
+
+SGS residual: 48.438180
+
+SGS iteration no: 613
+
+SGS residual: 48.342710
+
+SGS iteration no: 614
+
+SGS residual: 48.247428
+
+SGS iteration no: 615
+
+SGS residual: 48.152334
+
+SGS iteration no: 616
+
+SGS residual: 48.057427
+
+SGS iteration no: 617
+
+SGS residual: 47.962707
+
+SGS iteration no: 618
+
+SGS residual: 47.868175
+
+SGS iteration no: 619
+
+SGS residual: 47.773828
+
+SGS iteration no: 620
+
+SGS residual: 47.679668
+
+SGS iteration no: 621
+
+SGS residual: 47.585693
+
+SGS iteration no: 622
+
+SGS residual: 47.491904
+
+SGS iteration no: 623
+
+SGS residual: 47.398299
+
+SGS iteration no: 624
+
+SGS residual: 47.304879
+
+SGS iteration no: 625
+
+SGS residual: 47.211644
+
+SGS iteration no: 626
+
+SGS residual: 47.118592
+
+SGS iteration no: 627
+
+SGS residual: 47.025723
+
+SGS iteration no: 628
+
+SGS residual: 46.933038
+
+SGS iteration no: 629
+
+SGS residual: 46.840535
+
+SGS iteration no: 630
+
+SGS residual: 46.748215
+
+SGS iteration no: 631
+
+SGS residual: 46.656077
+
+SGS iteration no: 632
+
+SGS residual: 46.564121
+
+SGS iteration no: 633
+
+SGS residual: 46.472345
+
+SGS iteration no: 634
+
+SGS residual: 46.380751
+
+SGS iteration no: 635
+
+SGS residual: 46.289337
+
+SGS iteration no: 636
+
+SGS residual: 46.198104
+
+SGS iteration no: 637
+
+SGS residual: 46.107050
+
+SGS iteration no: 638
+
+SGS residual: 46.016176
+
+SGS iteration no: 639
+
+SGS residual: 45.925481
+
+SGS iteration no: 640
+
+SGS residual: 45.834965
+
+SGS iteration no: 641
+
+SGS residual: 45.744628
+
+SGS iteration no: 642
+
+SGS residual: 45.654468
+
+SGS iteration no: 643
+
+SGS residual: 45.564486
+
+SGS iteration no: 644
+
+SGS residual: 45.474682
+
+SGS iteration no: 645
+
+SGS residual: 45.385055
+
+SGS iteration no: 646
+
+SGS residual: 45.295604
+
+SGS iteration no: 647
+
+SGS residual: 45.206330
+
+SGS iteration no: 648
+
+SGS residual: 45.117232
+
+SGS iteration no: 649
+
+SGS residual: 45.028309
+
+SGS iteration no: 650
+
+SGS residual: 44.939562
+
+SGS iteration no: 651
+
+SGS residual: 44.850989
+
+SGS iteration no: 652
+
+SGS residual: 44.762591
+
+SGS iteration no: 653
+
+SGS residual: 44.674368
+
+SGS iteration no: 654
+
+SGS residual: 44.586318
+
+SGS iteration no: 655
+
+SGS residual: 44.498442
+
+SGS iteration no: 656
+
+SGS residual: 44.410740
+
+SGS iteration no: 657
+
+SGS residual: 44.323210
+
+SGS iteration no: 658
+
+SGS residual: 44.235852
+
+SGS iteration no: 659
+
+SGS residual: 44.148667
+
+SGS iteration no: 660
+
+SGS residual: 44.061654
+
+SGS iteration no: 661
+
+SGS residual: 43.974812
+
+SGS iteration no: 662
+
+SGS residual: 43.888142
+
+SGS iteration no: 663
+
+SGS residual: 43.801642
+
+SGS iteration no: 664
+
+SGS residual: 43.715313
+
+SGS iteration no: 665
+
+SGS residual: 43.629154
+
+SGS iteration no: 666
+
+SGS residual: 43.543165
+
+SGS iteration no: 667
+
+SGS residual: 43.457346
+
+SGS iteration no: 668
+
+SGS residual: 43.371695
+
+SGS iteration no: 669
+
+SGS residual: 43.286214
+
+SGS iteration no: 670
+
+SGS residual: 43.200901
+
+SGS iteration no: 671
+
+SGS residual: 43.115756
+
+SGS iteration no: 672
+
+SGS residual: 43.030779
+
+SGS iteration no: 673
+
+SGS residual: 42.945969
+
+SGS iteration no: 674
+
+SGS residual: 42.861327
+
+SGS iteration no: 675
+
+SGS residual: 42.776851
+
+SGS iteration no: 676
+
+SGS residual: 42.692542
+
+SGS iteration no: 677
+
+SGS residual: 42.608399
+
+SGS iteration no: 678
+
+SGS residual: 42.524423
+
+SGS iteration no: 679
+
+SGS residual: 42.440611
+
+SGS iteration no: 680
+
+SGS residual: 42.356965
+
+SGS iteration no: 681
+
+SGS residual: 42.273484
+
+SGS iteration no: 682
+
+SGS residual: 42.190167
+
+SGS iteration no: 683
+
+SGS residual: 42.107014
+
+SGS iteration no: 684
+
+SGS residual: 42.024026
+
+SGS iteration no: 685
+
+SGS residual: 41.941201
+
+SGS iteration no: 686
+
+SGS residual: 41.858539
+
+SGS iteration no: 687
+
+SGS residual: 41.776040
+
+SGS iteration no: 688
+
+SGS residual: 41.693704
+
+SGS iteration no: 689
+
+SGS residual: 41.611530
+
+SGS iteration no: 690
+
+SGS residual: 41.529518
+
+SGS iteration no: 691
+
+SGS residual: 41.447668
+
+SGS iteration no: 692
+
+SGS residual: 41.365979
+
+SGS iteration no: 693
+
+SGS residual: 41.284451
+
+SGS iteration no: 694
+
+SGS residual: 41.203084
+
+SGS iteration no: 695
+
+SGS residual: 41.121877
+
+SGS iteration no: 696
+
+SGS residual: 41.040831
+
+SGS iteration no: 697
+
+SGS residual: 40.959944
+
+SGS iteration no: 698
+
+SGS residual: 40.879216
+
+SGS iteration no: 699
+
+SGS residual: 40.798648
+
+SGS iteration no: 700
+
+SGS residual: 40.718238
+
+SGS iteration no: 701
+
+SGS residual: 40.637987
+
+SGS iteration no: 702
+
+SGS residual: 40.557894
+
+SGS iteration no: 703
+
+SGS residual: 40.477959
+
+SGS iteration no: 704
+
+SGS residual: 40.398182
+
+SGS iteration no: 705
+
+SGS residual: 40.318561
+
+SGS iteration no: 706
+
+SGS residual: 40.239098
+
+SGS iteration no: 707
+
+SGS residual: 40.159792
+
+SGS iteration no: 708
+
+SGS residual: 40.080641
+
+SGS iteration no: 709
+
+SGS residual: 40.001647
+
+SGS iteration no: 710
+
+SGS residual: 39.922808
+
+SGS iteration no: 711
+
+SGS residual: 39.844125
+
+SGS iteration no: 712
+
+SGS residual: 39.765597
+
+SGS iteration no: 713
+
+SGS residual: 39.687223
+
+SGS iteration no: 714
+
+SGS residual: 39.609005
+
+SGS iteration no: 715
+
+SGS residual: 39.530940
+
+SGS iteration no: 716
+
+SGS residual: 39.453029
+
+SGS iteration no: 717
+
+SGS residual: 39.375272
+
+SGS iteration no: 718
+
+SGS residual: 39.297668
+
+SGS iteration no: 719
+
+SGS residual: 39.220217
+
+SGS iteration no: 720
+
+SGS residual: 39.142918
+
+SGS iteration no: 721
+
+SGS residual: 39.065772
+
+SGS iteration no: 722
+
+SGS residual: 38.988778
+
+SGS iteration no: 723
+
+SGS residual: 38.911936
+
+SGS iteration no: 724
+
+SGS residual: 38.835245
+
+SGS iteration no: 725
+
+SGS residual: 38.758706
+
+SGS iteration no: 726
+
+SGS residual: 38.682317
+
+SGS iteration no: 727
+
+SGS residual: 38.606079
+
+SGS iteration no: 728
+
+SGS residual: 38.529991
+
+SGS iteration no: 729
+
+SGS residual: 38.454053
+
+SGS iteration no: 730
+
+SGS residual: 38.378265
+
+SGS iteration no: 731
+
+SGS residual: 38.302626
+
+SGS iteration no: 732
+
+SGS residual: 38.227136
+
+SGS iteration no: 733
+
+SGS residual: 38.151795
+
+SGS iteration no: 734
+
+SGS residual: 38.076603
+
+SGS iteration no: 735
+
+SGS residual: 38.001559
+
+SGS iteration no: 736
+
+SGS residual: 37.926662
+
+SGS iteration no: 737
+
+SGS residual: 37.851913
+
+SGS iteration no: 738
+
+SGS residual: 37.777312
+
+SGS iteration no: 739
+
+SGS residual: 37.702858
+
+SGS iteration no: 740
+
+SGS residual: 37.628550
+
+SGS iteration no: 741
+
+SGS residual: 37.554389
+
+SGS iteration no: 742
+
+SGS residual: 37.480374
+
+SGS iteration no: 743
+
+SGS residual: 37.406505
+
+SGS iteration no: 744
+
+SGS residual: 37.332781
+
+SGS iteration no: 745
+
+SGS residual: 37.259203
+
+SGS iteration no: 746
+
+SGS residual: 37.185770
+
+SGS iteration no: 747
+
+SGS residual: 37.112481
+
+SGS iteration no: 748
+
+SGS residual: 37.039337
+
+SGS iteration no: 749
+
+SGS residual: 36.966337
+
+SGS iteration no: 750
+
+SGS residual: 36.893482
+
+SGS iteration no: 751
+
+SGS residual: 36.820769
+
+SGS iteration no: 752
+
+SGS residual: 36.748200
+
+SGS iteration no: 753
+
+SGS residual: 36.675774
+
+SGS iteration no: 754
+
+SGS residual: 36.603491
+
+SGS iteration no: 755
+
+SGS residual: 36.531350
+
+SGS iteration no: 756
+
+SGS residual: 36.459351
+
+SGS iteration no: 757
+
+SGS residual: 36.387495
+
+SGS iteration no: 758
+
+SGS residual: 36.315780
+
+SGS iteration no: 759
+
+SGS residual: 36.244206
+
+SGS iteration no: 760
+
+SGS residual: 36.172773
+
+SGS iteration no: 761
+
+SGS residual: 36.101481
+
+SGS iteration no: 762
+
+SGS residual: 36.030330
+
+SGS iteration no: 763
+
+SGS residual: 35.959319
+
+SGS iteration no: 764
+
+SGS residual: 35.888448
+
+SGS iteration no: 765
+
+SGS residual: 35.817716
+
+SGS iteration no: 766
+
+SGS residual: 35.747124
+
+SGS iteration no: 767
+
+SGS residual: 35.676671
+
+SGS iteration no: 768
+
+SGS residual: 35.606357
+
+SGS iteration no: 769
+
+SGS residual: 35.536182
+
+SGS iteration no: 770
+
+SGS residual: 35.466145
+
+SGS iteration no: 771
+
+SGS residual: 35.396245
+
+SGS iteration no: 772
+
+SGS residual: 35.326484
+
+SGS iteration no: 773
+
+SGS residual: 35.256860
+
+SGS iteration no: 774
+
+SGS residual: 35.187373
+
+SGS iteration no: 775
+
+SGS residual: 35.118024
+
+SGS iteration no: 776
+
+SGS residual: 35.048811
+
+SGS iteration no: 777
+
+SGS residual: 34.979734
+
+SGS iteration no: 778
+
+SGS residual: 34.910794
+
+SGS iteration no: 779
+
+SGS residual: 34.841989
+
+SGS iteration no: 780
+
+SGS residual: 34.773320
+
+SGS iteration no: 781
+
+SGS residual: 34.704787
+
+SGS iteration no: 782
+
+SGS residual: 34.636388
+
+SGS iteration no: 783
+
+SGS residual: 34.568124
+
+SGS iteration no: 784
+
+SGS residual: 34.499995
+
+SGS iteration no: 785
+
+SGS residual: 34.432000
+
+SGS iteration no: 786
+
+SGS residual: 34.364139
+
+SGS iteration no: 787
+
+SGS residual: 34.296412
+
+SGS iteration no: 788
+
+SGS residual: 34.228818
+
+SGS iteration no: 789
+
+SGS residual: 34.161358
+
+SGS iteration no: 790
+
+SGS residual: 34.094030
+
+SGS iteration no: 791
+
+SGS residual: 34.026836
+
+SGS iteration no: 792
+
+SGS residual: 33.959773
+
+SGS iteration no: 793
+
+SGS residual: 33.892843
+
+SGS iteration no: 794
+
+SGS residual: 33.826045
+
+SGS iteration no: 795
+
+SGS residual: 33.759378
+
+SGS iteration no: 796
+
+SGS residual: 33.692843
+
+SGS iteration no: 797
+
+SGS residual: 33.626439
+
+SGS iteration no: 798
+
+SGS residual: 33.560166
+
+SGS iteration no: 799
+
+SGS residual: 33.494023
+
+SGS iteration no: 800
+
+SGS residual: 33.428011
+
+SGS iteration no: 801
+
+SGS residual: 33.362129
+
+SGS iteration no: 802
+
+SGS residual: 33.296376
+
+SGS iteration no: 803
+
+SGS residual: 33.230754
+
+SGS iteration no: 804
+
+SGS residual: 33.165260
+
+SGS iteration no: 805
+
+SGS residual: 33.099896
+
+SGS iteration no: 806
+
+SGS residual: 33.034661
+
+SGS iteration no: 807
+
+SGS residual: 32.969554
+
+SGS iteration no: 808
+
+SGS residual: 32.904575
+
+SGS iteration no: 809
+
+SGS residual: 32.839725
+
+SGS iteration no: 810
+
+SGS residual: 32.775002
+
+SGS iteration no: 811
+
+SGS residual: 32.710407
+
+SGS iteration no: 812
+
+SGS residual: 32.645939
+
+SGS iteration no: 813
+
+SGS residual: 32.581599
+
+SGS iteration no: 814
+
+SGS residual: 32.517385
+
+SGS iteration no: 815
+
+SGS residual: 32.453297
+
+SGS iteration no: 816
+
+SGS residual: 32.389336
+
+SGS iteration no: 817
+
+SGS residual: 32.325501
+
+SGS iteration no: 818
+
+SGS residual: 32.261792
+
+SGS iteration no: 819
+
+SGS residual: 32.198208
+
+SGS iteration no: 820
+
+SGS residual: 32.134750
+
+SGS iteration no: 821
+
+SGS residual: 32.071417
+
+SGS iteration no: 822
+
+SGS residual: 32.008208
+
+SGS iteration no: 823
+
+SGS residual: 31.945125
+
+SGS iteration no: 824
+
+SGS residual: 31.882165
+
+SGS iteration no: 825
+
+SGS residual: 31.819330
+
+SGS iteration no: 826
+
+SGS residual: 31.756618
+
+SGS iteration no: 827
+
+SGS residual: 31.694030
+
+SGS iteration no: 828
+
+SGS residual: 31.631566
+
+SGS iteration no: 829
+
+SGS residual: 31.569224
+
+SGS iteration no: 830
+
+SGS residual: 31.507005
+
+SGS iteration no: 831
+
+SGS residual: 31.444909
+
+SGS iteration no: 832
+
+SGS residual: 31.382936
+
+SGS iteration no: 833
+
+SGS residual: 31.321084
+
+SGS iteration no: 834
+
+SGS residual: 31.259355
+
+SGS iteration no: 835
+
+SGS residual: 31.197747
+
+SGS iteration no: 836
+
+SGS residual: 31.136260
+
+SGS iteration no: 837
+
+SGS residual: 31.074895
+
+SGS iteration no: 838
+
+SGS residual: 31.013651
+
+SGS iteration no: 839
+
+SGS residual: 30.952527
+
+SGS iteration no: 840
+
+SGS residual: 30.891524
+
+SGS iteration no: 841
+
+SGS residual: 30.830641
+
+SGS iteration no: 842
+
+SGS residual: 30.769878
+
+SGS iteration no: 843
+
+SGS residual: 30.709235
+
+SGS iteration no: 844
+
+SGS residual: 30.648711
+
+SGS iteration no: 845
+
+SGS residual: 30.588306
+
+SGS iteration no: 846
+
+SGS residual: 30.528021
+
+SGS iteration no: 847
+
+SGS residual: 30.467855
+
+SGS iteration no: 848
+
+SGS residual: 30.407807
+
+SGS iteration no: 849
+
+SGS residual: 30.347877
+
+SGS iteration no: 850
+
+SGS residual: 30.288065
+
+SGS iteration no: 851
+
+SGS residual: 30.228372
+
+SGS iteration no: 852
+
+SGS residual: 30.168796
+
+SGS iteration no: 853
+
+SGS residual: 30.109337
+
+SGS iteration no: 854
+
+SGS residual: 30.049996
+
+SGS iteration no: 855
+
+SGS residual: 29.990772
+
+SGS iteration no: 856
+
+SGS residual: 29.931664
+
+SGS iteration no: 857
+
+SGS residual: 29.872673
+
+SGS iteration no: 858
+
+SGS residual: 29.813798
+
+SGS iteration no: 859
+
+SGS residual: 29.755039
+
+SGS iteration no: 860
+
+SGS residual: 29.696396
+
+SGS iteration no: 861
+
+SGS residual: 29.637868
+
+SGS iteration no: 862
+
+SGS residual: 29.579456
+
+SGS iteration no: 863
+
+SGS residual: 29.521159
+
+SGS iteration no: 864
+
+SGS residual: 29.462977
+
+SGS iteration no: 865
+
+SGS residual: 29.404909
+
+SGS iteration no: 866
+
+SGS residual: 29.346956
+
+SGS iteration no: 867
+
+SGS residual: 29.289118
+
+SGS iteration no: 868
+
+SGS residual: 29.231393
+
+SGS iteration no: 869
+
+SGS residual: 29.173782
+
+SGS iteration no: 870
+
+SGS residual: 29.116284
+
+SGS iteration no: 871
+
+SGS residual: 29.058900
+
+SGS iteration no: 872
+
+SGS residual: 29.001629
+
+SGS iteration no: 873
+
+SGS residual: 28.944471
+
+SGS iteration no: 874
+
+SGS residual: 28.887425
+
+SGS iteration no: 875
+
+SGS residual: 28.830492
+
+SGS iteration no: 876
+
+SGS residual: 28.773671
+
+SGS iteration no: 877
+
+SGS residual: 28.716962
+
+SGS iteration no: 878
+
+SGS residual: 28.660365
+
+SGS iteration no: 879
+
+SGS residual: 28.603879
+
+SGS iteration no: 880
+
+SGS residual: 28.547505
+
+SGS iteration no: 881
+
+SGS residual: 28.491242
+
+SGS iteration no: 882
+
+SGS residual: 28.435090
+
+SGS iteration no: 883
+
+SGS residual: 28.379048
+
+SGS iteration no: 884
+
+SGS residual: 28.323117
+
+SGS iteration no: 885
+
+SGS residual: 28.267296
+
+SGS iteration no: 886
+
+SGS residual: 28.211585
+
+SGS iteration no: 887
+
+SGS residual: 28.155984
+
+SGS iteration no: 888
+
+SGS residual: 28.100492
+
+SGS iteration no: 889
+
+SGS residual: 28.045110
+
+SGS iteration no: 890
+
+SGS residual: 27.989837
+
+SGS iteration no: 891
+
+SGS residual: 27.934673
+
+SGS iteration no: 892
+
+SGS residual: 27.879618
+
+SGS iteration no: 893
+
+SGS residual: 27.824671
+
+SGS iteration no: 894
+
+SGS residual: 27.769832
+
+SGS iteration no: 895
+
+SGS residual: 27.715102
+
+SGS iteration no: 896
+
+SGS residual: 27.660479
+
+SGS iteration no: 897
+
+SGS residual: 27.605964
+
+SGS iteration no: 898
+
+SGS residual: 27.551557
+
+SGS iteration no: 899
+
+SGS residual: 27.497256
+
+SGS iteration no: 900
+
+SGS residual: 27.443063
+
+SGS iteration no: 901
+
+SGS residual: 27.388977
+
+SGS iteration no: 902
+
+SGS residual: 27.334997
+
+SGS iteration no: 903
+
+SGS residual: 27.281123
+
+SGS iteration no: 904
+
+SGS residual: 27.227356
+
+SGS iteration no: 905
+
+SGS residual: 27.173695
+
+SGS iteration no: 906
+
+SGS residual: 27.120139
+
+SGS iteration no: 907
+
+SGS residual: 27.066689
+
+SGS iteration no: 908
+
+SGS residual: 27.013344
+
+SGS iteration no: 909
+
+SGS residual: 26.960105
+
+SGS iteration no: 910
+
+SGS residual: 26.906970
+
+SGS iteration no: 911
+
+SGS residual: 26.853940
+
+SGS iteration no: 912
+
+SGS residual: 26.801015
+
+SGS iteration no: 913
+
+SGS residual: 26.748194
+
+SGS iteration no: 914
+
+SGS residual: 26.695477
+
+SGS iteration no: 915
+
+SGS residual: 26.642864
+
+SGS iteration no: 916
+
+SGS residual: 26.590354
+
+SGS iteration no: 917
+
+SGS residual: 26.537948
+
+SGS iteration no: 918
+
+SGS residual: 26.485646
+
+SGS iteration no: 919
+
+SGS residual: 26.433446
+
+SGS iteration no: 920
+
+SGS residual: 26.381350
+
+SGS iteration no: 921
+
+SGS residual: 26.329356
+
+SGS iteration no: 922
+
+SGS residual: 26.277464
+
+SGS iteration no: 923
+
+SGS residual: 26.225675
+
+SGS iteration no: 924
+
+SGS residual: 26.173988
+
+SGS iteration no: 925
+
+SGS residual: 26.122402
+
+SGS iteration no: 926
+
+SGS residual: 26.070919
+
+SGS iteration no: 927
+
+SGS residual: 26.019537
+
+SGS iteration no: 928
+
+SGS residual: 25.968256
+
+SGS iteration no: 929
+
+SGS residual: 25.917076
+
+SGS iteration no: 930
+
+SGS residual: 25.865997
+
+SGS iteration no: 931
+
+SGS residual: 25.815019
+
+SGS iteration no: 932
+
+SGS residual: 25.764141
+
+SGS iteration no: 933
+
+SGS residual: 25.713363
+
+SGS iteration no: 934
+
+SGS residual: 25.662686
+
+SGS iteration no: 935
+
+SGS residual: 25.612108
+
+SGS iteration no: 936
+
+SGS residual: 25.561630
+
+SGS iteration no: 937
+
+SGS residual: 25.511252
+
+SGS iteration no: 938
+
+SGS residual: 25.460973
+
+SGS iteration no: 939
+
+SGS residual: 25.410793
+
+SGS iteration no: 940
+
+SGS residual: 25.360712
+
+SGS iteration no: 941
+
+SGS residual: 25.310729
+
+SGS iteration no: 942
+
+SGS residual: 25.260845
+
+SGS iteration no: 943
+
+SGS residual: 25.211060
+
+SGS iteration no: 944
+
+SGS residual: 25.161372
+
+SGS iteration no: 945
+
+SGS residual: 25.111783
+
+SGS iteration no: 946
+
+SGS residual: 25.062291
+
+SGS iteration no: 947
+
+SGS residual: 25.012897
+
+SGS iteration no: 948
+
+SGS residual: 24.963600
+
+SGS iteration no: 949
+
+SGS residual: 24.914400
+
+SGS iteration no: 950
+
+SGS residual: 24.865297
+
+SGS iteration no: 951
+
+SGS residual: 24.816291
+
+SGS iteration no: 952
+
+SGS residual: 24.767382
+
+SGS iteration no: 953
+
+SGS residual: 24.718569
+
+SGS iteration no: 954
+
+SGS residual: 24.669852
+
+SGS iteration no: 955
+
+SGS residual: 24.621231
+
+SGS iteration no: 956
+
+SGS residual: 24.572706
+
+SGS iteration no: 957
+
+SGS residual: 24.524277
+
+SGS iteration no: 958
+
+SGS residual: 24.475943
+
+SGS iteration no: 959
+
+SGS residual: 24.427704
+
+SGS iteration no: 960
+
+SGS residual: 24.379560
+
+SGS iteration no: 961
+
+SGS residual: 24.331512
+
+SGS iteration no: 962
+
+SGS residual: 24.283558
+
+SGS iteration no: 963
+
+SGS residual: 24.235698
+
+SGS iteration no: 964
+
+SGS residual: 24.187933
+
+SGS iteration no: 965
+
+SGS residual: 24.140262
+
+SGS iteration no: 966
+
+SGS residual: 24.092685
+
+SGS iteration no: 967
+
+SGS residual: 24.045201
+
+SGS iteration no: 968
+
+SGS residual: 23.997812
+
+SGS iteration no: 969
+
+SGS residual: 23.950515
+
+SGS iteration no: 970
+
+SGS residual: 23.903312
+
+SGS iteration no: 971
+
+SGS residual: 23.856202
+
+SGS iteration no: 972
+
+SGS residual: 23.809185
+
+SGS iteration no: 973
+
+SGS residual: 23.762260
+
+SGS iteration no: 974
+
+SGS residual: 23.715428
+
+SGS iteration no: 975
+
+SGS residual: 23.668688
+
+SGS iteration no: 976
+
+SGS residual: 23.622041
+
+SGS iteration no: 977
+
+SGS residual: 23.575485
+
+SGS iteration no: 978
+
+SGS residual: 23.529021
+
+SGS iteration no: 979
+
+SGS residual: 23.482649
+
+SGS iteration no: 980
+
+SGS residual: 23.436368
+
+SGS iteration no: 981
+
+SGS residual: 23.390178
+
+SGS iteration no: 982
+
+SGS residual: 23.344079
+
+SGS iteration no: 983
+
+SGS residual: 23.298071
+
+SGS iteration no: 984
+
+SGS residual: 23.252154
+
+SGS iteration no: 985
+
+SGS residual: 23.206327
+
+SGS iteration no: 986
+
+SGS residual: 23.160591
+
+SGS iteration no: 987
+
+SGS residual: 23.114944
+
+SGS iteration no: 988
+
+SGS residual: 23.069388
+
+SGS iteration no: 989
+
+SGS residual: 23.023921
+
+SGS iteration no: 990
+
+SGS residual: 22.978545
+
+SGS iteration no: 991
+
+SGS residual: 22.933257
+
+SGS iteration no: 992
+
+SGS residual: 22.888059
+
+SGS iteration no: 993
+
+SGS residual: 22.842950
+
+SGS iteration no: 994
+
+SGS residual: 22.797929
+
+SGS iteration no: 995
+
+SGS residual: 22.752998
+
+SGS iteration no: 996
+
+SGS residual: 22.708155
+
+SGS iteration no: 997
+
+SGS residual: 22.663400
+
+SGS iteration no: 998
+
+SGS residual: 22.618734
+
+SGS iteration no: 999
+
+SGS residual: 22.574155
+
+SGS iteration no: 1000
+
+SGS residual: 22.529665
+
+Debug: destroying mesh

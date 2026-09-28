@@ -1,0 +1,4010 @@
+Setting up Jacobi solver
+Setting up A
+Setting up RHS
+Jacobi iteration start: 198.252364
+
+Jacobi iteration no: 0
+
+Jacobi residual: 198.252364
+
+Jacobi iteration no: 1
+
+Jacobi residual: 194.997436
+
+Jacobi iteration no: 2
+
+Jacobi residual: 194.057337
+
+Jacobi iteration no: 3
+
+Jacobi residual: 193.268595
+
+Jacobi iteration no: 4
+
+Jacobi residual: 192.559155
+
+Jacobi iteration no: 5
+
+Jacobi residual: 191.909112
+
+Jacobi iteration no: 6
+
+Jacobi residual: 191.306051
+
+Jacobi iteration no: 7
+
+Jacobi residual: 190.741292
+
+Jacobi iteration no: 8
+
+Jacobi residual: 190.208485
+
+Jacobi iteration no: 9
+
+Jacobi residual: 189.702833
+
+Jacobi iteration no: 10
+
+Jacobi residual: 189.220612
+
+Jacobi iteration no: 11
+
+Jacobi residual: 188.758872
+
+Jacobi iteration no: 12
+
+Jacobi residual: 188.315226
+
+Jacobi iteration no: 13
+
+Jacobi residual: 187.887715
+
+Jacobi iteration no: 14
+
+Jacobi residual: 187.474708
+
+Jacobi iteration no: 15
+
+Jacobi residual: 187.074829
+
+Jacobi iteration no: 16
+
+Jacobi residual: 186.686907
+
+Jacobi iteration no: 17
+
+Jacobi residual: 186.309932
+
+Jacobi iteration no: 18
+
+Jacobi residual: 185.943031
+
+Jacobi iteration no: 19
+
+Jacobi residual: 185.585439
+
+Jacobi iteration no: 20
+
+Jacobi residual: 185.236484
+
+Jacobi iteration no: 21
+
+Jacobi residual: 184.895570
+
+Jacobi iteration no: 22
+
+Jacobi residual: 184.562168
+
+Jacobi iteration no: 23
+
+Jacobi residual: 184.235801
+
+Jacobi iteration no: 24
+
+Jacobi residual: 183.916044
+
+Jacobi iteration no: 25
+
+Jacobi residual: 183.602512
+
+Jacobi iteration no: 26
+
+Jacobi residual: 183.294855
+
+Jacobi iteration no: 27
+
+Jacobi residual: 182.992755
+
+Jacobi iteration no: 28
+
+Jacobi residual: 182.695921
+
+Jacobi iteration no: 29
+
+Jacobi residual: 182.404089
+
+Jacobi iteration no: 30
+
+Jacobi residual: 182.117014
+
+Jacobi iteration no: 31
+
+Jacobi residual: 181.834470
+
+Jacobi iteration no: 32
+
+Jacobi residual: 181.556251
+
+Jacobi iteration no: 33
+
+Jacobi residual: 181.282163
+
+Jacobi iteration no: 34
+
+Jacobi residual: 181.012027
+
+Jacobi iteration no: 35
+
+Jacobi residual: 180.745679
+
+Jacobi iteration no: 36
+
+Jacobi residual: 180.482963
+
+Jacobi iteration no: 37
+
+Jacobi residual: 180.223734
+
+Jacobi iteration no: 38
+
+Jacobi residual: 179.967857
+
+Jacobi iteration no: 39
+
+Jacobi residual: 179.715206
+
+Jacobi iteration no: 40
+
+Jacobi residual: 179.465662
+
+Jacobi iteration no: 41
+
+Jacobi residual: 179.219112
+
+Jacobi iteration no: 42
+
+Jacobi residual: 178.975452
+
+Jacobi iteration no: 43
+
+Jacobi residual: 178.734583
+
+Jacobi iteration no: 44
+
+Jacobi residual: 178.496410
+
+Jacobi iteration no: 45
+
+Jacobi residual: 178.260846
+
+Jacobi iteration no: 46
+
+Jacobi residual: 178.027806
+
+Jacobi iteration no: 47
+
+Jacobi residual: 177.797211
+
+Jacobi iteration no: 48
+
+Jacobi residual: 177.568985
+
+Jacobi iteration no: 49
+
+Jacobi residual: 177.343058
+
+Jacobi iteration no: 50
+
+Jacobi residual: 177.119361
+
+Jacobi iteration no: 51
+
+Jacobi residual: 176.897829
+
+Jacobi iteration no: 52
+
+Jacobi residual: 176.678400
+
+Jacobi iteration no: 53
+
+Jacobi residual: 176.461017
+
+Jacobi iteration no: 54
+
+Jacobi residual: 176.245622
+
+Jacobi iteration no: 55
+
+Jacobi residual: 176.032163
+
+Jacobi iteration no: 56
+
+Jacobi residual: 175.820587
+
+Jacobi iteration no: 57
+
+Jacobi residual: 175.610847
+
+Jacobi iteration no: 58
+
+Jacobi residual: 175.402894
+
+Jacobi iteration no: 59
+
+Jacobi residual: 175.196685
+
+Jacobi iteration no: 60
+
+Jacobi residual: 174.992175
+
+Jacobi iteration no: 61
+
+Jacobi residual: 174.789324
+
+Jacobi iteration no: 62
+
+Jacobi residual: 174.588093
+
+Jacobi iteration no: 63
+
+Jacobi residual: 174.388441
+
+Jacobi iteration no: 64
+
+Jacobi residual: 174.190335
+
+Jacobi iteration no: 65
+
+Jacobi residual: 173.993736
+
+Jacobi iteration no: 66
+
+Jacobi residual: 173.798613
+
+Jacobi iteration no: 67
+
+Jacobi residual: 173.604932
+
+Jacobi iteration no: 68
+
+Jacobi residual: 173.412662
+
+Jacobi iteration no: 69
+
+Jacobi residual: 173.221772
+
+Jacobi iteration no: 70
+
+Jacobi residual: 173.032233
+
+Jacobi iteration no: 71
+
+Jacobi residual: 172.844017
+
+Jacobi iteration no: 72
+
+Jacobi residual: 172.657096
+
+Jacobi iteration no: 73
+
+Jacobi residual: 172.471444
+
+Jacobi iteration no: 74
+
+Jacobi residual: 172.287036
+
+Jacobi iteration no: 75
+
+Jacobi residual: 172.103846
+
+Jacobi iteration no: 76
+
+Jacobi residual: 171.921852
+
+Jacobi iteration no: 77
+
+Jacobi residual: 171.741030
+
+Jacobi iteration no: 78
+
+Jacobi residual: 171.561357
+
+Jacobi iteration no: 79
+
+Jacobi residual: 171.382812
+
+Jacobi iteration no: 80
+
+Jacobi residual: 171.205375
+
+Jacobi iteration no: 81
+
+Jacobi residual: 171.029024
+
+Jacobi iteration no: 82
+
+Jacobi residual: 170.853739
+
+Jacobi iteration no: 83
+
+Jacobi residual: 170.679503
+
+Jacobi iteration no: 84
+
+Jacobi residual: 170.506296
+
+Jacobi iteration no: 85
+
+Jacobi residual: 170.334100
+
+Jacobi iteration no: 86
+
+Jacobi residual: 170.162898
+
+Jacobi iteration no: 87
+
+Jacobi residual: 169.992672
+
+Jacobi iteration no: 88
+
+Jacobi residual: 169.823407
+
+Jacobi iteration no: 89
+
+Jacobi residual: 169.655086
+
+Jacobi iteration no: 90
+
+Jacobi residual: 169.487693
+
+Jacobi iteration no: 91
+
+Jacobi residual: 169.321214
+
+Jacobi iteration no: 92
+
+Jacobi residual: 169.155633
+
+Jacobi iteration no: 93
+
+Jacobi residual: 168.990936
+
+Jacobi iteration no: 94
+
+Jacobi residual: 168.827110
+
+Jacobi iteration no: 95
+
+Jacobi residual: 168.664139
+
+Jacobi iteration no: 96
+
+Jacobi residual: 168.502012
+
+Jacobi iteration no: 97
+
+Jacobi residual: 168.340715
+
+Jacobi iteration no: 98
+
+Jacobi residual: 168.180236
+
+Jacobi iteration no: 99
+
+Jacobi residual: 168.020562
+
+Jacobi iteration no: 100
+
+Jacobi residual: 167.861682
+
+Jacobi iteration no: 101
+
+Jacobi residual: 167.703583
+
+Jacobi iteration no: 102
+
+Jacobi residual: 167.546254
+
+Jacobi iteration no: 103
+
+Jacobi residual: 167.389684
+
+Jacobi iteration no: 104
+
+Jacobi residual: 167.233862
+
+Jacobi iteration no: 105
+
+Jacobi residual: 167.078778
+
+Jacobi iteration no: 106
+
+Jacobi residual: 166.924421
+
+Jacobi iteration no: 107
+
+Jacobi residual: 166.770780
+
+Jacobi iteration no: 108
+
+Jacobi residual: 166.617847
+
+Jacobi iteration no: 109
+
+Jacobi residual: 166.465612
+
+Jacobi iteration no: 110
+
+Jacobi residual: 166.314064
+
+Jacobi iteration no: 111
+
+Jacobi residual: 166.163195
+
+Jacobi iteration no: 112
+
+Jacobi residual: 166.012996
+
+Jacobi iteration no: 113
+
+Jacobi residual: 165.863458
+
+Jacobi iteration no: 114
+
+Jacobi residual: 165.714572
+
+Jacobi iteration no: 115
+
+Jacobi residual: 165.566330
+
+Jacobi iteration no: 116
+
+Jacobi residual: 165.418723
+
+Jacobi iteration no: 117
+
+Jacobi residual: 165.271743
+
+Jacobi iteration no: 118
+
+Jacobi residual: 165.125383
+
+Jacobi iteration no: 119
+
+Jacobi residual: 164.979635
+
+Jacobi iteration no: 120
+
+Jacobi residual: 164.834490
+
+Jacobi iteration no: 121
+
+Jacobi residual: 164.689943
+
+Jacobi iteration no: 122
+
+Jacobi residual: 164.545984
+
+Jacobi iteration no: 123
+
+Jacobi residual: 164.402608
+
+Jacobi iteration no: 124
+
+Jacobi residual: 164.259807
+
+Jacobi iteration no: 125
+
+Jacobi residual: 164.117575
+
+Jacobi iteration no: 126
+
+Jacobi residual: 163.975903
+
+Jacobi iteration no: 127
+
+Jacobi residual: 163.834787
+
+Jacobi iteration no: 128
+
+Jacobi residual: 163.694220
+
+Jacobi iteration no: 129
+
+Jacobi residual: 163.554194
+
+Jacobi iteration no: 130
+
+Jacobi residual: 163.414704
+
+Jacobi iteration no: 131
+
+Jacobi residual: 163.275745
+
+Jacobi iteration no: 132
+
+Jacobi residual: 163.137309
+
+Jacobi iteration no: 133
+
+Jacobi residual: 162.999391
+
+Jacobi iteration no: 134
+
+Jacobi residual: 162.861985
+
+Jacobi iteration no: 135
+
+Jacobi residual: 162.725086
+
+Jacobi iteration no: 136
+
+Jacobi residual: 162.588687
+
+Jacobi iteration no: 137
+
+Jacobi residual: 162.452785
+
+Jacobi iteration no: 138
+
+Jacobi residual: 162.317372
+
+Jacobi iteration no: 139
+
+Jacobi residual: 162.182444
+
+Jacobi iteration no: 140
+
+Jacobi residual: 162.047996
+
+Jacobi iteration no: 141
+
+Jacobi residual: 161.914022
+
+Jacobi iteration no: 142
+
+Jacobi residual: 161.780519
+
+Jacobi iteration no: 143
+
+Jacobi residual: 161.647479
+
+Jacobi iteration no: 144
+
+Jacobi residual: 161.514900
+
+Jacobi iteration no: 145
+
+Jacobi residual: 161.382776
+
+Jacobi iteration no: 146
+
+Jacobi residual: 161.251103
+
+Jacobi iteration no: 147
+
+Jacobi residual: 161.119875
+
+Jacobi iteration no: 148
+
+Jacobi residual: 160.989089
+
+Jacobi iteration no: 149
+
+Jacobi residual: 160.858740
+
+Jacobi iteration no: 150
+
+Jacobi residual: 160.728823
+
+Jacobi iteration no: 151
+
+Jacobi residual: 160.599335
+
+Jacobi iteration no: 152
+
+Jacobi residual: 160.470271
+
+Jacobi iteration no: 153
+
+Jacobi residual: 160.341627
+
+Jacobi iteration no: 154
+
+Jacobi residual: 160.213399
+
+Jacobi iteration no: 155
+
+Jacobi residual: 160.085583
+
+Jacobi iteration no: 156
+
+Jacobi residual: 159.958175
+
+Jacobi iteration no: 157
+
+Jacobi residual: 159.831171
+
+Jacobi iteration no: 158
+
+Jacobi residual: 159.704568
+
+Jacobi iteration no: 159
+
+Jacobi residual: 159.578360
+
+Jacobi iteration no: 160
+
+Jacobi residual: 159.452546
+
+Jacobi iteration no: 161
+
+Jacobi residual: 159.327121
+
+Jacobi iteration no: 162
+
+Jacobi residual: 159.202082
+
+Jacobi iteration no: 163
+
+Jacobi residual: 159.077424
+
+Jacobi iteration no: 164
+
+Jacobi residual: 158.953146
+
+Jacobi iteration no: 165
+
+Jacobi residual: 158.829242
+
+Jacobi iteration no: 166
+
+Jacobi residual: 158.705710
+
+Jacobi iteration no: 167
+
+Jacobi residual: 158.582547
+
+Jacobi iteration no: 168
+
+Jacobi residual: 158.459748
+
+Jacobi iteration no: 169
+
+Jacobi residual: 158.337312
+
+Jacobi iteration no: 170
+
+Jacobi residual: 158.215235
+
+Jacobi iteration no: 171
+
+Jacobi residual: 158.093513
+
+Jacobi iteration no: 172
+
+Jacobi residual: 157.972143
+
+Jacobi iteration no: 173
+
+Jacobi residual: 157.851123
+
+Jacobi iteration no: 174
+
+Jacobi residual: 157.730450
+
+Jacobi iteration no: 175
+
+Jacobi residual: 157.610120
+
+Jacobi iteration no: 176
+
+Jacobi residual: 157.490131
+
+Jacobi iteration no: 177
+
+Jacobi residual: 157.370480
+
+Jacobi iteration no: 178
+
+Jacobi residual: 157.251163
+
+Jacobi iteration no: 179
+
+Jacobi residual: 157.132178
+
+Jacobi iteration no: 180
+
+Jacobi residual: 157.013523
+
+Jacobi iteration no: 181
+
+Jacobi residual: 156.895195
+
+Jacobi iteration no: 182
+
+Jacobi residual: 156.777190
+
+Jacobi iteration no: 183
+
+Jacobi residual: 156.659507
+
+Jacobi iteration no: 184
+
+Jacobi residual: 156.542142
+
+Jacobi iteration no: 185
+
+Jacobi residual: 156.425094
+
+Jacobi iteration no: 186
+
+Jacobi residual: 156.308359
+
+Jacobi iteration no: 187
+
+Jacobi residual: 156.191935
+
+Jacobi iteration no: 188
+
+Jacobi residual: 156.075820
+
+Jacobi iteration no: 189
+
+Jacobi residual: 155.960011
+
+Jacobi iteration no: 190
+
+Jacobi residual: 155.844506
+
+Jacobi iteration no: 191
+
+Jacobi residual: 155.729302
+
+Jacobi iteration no: 192
+
+Jacobi residual: 155.614397
+
+Jacobi iteration no: 193
+
+Jacobi residual: 155.499789
+
+Jacobi iteration no: 194
+
+Jacobi residual: 155.385475
+
+Jacobi iteration no: 195
+
+Jacobi residual: 155.271453
+
+Jacobi iteration no: 196
+
+Jacobi residual: 155.157721
+
+Jacobi iteration no: 197
+
+Jacobi residual: 155.044277
+
+Jacobi iteration no: 198
+
+Jacobi residual: 154.931119
+
+Jacobi iteration no: 199
+
+Jacobi residual: 154.818244
+
+Jacobi iteration no: 200
+
+Jacobi residual: 154.705650
+
+Jacobi iteration no: 201
+
+Jacobi residual: 154.593336
+
+Jacobi iteration no: 202
+
+Jacobi residual: 154.481298
+
+Jacobi iteration no: 203
+
+Jacobi residual: 154.369536
+
+Jacobi iteration no: 204
+
+Jacobi residual: 154.258047
+
+Jacobi iteration no: 205
+
+Jacobi residual: 154.146829
+
+Jacobi iteration no: 206
+
+Jacobi residual: 154.035880
+
+Jacobi iteration no: 207
+
+Jacobi residual: 153.925198
+
+Jacobi iteration no: 208
+
+Jacobi residual: 153.814781
+
+Jacobi iteration no: 209
+
+Jacobi residual: 153.704628
+
+Jacobi iteration no: 210
+
+Jacobi residual: 153.594736
+
+Jacobi iteration no: 211
+
+Jacobi residual: 153.485104
+
+Jacobi iteration no: 212
+
+Jacobi residual: 153.375730
+
+Jacobi iteration no: 213
+
+Jacobi residual: 153.266611
+
+Jacobi iteration no: 214
+
+Jacobi residual: 153.157747
+
+Jacobi iteration no: 215
+
+Jacobi residual: 153.049135
+
+Jacobi iteration no: 216
+
+Jacobi residual: 152.940774
+
+Jacobi iteration no: 217
+
+Jacobi residual: 152.832662
+
+Jacobi iteration no: 218
+
+Jacobi residual: 152.724797
+
+Jacobi iteration no: 219
+
+Jacobi residual: 152.617178
+
+Jacobi iteration no: 220
+
+Jacobi residual: 152.509803
+
+Jacobi iteration no: 221
+
+Jacobi residual: 152.402669
+
+Jacobi iteration no: 222
+
+Jacobi residual: 152.295777
+
+Jacobi iteration no: 223
+
+Jacobi residual: 152.189123
+
+Jacobi iteration no: 224
+
+Jacobi residual: 152.082707
+
+Jacobi iteration no: 225
+
+Jacobi residual: 151.976527
+
+Jacobi iteration no: 226
+
+Jacobi residual: 151.870580
+
+Jacobi iteration no: 227
+
+Jacobi residual: 151.764867
+
+Jacobi iteration no: 228
+
+Jacobi residual: 151.659385
+
+Jacobi iteration no: 229
+
+Jacobi residual: 151.554132
+
+Jacobi iteration no: 230
+
+Jacobi residual: 151.449108
+
+Jacobi iteration no: 231
+
+Jacobi residual: 151.344310
+
+Jacobi iteration no: 232
+
+Jacobi residual: 151.239738
+
+Jacobi iteration no: 233
+
+Jacobi residual: 151.135389
+
+Jacobi iteration no: 234
+
+Jacobi residual: 151.031263
+
+Jacobi iteration no: 235
+
+Jacobi residual: 150.927357
+
+Jacobi iteration no: 236
+
+Jacobi residual: 150.823671
+
+Jacobi iteration no: 237
+
+Jacobi residual: 150.720204
+
+Jacobi iteration no: 238
+
+Jacobi residual: 150.616953
+
+Jacobi iteration no: 239
+
+Jacobi residual: 150.513917
+
+Jacobi iteration no: 240
+
+Jacobi residual: 150.411096
+
+Jacobi iteration no: 241
+
+Jacobi residual: 150.308488
+
+Jacobi iteration no: 242
+
+Jacobi residual: 150.206090
+
+Jacobi iteration no: 243
+
+Jacobi residual: 150.103903
+
+Jacobi iteration no: 244
+
+Jacobi residual: 150.001925
+
+Jacobi iteration no: 245
+
+Jacobi residual: 149.900155
+
+Jacobi iteration no: 246
+
+Jacobi residual: 149.798591
+
+Jacobi iteration no: 247
+
+Jacobi residual: 149.697231
+
+Jacobi iteration no: 248
+
+Jacobi residual: 149.596076
+
+Jacobi iteration no: 249
+
+Jacobi residual: 149.495123
+
+Jacobi iteration no: 250
+
+Jacobi residual: 149.394372
+
+Jacobi iteration no: 251
+
+Jacobi residual: 149.293821
+
+Jacobi iteration no: 252
+
+Jacobi residual: 149.193469
+
+Jacobi iteration no: 253
+
+Jacobi residual: 149.093314
+
+Jacobi iteration no: 254
+
+Jacobi residual: 148.993357
+
+Jacobi iteration no: 255
+
+Jacobi residual: 148.893595
+
+Jacobi iteration no: 256
+
+Jacobi residual: 148.794027
+
+Jacobi iteration no: 257
+
+Jacobi residual: 148.694652
+
+Jacobi iteration no: 258
+
+Jacobi residual: 148.595470
+
+Jacobi iteration no: 259
+
+Jacobi residual: 148.496478
+
+Jacobi iteration no: 260
+
+Jacobi residual: 148.397677
+
+Jacobi iteration no: 261
+
+Jacobi residual: 148.299064
+
+Jacobi iteration no: 262
+
+Jacobi residual: 148.200639
+
+Jacobi iteration no: 263
+
+Jacobi residual: 148.102401
+
+Jacobi iteration no: 264
+
+Jacobi residual: 148.004348
+
+Jacobi iteration no: 265
+
+Jacobi residual: 147.906480
+
+Jacobi iteration no: 266
+
+Jacobi residual: 147.808795
+
+Jacobi iteration no: 267
+
+Jacobi residual: 147.711293
+
+Jacobi iteration no: 268
+
+Jacobi residual: 147.613973
+
+Jacobi iteration no: 269
+
+Jacobi residual: 147.516832
+
+Jacobi iteration no: 270
+
+Jacobi residual: 147.419872
+
+Jacobi iteration no: 271
+
+Jacobi residual: 147.323089
+
+Jacobi iteration no: 272
+
+Jacobi residual: 147.226485
+
+Jacobi iteration no: 273
+
+Jacobi residual: 147.130056
+
+Jacobi iteration no: 274
+
+Jacobi residual: 147.033804
+
+Jacobi iteration no: 275
+
+Jacobi residual: 146.937726
+
+Jacobi iteration no: 276
+
+Jacobi residual: 146.841821
+
+Jacobi iteration no: 277
+
+Jacobi residual: 146.746090
+
+Jacobi iteration no: 278
+
+Jacobi residual: 146.650530
+
+Jacobi iteration no: 279
+
+Jacobi residual: 146.555141
+
+Jacobi iteration no: 280
+
+Jacobi residual: 146.459922
+
+Jacobi iteration no: 281
+
+Jacobi residual: 146.364872
+
+Jacobi iteration no: 282
+
+Jacobi residual: 146.269990
+
+Jacobi iteration no: 283
+
+Jacobi residual: 146.175275
+
+Jacobi iteration no: 284
+
+Jacobi residual: 146.080727
+
+Jacobi iteration no: 285
+
+Jacobi residual: 145.986344
+
+Jacobi iteration no: 286
+
+Jacobi residual: 145.892126
+
+Jacobi iteration no: 287
+
+Jacobi residual: 145.798072
+
+Jacobi iteration no: 288
+
+Jacobi residual: 145.704180
+
+Jacobi iteration no: 289
+
+Jacobi residual: 145.610451
+
+Jacobi iteration no: 290
+
+Jacobi residual: 145.516883
+
+Jacobi iteration no: 291
+
+Jacobi residual: 145.423475
+
+Jacobi iteration no: 292
+
+Jacobi residual: 145.330227
+
+Jacobi iteration no: 293
+
+Jacobi residual: 145.237138
+
+Jacobi iteration no: 294
+
+Jacobi residual: 145.144206
+
+Jacobi iteration no: 295
+
+Jacobi residual: 145.051432
+
+Jacobi iteration no: 296
+
+Jacobi residual: 144.958815
+
+Jacobi iteration no: 297
+
+Jacobi residual: 144.866352
+
+Jacobi iteration no: 298
+
+Jacobi residual: 144.774045
+
+Jacobi iteration no: 299
+
+Jacobi residual: 144.681892
+
+Jacobi iteration no: 300
+
+Jacobi residual: 144.589892
+
+Jacobi iteration no: 301
+
+Jacobi residual: 144.498044
+
+Jacobi iteration no: 302
+
+Jacobi residual: 144.406348
+
+Jacobi iteration no: 303
+
+Jacobi residual: 144.314803
+
+Jacobi iteration no: 304
+
+Jacobi residual: 144.223409
+
+Jacobi iteration no: 305
+
+Jacobi residual: 144.132164
+
+Jacobi iteration no: 306
+
+Jacobi residual: 144.041068
+
+Jacobi iteration no: 307
+
+Jacobi residual: 143.950119
+
+Jacobi iteration no: 308
+
+Jacobi residual: 143.859319
+
+Jacobi iteration no: 309
+
+Jacobi residual: 143.768664
+
+Jacobi iteration no: 310
+
+Jacobi residual: 143.678156
+
+Jacobi iteration no: 311
+
+Jacobi residual: 143.587793
+
+Jacobi iteration no: 312
+
+Jacobi residual: 143.497574
+
+Jacobi iteration no: 313
+
+Jacobi residual: 143.407499
+
+Jacobi iteration no: 314
+
+Jacobi residual: 143.317568
+
+Jacobi iteration no: 315
+
+Jacobi residual: 143.227779
+
+Jacobi iteration no: 316
+
+Jacobi residual: 143.138131
+
+Jacobi iteration no: 317
+
+Jacobi residual: 143.048625
+
+Jacobi iteration no: 318
+
+Jacobi residual: 142.959259
+
+Jacobi iteration no: 319
+
+Jacobi residual: 142.870033
+
+Jacobi iteration no: 320
+
+Jacobi residual: 142.780946
+
+Jacobi iteration no: 321
+
+Jacobi residual: 142.691998
+
+Jacobi iteration no: 322
+
+Jacobi residual: 142.603187
+
+Jacobi iteration no: 323
+
+Jacobi residual: 142.514514
+
+Jacobi iteration no: 324
+
+Jacobi residual: 142.425977
+
+Jacobi iteration no: 325
+
+Jacobi residual: 142.337577
+
+Jacobi iteration no: 326
+
+Jacobi residual: 142.249311
+
+Jacobi iteration no: 327
+
+Jacobi residual: 142.161180
+
+Jacobi iteration no: 328
+
+Jacobi residual: 142.073184
+
+Jacobi iteration no: 329
+
+Jacobi residual: 141.985320
+
+Jacobi iteration no: 330
+
+Jacobi residual: 141.897590
+
+Jacobi iteration no: 331
+
+Jacobi residual: 141.809992
+
+Jacobi iteration no: 332
+
+Jacobi residual: 141.722526
+
+Jacobi iteration no: 333
+
+Jacobi residual: 141.635190
+
+Jacobi iteration no: 334
+
+Jacobi residual: 141.547985
+
+Jacobi iteration no: 335
+
+Jacobi residual: 141.460910
+
+Jacobi iteration no: 336
+
+Jacobi residual: 141.373965
+
+Jacobi iteration no: 337
+
+Jacobi residual: 141.287148
+
+Jacobi iteration no: 338
+
+Jacobi residual: 141.200459
+
+Jacobi iteration no: 339
+
+Jacobi residual: 141.113898
+
+Jacobi iteration no: 340
+
+Jacobi residual: 141.027464
+
+Jacobi iteration no: 341
+
+Jacobi residual: 140.941157
+
+Jacobi iteration no: 342
+
+Jacobi residual: 140.854975
+
+Jacobi iteration no: 343
+
+Jacobi residual: 140.768919
+
+Jacobi iteration no: 344
+
+Jacobi residual: 140.682988
+
+Jacobi iteration no: 345
+
+Jacobi residual: 140.597181
+
+Jacobi iteration no: 346
+
+Jacobi residual: 140.511498
+
+Jacobi iteration no: 347
+
+Jacobi residual: 140.425938
+
+Jacobi iteration no: 348
+
+Jacobi residual: 140.340501
+
+Jacobi iteration no: 349
+
+Jacobi residual: 140.255186
+
+Jacobi iteration no: 350
+
+Jacobi residual: 140.169992
+
+Jacobi iteration no: 351
+
+Jacobi residual: 140.084920
+
+Jacobi iteration no: 352
+
+Jacobi residual: 139.999969
+
+Jacobi iteration no: 353
+
+Jacobi residual: 139.915137
+
+Jacobi iteration no: 354
+
+Jacobi residual: 139.830425
+
+Jacobi iteration no: 355
+
+Jacobi residual: 139.745832
+
+Jacobi iteration no: 356
+
+Jacobi residual: 139.661358
+
+Jacobi iteration no: 357
+
+Jacobi residual: 139.577002
+
+Jacobi iteration no: 358
+
+Jacobi residual: 139.492764
+
+Jacobi iteration no: 359
+
+Jacobi residual: 139.408642
+
+Jacobi iteration no: 360
+
+Jacobi residual: 139.324638
+
+Jacobi iteration no: 361
+
+Jacobi residual: 139.240749
+
+Jacobi iteration no: 362
+
+Jacobi residual: 139.156976
+
+Jacobi iteration no: 363
+
+Jacobi residual: 139.073318
+
+Jacobi iteration no: 364
+
+Jacobi residual: 138.989775
+
+Jacobi iteration no: 365
+
+Jacobi residual: 138.906347
+
+Jacobi iteration no: 366
+
+Jacobi residual: 138.823032
+
+Jacobi iteration no: 367
+
+Jacobi residual: 138.739830
+
+Jacobi iteration no: 368
+
+Jacobi residual: 138.656741
+
+Jacobi iteration no: 369
+
+Jacobi residual: 138.573765
+
+Jacobi iteration no: 370
+
+Jacobi residual: 138.490901
+
+Jacobi iteration no: 371
+
+Jacobi residual: 138.408148
+
+Jacobi iteration no: 372
+
+Jacobi residual: 138.325506
+
+Jacobi iteration no: 373
+
+Jacobi residual: 138.242974
+
+Jacobi iteration no: 374
+
+Jacobi residual: 138.160553
+
+Jacobi iteration no: 375
+
+Jacobi residual: 138.078242
+
+Jacobi iteration no: 376
+
+Jacobi residual: 137.996040
+
+Jacobi iteration no: 377
+
+Jacobi residual: 137.913947
+
+Jacobi iteration no: 378
+
+Jacobi residual: 137.831962
+
+Jacobi iteration no: 379
+
+Jacobi residual: 137.750085
+
+Jacobi iteration no: 380
+
+Jacobi residual: 137.668315
+
+Jacobi iteration no: 381
+
+Jacobi residual: 137.586653
+
+Jacobi iteration no: 382
+
+Jacobi residual: 137.505098
+
+Jacobi iteration no: 383
+
+Jacobi residual: 137.423649
+
+Jacobi iteration no: 384
+
+Jacobi residual: 137.342305
+
+Jacobi iteration no: 385
+
+Jacobi residual: 137.261068
+
+Jacobi iteration no: 386
+
+Jacobi residual: 137.179935
+
+Jacobi iteration no: 387
+
+Jacobi residual: 137.098907
+
+Jacobi iteration no: 388
+
+Jacobi residual: 137.017983
+
+Jacobi iteration no: 389
+
+Jacobi residual: 136.937163
+
+Jacobi iteration no: 390
+
+Jacobi residual: 136.856446
+
+Jacobi iteration no: 391
+
+Jacobi residual: 136.775833
+
+Jacobi iteration no: 392
+
+Jacobi residual: 136.695322
+
+Jacobi iteration no: 393
+
+Jacobi residual: 136.614914
+
+Jacobi iteration no: 394
+
+Jacobi residual: 136.534607
+
+Jacobi iteration no: 395
+
+Jacobi residual: 136.454402
+
+Jacobi iteration no: 396
+
+Jacobi residual: 136.374298
+
+Jacobi iteration no: 397
+
+Jacobi residual: 136.294295
+
+Jacobi iteration no: 398
+
+Jacobi residual: 136.214392
+
+Jacobi iteration no: 399
+
+Jacobi residual: 136.134589
+
+Jacobi iteration no: 400
+
+Jacobi residual: 136.054886
+
+Jacobi iteration no: 401
+
+Jacobi residual: 135.975282
+
+Jacobi iteration no: 402
+
+Jacobi residual: 135.895777
+
+Jacobi iteration no: 403
+
+Jacobi residual: 135.816370
+
+Jacobi iteration no: 404
+
+Jacobi residual: 135.737062
+
+Jacobi iteration no: 405
+
+Jacobi residual: 135.657851
+
+Jacobi iteration no: 406
+
+Jacobi residual: 135.578738
+
+Jacobi iteration no: 407
+
+Jacobi residual: 135.499721
+
+Jacobi iteration no: 408
+
+Jacobi residual: 135.420802
+
+Jacobi iteration no: 409
+
+Jacobi residual: 135.341979
+
+Jacobi iteration no: 410
+
+Jacobi residual: 135.263252
+
+Jacobi iteration no: 411
+
+Jacobi residual: 135.184620
+
+Jacobi iteration no: 412
+
+Jacobi residual: 135.106084
+
+Jacobi iteration no: 413
+
+Jacobi residual: 135.027642
+
+Jacobi iteration no: 414
+
+Jacobi residual: 134.949296
+
+Jacobi iteration no: 415
+
+Jacobi residual: 134.871043
+
+Jacobi iteration no: 416
+
+Jacobi residual: 134.792885
+
+Jacobi iteration no: 417
+
+Jacobi residual: 134.714820
+
+Jacobi iteration no: 418
+
+Jacobi residual: 134.636848
+
+Jacobi iteration no: 419
+
+Jacobi residual: 134.558970
+
+Jacobi iteration no: 420
+
+Jacobi residual: 134.481184
+
+Jacobi iteration no: 421
+
+Jacobi residual: 134.403490
+
+Jacobi iteration no: 422
+
+Jacobi residual: 134.325888
+
+Jacobi iteration no: 423
+
+Jacobi residual: 134.248378
+
+Jacobi iteration no: 424
+
+Jacobi residual: 134.170959
+
+Jacobi iteration no: 425
+
+Jacobi residual: 134.093631
+
+Jacobi iteration no: 426
+
+Jacobi residual: 134.016394
+
+Jacobi iteration no: 427
+
+Jacobi residual: 133.939247
+
+Jacobi iteration no: 428
+
+Jacobi residual: 133.862190
+
+Jacobi iteration no: 429
+
+Jacobi residual: 133.785223
+
+Jacobi iteration no: 430
+
+Jacobi residual: 133.708345
+
+Jacobi iteration no: 431
+
+Jacobi residual: 133.631556
+
+Jacobi iteration no: 432
+
+Jacobi residual: 133.554856
+
+Jacobi iteration no: 433
+
+Jacobi residual: 133.478245
+
+Jacobi iteration no: 434
+
+Jacobi residual: 133.401721
+
+Jacobi iteration no: 435
+
+Jacobi residual: 133.325286
+
+Jacobi iteration no: 436
+
+Jacobi residual: 133.248938
+
+Jacobi iteration no: 437
+
+Jacobi residual: 133.172677
+
+Jacobi iteration no: 438
+
+Jacobi residual: 133.096504
+
+Jacobi iteration no: 439
+
+Jacobi residual: 133.020417
+
+Jacobi iteration no: 440
+
+Jacobi residual: 132.944416
+
+Jacobi iteration no: 441
+
+Jacobi residual: 132.868502
+
+Jacobi iteration no: 442
+
+Jacobi residual: 132.792673
+
+Jacobi iteration no: 443
+
+Jacobi residual: 132.716930
+
+Jacobi iteration no: 444
+
+Jacobi residual: 132.641272
+
+Jacobi iteration no: 445
+
+Jacobi residual: 132.565699
+
+Jacobi iteration no: 446
+
+Jacobi residual: 132.490211
+
+Jacobi iteration no: 447
+
+Jacobi residual: 132.414807
+
+Jacobi iteration no: 448
+
+Jacobi residual: 132.339487
+
+Jacobi iteration no: 449
+
+Jacobi residual: 132.264251
+
+Jacobi iteration no: 450
+
+Jacobi residual: 132.189098
+
+Jacobi iteration no: 451
+
+Jacobi residual: 132.114029
+
+Jacobi iteration no: 452
+
+Jacobi residual: 132.039042
+
+Jacobi iteration no: 453
+
+Jacobi residual: 131.964139
+
+Jacobi iteration no: 454
+
+Jacobi residual: 131.889318
+
+Jacobi iteration no: 455
+
+Jacobi residual: 131.814579
+
+Jacobi iteration no: 456
+
+Jacobi residual: 131.739921
+
+Jacobi iteration no: 457
+
+Jacobi residual: 131.665346
+
+Jacobi iteration no: 458
+
+Jacobi residual: 131.590852
+
+Jacobi iteration no: 459
+
+Jacobi residual: 131.516439
+
+Jacobi iteration no: 460
+
+Jacobi residual: 131.442107
+
+Jacobi iteration no: 461
+
+Jacobi residual: 131.367855
+
+Jacobi iteration no: 462
+
+Jacobi residual: 131.293684
+
+Jacobi iteration no: 463
+
+Jacobi residual: 131.219592
+
+Jacobi iteration no: 464
+
+Jacobi residual: 131.145581
+
+Jacobi iteration no: 465
+
+Jacobi residual: 131.071649
+
+Jacobi iteration no: 466
+
+Jacobi residual: 130.997797
+
+Jacobi iteration no: 467
+
+Jacobi residual: 130.924023
+
+Jacobi iteration no: 468
+
+Jacobi residual: 130.850328
+
+Jacobi iteration no: 469
+
+Jacobi residual: 130.776712
+
+Jacobi iteration no: 470
+
+Jacobi residual: 130.703174
+
+Jacobi iteration no: 471
+
+Jacobi residual: 130.629714
+
+Jacobi iteration no: 472
+
+Jacobi residual: 130.556332
+
+Jacobi iteration no: 473
+
+Jacobi residual: 130.483027
+
+Jacobi iteration no: 474
+
+Jacobi residual: 130.409800
+
+Jacobi iteration no: 475
+
+Jacobi residual: 130.336650
+
+Jacobi iteration no: 476
+
+Jacobi residual: 130.263576
+
+Jacobi iteration no: 477
+
+Jacobi residual: 130.190580
+
+Jacobi iteration no: 478
+
+Jacobi residual: 130.117659
+
+Jacobi iteration no: 479
+
+Jacobi residual: 130.044815
+
+Jacobi iteration no: 480
+
+Jacobi residual: 129.972046
+
+Jacobi iteration no: 481
+
+Jacobi residual: 129.899353
+
+Jacobi iteration no: 482
+
+Jacobi residual: 129.826736
+
+Jacobi iteration no: 483
+
+Jacobi residual: 129.754194
+
+Jacobi iteration no: 484
+
+Jacobi residual: 129.681726
+
+Jacobi iteration no: 485
+
+Jacobi residual: 129.609334
+
+Jacobi iteration no: 486
+
+Jacobi residual: 129.537016
+
+Jacobi iteration no: 487
+
+Jacobi residual: 129.464772
+
+Jacobi iteration no: 488
+
+Jacobi residual: 129.392602
+
+Jacobi iteration no: 489
+
+Jacobi residual: 129.320506
+
+Jacobi iteration no: 490
+
+Jacobi residual: 129.248483
+
+Jacobi iteration no: 491
+
+Jacobi residual: 129.176534
+
+Jacobi iteration no: 492
+
+Jacobi residual: 129.104658
+
+Jacobi iteration no: 493
+
+Jacobi residual: 129.032855
+
+Jacobi iteration no: 494
+
+Jacobi residual: 128.961125
+
+Jacobi iteration no: 495
+
+Jacobi residual: 128.889467
+
+Jacobi iteration no: 496
+
+Jacobi residual: 128.817881
+
+Jacobi iteration no: 497
+
+Jacobi residual: 128.746368
+
+Jacobi iteration no: 498
+
+Jacobi residual: 128.674926
+
+Jacobi iteration no: 499
+
+Jacobi residual: 128.603556
+
+Jacobi iteration no: 500
+
+Jacobi residual: 128.532257
+
+Jacobi iteration no: 501
+
+Jacobi residual: 128.461030
+
+Jacobi iteration no: 502
+
+Jacobi residual: 128.389873
+
+Jacobi iteration no: 503
+
+Jacobi residual: 128.318788
+
+Jacobi iteration no: 504
+
+Jacobi residual: 128.247772
+
+Jacobi iteration no: 505
+
+Jacobi residual: 128.176828
+
+Jacobi iteration no: 506
+
+Jacobi residual: 128.105953
+
+Jacobi iteration no: 507
+
+Jacobi residual: 128.035148
+
+Jacobi iteration no: 508
+
+Jacobi residual: 127.964413
+
+Jacobi iteration no: 509
+
+Jacobi residual: 127.893748
+
+Jacobi iteration no: 510
+
+Jacobi residual: 127.823152
+
+Jacobi iteration no: 511
+
+Jacobi residual: 127.752625
+
+Jacobi iteration no: 512
+
+Jacobi residual: 127.682167
+
+Jacobi iteration no: 513
+
+Jacobi residual: 127.611777
+
+Jacobi iteration no: 514
+
+Jacobi residual: 127.541457
+
+Jacobi iteration no: 515
+
+Jacobi residual: 127.471204
+
+Jacobi iteration no: 516
+
+Jacobi residual: 127.401020
+
+Jacobi iteration no: 517
+
+Jacobi residual: 127.330904
+
+Jacobi iteration no: 518
+
+Jacobi residual: 127.260855
+
+Jacobi iteration no: 519
+
+Jacobi residual: 127.190874
+
+Jacobi iteration no: 520
+
+Jacobi residual: 127.120961
+
+Jacobi iteration no: 521
+
+Jacobi residual: 127.051115
+
+Jacobi iteration no: 522
+
+Jacobi residual: 126.981335
+
+Jacobi iteration no: 523
+
+Jacobi residual: 126.911623
+
+Jacobi iteration no: 524
+
+Jacobi residual: 126.841977
+
+Jacobi iteration no: 525
+
+Jacobi residual: 126.772397
+
+Jacobi iteration no: 526
+
+Jacobi residual: 126.702884
+
+Jacobi iteration no: 527
+
+Jacobi residual: 126.633437
+
+Jacobi iteration no: 528
+
+Jacobi residual: 126.564055
+
+Jacobi iteration no: 529
+
+Jacobi residual: 126.494740
+
+Jacobi iteration no: 530
+
+Jacobi residual: 126.425490
+
+Jacobi iteration no: 531
+
+Jacobi residual: 126.356305
+
+Jacobi iteration no: 532
+
+Jacobi residual: 126.287185
+
+Jacobi iteration no: 533
+
+Jacobi residual: 126.218130
+
+Jacobi iteration no: 534
+
+Jacobi residual: 126.149140
+
+Jacobi iteration no: 535
+
+Jacobi residual: 126.080215
+
+Jacobi iteration no: 536
+
+Jacobi residual: 126.011354
+
+Jacobi iteration no: 537
+
+Jacobi residual: 125.942558
+
+Jacobi iteration no: 538
+
+Jacobi residual: 125.873825
+
+Jacobi iteration no: 539
+
+Jacobi residual: 125.805157
+
+Jacobi iteration no: 540
+
+Jacobi residual: 125.736552
+
+Jacobi iteration no: 541
+
+Jacobi residual: 125.668010
+
+Jacobi iteration no: 542
+
+Jacobi residual: 125.599532
+
+Jacobi iteration no: 543
+
+Jacobi residual: 125.531118
+
+Jacobi iteration no: 544
+
+Jacobi residual: 125.462766
+
+Jacobi iteration no: 545
+
+Jacobi residual: 125.394477
+
+Jacobi iteration no: 546
+
+Jacobi residual: 125.326251
+
+Jacobi iteration no: 547
+
+Jacobi residual: 125.258087
+
+Jacobi iteration no: 548
+
+Jacobi residual: 125.189986
+
+Jacobi iteration no: 549
+
+Jacobi residual: 125.121947
+
+Jacobi iteration no: 550
+
+Jacobi residual: 125.053970
+
+Jacobi iteration no: 551
+
+Jacobi residual: 124.986055
+
+Jacobi iteration no: 552
+
+Jacobi residual: 124.918201
+
+Jacobi iteration no: 553
+
+Jacobi residual: 124.850410
+
+Jacobi iteration no: 554
+
+Jacobi residual: 124.782679
+
+Jacobi iteration no: 555
+
+Jacobi residual: 124.715010
+
+Jacobi iteration no: 556
+
+Jacobi residual: 124.647401
+
+Jacobi iteration no: 557
+
+Jacobi residual: 124.579854
+
+Jacobi iteration no: 558
+
+Jacobi residual: 124.512367
+
+Jacobi iteration no: 559
+
+Jacobi residual: 124.444941
+
+Jacobi iteration no: 560
+
+Jacobi residual: 124.377576
+
+Jacobi iteration no: 561
+
+Jacobi residual: 124.310270
+
+Jacobi iteration no: 562
+
+Jacobi residual: 124.243025
+
+Jacobi iteration no: 563
+
+Jacobi residual: 124.175840
+
+Jacobi iteration no: 564
+
+Jacobi residual: 124.108714
+
+Jacobi iteration no: 565
+
+Jacobi residual: 124.041648
+
+Jacobi iteration no: 566
+
+Jacobi residual: 123.974642
+
+Jacobi iteration no: 567
+
+Jacobi residual: 123.907695
+
+Jacobi iteration no: 568
+
+Jacobi residual: 123.840807
+
+Jacobi iteration no: 569
+
+Jacobi residual: 123.773978
+
+Jacobi iteration no: 570
+
+Jacobi residual: 123.707208
+
+Jacobi iteration no: 571
+
+Jacobi residual: 123.640497
+
+Jacobi iteration no: 572
+
+Jacobi residual: 123.573844
+
+Jacobi iteration no: 573
+
+Jacobi residual: 123.507250
+
+Jacobi iteration no: 574
+
+Jacobi residual: 123.440714
+
+Jacobi iteration no: 575
+
+Jacobi residual: 123.374236
+
+Jacobi iteration no: 576
+
+Jacobi residual: 123.307816
+
+Jacobi iteration no: 577
+
+Jacobi residual: 123.241454
+
+Jacobi iteration no: 578
+
+Jacobi residual: 123.175150
+
+Jacobi iteration no: 579
+
+Jacobi residual: 123.108903
+
+Jacobi iteration no: 580
+
+Jacobi residual: 123.042713
+
+Jacobi iteration no: 581
+
+Jacobi residual: 122.976581
+
+Jacobi iteration no: 582
+
+Jacobi residual: 122.910506
+
+Jacobi iteration no: 583
+
+Jacobi residual: 122.844488
+
+Jacobi iteration no: 584
+
+Jacobi residual: 122.778527
+
+Jacobi iteration no: 585
+
+Jacobi residual: 122.712622
+
+Jacobi iteration no: 586
+
+Jacobi residual: 122.646774
+
+Jacobi iteration no: 587
+
+Jacobi residual: 122.580982
+
+Jacobi iteration no: 588
+
+Jacobi residual: 122.515247
+
+Jacobi iteration no: 589
+
+Jacobi residual: 122.449568
+
+Jacobi iteration no: 590
+
+Jacobi residual: 122.383945
+
+Jacobi iteration no: 591
+
+Jacobi residual: 122.318377
+
+Jacobi iteration no: 592
+
+Jacobi residual: 122.252866
+
+Jacobi iteration no: 593
+
+Jacobi residual: 122.187410
+
+Jacobi iteration no: 594
+
+Jacobi residual: 122.122009
+
+Jacobi iteration no: 595
+
+Jacobi residual: 122.056664
+
+Jacobi iteration no: 596
+
+Jacobi residual: 121.991373
+
+Jacobi iteration no: 597
+
+Jacobi residual: 121.926138
+
+Jacobi iteration no: 598
+
+Jacobi residual: 121.860958
+
+Jacobi iteration no: 599
+
+Jacobi residual: 121.795833
+
+Jacobi iteration no: 600
+
+Jacobi residual: 121.730762
+
+Jacobi iteration no: 601
+
+Jacobi residual: 121.665746
+
+Jacobi iteration no: 602
+
+Jacobi residual: 121.600784
+
+Jacobi iteration no: 603
+
+Jacobi residual: 121.535876
+
+Jacobi iteration no: 604
+
+Jacobi residual: 121.471023
+
+Jacobi iteration no: 605
+
+Jacobi residual: 121.406223
+
+Jacobi iteration no: 606
+
+Jacobi residual: 121.341478
+
+Jacobi iteration no: 607
+
+Jacobi residual: 121.276786
+
+Jacobi iteration no: 608
+
+Jacobi residual: 121.212148
+
+Jacobi iteration no: 609
+
+Jacobi residual: 121.147563
+
+Jacobi iteration no: 610
+
+Jacobi residual: 121.083031
+
+Jacobi iteration no: 611
+
+Jacobi residual: 121.018553
+
+Jacobi iteration no: 612
+
+Jacobi residual: 120.954128
+
+Jacobi iteration no: 613
+
+Jacobi residual: 120.889756
+
+Jacobi iteration no: 614
+
+Jacobi residual: 120.825437
+
+Jacobi iteration no: 615
+
+Jacobi residual: 120.761170
+
+Jacobi iteration no: 616
+
+Jacobi residual: 120.696956
+
+Jacobi iteration no: 617
+
+Jacobi residual: 120.632795
+
+Jacobi iteration no: 618
+
+Jacobi residual: 120.568686
+
+Jacobi iteration no: 619
+
+Jacobi residual: 120.504629
+
+Jacobi iteration no: 620
+
+Jacobi residual: 120.440625
+
+Jacobi iteration no: 621
+
+Jacobi residual: 120.376672
+
+Jacobi iteration no: 622
+
+Jacobi residual: 120.312771
+
+Jacobi iteration no: 623
+
+Jacobi residual: 120.248922
+
+Jacobi iteration no: 624
+
+Jacobi residual: 120.185125
+
+Jacobi iteration no: 625
+
+Jacobi residual: 120.121379
+
+Jacobi iteration no: 626
+
+Jacobi residual: 120.057685
+
+Jacobi iteration no: 627
+
+Jacobi residual: 119.994042
+
+Jacobi iteration no: 628
+
+Jacobi residual: 119.930450
+
+Jacobi iteration no: 629
+
+Jacobi residual: 119.866909
+
+Jacobi iteration no: 630
+
+Jacobi residual: 119.803419
+
+Jacobi iteration no: 631
+
+Jacobi residual: 119.739980
+
+Jacobi iteration no: 632
+
+Jacobi residual: 119.676592
+
+Jacobi iteration no: 633
+
+Jacobi residual: 119.613254
+
+Jacobi iteration no: 634
+
+Jacobi residual: 119.549967
+
+Jacobi iteration no: 635
+
+Jacobi residual: 119.486730
+
+Jacobi iteration no: 636
+
+Jacobi residual: 119.423543
+
+Jacobi iteration no: 637
+
+Jacobi residual: 119.360407
+
+Jacobi iteration no: 638
+
+Jacobi residual: 119.297320
+
+Jacobi iteration no: 639
+
+Jacobi residual: 119.234284
+
+Jacobi iteration no: 640
+
+Jacobi residual: 119.171297
+
+Jacobi iteration no: 641
+
+Jacobi residual: 119.108360
+
+Jacobi iteration no: 642
+
+Jacobi residual: 119.045473
+
+Jacobi iteration no: 643
+
+Jacobi residual: 118.982635
+
+Jacobi iteration no: 644
+
+Jacobi residual: 118.919847
+
+Jacobi iteration no: 645
+
+Jacobi residual: 118.857107
+
+Jacobi iteration no: 646
+
+Jacobi residual: 118.794417
+
+Jacobi iteration no: 647
+
+Jacobi residual: 118.731776
+
+Jacobi iteration no: 648
+
+Jacobi residual: 118.669184
+
+Jacobi iteration no: 649
+
+Jacobi residual: 118.606641
+
+Jacobi iteration no: 650
+
+Jacobi residual: 118.544147
+
+Jacobi iteration no: 651
+
+Jacobi residual: 118.481701
+
+Jacobi iteration no: 652
+
+Jacobi residual: 118.419304
+
+Jacobi iteration no: 653
+
+Jacobi residual: 118.356955
+
+Jacobi iteration no: 654
+
+Jacobi residual: 118.294654
+
+Jacobi iteration no: 655
+
+Jacobi residual: 118.232402
+
+Jacobi iteration no: 656
+
+Jacobi residual: 118.170198
+
+Jacobi iteration no: 657
+
+Jacobi residual: 118.108041
+
+Jacobi iteration no: 658
+
+Jacobi residual: 118.045933
+
+Jacobi iteration no: 659
+
+Jacobi residual: 117.983873
+
+Jacobi iteration no: 660
+
+Jacobi residual: 117.921860
+
+Jacobi iteration no: 661
+
+Jacobi residual: 117.859895
+
+Jacobi iteration no: 662
+
+Jacobi residual: 117.797977
+
+Jacobi iteration no: 663
+
+Jacobi residual: 117.736107
+
+Jacobi iteration no: 664
+
+Jacobi residual: 117.674284
+
+Jacobi iteration no: 665
+
+Jacobi residual: 117.612508
+
+Jacobi iteration no: 666
+
+Jacobi residual: 117.550779
+
+Jacobi iteration no: 667
+
+Jacobi residual: 117.489097
+
+Jacobi iteration no: 668
+
+Jacobi residual: 117.427462
+
+Jacobi iteration no: 669
+
+Jacobi residual: 117.365874
+
+Jacobi iteration no: 670
+
+Jacobi residual: 117.304333
+
+Jacobi iteration no: 671
+
+Jacobi residual: 117.242838
+
+Jacobi iteration no: 672
+
+Jacobi residual: 117.181390
+
+Jacobi iteration no: 673
+
+Jacobi residual: 117.119988
+
+Jacobi iteration no: 674
+
+Jacobi residual: 117.058633
+
+Jacobi iteration no: 675
+
+Jacobi residual: 116.997324
+
+Jacobi iteration no: 676
+
+Jacobi residual: 116.936061
+
+Jacobi iteration no: 677
+
+Jacobi residual: 116.874843
+
+Jacobi iteration no: 678
+
+Jacobi residual: 116.813672
+
+Jacobi iteration no: 679
+
+Jacobi residual: 116.752547
+
+Jacobi iteration no: 680
+
+Jacobi residual: 116.691467
+
+Jacobi iteration no: 681
+
+Jacobi residual: 116.630434
+
+Jacobi iteration no: 682
+
+Jacobi residual: 116.569445
+
+Jacobi iteration no: 683
+
+Jacobi residual: 116.508502
+
+Jacobi iteration no: 684
+
+Jacobi residual: 116.447605
+
+Jacobi iteration no: 685
+
+Jacobi residual: 116.386753
+
+Jacobi iteration no: 686
+
+Jacobi residual: 116.325946
+
+Jacobi iteration no: 687
+
+Jacobi residual: 116.265184
+
+Jacobi iteration no: 688
+
+Jacobi residual: 116.204467
+
+Jacobi iteration no: 689
+
+Jacobi residual: 116.143795
+
+Jacobi iteration no: 690
+
+Jacobi residual: 116.083168
+
+Jacobi iteration no: 691
+
+Jacobi residual: 116.022585
+
+Jacobi iteration no: 692
+
+Jacobi residual: 115.962048
+
+Jacobi iteration no: 693
+
+Jacobi residual: 115.901554
+
+Jacobi iteration no: 694
+
+Jacobi residual: 115.841106
+
+Jacobi iteration no: 695
+
+Jacobi residual: 115.780701
+
+Jacobi iteration no: 696
+
+Jacobi residual: 115.720341
+
+Jacobi iteration no: 697
+
+Jacobi residual: 115.660026
+
+Jacobi iteration no: 698
+
+Jacobi residual: 115.599754
+
+Jacobi iteration no: 699
+
+Jacobi residual: 115.539526
+
+Jacobi iteration no: 700
+
+Jacobi residual: 115.479343
+
+Jacobi iteration no: 701
+
+Jacobi residual: 115.419203
+
+Jacobi iteration no: 702
+
+Jacobi residual: 115.359107
+
+Jacobi iteration no: 703
+
+Jacobi residual: 115.299054
+
+Jacobi iteration no: 704
+
+Jacobi residual: 115.239046
+
+Jacobi iteration no: 705
+
+Jacobi residual: 115.179080
+
+Jacobi iteration no: 706
+
+Jacobi residual: 115.119159
+
+Jacobi iteration no: 707
+
+Jacobi residual: 115.059280
+
+Jacobi iteration no: 708
+
+Jacobi residual: 114.999445
+
+Jacobi iteration no: 709
+
+Jacobi residual: 114.939653
+
+Jacobi iteration no: 710
+
+Jacobi residual: 114.879904
+
+Jacobi iteration no: 711
+
+Jacobi residual: 114.820199
+
+Jacobi iteration no: 712
+
+Jacobi residual: 114.760536
+
+Jacobi iteration no: 713
+
+Jacobi residual: 114.700916
+
+Jacobi iteration no: 714
+
+Jacobi residual: 114.641338
+
+Jacobi iteration no: 715
+
+Jacobi residual: 114.581804
+
+Jacobi iteration no: 716
+
+Jacobi residual: 114.522312
+
+Jacobi iteration no: 717
+
+Jacobi residual: 114.462863
+
+Jacobi iteration no: 718
+
+Jacobi residual: 114.403456
+
+Jacobi iteration no: 719
+
+Jacobi residual: 114.344091
+
+Jacobi iteration no: 720
+
+Jacobi residual: 114.284769
+
+Jacobi iteration no: 721
+
+Jacobi residual: 114.225489
+
+Jacobi iteration no: 722
+
+Jacobi residual: 114.166251
+
+Jacobi iteration no: 723
+
+Jacobi residual: 114.107055
+
+Jacobi iteration no: 724
+
+Jacobi residual: 114.047901
+
+Jacobi iteration no: 725
+
+Jacobi residual: 113.988789
+
+Jacobi iteration no: 726
+
+Jacobi residual: 113.929719
+
+Jacobi iteration no: 727
+
+Jacobi residual: 113.870691
+
+Jacobi iteration no: 728
+
+Jacobi residual: 113.811704
+
+Jacobi iteration no: 729
+
+Jacobi residual: 113.752759
+
+Jacobi iteration no: 730
+
+Jacobi residual: 113.693855
+
+Jacobi iteration no: 731
+
+Jacobi residual: 113.634993
+
+Jacobi iteration no: 732
+
+Jacobi residual: 113.576172
+
+Jacobi iteration no: 733
+
+Jacobi residual: 113.517392
+
+Jacobi iteration no: 734
+
+Jacobi residual: 113.458654
+
+Jacobi iteration no: 735
+
+Jacobi residual: 113.399957
+
+Jacobi iteration no: 736
+
+Jacobi residual: 113.341301
+
+Jacobi iteration no: 737
+
+Jacobi residual: 113.282685
+
+Jacobi iteration no: 738
+
+Jacobi residual: 113.224111
+
+Jacobi iteration no: 739
+
+Jacobi residual: 113.165578
+
+Jacobi iteration no: 740
+
+Jacobi residual: 113.107085
+
+Jacobi iteration no: 741
+
+Jacobi residual: 113.048633
+
+Jacobi iteration no: 742
+
+Jacobi residual: 112.990222
+
+Jacobi iteration no: 743
+
+Jacobi residual: 112.931851
+
+Jacobi iteration no: 744
+
+Jacobi residual: 112.873520
+
+Jacobi iteration no: 745
+
+Jacobi residual: 112.815230
+
+Jacobi iteration no: 746
+
+Jacobi residual: 112.756981
+
+Jacobi iteration no: 747
+
+Jacobi residual: 112.698771
+
+Jacobi iteration no: 748
+
+Jacobi residual: 112.640602
+
+Jacobi iteration no: 749
+
+Jacobi residual: 112.582473
+
+Jacobi iteration no: 750
+
+Jacobi residual: 112.524384
+
+Jacobi iteration no: 751
+
+Jacobi residual: 112.466335
+
+Jacobi iteration no: 752
+
+Jacobi residual: 112.408326
+
+Jacobi iteration no: 753
+
+Jacobi residual: 112.350356
+
+Jacobi iteration no: 754
+
+Jacobi residual: 112.292427
+
+Jacobi iteration no: 755
+
+Jacobi residual: 112.234537
+
+Jacobi iteration no: 756
+
+Jacobi residual: 112.176686
+
+Jacobi iteration no: 757
+
+Jacobi residual: 112.118875
+
+Jacobi iteration no: 758
+
+Jacobi residual: 112.061104
+
+Jacobi iteration no: 759
+
+Jacobi residual: 112.003372
+
+Jacobi iteration no: 760
+
+Jacobi residual: 111.945680
+
+Jacobi iteration no: 761
+
+Jacobi residual: 111.888026
+
+Jacobi iteration no: 762
+
+Jacobi residual: 111.830412
+
+Jacobi iteration no: 763
+
+Jacobi residual: 111.772837
+
+Jacobi iteration no: 764
+
+Jacobi residual: 111.715302
+
+Jacobi iteration no: 765
+
+Jacobi residual: 111.657805
+
+Jacobi iteration no: 766
+
+Jacobi residual: 111.600347
+
+Jacobi iteration no: 767
+
+Jacobi residual: 111.542928
+
+Jacobi iteration no: 768
+
+Jacobi residual: 111.485547
+
+Jacobi iteration no: 769
+
+Jacobi residual: 111.428206
+
+Jacobi iteration no: 770
+
+Jacobi residual: 111.370903
+
+Jacobi iteration no: 771
+
+Jacobi residual: 111.313639
+
+Jacobi iteration no: 772
+
+Jacobi residual: 111.256413
+
+Jacobi iteration no: 773
+
+Jacobi residual: 111.199226
+
+Jacobi iteration no: 774
+
+Jacobi residual: 111.142077
+
+Jacobi iteration no: 775
+
+Jacobi residual: 111.084967
+
+Jacobi iteration no: 776
+
+Jacobi residual: 111.027894
+
+Jacobi iteration no: 777
+
+Jacobi residual: 110.970860
+
+Jacobi iteration no: 778
+
+Jacobi residual: 110.913865
+
+Jacobi iteration no: 779
+
+Jacobi residual: 110.856907
+
+Jacobi iteration no: 780
+
+Jacobi residual: 110.799987
+
+Jacobi iteration no: 781
+
+Jacobi residual: 110.743105
+
+Jacobi iteration no: 782
+
+Jacobi residual: 110.686262
+
+Jacobi iteration no: 783
+
+Jacobi residual: 110.629456
+
+Jacobi iteration no: 784
+
+Jacobi residual: 110.572687
+
+Jacobi iteration no: 785
+
+Jacobi residual: 110.515957
+
+Jacobi iteration no: 786
+
+Jacobi residual: 110.459264
+
+Jacobi iteration no: 787
+
+Jacobi residual: 110.402609
+
+Jacobi iteration no: 788
+
+Jacobi residual: 110.345991
+
+Jacobi iteration no: 789
+
+Jacobi residual: 110.289411
+
+Jacobi iteration no: 790
+
+Jacobi residual: 110.232868
+
+Jacobi iteration no: 791
+
+Jacobi residual: 110.176362
+
+Jacobi iteration no: 792
+
+Jacobi residual: 110.119894
+
+Jacobi iteration no: 793
+
+Jacobi residual: 110.063463
+
+Jacobi iteration no: 794
+
+Jacobi residual: 110.007069
+
+Jacobi iteration no: 795
+
+Jacobi residual: 109.950712
+
+Jacobi iteration no: 796
+
+Jacobi residual: 109.894392
+
+Jacobi iteration no: 797
+
+Jacobi residual: 109.838110
+
+Jacobi iteration no: 798
+
+Jacobi residual: 109.781864
+
+Jacobi iteration no: 799
+
+Jacobi residual: 109.725655
+
+Jacobi iteration no: 800
+
+Jacobi residual: 109.669483
+
+Jacobi iteration no: 801
+
+Jacobi residual: 109.613347
+
+Jacobi iteration no: 802
+
+Jacobi residual: 109.557249
+
+Jacobi iteration no: 803
+
+Jacobi residual: 109.501187
+
+Jacobi iteration no: 804
+
+Jacobi residual: 109.445161
+
+Jacobi iteration no: 805
+
+Jacobi residual: 109.389172
+
+Jacobi iteration no: 806
+
+Jacobi residual: 109.333219
+
+Jacobi iteration no: 807
+
+Jacobi residual: 109.277303
+
+Jacobi iteration no: 808
+
+Jacobi residual: 109.221423
+
+Jacobi iteration no: 809
+
+Jacobi residual: 109.165580
+
+Jacobi iteration no: 810
+
+Jacobi residual: 109.109773
+
+Jacobi iteration no: 811
+
+Jacobi residual: 109.054001
+
+Jacobi iteration no: 812
+
+Jacobi residual: 108.998266
+
+Jacobi iteration no: 813
+
+Jacobi residual: 108.942567
+
+Jacobi iteration no: 814
+
+Jacobi residual: 108.886904
+
+Jacobi iteration no: 815
+
+Jacobi residual: 108.831277
+
+Jacobi iteration no: 816
+
+Jacobi residual: 108.775686
+
+Jacobi iteration no: 817
+
+Jacobi residual: 108.720131
+
+Jacobi iteration no: 818
+
+Jacobi residual: 108.664611
+
+Jacobi iteration no: 819
+
+Jacobi residual: 108.609128
+
+Jacobi iteration no: 820
+
+Jacobi residual: 108.553679
+
+Jacobi iteration no: 821
+
+Jacobi residual: 108.498267
+
+Jacobi iteration no: 822
+
+Jacobi residual: 108.442890
+
+Jacobi iteration no: 823
+
+Jacobi residual: 108.387549
+
+Jacobi iteration no: 824
+
+Jacobi residual: 108.332242
+
+Jacobi iteration no: 825
+
+Jacobi residual: 108.276972
+
+Jacobi iteration no: 826
+
+Jacobi residual: 108.221737
+
+Jacobi iteration no: 827
+
+Jacobi residual: 108.166537
+
+Jacobi iteration no: 828
+
+Jacobi residual: 108.111372
+
+Jacobi iteration no: 829
+
+Jacobi residual: 108.056242
+
+Jacobi iteration no: 830
+
+Jacobi residual: 108.001148
+
+Jacobi iteration no: 831
+
+Jacobi residual: 107.946089
+
+Jacobi iteration no: 832
+
+Jacobi residual: 107.891064
+
+Jacobi iteration no: 833
+
+Jacobi residual: 107.836075
+
+Jacobi iteration no: 834
+
+Jacobi residual: 107.781121
+
+Jacobi iteration no: 835
+
+Jacobi residual: 107.726201
+
+Jacobi iteration no: 836
+
+Jacobi residual: 107.671316
+
+Jacobi iteration no: 837
+
+Jacobi residual: 107.616466
+
+Jacobi iteration no: 838
+
+Jacobi residual: 107.561651
+
+Jacobi iteration no: 839
+
+Jacobi residual: 107.506870
+
+Jacobi iteration no: 840
+
+Jacobi residual: 107.452124
+
+Jacobi iteration no: 841
+
+Jacobi residual: 107.397413
+
+Jacobi iteration no: 842
+
+Jacobi residual: 107.342736
+
+Jacobi iteration no: 843
+
+Jacobi residual: 107.288094
+
+Jacobi iteration no: 844
+
+Jacobi residual: 107.233486
+
+Jacobi iteration no: 845
+
+Jacobi residual: 107.178912
+
+Jacobi iteration no: 846
+
+Jacobi residual: 107.124372
+
+Jacobi iteration no: 847
+
+Jacobi residual: 107.069867
+
+Jacobi iteration no: 848
+
+Jacobi residual: 107.015396
+
+Jacobi iteration no: 849
+
+Jacobi residual: 106.960960
+
+Jacobi iteration no: 850
+
+Jacobi residual: 106.906557
+
+Jacobi iteration no: 851
+
+Jacobi residual: 106.852189
+
+Jacobi iteration no: 852
+
+Jacobi residual: 106.797854
+
+Jacobi iteration no: 853
+
+Jacobi residual: 106.743553
+
+Jacobi iteration no: 854
+
+Jacobi residual: 106.689287
+
+Jacobi iteration no: 855
+
+Jacobi residual: 106.635054
+
+Jacobi iteration no: 856
+
+Jacobi residual: 106.580855
+
+Jacobi iteration no: 857
+
+Jacobi residual: 106.526690
+
+Jacobi iteration no: 858
+
+Jacobi residual: 106.472558
+
+Jacobi iteration no: 859
+
+Jacobi residual: 106.418460
+
+Jacobi iteration no: 860
+
+Jacobi residual: 106.364396
+
+Jacobi iteration no: 861
+
+Jacobi residual: 106.310365
+
+Jacobi iteration no: 862
+
+Jacobi residual: 106.256368
+
+Jacobi iteration no: 863
+
+Jacobi residual: 106.202405
+
+Jacobi iteration no: 864
+
+Jacobi residual: 106.148474
+
+Jacobi iteration no: 865
+
+Jacobi residual: 106.094578
+
+Jacobi iteration no: 866
+
+Jacobi residual: 106.040714
+
+Jacobi iteration no: 867
+
+Jacobi residual: 105.986884
+
+Jacobi iteration no: 868
+
+Jacobi residual: 105.933087
+
+Jacobi iteration no: 869
+
+Jacobi residual: 105.879324
+
+Jacobi iteration no: 870
+
+Jacobi residual: 105.825593
+
+Jacobi iteration no: 871
+
+Jacobi residual: 105.771896
+
+Jacobi iteration no: 872
+
+Jacobi residual: 105.718231
+
+Jacobi iteration no: 873
+
+Jacobi residual: 105.664600
+
+Jacobi iteration no: 874
+
+Jacobi residual: 105.611001
+
+Jacobi iteration no: 875
+
+Jacobi residual: 105.557436
+
+Jacobi iteration no: 876
+
+Jacobi residual: 105.503904
+
+Jacobi iteration no: 877
+
+Jacobi residual: 105.450404
+
+Jacobi iteration no: 878
+
+Jacobi residual: 105.396937
+
+Jacobi iteration no: 879
+
+Jacobi residual: 105.343503
+
+Jacobi iteration no: 880
+
+Jacobi residual: 105.290101
+
+Jacobi iteration no: 881
+
+Jacobi residual: 105.236732
+
+Jacobi iteration no: 882
+
+Jacobi residual: 105.183396
+
+Jacobi iteration no: 883
+
+Jacobi residual: 105.130093
+
+Jacobi iteration no: 884
+
+Jacobi residual: 105.076822
+
+Jacobi iteration no: 885
+
+Jacobi residual: 105.023583
+
+Jacobi iteration no: 886
+
+Jacobi residual: 104.970377
+
+Jacobi iteration no: 887
+
+Jacobi residual: 104.917203
+
+Jacobi iteration no: 888
+
+Jacobi residual: 104.864062
+
+Jacobi iteration no: 889
+
+Jacobi residual: 104.810953
+
+Jacobi iteration no: 890
+
+Jacobi residual: 104.757876
+
+Jacobi iteration no: 891
+
+Jacobi residual: 104.704831
+
+Jacobi iteration no: 892
+
+Jacobi residual: 104.651819
+
+Jacobi iteration no: 893
+
+Jacobi residual: 104.598839
+
+Jacobi iteration no: 894
+
+Jacobi residual: 104.545890
+
+Jacobi iteration no: 895
+
+Jacobi residual: 104.492974
+
+Jacobi iteration no: 896
+
+Jacobi residual: 104.440090
+
+Jacobi iteration no: 897
+
+Jacobi residual: 104.387238
+
+Jacobi iteration no: 898
+
+Jacobi residual: 104.334418
+
+Jacobi iteration no: 899
+
+Jacobi residual: 104.281630
+
+Jacobi iteration no: 900
+
+Jacobi residual: 104.228873
+
+Jacobi iteration no: 901
+
+Jacobi residual: 104.176149
+
+Jacobi iteration no: 902
+
+Jacobi residual: 104.123456
+
+Jacobi iteration no: 903
+
+Jacobi residual: 104.070794
+
+Jacobi iteration no: 904
+
+Jacobi residual: 104.018165
+
+Jacobi iteration no: 905
+
+Jacobi residual: 103.965567
+
+Jacobi iteration no: 906
+
+Jacobi residual: 103.913001
+
+Jacobi iteration no: 907
+
+Jacobi residual: 103.860466
+
+Jacobi iteration no: 908
+
+Jacobi residual: 103.807963
+
+Jacobi iteration no: 909
+
+Jacobi residual: 103.755491
+
+Jacobi iteration no: 910
+
+Jacobi residual: 103.703051
+
+Jacobi iteration no: 911
+
+Jacobi residual: 103.650642
+
+Jacobi iteration no: 912
+
+Jacobi residual: 103.598265
+
+Jacobi iteration no: 913
+
+Jacobi residual: 103.545918
+
+Jacobi iteration no: 914
+
+Jacobi residual: 103.493604
+
+Jacobi iteration no: 915
+
+Jacobi residual: 103.441320
+
+Jacobi iteration no: 916
+
+Jacobi residual: 103.389067
+
+Jacobi iteration no: 917
+
+Jacobi residual: 103.336846
+
+Jacobi iteration no: 918
+
+Jacobi residual: 103.284656
+
+Jacobi iteration no: 919
+
+Jacobi residual: 103.232497
+
+Jacobi iteration no: 920
+
+Jacobi residual: 103.180369
+
+Jacobi iteration no: 921
+
+Jacobi residual: 103.128272
+
+Jacobi iteration no: 922
+
+Jacobi residual: 103.076205
+
+Jacobi iteration no: 923
+
+Jacobi residual: 103.024170
+
+Jacobi iteration no: 924
+
+Jacobi residual: 102.972166
+
+Jacobi iteration no: 925
+
+Jacobi residual: 102.920192
+
+Jacobi iteration no: 926
+
+Jacobi residual: 102.868250
+
+Jacobi iteration no: 927
+
+Jacobi residual: 102.816338
+
+Jacobi iteration no: 928
+
+Jacobi residual: 102.764457
+
+Jacobi iteration no: 929
+
+Jacobi residual: 102.712606
+
+Jacobi iteration no: 930
+
+Jacobi residual: 102.660786
+
+Jacobi iteration no: 931
+
+Jacobi residual: 102.608997
+
+Jacobi iteration no: 932
+
+Jacobi residual: 102.557239
+
+Jacobi iteration no: 933
+
+Jacobi residual: 102.505511
+
+Jacobi iteration no: 934
+
+Jacobi residual: 102.453813
+
+Jacobi iteration no: 935
+
+Jacobi residual: 102.402146
+
+Jacobi iteration no: 936
+
+Jacobi residual: 102.350509
+
+Jacobi iteration no: 937
+
+Jacobi residual: 102.298903
+
+Jacobi iteration no: 938
+
+Jacobi residual: 102.247327
+
+Jacobi iteration no: 939
+
+Jacobi residual: 102.195782
+
+Jacobi iteration no: 940
+
+Jacobi residual: 102.144266
+
+Jacobi iteration no: 941
+
+Jacobi residual: 102.092781
+
+Jacobi iteration no: 942
+
+Jacobi residual: 102.041326
+
+Jacobi iteration no: 943
+
+Jacobi residual: 101.989902
+
+Jacobi iteration no: 944
+
+Jacobi residual: 101.938507
+
+Jacobi iteration no: 945
+
+Jacobi residual: 101.887143
+
+Jacobi iteration no: 946
+
+Jacobi residual: 101.835809
+
+Jacobi iteration no: 947
+
+Jacobi residual: 101.784504
+
+Jacobi iteration no: 948
+
+Jacobi residual: 101.733230
+
+Jacobi iteration no: 949
+
+Jacobi residual: 101.681986
+
+Jacobi iteration no: 950
+
+Jacobi residual: 101.630771
+
+Jacobi iteration no: 951
+
+Jacobi residual: 101.579587
+
+Jacobi iteration no: 952
+
+Jacobi residual: 101.528432
+
+Jacobi iteration no: 953
+
+Jacobi residual: 101.477307
+
+Jacobi iteration no: 954
+
+Jacobi residual: 101.426212
+
+Jacobi iteration no: 955
+
+Jacobi residual: 101.375147
+
+Jacobi iteration no: 956
+
+Jacobi residual: 101.324111
+
+Jacobi iteration no: 957
+
+Jacobi residual: 101.273105
+
+Jacobi iteration no: 958
+
+Jacobi residual: 101.222129
+
+Jacobi iteration no: 959
+
+Jacobi residual: 101.171182
+
+Jacobi iteration no: 960
+
+Jacobi residual: 101.120265
+
+Jacobi iteration no: 961
+
+Jacobi residual: 101.069377
+
+Jacobi iteration no: 962
+
+Jacobi residual: 101.018519
+
+Jacobi iteration no: 963
+
+Jacobi residual: 100.967691
+
+Jacobi iteration no: 964
+
+Jacobi residual: 100.916892
+
+Jacobi iteration no: 965
+
+Jacobi residual: 100.866122
+
+Jacobi iteration no: 966
+
+Jacobi residual: 100.815382
+
+Jacobi iteration no: 967
+
+Jacobi residual: 100.764671
+
+Jacobi iteration no: 968
+
+Jacobi residual: 100.713989
+
+Jacobi iteration no: 969
+
+Jacobi residual: 100.663336
+
+Jacobi iteration no: 970
+
+Jacobi residual: 100.612713
+
+Jacobi iteration no: 971
+
+Jacobi residual: 100.562119
+
+Jacobi iteration no: 972
+
+Jacobi residual: 100.511554
+
+Jacobi iteration no: 973
+
+Jacobi residual: 100.461019
+
+Jacobi iteration no: 974
+
+Jacobi residual: 100.410512
+
+Jacobi iteration no: 975
+
+Jacobi residual: 100.360034
+
+Jacobi iteration no: 976
+
+Jacobi residual: 100.309586
+
+Jacobi iteration no: 977
+
+Jacobi residual: 100.259167
+
+Jacobi iteration no: 978
+
+Jacobi residual: 100.208776
+
+Jacobi iteration no: 979
+
+Jacobi residual: 100.158414
+
+Jacobi iteration no: 980
+
+Jacobi residual: 100.108082
+
+Jacobi iteration no: 981
+
+Jacobi residual: 100.057778
+
+Jacobi iteration no: 982
+
+Jacobi residual: 100.007503
+
+Jacobi iteration no: 983
+
+Jacobi residual: 99.957257
+
+Jacobi iteration no: 984
+
+Jacobi residual: 99.907040
+
+Jacobi iteration no: 985
+
+Jacobi residual: 99.856851
+
+Jacobi iteration no: 986
+
+Jacobi residual: 99.806691
+
+Jacobi iteration no: 987
+
+Jacobi residual: 99.756560
+
+Jacobi iteration no: 988
+
+Jacobi residual: 99.706457
+
+Jacobi iteration no: 989
+
+Jacobi residual: 99.656383
+
+Jacobi iteration no: 990
+
+Jacobi residual: 99.606338
+
+Jacobi iteration no: 991
+
+Jacobi residual: 99.556321
+
+Jacobi iteration no: 992
+
+Jacobi residual: 99.506333
+
+Jacobi iteration no: 993
+
+Jacobi residual: 99.456373
+
+Jacobi iteration no: 994
+
+Jacobi residual: 99.406442
+
+Jacobi iteration no: 995
+
+Jacobi residual: 99.356539
+
+Jacobi iteration no: 996
+
+Jacobi residual: 99.306665
+
+Jacobi iteration no: 997
+
+Jacobi residual: 99.256819
+
+Jacobi iteration no: 998
+
+Jacobi residual: 99.207001
+
+Jacobi iteration no: 999
+
+Jacobi residual: 99.157212
+
+Jacobi iteration no: 1000
+
+Jacobi residual: 99.107451
+
+Debug: destroying mesh

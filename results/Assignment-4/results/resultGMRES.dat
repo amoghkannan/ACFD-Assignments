@@ -1,0 +1,208 @@
+Setting up GMRES solver
+Setting up A
+Setting up RHS
+GMRES iteration start: 198.252364
+
+GMRES restart; resnorm 174.504174
+
+GMRES restart; resnorm 162.562058
+
+GMRES restart; resnorm 153.307253
+
+GMRES restart; resnorm 146.967089
+
+GMRES restart; resnorm 141.940989
+
+GMRES restart; resnorm 137.244308
+
+GMRES restart; resnorm 133.161192
+
+GMRES restart; resnorm 129.189081
+
+GMRES restart; resnorm 125.586660
+
+GMRES restart; resnorm 122.035064
+
+GMRES restart; resnorm 118.729403
+
+GMRES restart; resnorm 115.438605
+
+GMRES restart; resnorm 112.321883
+
+GMRES restart; resnorm 109.200761
+
+GMRES restart; resnorm 106.204836
+
+GMRES restart; resnorm 103.199231
+
+GMRES restart; resnorm 100.314939
+
+GMRES restart; resnorm 97.423518
+
+GMRES restart; resnorm 94.743546
+
+GMRES restart; resnorm 92.071482
+
+GMRES restart; resnorm 89.618729
+
+GMRES restart; resnorm 87.163906
+
+GMRES restart; resnorm 84.846213
+
+GMRES restart; resnorm 82.504858
+
+GMRES restart; resnorm 80.278143
+
+GMRES restart; resnorm 78.024903
+
+GMRES restart; resnorm 75.878364
+
+GMRES restart; resnorm 73.707917
+
+GMRES restart; resnorm 71.636943
+
+GMRES restart; resnorm 69.544532
+
+GMRES restart; resnorm 67.545380
+
+GMRES restart; resnorm 65.527134
+
+GMRES restart; resnorm 63.596759
+
+GMRES restart; resnorm 61.649420
+
+GMRES restart; resnorm 59.785318
+
+GMRES restart; resnorm 57.906210
+
+GMRES restart; resnorm 56.106380
+
+GMRES restart; resnorm 54.293354
+
+GMRES restart; resnorm 52.556371
+
+GMRES restart; resnorm 50.807805
+
+GMRES restart; resnorm 49.132847
+
+GMRES restart; resnorm 47.448034
+
+GMRES restart; resnorm 45.835545
+
+GMRES restart; resnorm 44.214751
+
+GMRES restart; resnorm 42.666973
+
+GMRES restart; resnorm 41.121222
+
+GMRES restart; resnorm 39.654835
+
+GMRES restart; resnorm 38.211484
+
+GMRES restart; resnorm 36.840994
+
+GMRES restart; resnorm 35.477286
+
+GMRES restart; resnorm 34.176786
+
+GMRES restart; resnorm 32.873137
+
+GMRES restart; resnorm 31.630151
+
+GMRES restart; resnorm 30.384589
+
+GMRES restart; resnorm 29.197973
+
+GMRES restart; resnorm 28.009990
+
+GMRES restart; resnorm 26.879332
+
+GMRES restart; resnorm 25.748364
+
+GMRES restart; resnorm 24.673172
+
+GMRES restart; resnorm 23.598641
+
+GMRES restart; resnorm 22.578381
+
+GMRES restart; resnorm 21.559698
+
+GMRES restart; resnorm 20.593811
+
+GMRES restart; resnorm 19.630391
+
+GMRES restart; resnorm 18.718296
+
+GMRES restart; resnorm 17.809564
+
+GMRES restart; resnorm 16.950673
+
+GMRES restart; resnorm 16.096060
+
+GMRES restart; resnorm 15.289771
+
+GMRES restart; resnorm 14.488711
+
+GMRES restart; resnorm 13.734400
+
+GMRES restart; resnorm 12.986308
+
+GMRES restart; resnorm 12.283316
+
+GMRES restart; resnorm 11.587576
+
+GMRES restart; resnorm 10.935192
+
+GMRES restart; resnorm 10.291143
+
+GMRES restart; resnorm 9.688591
+
+GMRES restart; resnorm 9.095528
+
+GMRES restart; resnorm 8.541970
+
+GMRES restart; resnorm 7.999152
+
+GMRES restart; resnorm 7.493687
+
+GMRES restart; resnorm 7.000325
+
+GMRES restart; resnorm 6.541977
+
+GMRES restart; resnorm 6.097135
+
+GMRES restart; resnorm 5.684766
+
+GMRES restart; resnorm 5.287099
+
+GMRES restart; resnorm 4.919178
+
+GMRES restart; resnorm 4.566523
+
+GMRES restart; resnorm 4.240796
+
+GMRES restart; resnorm 3.929912
+
+GMRES restart; resnorm 3.643204
+
+GMRES restart; resnorm 3.370022
+
+GMRES restart; resnorm 3.118487
+
+GMRES restart; resnorm 2.878772
+
+GMRES restart; resnorm 2.658462
+
+GMRES restart; resnorm 2.448327
+
+GMRES restart; resnorm 2.255632
+
+GMRES restart; resnorm 2.071689
+
+GMRES restart; resnorm 1.903455
+
+GMRES restart; resnorm 1.742779
+
+GMRES iteration finished: 1.742779
+
+Debug: destroying mesh
