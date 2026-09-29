@@ -80,6 +80,5 @@ void prolongation(std::vector<Grid<wp>>&R_store);
 
 static wp bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd);
 static wp bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd);
-static Node cc(int i, int j, Mesh& mesh);
 
 };

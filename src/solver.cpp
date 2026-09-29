@@ -131,26 +131,26 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                 for(int j=1;j<coarseVar.intVect[1];j++){
                         for(int i=1;i<coarseVar.intVect[0];i++){
 
-                                fineVar(2*i,2*j)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
-                                                                   cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
+                                fineVar(2*i,2*j)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
+                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   cc(2*i,2*j,fineMesh));
-                                fineVar(2*i+1,2*j)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
-                                                                   cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
+                                                                   fineMesh.cc(2*i,2*j));
+                                fineVar(2*i+1,2*j)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
+                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   cc(2*i+1,2*j,fineMesh));
-                                fineVar(2*i+1,2*j+1)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
-                                                                   cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
+                                                                   fineMesh.cc(2*i+1,2*j));
+                                fineVar(2*i+1,2*j+1)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
+                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   cc(2*i+1,2*j+1,fineMesh));
-                                fineVar(2*i,2*j+1)+=bilinearInterp4({cc(i,j,coarseMesh),cc(i+1,j,coarseMesh),
-                                                                   cc(i+1,j+1,coarseMesh),cc(i,j+1,coarseMesh)},
+                                                                   fineMesh.cc(2*i+1,2*j+1));
+                                fineVar(2*i,2*j+1)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
+                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
                                                                   {coarseVar(i,j),coarseVar(i+1,j),
                                                                    coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   cc(2*i,2*j+1,fineMesh));
+                                                                   fineMesh.cc(2*i,2*j+1));
                         };
                 };
 
@@ -226,7 +226,4 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
                vals[3]*(1.0-delta_xi)*(delta_eta);
 };
 
-Node Solver::cc(int i, int j, Mesh& mesh){
 
-        return (mesh(i,j)+mesh(i+1,j)+mesh(i+1,j+1)+mesh(i,j+1))*0.25;
-};

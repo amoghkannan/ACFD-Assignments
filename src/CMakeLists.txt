@@ -15,6 +15,7 @@ integrator.cpp
 solver.cpp
 LWESolver.cpp
 PoissonSolver.cpp
+icoNSSolver.cpp
 )
 
 target_include_directories(my_objects PUBLIC ${CMAKE_SOURCE_DIR}/include)  

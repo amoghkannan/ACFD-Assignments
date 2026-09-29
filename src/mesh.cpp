@@ -1,5 +1,10 @@
 #include"mesh.h"
 
+Node Mesh::cc(int i, int j){
+
+        return ((*this)(i,j)+(*this)(i+1,j)+(*this)(i+1,j+1)+(*this)(i,j+1))*0.25;
+};
+
 void Mesh::calcVolumes(){
         volumes=Grid<wp>(box,{CELL,CELL});
         
@@ -8,6 +13,34 @@ void Mesh::calcVolumes(){
                         volumes(i,j)=calcVolume({(*this)(i,j),(*this)(i+1,j),(*this)(i+1,j+1),(*this)(i,j+1)});
                 };
         };
+};
+
+void Mesh::calcAreas(){
+        normalsI=Grid<Vec2>(box,{NODE,CELL});
+       
+        Vec2 tempVec;
+        Node tempNode;
+
+        for(int j=1;j<intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        tempNode=(*this)(i,j+1)-(*this)(i,j);
+                        normalsI(i,j)=Vec2(tempNode.y,-tempNode.x);
+                        tempVec=Vec2(cc(i,j),cc(i+1,j));
+                        if(normalsI(i,j).dotProduct(tempVec)<0) normalsI(i,j)=-normalsI(i,j);
+                };
+        };
+        
+        normalsJ=Grid<Vec2>(box,{CELL,NODE});
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<intVect[0];i++){
+                        tempNode=(*this)(i+1,j)-(*this)(i,j);
+                        normalsJ(i,j)=Vec2(-tempNode.y,tempNode.x);
+                        tempVec=Vec2(cc(i,j),cc(i,j+1));
+                        if(normalsJ(i,j).dotProduct(tempVec)<0) normalsJ(i,j)=-normalsJ(i,j);
+                };
+        };
+
 };
 
 wp Mesh::calcVolume(std::vector<Node>nodesIn){
