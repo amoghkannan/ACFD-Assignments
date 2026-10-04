@@ -1,8 +1,64 @@
 #include"scheme.h"
 
+BCType StringToBCType(std::string str){
+        if(str=="periodic") return periodic;
+
+        if(str=="dirichlet") return dirichlet;
+
+        if(str=="neumann") return neumann;
+
+        logger.log("Invalid BC type",1);
+        return invalidBCType; 
+};
+
+schemeKey StringToschemeKey(std::string str){
+        if(str=="timeStepping") return timeStepping;
+
+        if(str=="derivativeX") return derivativeX;
+
+        if(str=="derivativeY") return derivativeY;
+
+        if(str=="derivativeXX") return derivativeXX;
+
+        if(str=="derivativeYY") return derivativeYY;
+
+        if(str=="derivativeXY") return derivativeXY;
+
+        if(str=="faceReconstruction") return faceReconstruction;
+
+        if(str=="multigrid") return multigrid;
+
+        if(str=="PVCoupling") return PVCoupling;
+
+        logger.log("Invalid scheme key",1);
+        return invalidSchemeKey;
+};
+
+schemeVal StringToschemeVal(std::string str){
+        if(str=="EULER") return EULER;
+
+        if(str=="RK4") return RK4;
+        
+        if(str=="LINEARSOLVER") return LINEARSOLVER;
+
+        if(str=="FOU") return FOU;
+
+        if(str=="C4") return C4;
+
+        if(str=="V_CYCLE") return V_CYCLE;
+
+        if(str=="W_CYCLE") return W_CYCLE;
+
+        if(str=="SIMPLE") return SIMPLE;
+
+        logger.log("Invalid scheme val",1);
+        return INVALIDSCHEMEVAL;
+};
+
 schemeVal& Scheme::getScheme(schemeKey keyIn){
         return schemeDict[keyIn];
 };
+
 
 void Scheme::setScheme(schemeKey keyIn, schemeVal valIn){
 
@@ -249,6 +305,43 @@ void Scheme::ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag)
        else{
 
        };
+
+};
+
+wp Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j){
+
+        wp currGrad=0.0;
+        Vec2 dirNormalized=dir/dir.norm2();
+
+        if(i-1>=1){
+                currGrad=currGrad-0.5*(var(i-1,j)+var(i,j))*mesh.normalsI(i,j).dotProduct(dirNormalized);
+        };
+
+        if(i+1<=var.intVect[0]){
+                currGrad=currGrad+0.5*(var(i+1,j)+var(i,j))*mesh.normalsI(i+1,j).dotProduct(dirNormalized);
+        };
+
+        if(j-1>=1){
+                currGrad=currGrad-0.5*(var(i,j-1)+var(i,j))*mesh.normalsJ(i,j).dotProduct(dirNormalized);
+        };
+
+        if(j+1<=var.intVect[1]){
+                currGrad=currGrad+0.5*(var(i,j+1)+var(i,j))*mesh.normalsJ(i,j+1).dotProduct(dirNormalized);
+        };
+                        
+        currGrad=currGrad/mesh.volumes(i,j);
+
+        return currGrad;
+};
+
+void Scheme::faceStatesFOU(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir){
+
+
+};
+
+void Scheme::faceStatesQUICK(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir){
+
+
 
 };
 

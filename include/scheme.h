@@ -8,8 +8,11 @@
 enum BCType{
         periodic,
         dirichlet,
-        neumann
+        neumann,
+        invalidBCType
 };
+
+BCType StringToBCType(std::string str);
 
 enum schemeKey{
         timeStepping,
@@ -18,8 +21,13 @@ enum schemeKey{
         derivativeXX,
         derivativeYY,
         derivativeXY,
-        multigrid
+        multigrid,
+        faceReconstruction,
+        PVCoupling,
+        invalidSchemeKey
 };
+
+schemeKey StringToschemeKey(std::string str);
 
 enum schemeVal{
         EULER,
@@ -29,15 +37,17 @@ enum schemeVal{
         C4,   //Fourth-order compact,
         V_CYCLE,
         W_CYCLE,
-        INVALID
+        SIMPLE,
+        INVALIDSCHEMEVAL
 };
+
+schemeVal StringToschemeVal(std::string str);
 
 class Scheme{
 
 private:
 
 
-dictionary<std::string,std::pair<BCType,wp>> BCDict;
 
 //TDMA coefficients
 wp *a=nullptr;
@@ -48,6 +58,8 @@ wp *x=nullptr;
 wp *y=nullptr;
 
 public:
+
+dictionary<std::string,std::pair<BCType,wp>> BCDict;
 dictionary<schemeKey,schemeVal> schemeDict;
 
 schemeVal& getScheme(schemeKey keyIn);
@@ -69,6 +81,9 @@ void ECD2NonUniform(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFla
 void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
 
 //Finite volume
+wp greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j);
+void faceStatesFOU(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir);
+void faceStatesQUICK(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh&mesh, char dir);
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;

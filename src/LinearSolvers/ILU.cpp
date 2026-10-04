@@ -93,7 +93,7 @@ void ILU::LUDecompose(Grid<wp>& var){
         
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        LU(i,j)=getA(i,j,var);
+                        LU(i,j)=getA(i,j);
                 };
         };
 
@@ -168,7 +168,7 @@ void ILU::doIteration(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
+                        RHSCurr=getRHS(i,j);
                         var(i,j)=RHSCurr;
 
                 };
@@ -204,8 +204,8 @@ wp ILU::residualCalc(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){

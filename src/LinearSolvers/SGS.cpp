@@ -12,8 +12,8 @@ void SGS::doIteration(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -34,8 +34,8 @@ void SGS::doIteration(Grid<wp>& var){
 
         for(int j=jmx;j>=1;j--){
                 for(int i=imx;i>=1;i--){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -83,8 +83,8 @@ wp SGS::residualCalc(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -120,7 +120,7 @@ void SGS::invertAForward(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,var);
+                        dependencies=getA(i,j);
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 
@@ -156,7 +156,7 @@ void SGS::invertABackward(Grid<wp>& var){
 
         for(int j=jmx;j>=1;j--){
                 for(int i=imx;i>=1;i--){
-                        dependencies=getA(i,j,var);
+                        dependencies=getA(i,j);
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 

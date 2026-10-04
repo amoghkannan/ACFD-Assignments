@@ -19,10 +19,9 @@ int bufN=1;
 
 Grid<wp> phi(Box(imx,jmx,bufW,bufE,bufS,bufN),{NODE,NODE});
 
-std::vector<boundMatEntry> getA(int i,int j,Grid<wp>&var){
-        std::array<int,6>sizeArr=var.size();
-        int imx=sizeArr[0];
-        int jmx=sizeArr[1];
+std::vector<boundMatEntry> getA(int i,int j,int iLim, int jLim){
+        int imx=iLim;
+        int jmx=jLim;
 
         std::vector<boundMatEntry> ans;
         boundMatEntry temp;
@@ -58,10 +57,9 @@ std::vector<boundMatEntry> getA(int i,int j,Grid<wp>&var){
         return ans;
 };
 
-wp getRHS(int i, int j,Grid<wp>&var){
-        std::array<int,6>sizeArr=var.size();
-        int imx=sizeArr[0];
-        int jmx=sizeArr[1];
+wp getRHS(int i, int j,int iLim, int jLim){
+        int imx=iLim;
+        int jmx=jLim;
 
         if(i>1 && i<imx && j>1 && j<jmx){
                 return -2.0;
@@ -86,19 +84,13 @@ int main(void){
                 };
         };
 
-        Grid<wp>res(Box(imx,jmx,bufW,bufE,bufS,bufN),{NODE,NODE});
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        res(i,j)=getRHS(i,j,phi);
-                };
-        };
 
         phi.initVal(0.5);
         std::ofstream outfile("result.dat");
 
-        GMRES solver(1000,1E-7,1.5,10,100,phi);
+        GMRES solver(1000,1E-7,1.5,10,100,phi,imx,jmx);
         solver.setMatFunc(getA);
-        solver.setRHSFunc(res);
+        solver.setRHSFunc(getRHS);
         solver.setupPreconditioner(CHOLESKY_SOLVER,SPLIT_PRECONDITIONER);
         solver.solve(phi);
         phi.print(outfile);

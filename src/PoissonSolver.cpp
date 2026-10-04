@@ -1,10 +1,9 @@
 #include"PoissonSolver.h"
 
-std::vector<boundMatEntry> PoissonSolver::getAPoisson(int i,int j,Grid<wp>&var){
+std::vector<boundMatEntry> PoissonSolver::getAPoisson(int i,int j, int iLim, int jLim){
 
-        std::array<int,6>sizeArr=var.size();
-        int imx=sizeArr[0];
-        int jmx=sizeArr[1];
+        int imx=iLim;
+        int jmx=jLim;
 
         std::vector<boundMatEntry> ans;
         boundMatEntry temp;
@@ -40,10 +39,9 @@ std::vector<boundMatEntry> PoissonSolver::getAPoisson(int i,int j,Grid<wp>&var){
         return ans;
 };
 
-wp PoissonSolver::getRHSPoisson(int i, int j,Grid<wp>&var){
-        std::array<int,6>sizeArr=var.size();
-        int imx=sizeArr[0];
-        int jmx=sizeArr[1];
+wp PoissonSolver::getRHSPoisson(int i, int j,int iLim, int jLim){
+        int imx=iLim;
+        int jmx=jLim;
 
         if(i>1 && i<imx && j>1 && j<jmx){
                 return -2.0;
@@ -64,12 +62,12 @@ PoissonSolver::PoissonSolver(int nx, int ny, int level){
        
        setVar("phi",{NODE,NODE});
        vars["phi"].initVal(0.0);
-       ls=new GaussSeidel(10,1E-4,1.8,vars["phi"]);
+       ls=new GaussSeidel(10,1E-4,1.8,vars["phi"],nx,ny);
        ls->setMatFunc(getAPoisson);
        if(level==1){
                 for(int j=1;j<=mesh->intVect[1];j++){
                         for(int i=1;i<=mesh->intVect[0];i++){
-                                varsDot["phi"](i,j)=getRHSPoisson(i,j,vars["phi"]);
+                                varsDot["phi"](i,j)=getRHSPoisson(i,j,mesh->intVect[0],mesh->intVect[1]);
                         };
                 };
                 ls->setRHSFunc(varsDot["phi"]);
@@ -119,7 +117,7 @@ wp PoissonSolver::getResNorm(){
         for(int j=1;j<=mesh->intVect[1];j++){
                 for(int i=1;i<=mesh->intVect[0];i++){
                         RHSCurr=varsDot["phi"](i,j);
-                        dependencies=getAPoisson(i,j,vars["phi"]);
+                        dependencies=getAPoisson(i,j,mesh->intVect[0],mesh->intVect[1]);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -146,7 +144,7 @@ void PoissonSolver::getResidual(){
         for(int j=1;j<=mesh->intVect[1];j++){
                 for(int i=1;i<=mesh->intVect[0];i++){
                         RHSCurr=varsDot["phi"](i,j);
-                        dependencies=getAPoisson(i,j,vars["phi"]);
+                        dependencies=getAPoisson(i,j,mesh->intVect[0],mesh->intVect[1]);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -180,7 +178,7 @@ void PoissonSolver::setupMultigrid(int level,int maxLevel){
         coarser->mesh=new Mesh((this->mesh)->coarsen());
         coarser->mesh->setGhostNodes();
         coarser->scheme=this->scheme;
-        coarser->ls=new GaussSeidel(10,1E-4,1.8,coarser->vars["phi"]);
+        coarser->ls=new GaussSeidel(10,1E-4,1.8,coarser->vars["phi"],coarser->vars["phi"].box.imx,coarser->vars["phi"].box.jmx);
         (coarser->ls)->setMatFunc(getAPoisson);
         logger.log("Debug: multigrid level set up",1);
         coarser->setupMultigrid(level+1,maxLevel);

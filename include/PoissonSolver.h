@@ -7,8 +7,8 @@ private:
 
 public:
 
-static std::vector<boundMatEntry> getAPoisson(int i,int j,Grid<wp>&var);
-static wp getRHSPoisson(int i, int j,Grid<wp>&var);
+static std::vector<boundMatEntry> getAPoisson(int i,int j, int iLim, int jLim);
+static wp getRHSPoisson(int i, int j,int iLim, int jLim);
 
 PoissonSolver(int, int,int);
 

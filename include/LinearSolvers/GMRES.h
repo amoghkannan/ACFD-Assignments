@@ -24,7 +24,8 @@ public:
 LinearSolver *preconditioner=nullptr;
 preconditionerPos pp;
 
-GMRES(int maxIters_, wp tol_, wp rel_, int ss, int nR, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_,rel_), subspaceSize(ss), 
+GMRES(int maxIters_, wp tol_, wp rel_, int ss, int nR, Grid<wp>& varsIn, int iLim_, int jLim_): 
+        LinearSolver(maxIters_,tol_,rel_, iLim_, jLim_), subspaceSize(ss), 
         nRestarts(nR), residualVec(varsIn){
         logger.log("Setting up GMRES solver",1);
         for(int i=0;i<=subspaceSize;i++){

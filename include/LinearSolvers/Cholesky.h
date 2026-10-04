@@ -13,7 +13,8 @@ Grid<std::vector<std::pair<int,int>>>S;
 
 public:
 
-Cholesky(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn, int level_): LinearSolver(maxIters_,tol_,rel_), level(level_){
+Cholesky(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn, int level_, int iLim_, int jLim_): 
+        LinearSolver(maxIters_,tol_,rel_, iLim_, jLim_), level(level_){
         logger.log("Setting up Cholesky solver",1);
 };
 void setLevel(int l){level=l;};

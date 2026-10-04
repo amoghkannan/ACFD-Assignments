@@ -213,8 +213,8 @@ void Integrator::dumpSolution(Solver *s, int ID){
         int imx=dims[0];
         int jmx=dims[1];
 
-        for(int n=0;n<nVars;n++){
-                outputfile<<"var"+std::to_string(n)<<std::endl;       
+        for(auto key:s->vars.getKeys()){
+                outputfile<<key<<std::endl;       
         };
 
         outputfile<<"zone T=block0000 i="<<std::to_string(imx)<<" j="<<std::to_string(jmx)<<" k="<<std::to_string(1)<<

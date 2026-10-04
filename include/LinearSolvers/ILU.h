@@ -11,7 +11,8 @@ Grid<std::vector<boundMatEntry>>LU;
 
 public:
 
-ILU(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn, int level_): LinearSolver(maxIters_,tol_,rel_), level(level_){
+ILU(int maxIters_, wp tol_, wp rel_, Grid<wp>& varIn, int level_, int iLim_, int jLim_): 
+        LinearSolver(maxIters_,tol_,rel_, iLim_, jLim_), level(level_){
         logger.log("Setting up ILU solver",1);
 };
 void setLevel(int l){level=l;};

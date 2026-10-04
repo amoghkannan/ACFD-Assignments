@@ -96,7 +96,7 @@ void Cholesky::LUDecompose(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        currRow=getA(i,j,var);
+                        currRow=getA(i,j);
                         currRowL.clear();
                         for(auto item:currRow){
                                 if((item.first).second<j || ((item.first).second==j && (item.first).first<=i)){
@@ -180,7 +180,7 @@ void Cholesky::doIteration(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
+                        RHSCurr=getRHS(i,j);
                         var(i,j)=RHSCurr;
 
                 };
@@ -216,8 +216,8 @@ wp Cholesky::residualCalc(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){

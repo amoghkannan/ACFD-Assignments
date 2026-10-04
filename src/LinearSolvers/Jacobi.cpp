@@ -11,8 +11,8 @@ void Jacobi::doIteration(Grid<wp>& var){
         varOld=var; 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -58,8 +58,8 @@ wp Jacobi::residualCalc(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        RHSCurr=RHS(i,j);
-                        dependencies=getA(i,j,var);
+                        RHSCurr=getRHS(i,j);
+                        dependencies=getA(i,j);
                         newElem=RHSCurr;
 
                         for(boundMatEntry item:dependencies){
@@ -95,7 +95,7 @@ void Jacobi::invertA(Grid<wp>& var){
 
         for(int j=1;j<=jmx;j++){
                 for(int i=1;i<=imx;i++){
-                        dependencies=getA(i,j,var);
+                        dependencies=getA(i,j);
 
                         for(boundMatEntry item:dependencies){
                                p=item.first; 

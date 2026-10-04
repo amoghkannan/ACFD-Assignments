@@ -293,3 +293,7 @@ Grid<T>::~Grid(){
         delete[] data;
 
 };
+
+wp findMatElement(int iCell, int jCell, int iEntry, int jEntry, Grid<boundMatRow>&mat);
+void changeMatElement(int iCell, int jCell, int iEntry, int jEntry, wp val, Grid<boundMatRow>&mat);
+

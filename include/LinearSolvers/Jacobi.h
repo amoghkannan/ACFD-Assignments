@@ -9,7 +9,8 @@ Grid<wp>varOld;
 
 public:
 
-Jacobi(int maxIters_, wp tol_, wp rel_, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_,rel_), varOld(varsIn) {
+Jacobi(int maxIters_, wp tol_, wp rel_, Grid<wp>& varsIn,int iLim_, int jLim_): LinearSolver(maxIters_,tol_,rel_,iLim_,jLim_), 
+                                                                                varOld(varsIn) {
         logger.log("Setting up Jacobi solver",1);
 };
 void doIteration(Grid<wp>&) override;

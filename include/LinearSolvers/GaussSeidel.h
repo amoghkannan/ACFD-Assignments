@@ -7,7 +7,8 @@ protected:
 
 public:
 
-GaussSeidel(int maxIters_, wp tol_, wp rel_, Grid<wp>& varsIn): LinearSolver(maxIters_,tol_,rel_){
+GaussSeidel(int maxIters_, wp tol_, wp rel_, Grid<wp>& varsIn, int iLim_, int jLim_): 
+        LinearSolver(maxIters_,tol_,rel_,iLim_,jLim_){
         logger.log("Setting up GaussSeidel solver",1);
 };
 void doIteration(Grid<wp>&) override;
