@@ -6,7 +6,7 @@ private:
 
 std::string meshFile="mesh.dat";
 std::string settingsFile="system.dat";
-std::string initFile="initial.dat";
+std::string initFile="init.dat";
 
 dictionary<std::string,wp>params;
 
@@ -33,5 +33,7 @@ bool isConverged() override;
 
 void SIMPLEDriver();
 void computeDiffusiveFlux(std::string varName);
+void computeConvectiveFlux();
+void RhieChow();
 
 };

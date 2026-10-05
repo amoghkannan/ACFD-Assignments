@@ -34,6 +34,7 @@ enum schemeVal{
         RK4,
         LINEARSOLVER,
         FOU, //First-order upwind
+        QUICK,
         C4,   //Fourth-order compact,
         V_CYCLE,
         W_CYCLE,
@@ -82,8 +83,8 @@ void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Impl
 
 //Finite volume
 wp greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j);
-void faceStatesFOU(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir);
-void faceStatesQUICK(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh&mesh, char dir);
+std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
+std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;

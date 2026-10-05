@@ -9,8 +9,8 @@ int main(void){
         icoNSSolver solver;
 
         Integrator I;
-        I.maxSteps=2;
-        I.dumpSteps=1;
+        I.maxSteps=100;
+        I.dumpSteps=10;
         I.addSolver(solver,"NS");
         I.integrate();
         return 0;

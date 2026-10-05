@@ -86,6 +86,25 @@ icoNSSolver::icoNSSolver(){
                                                 infile1>>dataNum;
                                                 scheme.BCDict["p"+data]={neumann,0.0};
                                         }
+                                        else if(data1=="INLET"){
+                                                globalBCDict[data]=data1;
+                                                infile1>>dataNum;
+                                                scheme.BCDict["u"+data]={dirichlet,dataNum};
+                                                infile1>>dataNum;
+                                                scheme.BCDict["v"+data]={dirichlet,dataNum};
+                                                infile1>>dataNum;
+                                                scheme.BCDict["p"+data]={dirichlet,dataNum};
+                                        }
+                                        else if(data1=="OUTLET"){
+                                                globalBCDict[data]=data1;
+                                                infile1>>dataNum;
+                                                scheme.BCDict["u"+data]={neumann,0.0};
+                                                infile1>>dataNum;
+                                                scheme.BCDict["v"+data]={neumann,0.0};
+                                                infile1>>dataNum;
+                                                scheme.BCDict["p"+data]={neumann,0.0};
+                                        }
+
                                         else{
                                                 logger.log("Invalid BC type",1);
                                         };
@@ -128,6 +147,9 @@ void icoNSSolver::initialCondition(){
         };
 
         infile.close();
+
+        IFaceMDot.initVal(params["RHO"]*params["UREF"]*mesh->normalsI(1,1).norm2());
+        JFaceMDot.initVal(params["RHO"]*params["VREF"]*mesh->normalsJ(1,1).norm2());
 };
 
 void icoNSSolver::applyBC(){
@@ -135,27 +157,27 @@ void icoNSSolver::applyBC(){
         dictionary<std::string,std::pair<int,int>>lo;
         dictionary<std::string,std::pair<int,int>>hi;
         dictionary<std::string,std::pair<std::pair<int,int>,std::pair<int,int>>>inc;
-        dictionary<std::string,wp>sign;
+        dictionary<std::string,wp>sig;
      
         lo["BCW"]={1,1};
         hi["BCW"]={1,mesh->box.jmx-1};
         inc["BCW"]={{0,0},{0,1}};
-        sign["BCW"]=-1.0;
+        sig["BCW"]=-1.0;
 
         lo["BCE"]={mesh->box.imx-1,1};
         hi["BCE"]={mesh->box.imx-1,mesh->box.jmx-1};
         inc["BCE"]={{1,0},{1,1}};
-        sign["BCE"]=1.0;
+        sig["BCE"]=1.0;
 
         lo["BCS"]={1,1};
         hi["BCS"]={mesh->box.imx-1,1};
         inc["BCS"]={{0,0},{1,0}};
-        sign["BCS"]=-1.0;
+        sig["BCS"]=-1.0;
 
         lo["BCN"]={1,mesh->box.jmx-1};
         hi["BCN"]={mesh->box.imx-1,mesh->box.jmx-1};
         inc["BCN"]={{0,1},{1,1}};
-        sign["BCN"]=1.0;
+        sig["BCN"]=1.0;
 
         wp mu=params["MU"];
 
@@ -198,6 +220,69 @@ void icoNSSolver::applyBC(){
                         };
 
                 };
+
+                if(globalBCDict[key]=="INLET"){
+
+                        wp rho=params["RHO"];
+                        wp mDot;
+                        wp uFree,vFree;
+
+                        for(int j=lo[key].second;j<=hi[key].second;j++){
+                                for(int i=lo[key].first;i<=hi[key].first;i++){
+
+                                         uFree=scheme.BCDict["u"+key].second;
+                                         vFree=scheme.BCDict["v"+key].second;
+
+                                        if(key=="BCW" || key=="BCE"){
+                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                        };
+
+                                        for(auto key1:vars.getKeys()){
+                                                 RHS[key1](i,j)-=mDot*scheme.BCDict[key1+key].second;
+                                        };
+
+                                                
+                                };
+                        };
+
+                };
+
+                if(globalBCDict[key]=="OUTLET"){
+
+                        wp rho=params["RHO"];
+                        wp mDot;
+                        wp uFree,vFree;
+
+                        for(int j=lo[key].second;j<=hi[key].second;j++){
+                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                                        
+                                        uFree=vars["u"](i,j);
+                                        vFree=vars["v"](i,j);
+
+                                        if(key=="BCW" || key=="BCE"){
+                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                        };
+
+                                        for(auto key1:vars.getKeys()){
+                                                 changeMatElement(i,j,i,j,mDot,coeffs[key1]);
+                                        };
+                                                
+                                };
+                        };
+
+                };
+
+
         };
 
 };
@@ -235,7 +320,7 @@ void icoNSSolver::getResidual(){
 };
 
 bool icoNSSolver::isConverged(){
-
+        return false;
 };
 
 void icoNSSolver::SIMPLEDriver(){
@@ -252,6 +337,11 @@ void icoNSSolver::SIMPLEDriver(){
                                 l.second=0.0;
                         };
 
+                        RHS["p"](i,j)=0.0;
+                        for(auto& l:coeffs["p"](i,j)){
+                                l.second=0.0;
+                        };
+
                 };
         };
 
@@ -259,21 +349,37 @@ void icoNSSolver::SIMPLEDriver(){
         //Compute coefficients
         computeDiffusiveFlux("u");
         computeDiffusiveFlux("v");
+        computeConvectiveFlux();
 
         //Apply BC
         applyBC();
 
         //Solve x momentum
-        ls->setMatFunc(coeffs["u"]);
-        ls->setRHSFunc(RHS["u"]);
-        ls->solve(vars["u"]);
+//        ls->setMatFunc(coeffs["u"]);
+//        ls->setRHSFunc(RHS["u"]);
+//        ls->solve(vars["u"]);
 
         //Solve y momentum
-        ls->setMatFunc(coeffs["v"]);
-        ls->setRHSFunc(RHS["v"]);
-        ls->solve(vars["v"]);
+//        ls->setMatFunc(coeffs["v"]);
+//        ls->setRHSFunc(RHS["v"]);
+//        ls->solve(vars["v"]);
 
-};
+        ls->setMatFunc(coeffs["p"]);
+        ls->setRHSFunc(RHS["p"]);
+        ls->solve(vars["p"]);
+
+        RhieChow();
+
+        std::ofstream outfile("out.dat");
+        for(int j=1;j<=vars["p"].intVect[1];j++){
+                for(int i=1;i<=vars["p"].intVect[0];i++){
+                        outfile<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["p"](i,j)<<std::endl; 
+                 };
+                 outfile<<std::endl;
+        };
+
+        outfile.close();
+};      
 
 void icoNSSolver::computeDiffusiveFlux(std::string varName){
 
@@ -328,6 +434,118 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
 
                 };
         };
+
+};
+
+void icoNSSolver::computeConvectiveFlux(){
+
+        wp rho=params["RHO"];
+
+        std::vector<std::pair<int,wp>>recon;
+
+        wp uRecon,vRecon;
+
+        for(int j=1;j<=IFaceMDot.intVect[1];j++){
+                for(int i=2;i<IFaceMDot.intVect[0];i++){
+
+                        recon=scheme.FOUReconstruction(IFaceMDot(i,j));
+                        for(auto key:coeffs.getKeys()){
+                               for(auto r:recon){ 
+                                        changeMatElement(i-1,j,i+r.first,j,IFaceMDot(i,j)*r.second,coeffs[key]);
+                                        changeMatElement(i,j,i+r.first,j,-IFaceMDot(i,j)*r.second,coeffs[key]);
+                               };
+                        };
+
+
+                        if(scheme.getScheme(faceReconstruction)==QUICK && i>2 && i<IFaceMDot.intVect[0]-1){
+                              
+                              for(auto key:coeffs.getKeys()){
+                                        
+                                        for(auto r:recon){       
+                                                RHS[key](i-1,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                                RHS[key](i,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                        };
+
+                              };
+
+                              recon=scheme.QUICKReconstruction(IFaceMDot(i,j));
+
+                              for(auto key:coeffs.getKeys()){
+                                        
+                                        for(auto r:recon){       
+                                                RHS[key](i-1,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                                RHS[key](i,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                        };
+
+                              };
+
+                        };
+
+                        uRecon=0.0;
+                        vRecon=0.0;
+
+                        for(auto r:recon){ 
+                                 uRecon+=vars["u"](i+r.first,j)*r.second;
+                                 vRecon+=vars["v"](i+r.first,j)*r.second;
+                        };
+
+                        IFaceMDot(i,j)=rho*(mesh->normalsI(i,j).dotProduct(Vec2(uRecon,vRecon)));
+                };
+        };
+
+        for(int j=2;j<JFaceMDot.intVect[1];j++){
+                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+
+                        recon=scheme.FOUReconstruction(JFaceMDot(i,j));
+                        for(auto key:coeffs.getKeys()){
+                               for(auto r:recon){ 
+                                        changeMatElement(i,j-1,i,j+r.first,JFaceMDot(i,j)*r.second,coeffs[key]);
+                                        changeMatElement(i,j,i,j+r.first,-JFaceMDot(i,j)*r.second,coeffs[key]);
+                               };
+                        };
+
+
+                        if(scheme.getScheme(faceReconstruction)==QUICK && j>2 && j<JFaceMDot.intVect[1]-1){
+                              
+                              for(auto key:coeffs.getKeys()){
+                                        
+                                        for(auto r:recon){       
+                                                RHS[key](i,j-1)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                                RHS[key](i,j)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                        };
+
+                              };
+
+                              recon=scheme.QUICKReconstruction(JFaceMDot(i,j));
+
+                              for(auto key:coeffs.getKeys()){
+                                        
+                                        for(auto r:recon){       
+                                                RHS[key](i,j-1)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                                RHS[key](i,j)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                        };
+
+                              };
+
+                        };
+
+                        uRecon=0.0;
+                        vRecon=0.0;
+
+                        for(auto r:recon){ 
+                                 uRecon+=vars["u"](i,j+r.first)*r.second;
+                                 vRecon+=vars["v"](i,j+r.first)*r.second;
+                        };
+
+                        JFaceMDot(i,j)=rho*(mesh->normalsJ(i,j).dotProduct(Vec2(uRecon,vRecon)));
+
+                };
+        };
+
+
+};
+
+void icoNSSolver::RhieChow(){
 
 };
 

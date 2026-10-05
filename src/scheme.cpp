@@ -43,6 +43,8 @@ schemeVal StringToschemeVal(std::string str){
 
         if(str=="FOU") return FOU;
 
+        if(str=="QUICK") return QUICK;
+
         if(str=="C4") return C4;
 
         if(str=="V_CYCLE") return V_CYCLE;
@@ -334,14 +336,36 @@ wp Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j){
         return currGrad;
 };
 
-void Scheme::faceStatesFOU(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir){
+std::vector<std::pair<int,wp>>Scheme::FOUReconstruction(wp& massFlux){
+        
+        std::vector<std::pair<int,wp>>ans;
 
+        if(massFlux>=0.0){
+                ans.push_back({-1,1.0});
+        }
+        else{
+                ans.push_back({0,1.0});
+        };
 
+        return ans;
 };
 
-void Scheme::faceStatesQUICK(Grid<boundMatRow>&coeffs, Grid<wp>&vels, Mesh& mesh, char dir){
+std::vector<std::pair<int,wp>>Scheme::QUICKReconstruction(wp& massFlux){
 
+        std::vector<std::pair<int,wp>>ans;
 
+        if(massFlux>=0.0){
+                ans.push_back({-1,6.0/8.0});
+                ans.push_back({0,3.0/8.0});
+                ans.push_back({-2,-1.0/8.0});
+        }
+        else{
+                ans.push_back({0,6.0/8.0});
+                ans.push_back({-1,3.0/8.0});
+                ans.push_back({1,-1.0/8.0});
+        };
+
+        return ans;
 
 };
 
