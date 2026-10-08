@@ -75,8 +75,8 @@ void Integrator::integrate(){
        };
 
        logger.log("Debug: Initial condition",1);
-
-        int notConvergedCounter;
+        
+       int notConvergedCounter;
 
         while(nSteps<maxSteps){
                logger.log("Time step number: "+std::to_string(nSteps),LOGCODE);

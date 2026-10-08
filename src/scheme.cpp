@@ -310,30 +310,56 @@ void Scheme::ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag)
 
 };
 
-wp Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j){
+Vec2 Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j){
 
-        wp currGrad=0.0;
-        Vec2 dirNormalized=dir/dir.norm2();
+        Vec2 currGrad(0.0,0.0);
 
         if(i-1>=1){
-                currGrad=currGrad-0.5*(var(i-1,j)+var(i,j))*mesh.normalsI(i,j).dotProduct(dirNormalized);
+                currGrad=currGrad-(mesh.normalsI(i,j)*averageValue<wp>(var(i-1,j),var(i,j),mesh,i,j,'x'));
         };
 
         if(i+1<=var.intVect[0]){
-                currGrad=currGrad+0.5*(var(i+1,j)+var(i,j))*mesh.normalsI(i+1,j).dotProduct(dirNormalized);
+                currGrad=currGrad+(mesh.normalsI(i+1,j)*averageValue<wp>(var(i,j),var(i+1,j),mesh,i+1,j,'x'));
         };
 
         if(j-1>=1){
-                currGrad=currGrad-0.5*(var(i,j-1)+var(i,j))*mesh.normalsJ(i,j).dotProduct(dirNormalized);
+                currGrad=currGrad-(mesh.normalsJ(i,j)*averageValue<wp>(var(i,j-1),var(i,j),mesh,i,j,'y'));
         };
 
         if(j+1<=var.intVect[1]){
-                currGrad=currGrad+0.5*(var(i,j+1)+var(i,j))*mesh.normalsJ(i,j+1).dotProduct(dirNormalized);
+                currGrad=currGrad+(mesh.normalsJ(i,j+1)*averageValue<wp>(var(i,j),var(i,j+1),mesh,i,j+1,'y'));
         };
                         
-        currGrad=currGrad/mesh.volumes(i,j);
+        currGrad/=mesh.volumes(i,j);
 
         return currGrad;
+};
+
+Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,char dir){
+
+        Vec2 gradL,gradR,grad;
+
+        gradL=dir=='x'?greenGaussCellBased(var,mesh,i-1,j):greenGaussCellBased(var,mesh,i,j-1);
+        gradR=greenGaussCellBased(var,mesh,i,j);
+
+        grad=averageValue<Vec2>(gradL,gradR,mesh,i,j,dir);
+
+        Node ccL,ccR;
+
+        ccL=dir=='x'?mesh.cc(i-1,j):mesh.cc(i,j-1);
+        ccR=mesh.cc(i,j);
+
+        Vec2 ccDir(ccR.x-ccL.x,ccR.y-ccL.y);
+        wp d=ccDir.norm2();
+        ccDir/=d;
+
+        wp varL,varR;
+        varL=dir=='x'?var(i-1,j):var(i,j-1);
+        varR=var(i,j);
+
+        grad=grad+ccDir*((varR-varL)/d-grad.dotProduct(ccDir));
+
+        return grad;
 };
 
 std::vector<std::pair<int,wp>>Scheme::FOUReconstruction(wp& massFlux){

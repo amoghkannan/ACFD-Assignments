@@ -26,6 +26,8 @@ struct Vec2{
         Vec2(Node nd1,Node nd2): st(nd1), en(nd2) {};
         Vec2(wp xComp,wp yComp): st(Node(0.0,0.0)), en(Node(xComp,yComp)) {};
         Vec2 operator-(){return Vec2(en,st);};
+        void operator=(Vec2 otherVec){st=otherVec.st;en=otherVec.en;};
+        Vec2 operator+(Vec2 otherVec){return Vec2(st+otherVec.st,en+otherVec.en);};
         Vec2 operator-(Vec2 otherVec){return Vec2(st-otherVec.st,en-otherVec.en);};
         void operator*=(double val){st*=val;en*=val;};
         Vec2 operator*(double val){return Vec2(st*val,en*val);};

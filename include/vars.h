@@ -107,7 +107,9 @@ std::array<int,6>size();
 
 T& operator()(int i, int j);
 void operator=(const Grid& otherGrid);
+Grid<T> operator+(Grid& otherGrid);
 void operator+=(Grid& otherGrid);
+Grid<T> operator-(Grid& otherGrid);
 void operator-=(Grid& otherGrid);
 void operator-();
 void operator*=(wp val);
@@ -188,6 +190,22 @@ void Grid<T>::operator+=(Grid<T>& otherGrid){
 };
 
 template<typename T>
+Grid<T> Grid<T>::operator+(Grid<T>& otherGrid){
+        if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
+        logger.log("Warning, adding non-equivalent fields!",1);
+
+        Grid<wp>ans(box,indexType);
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        ans(i,j) = (*this)(i,j) + otherGrid(i,j);
+                };
+        };
+
+        return ans;
+};
+
+template<typename T>
 void Grid<T>::operator-=(Grid<T>& otherGrid){
         if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
         logger.log("Warning, subtracting non-equivalent fields!",1);
@@ -197,6 +215,22 @@ void Grid<T>::operator-=(Grid<T>& otherGrid){
                         (*this)(i,j) = (*this)(i,j) - otherGrid(i,j);
                 };
         };
+};
+
+template<typename T>
+Grid<T> Grid<T>::operator-(Grid<T>& otherGrid){
+        if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
+        logger.log("Warning, adding non-equivalent fields!",1);
+
+        Grid<wp>ans(box,indexType);
+
+        for(int j=1;j<=intVect[1];j++){
+                for(int i=1;i<=intVect[0];i++){
+                        ans(i,j) = (*this)(i,j) - otherGrid(i,j);
+                };
+        };
+
+        return ans;
 };
 
 template<typename T>

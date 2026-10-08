@@ -34,6 +34,12 @@ bool isConverged() override;
 void SIMPLEDriver();
 void computeDiffusiveFlux(std::string varName);
 void computeConvectiveFlux();
+void computeGradP();
+void addPressureSource();
 void RhieChow();
+void assemblePressureCorrectionEqn();
+void correctPressure();
+void correctMassFlux();
+void correctVelocity();
 
 };

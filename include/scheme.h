@@ -82,7 +82,28 @@ void ECD2NonUniform(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFla
 void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Implicit (compact) central difference (4th order)
 
 //Finite volume
-wp greenGaussCellBased(Grid<wp>&var,Mesh&mesh,Vec2 dir, int i, int j);
+template<typename T>
+T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
+        wp volL,volR;
+
+        if(dir=='x'){
+                volL=mesh.volumes(i-1,j);
+        }
+        else if(dir=='y'){
+                volL=mesh.volumes(i,j-1);
+        };
+
+        volR=mesh.volumes(i,j);
+
+        T ans;
+        ans=varR*volL+varL*volR;
+        ans/=(volR+volL);
+        return ans;
+
+};
+
+Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
+Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
