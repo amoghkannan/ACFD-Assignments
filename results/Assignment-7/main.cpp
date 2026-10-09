@@ -12,7 +12,6 @@
 #include<fstream>
 
 Logger logger;
-
 int imx=101;
 int jmx=101;
 int bufW=1;
@@ -61,12 +60,70 @@ std::vector<boundMatEntry> getA(int i,int j,int iLim, int jLim){
         return ans;
 };
 
+std::vector<boundMatEntry> getANonSymmetric(int i,int j,int iLim, int jLim){
+        int imx=iLim;
+        int jmx=jLim;
+
+        std::vector<boundMatEntry> ans;
+        boundMatEntry temp;
+
+        wp delta=1.0/(imx-1);
+
+        if(i>1 && i<imx && j>1 && j<jmx){
+                temp.first={i-1,j};
+                temp.second=-1.0/(delta*delta);
+                temp.second-=50.0/(delta*delta);
+                ans.push_back(temp);
+        
+                temp.first={i+1,j};
+                temp.second=-1.0/(delta*delta);
+                ans.push_back(temp);
+        
+                temp.first={i,j-1};
+                temp.second=-1.0/(delta*delta);
+                temp.second-=50.0/(delta*delta);
+                ans.push_back(temp);
+        
+                temp.first={i,j+1};
+                temp.second=-1.0/(delta*delta);
+                ans.push_back(temp); 
+        
+                temp.first={i,j};
+                temp.second=4.0/(delta*delta);
+                temp.second+=100.0/(delta*delta);
+                ans.push_back(temp);
+
+        }
+        else{
+                temp.first={i,j};
+                temp.second=1.0;
+                ans.push_back(temp);
+        };
+
+
+        return ans;
+};
+
 wp getRHS(int i, int j,int iLim, int jLim){
         int imx=iLim;
         int jmx=jLim;
 
         if(i>1 && i<imx && j>1 && j<jmx){
                 return -2.0;
+        }
+        else{
+                return 1.0;
+        };
+
+
+};
+
+wp getRHSNonSymmetric(int i, int j,int iLim, int jLim){
+        int imx=iLim;
+        int jmx=jLim;
+
+        if(i>1 && i<imx && j>1 && j<jmx){
+                return 1.0;
         }
         else{
                 return 1.0;
@@ -93,11 +150,24 @@ int main(void){
         phi.initVal(0.0);
         std::ofstream outfile("result.dat");
 
-        biCGStab solver(10000,1E-15,1.5,phi,imx,jmx);
-        solver.setMatFunc(getA);
-        solver.setRHSFunc(getRHS);
-//        solver.setupPreconditioner(CHOLESKY_SOLVER,SPLIT_PRECONDITIONER);
+
+          biCGStab solver(10000,1E-15,1.5,phi,imx,jmx);
+//        GMRES solver(10000,1E-15,1.5,10,1000,phi,imx,jmx);
+//        solver.setMatFunc(getA);
+//        solver.setRHSFunc(getRHS);
+        solver.setMatFunc(getANonSymmetric);
+        solver.setRHSFunc(getRHSNonSymmetric);
+
+        auto start=std::chrono::high_resolution_clock::now();
+        
         solver.solve(phi);
+       
+        auto end=std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double>elapsed=end-start;
+
+        std::cout<<"Solved finished task in "<<elapsed.count()<<" seconds"<<std::endl;
+
         phi.print(outfile);
         outfile.close();
         return 0;

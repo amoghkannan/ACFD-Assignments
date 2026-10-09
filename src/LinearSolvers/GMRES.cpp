@@ -184,7 +184,7 @@ void GMRES::solve(Grid<wp>& var){
         while(currIter<nRestarts){
                 doIteration(var);
                 currIter=currIter+1;
-                std::cout<<"GMRES restart; resnorm: "<<std::scientific<<residualCalc(var)<<std::endl;
+                std::cout<<"GMRES restart; resnorm: "<<std::scientific<<residualCalc(var)<<" Iteration: "<<currIter<<std::endl;
         };
 
         std::cout<<"GMRES iteration finished: "<<std::scientific<<residualCalc(var)<<std::endl;
