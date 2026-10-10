@@ -316,18 +316,30 @@ Vec2 Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j){
 
         if(i-1>=1){
                 currGrad=currGrad-(mesh.normalsI(i,j)*averageValue<wp>(var(i-1,j),var(i,j),mesh,i,j,'x'));
+        }
+        else{
+                currGrad=currGrad-(mesh.normalsI(i,j)*var(i,j));
         };
 
         if(i+1<=var.intVect[0]){
                 currGrad=currGrad+(mesh.normalsI(i+1,j)*averageValue<wp>(var(i,j),var(i+1,j),mesh,i+1,j,'x'));
+        }
+        else{
+                currGrad=currGrad+(mesh.normalsI(i+1,j)*var(i,j));
         };
 
         if(j-1>=1){
                 currGrad=currGrad-(mesh.normalsJ(i,j)*averageValue<wp>(var(i,j-1),var(i,j),mesh,i,j,'y'));
+        }
+        else{
+                currGrad=currGrad-(mesh.normalsJ(i,j)*var(i,j));
         };
 
         if(j+1<=var.intVect[1]){
                 currGrad=currGrad+(mesh.normalsJ(i,j+1)*averageValue<wp>(var(i,j),var(i,j+1),mesh,i,j+1,'y'));
+        }
+        else{
+                currGrad=currGrad+(mesh.normalsJ(i,j+1)*var(i,j));
         };
                         
         currGrad/=mesh.volumes(i,j);

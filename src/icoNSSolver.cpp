@@ -63,10 +63,10 @@ icoNSSolver::icoNSSolver(){
                                         setScheme(StringToschemeKey(data),StringToschemeVal(data1));
                                         switch(stringToSolverType(data2)){
                                                 case(JACOBI_SOLVER):
-                                                        ls=new Jacobi(500,1E-15,0.5,vars["p"],imx-1,jmx-1); 
+                                                        ls=new Jacobi(500,1E-15,0.5,vars["p'"],imx-1,jmx-1); 
                                                         break;
                                                 case(GAUSS_SEIDEL_SOLVER):
-                                                        ls=new GaussSeidel(500,1E-15,0.5,vars["p"],imx-1,jmx-1); 
+                                                        ls=new GaussSeidel(500,1E-15,0.5,vars["p'"],imx-1,jmx-1); 
                                                         break;
                                                 default:
                                                         logger.log("Invalid linear solver name",1);
@@ -184,7 +184,7 @@ void icoNSSolver::applyBC(){
         sig["BCN"]=1.0;
 
         wp mu=params["MU"];
-
+        
         for(auto key:globalBCDict.getKeys()){
                 if(globalBCDict[key]=="NOSLIPWALL"){
                         wp uWall,vWall;
@@ -195,7 +195,7 @@ void icoNSSolver::applyBC(){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
                                         uWall=scheme.BCDict["u"+key].second;
                                         vWall=scheme.BCDict["v"+key].second;
-
+                                        
                                         if(key=="BCE" || key=="BCW"){
                                                 nx=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.x;
                                                 ny=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.y;
@@ -215,6 +215,7 @@ void icoNSSolver::applyBC(){
                                         d=Mesh::pDist(l,mesh->cc(i,j),Vec2(nx,ny));
 
                                         changeMatElement(i,j,i,j,mu*(1.0-nx*nx)*S/d,coeffs["u"]);
+                                        
                                         RHS["u"](i,j)+=mu*(uWall*(1.0-nx*nx)+(vars["v"](i,j)-vWall)*nx*ny)*S/d;
 
                                         changeMatElement(i,j,i,j,mu*(1.0-ny*ny)*S/d,coeffs["v"]);
@@ -354,19 +355,23 @@ void icoNSSolver::SIMPLEDriver(){
         logger.log("Cleared coeffs",1);
 
         //Compute coefficients
+
         computeDiffusiveFlux("u");
         computeDiffusiveFlux("v");
         computeConvectiveFlux();
+        computeGradP();
         addPressureSource();
 
         //Apply BC
         applyBC();
 
+        logger.log("Solving x momentum",1);
         //Solve x momentum
         ls->setMatFunc(coeffs["u"]);
         ls->setRHSFunc(RHS["u"]);
         ls->solve(vars["u"]);
 
+        logger.log("Solving y momentum",1);
         //Solve y momentum
         ls->setMatFunc(coeffs["v"]);
         ls->setRHSFunc(RHS["v"]);
@@ -374,6 +379,8 @@ void icoNSSolver::SIMPLEDriver(){
 
         RhieChow();
         assemblePressureCorrectionEqn();
+
+        logger.log("Solving pressure correction",1);
 
         //Solve pressure-correction eqn
         vars["p'"].initVal(0.0);
@@ -403,7 +410,7 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
         Node pL,pR;
         Vec2 vCC,vCD;
         wp E,T;
-        wp gradCC,gradCD;
+        wp gradCD;
 
         wp mu=params["MU"];
 
@@ -413,21 +420,20 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         pR=mesh->cc(i,j);
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
                         d=vCC.norm2();
-                        E=mesh->normalsI(i,j).norm2();
+                        E=mesh->normalsI(i,j).dotProduct(vCC)/d;
                         vCD=mesh->normalsI(i,j)-vCC*E;
                         T=vCD.norm2();
                         grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'x');
-                        gradCC=(vars[varName](i,j)-vars[varName](i-1,j))/d;
                         gradCD=grad.dotProduct(vCD);
 
                         //Update cell coefficients of i-1,j
-                        changeMatElement(i-1,j,i-1,j,gradCC*mu*E,coeffs[varName]);
-                        changeMatElement(i-1,j,i,j,-gradCC*mu*E,coeffs[varName]);
+                        changeMatElement(i-1,j,i-1,j,mu*E/d,coeffs[varName]);
+                        changeMatElement(i-1,j,i,j,-mu*E/d,coeffs[varName]);
                         RHS[varName](i-1,j)+=gradCD*mu;
                         
                         //Update cell coefficients of i,j
-                        changeMatElement(i,j,i,j,gradCC*mu*E,coeffs[varName]);
-                        changeMatElement(i,j,i-1,j,-gradCC*mu*E,coeffs[varName]);
+                        changeMatElement(i,j,i,j,mu*E/d,coeffs[varName]);
+                        changeMatElement(i,j,i-1,j,-mu*E/d,coeffs[varName]);
                         RHS[varName](i,j)-=gradCD*mu;
 
                 };
@@ -440,21 +446,20 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         pR=mesh->cc(i,j);
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
                         d=vCC.norm2();
-                        E=mesh->normalsJ(i,j).norm2();
+                        E=mesh->normalsJ(i,j).dotProduct(vCC)/d;
                         vCD=mesh->normalsJ(i,j)-vCC*E;
                         T=vCD.norm2();
-                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'x');
-                        gradCC=(vars[varName](i,j)-vars[varName](i,j-1))/d;
+                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'y');
                         gradCD=grad.dotProduct(vCD);
 
                         //Update cell coefficients of i,j-1
-                        changeMatElement(i,j-1,i,j-1,gradCC*mu*E,coeffs[varName]);
-                        changeMatElement(i,j-1,i,j,-gradCC*mu*E,coeffs[varName]);
+                        changeMatElement(i,j-1,i,j-1,mu*E/d,coeffs[varName]);
+                        changeMatElement(i,j-1,i,j,-mu*E/d,coeffs[varName]);
                         RHS[varName](i,j-1)+=gradCD*mu;
                         
                         //Update cell coefficients of i,j
-                        changeMatElement(i,j,i,j,gradCC*mu*E,coeffs[varName]);
-                        changeMatElement(i,j,i,j-1,-gradCC*mu*E,coeffs[varName]);
+                        changeMatElement(i,j,i,j,mu*E/d,coeffs[varName]);
+                        changeMatElement(i,j,i,j-1,-mu*E/d,coeffs[varName]);
                         RHS[varName](i,j)-=gradCD*mu;
 
                 };
@@ -474,19 +479,17 @@ void icoNSSolver::computeConvectiveFlux(){
                 for(int i=2;i<IFaceMDot.intVect[0];i++){
 
                         recon=scheme.FOUReconstruction(IFaceMDot(i,j));
-                        for(auto key:coeffs.getKeys()){
-                               if(key=="p") continue;
+                        
+                        for(auto key:{"u","v"}){
                                for(auto r:recon){ 
                                         changeMatElement(i-1,j,i+r.first,j,IFaceMDot(i,j)*r.second,coeffs[key]);
                                         changeMatElement(i,j,i+r.first,j,-IFaceMDot(i,j)*r.second,coeffs[key]);
                                };
                         };
 
-
                         if(scheme.getScheme(faceReconstruction)==QUICK && i>2 && i<IFaceMDot.intVect[0]-1){
                               
-                              for(auto key:coeffs.getKeys()){
-                                        if(key=="p") continue; 
+                              for(auto key:{"u","v"}){
                                         for(auto r:recon){       
                                                 RHS[key](i-1,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
                                                 RHS[key](i,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
@@ -496,8 +499,7 @@ void icoNSSolver::computeConvectiveFlux(){
 
                               recon=scheme.QUICKReconstruction(IFaceMDot(i,j));
 
-                              for(auto key:coeffs.getKeys()){
-                                        if(key=="p") continue; 
+                              for(auto key:{"u","v"}){
                                         for(auto r:recon){       
                                                 RHS[key](i-1,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
                                                 RHS[key](i,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
@@ -514,8 +516,7 @@ void icoNSSolver::computeConvectiveFlux(){
                 for(int i=1;i<=JFaceMDot.intVect[0];i++){
 
                         recon=scheme.FOUReconstruction(JFaceMDot(i,j));
-                        for(auto key:coeffs.getKeys()){
-                               if(key=="p") continue;
+                        for(auto key:{"u","v"}){
                                for(auto r:recon){ 
                                         changeMatElement(i,j-1,i,j+r.first,JFaceMDot(i,j)*r.second,coeffs[key]);
                                         changeMatElement(i,j,i,j+r.first,-JFaceMDot(i,j)*r.second,coeffs[key]);
@@ -525,8 +526,7 @@ void icoNSSolver::computeConvectiveFlux(){
 
                         if(scheme.getScheme(faceReconstruction)==QUICK && j>2 && j<JFaceMDot.intVect[1]-1){
                               
-                              for(auto key:coeffs.getKeys()){
-                                        if(key=="p") continue; 
+                              for(auto key:{"u","v"}){
                                         for(auto r:recon){       
                                                 RHS[key](i,j-1)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
                                                 RHS[key](i,j)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
@@ -536,8 +536,7 @@ void icoNSSolver::computeConvectiveFlux(){
 
                               recon=scheme.QUICKReconstruction(JFaceMDot(i,j));
                               
-                              for(auto key:coeffs.getKeys()){
-                                        if(key=="p") continue;          
+                              for(auto key:{"u","v"}){
                                         for(auto r:recon){       
                                                 RHS[key](i,j-1)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
                                                 RHS[key](i,j)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
@@ -570,8 +569,8 @@ void icoNSSolver::addPressureSource(){
         Vec2 gradP;
         wp gradPX,gradPY;
 
-        for(int j=2;j<vars["u"].intVect[1];j++){
-                for(int i=2;i<vars["u"].intVect[0];i++){
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
                         gradPX=vars["gradPX"](i,j);
                         gradPY=vars["gradPY"](i,j);
                         
@@ -645,61 +644,66 @@ void icoNSSolver::RhieChow(){
 
 void icoNSSolver::assemblePressureCorrectionEqn(){
        
-        wp Ef;
+        wp Ef,Df,d;
         Vec2 dCC;
         Node ccL,ccR;
         wp DLU,DRU,DLV,DRV;
+
+        wp rho=params["RHO"];
 
         for(int j=1;j<=IFaceMDot.intVect[1];j++){
                 for(int i=2;i<IFaceMDot.intVect[0];i++){
                         ccL=mesh->cc(i-1,j);
                         ccR=mesh->cc(i,j);
                         dCC=Vec2(ccR.x-ccL.x,ccR.y-ccL.y);
+                        d=dCC.norm2();
                         DLU=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["u"]);
                         DRU=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
                         DLV=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
                         DRV=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
 
-                        Ef=dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'x')*mesh->normalsI(i,j).en.x+
-                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'x')*mesh->normalsI(i,j).en.y;
+                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'x')*mesh->normalsI(i,j).en.x+
+                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'x')*mesh->normalsI(i,j).en.y)/d;
 
-                        Ef=Ef/pow(dCC.norm2(),2.0);
-                        changeMatElement(i-1,j,i-1,j,-Ef,coeffs["p'"]);
-                        changeMatElement(i-1,j,i,j,Ef,coeffs["p'"]);
+                        Df=Ef/d;
+                        changeMatElement(i-1,j,i-1,j,-rho*Df,coeffs["p'"]);
+                        changeMatElement(i-1,j,i,j,rho*Df,coeffs["p'"]);
 
-                        changeMatElement(i,j,i,j,-Ef,coeffs["p'"]);
-                        changeMatElement(i,j,i-1,j,Ef,coeffs["p'"]);
+                        changeMatElement(i,j,i,j,-rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i-1,j,rho*Df,coeffs["p'"]);
 
                 };
         };
 
         for(int j=2;j<JFaceMDot.intVect[1];j++){
                 for(int i=1;i<=JFaceMDot.intVect[0];i++){
+
                         ccL=mesh->cc(i,j-1);
                         ccR=mesh->cc(i,j);
                         dCC=Vec2(ccR.x-ccL.x,ccR.y-ccL.y);
+                        d=dCC.norm2();
                         DLU=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["u"]);
                         DRU=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
                         DLV=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
                         DRV=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
 
-                        Ef=dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.x+
-                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.y;
+                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.x+
+                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.y)/d;
 
-                        Ef=Ef/pow(dCC.norm2(),2.0);
-                        changeMatElement(i,j-1,i,j-1,-Ef,coeffs["p'"]);
-                        changeMatElement(i,j-1,i,j,Ef,coeffs["p'"]);
+                        Df=Ef/d;
+                        changeMatElement(i,j-1,i,j-1,-rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j-1,i,j,rho*Df,coeffs["p'"]);
 
-                        changeMatElement(i,j,i,j,-Ef,coeffs["p'"]);
-                        changeMatElement(i,j,i,j-1,Ef,coeffs["p'"]);
+                        changeMatElement(i,j,i,j,-rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i,j-1,rho*Df,coeffs["p'"]);
 
                 };
         };
 
-        for(int j=2;j<vars["p'"].intVect[1];j++){
-                for(int i=2;i<vars["p'"].intVect[0];i++){
+        for(int j=1;j<=vars["p'"].intVect[1];j++){
+                for(int i=1;i<=vars["p'"].intVect[0];i++){
 
-                        RHS["p'"](i,j)+=IFaceMDot(i+1,j)-IFaceMDot(i,j)
+                        RHS["p'"](i,j)-=IFaceMDot(i+1,j)-IFaceMDot(i,j)
                                         +JFaceMDot(i,j+1)-JFaceMDot(i,j);
                 };
         };
