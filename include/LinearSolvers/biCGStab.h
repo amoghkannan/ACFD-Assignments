@@ -4,6 +4,7 @@
 #include"SGS.h"
 #include"ILU.h"
 #include"Cholesky.h"
+#include<random>
 
 class biCGStab: public LinearSolver{
 

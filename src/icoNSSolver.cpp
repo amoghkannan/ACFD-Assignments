@@ -59,18 +59,23 @@ icoNSSolver::icoNSSolver(){
                                 while(infile1>>data){
                                         if(data.front()=='#') break;
                                         infile1>>data1;
-                                        if(data1=="LINEARSOLVER") infile1>>data2;
                                         setScheme(StringToschemeKey(data),StringToschemeVal(data1));
-                                        switch(stringToSolverType(data2)){
-                                                case(JACOBI_SOLVER):
-                                                        ls=new Jacobi(500,1E-15,1.0,vars["p'"],imx-1,jmx-1); 
-                                                        break;
-                                                case(GAUSS_SEIDEL_SOLVER):
-                                                        ls=new GaussSeidel(500,1E-15,1.0,vars["p'"],imx-1,jmx-1); 
-                                                        break;
-                                                default:
-                                                        logger.log("Invalid linear solver name",1);
-                                                        break;
+                                        if(data1=="LINEARSOLVER"){ 
+                                                infile1>>data2;
+                                                switch(stringToSolverType(data2)){
+                                                        case(JACOBI_SOLVER):
+                                                                ls=new Jacobi(100,1E-8,1.0,vars["p'"],imx-1,jmx-1); 
+                                                                break;
+                                                        case(GAUSS_SEIDEL_SOLVER):
+                                                                ls=new GaussSeidel(100,1E-8,1.0,vars["p'"],imx-1,jmx-1); 
+                                                                break;
+                                                        case(BICONJUGATE_GRADIENT_SOLVER):
+                                                                ls=new biCGStab(100,1E-8,1.0,vars["p'"],imx-1,jmx-1);
+                                                                break;
+                                                        default:
+                                                                logger.log("Invalid linear solver name",1);
+                                                                break;
+                                                };
                                         };
                                 };
                                 continue;
@@ -165,6 +170,9 @@ void icoNSSolver::initialCondition(){
                 };
         };
 
+        if(scheme.getScheme(PVCoupling)==PISO){
+                tempVar=vars["u"];
+        };
 };
 
 void icoNSSolver::applyBC(){
@@ -296,7 +304,7 @@ void icoNSSolver::applyBC(){
                                         RHS["u"](i,j)+=mu*uFree*S/d;
    
                                         changeMatElement(i,j,i,j,mu*S/d,coeffs["v"]);
-                                        RHS["u"](i,j)+=mu*vFree*S/d;
+                                        RHS["v"](i,j)+=mu*vFree*S/d;
                                        
                                 };
                         };
@@ -376,8 +384,8 @@ void icoNSSolver::applyBC(){
                                                    dotProduct(Vec2(Du,Dv))/S;
                                         };
 
-                                        changeMatElement(i,j,i,j,-rho*Dc,coeffs["p'"]);
-
+                                        changeMatElement(i,j,i,j,-rho*Dc,coeffs["p'"]); //TODO: Fix
+                                        //TODO: Will outlet get p'
                                 };
                         };
 
@@ -391,8 +399,8 @@ void icoNSSolver::applyBC(){
 
         wp mDot;
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=1;i<=IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
                         mDot=IFaceMDot(i+1,j)-IFaceMDot(i,j)+JFaceMDot(i,j+1)-JFaceMDot(i,j);
                         changeMatElement(i,j,i,j,-mDot,coeffs["u"]);
                         changeMatElement(i,j,i,j,-mDot,coeffs["v"]);
@@ -406,7 +414,19 @@ void icoNSSolver::QDot(){
 };
 
 void icoNSSolver::lSolve(){
-        SIMPLEDriver();
+
+        if(scheme.getScheme(PVCoupling)==SIMPLE){
+                SIMPLEDriver();
+        }
+        else if(scheme.getScheme(PVCoupling)==PISO){
+                PISODriver();
+        }
+        else{
+                logger.log("Invalid PV coupling algorithm specified; solver terminating",1);
+                std::exit(-1);
+        };
+
+        getResNorm();
 };
 
 void icoNSSolver::computeTimeStep(Grid<wp>&dt){
@@ -427,6 +447,54 @@ void icoNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
 
 wp icoNSSolver::getResNorm(){
 
+        wp res=0.0;
+        wp tempRes;
+
+        std::ofstream outfile("res.dat",std::ios::app);
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                       tempRes=RHS["u"](i,j);
+                       for(auto c:coeffs["u"](i,j)){
+                                tempRes=tempRes-c.second*vars["u"](c.first.first,c.first.second);
+                       };
+                        
+                       res+=pow(tempRes,2.0);
+                };
+        };
+
+        resXMom=res;
+        
+        logger.log("X-momentum residual: "+std::to_string(res),1);
+
+        res=0.0;
+        for(int j=1;j<=vars["v"].intVect[1];j++){
+                for(int i=1;i<=vars["v"].intVect[0];i++){
+                       tempRes=RHS["v"](i,j);
+                       for(auto c:coeffs["v"](i,j)){
+                                tempRes=tempRes-c.second*vars["v"](c.first.first,c.first.second);
+                       };
+                        
+                       res+=pow(tempRes,2.0);
+                };
+        };
+
+        resYMom=res;
+        logger.log("Y-momentum residual: "+std::to_string(res),1);
+
+        res=0.0;
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                       tempRes=IFaceMDot(i+1,j)-IFaceMDot(i,j)+JFaceMDot(i,j+1)-JFaceMDot(i,j);
+                       res+=pow(tempRes,2.0);
+                };
+        };
+
+        resMass=res;
+        logger.log("Mass balance: "+std::to_string(res),1);
+
+        outfile<<resXMom<<"\t"<<resYMom<<"\t"<<resMass<<std::endl;
+        outfile.close();
 };
 
 void icoNSSolver::getResidual(){
@@ -511,6 +579,7 @@ void icoNSSolver::SIMPLEDriver(){
         logger.log("Solving pressure correction",1);
 
         //Solve pressure-correction eqn
+        vars["p'"].initVal(0.0); 
         ls->setMatFunc(coeffs["p'"]);
         ls->setRHSFunc(RHS["p'"]);
         ls->solve(vars["p'"]);
@@ -550,6 +619,123 @@ void icoNSSolver::SIMPLEDriver(){
         outfile3.close();
 
 };      
+
+void icoNSSolver::PISODriver(){
+        
+        //First, call SIMPLE
+        SIMPLEDriver();
+
+        //Reset coefficients
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        RHS["u"](i,j)=0.0;
+                        for(auto& l:coeffs["u"](i,j)){
+                                l.second=0.0;
+                        };
+
+                        RHS["v"](i,j)=0.0;
+                        for(auto& l:coeffs["v"](i,j)){
+                                l.second=0.0;
+                        };
+
+                        RHS["p'"](i,j)=0.0;
+                        for(auto& l:coeffs["p'"](i,j)){
+                                l.second=0.0;
+                        };
+
+                };
+        };
+
+        //Compute coefficients
+        computeDiffusiveFlux("u");
+        computeDiffusiveFlux("v");
+
+        computeConvectiveFlux();
+        
+        computeStoreGrad(vars["p"]);
+
+        //Apply BC
+        applyBC();
+
+        //Under-relax
+        wp ap;
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        ap=findMatElement(i,j,i,j,coeffs["u"]);
+                        changeMatElement(i,j,i,j,ap*(1.0-alpha)/alpha,coeffs["u"]);
+                        RHS["u"](i,j)+=(1.0-alpha)*ap*vars["u"](i,j)/alpha;
+                };
+        };
+
+        for(int j=1;j<=vars["v"].intVect[1];j++){
+                for(int i=1;i<=vars["v"].intVect[0];i++){
+                        ap=findMatElement(i,j,i,j,coeffs["v"]);
+                        changeMatElement(i,j,i,j,ap*(1.0-alpha)/alpha,coeffs["v"]);
+                        RHS["v"](i,j)+=(1.0-alpha)*ap*vars["v"](i,j)/alpha;
+                };
+        };
+
+        addPressureSource();
+
+        //Solve momentum equation(s) explicitly
+        wp diag;
+        
+        tempVar=vars["u"];
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        vars["u"](i,j)=RHS["u"](i,j);
+                        for(auto c:coeffs["u"](i,j)){
+                                if(c.first.first==i && c.first.second==j){
+                                        diag=c.second;
+                                        continue;
+                                };
+
+                                vars["u"](i,j)=vars["u"](i,j)-c.second*tempVar(c.first.first,c.first.second);
+                        };
+
+                        vars["u"](i,j)/=diag;
+
+                };
+        };
+       
+        tempVar=vars["v"];
+
+        for(int j=1;j<=vars["v"].intVect[1];j++){
+                for(int i=1;i<=vars["v"].intVect[0];i++){
+                        vars["v"](i,j)=RHS["v"](i,j);
+                        for(auto c:coeffs["v"](i,j)){
+                                if(c.first.first==i && c.first.second==j){
+                                        diag=c.second;
+                                        continue;
+                                };
+
+                                vars["v"](i,j)=vars["v"](i,j)-c.second*tempVar(c.first.first,c.first.second);
+                        };
+
+                        vars["v"](i,j)/=diag;
+
+                };
+        };
+
+
+        //Rhie-Chow interpolation
+        RhieChow();
+
+        //Assemble pressure correction eqn
+        assemblePressureCorrectionEqn();
+
+        //Solve pressure-correction eqn
+        vars["p'"].initVal(0.0);
+        ls->setMatFunc(coeffs["p'"]);
+        ls->setRHSFunc(RHS["p'"]);
+        ls->solve(vars["p'"]);
+
+        correctPressure();
+        correctMassFlux();
+        correctVelocity();
+
+};
 
 void icoNSSolver::computeDiffusiveFlux(std::string varName){
 
@@ -973,7 +1159,7 @@ void icoNSSolver::correctVelocity(){
                         };
 
                         gradPPrimeX+=state*mesh->normalsI(i+1,j).dotProduct(dirX);
-                        gradPPrimeX+=state*mesh->normalsI(i+1,j).dotProduct(dirY);
+                        gradPPrimeY+=state*mesh->normalsI(i+1,j).dotProduct(dirY);
 
                         if(j>1){
                                 state=scheme.averageValue<wp>(vars["p'"](i,j-1),vars["p'"](i,j),*mesh,i,j,'y');

@@ -107,12 +107,22 @@ void biCGStab::doIteration(Grid<wp>& var){
 
 void biCGStab::solve(Grid<wp>& var){
         currIter=0;
+        terminate=false;
 
         std::cout<<"biCGStab start; resnorm: "<<std::scientific<<residualCalc(var)<<std::endl;
         
         computeResidual(var);
         residualVecShadow=residualVec;
-        residualVecShadow.initVal(1.0);
+
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> dist(1,iLim*jLim);
+
+        for(int j=1;j<=jLim;j++){
+                for(int i=1;i<=iLim;i++){
+                        residualVecShadow(i,j)=dist(rng)*1.0/(iLim*jLim);
+                };
+        };
 
         while(!isConverged(var)){
                 doIteration(var);

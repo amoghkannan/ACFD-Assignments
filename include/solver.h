@@ -9,6 +9,9 @@
 #include"LinearSolvers/ILU.h"
 #include"LinearSolvers/Cholesky.h"
 #include"LinearSolvers/GMRES.h"
+#include"LinearSolvers/steepestDescent.h"
+#include"LinearSolvers/conjugateGradient.h"
+#include"LinearSolvers/biCGStab.h"
 
 class Solver{
 

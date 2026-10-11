@@ -11,6 +11,10 @@ std::string initFile="init.dat";
 dictionary<std::string,wp>params;
 wp alpha=0.5;
 
+Grid<wp>tempVar; //Needed for PISO
+
+wp resXMom,resYMom,resMass;
+
 public:
 
 dictionary<std::string,std::string>globalBCDict;
@@ -33,6 +37,7 @@ void getResidual() override;
 bool isConverged() override;
 
 void SIMPLEDriver();
+void PISODriver();
 void computeDiffusiveFlux(std::string varName);
 void computeConvectiveFlux();
 void computeStoreGrad(Grid<wp>&);

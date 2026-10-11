@@ -39,6 +39,7 @@ enum schemeVal{
         V_CYCLE,
         W_CYCLE,
         SIMPLE,
+        PISO,
         INVALIDSCHEMEVAL
 };
 

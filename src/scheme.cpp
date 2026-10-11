@@ -53,6 +53,8 @@ schemeVal StringToschemeVal(std::string str){
 
         if(str=="SIMPLE") return SIMPLE;
 
+        if(str=="PISO") return PISO;
+
         logger.log("Invalid scheme val",1);
         return INVALIDSCHEMEVAL;
 };
