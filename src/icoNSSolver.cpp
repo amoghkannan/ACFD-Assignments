@@ -1,6 +1,9 @@
 #include"icoNSSolver.h"
 
 icoNSSolver::icoNSSolver(){
+        std::ofstream outfile("res.dat");
+        outfile<<""<<std::endl;
+        outfile.close();
 
         std::ifstream infile(meshFile);
         int imx, jmx;
@@ -464,8 +467,8 @@ wp icoNSSolver::getResNorm(){
         };
 
         resXMom=res;
-        
-        logger.log("X-momentum residual: "+std::to_string(res),1);
+       
+        std::cout<<"X-mom res: "<<std::scientific<<res<<std::endl;
 
         res=0.0;
         for(int j=1;j<=vars["v"].intVect[1];j++){
@@ -480,7 +483,7 @@ wp icoNSSolver::getResNorm(){
         };
 
         resYMom=res;
-        logger.log("Y-momentum residual: "+std::to_string(res),1);
+        std::cout<<"Y-mom res: "<<std::scientific<<res<<std::endl;
 
         res=0.0;
         for(int j=1;j<=vars["u"].intVect[1];j++){
@@ -491,7 +494,7 @@ wp icoNSSolver::getResNorm(){
         };
 
         resMass=res;
-        logger.log("Mass balance: "+std::to_string(res),1);
+        std::cout<<"Mass balance: "<<std::scientific<<res<<std::endl;
 
         outfile<<resXMom<<"\t"<<resYMom<<"\t"<<resMass<<std::endl;
         outfile.close();
@@ -502,6 +505,7 @@ void icoNSSolver::getResidual(){
 };
 
 bool icoNSSolver::isConverged(){
+        if(resXMom<params["TOL"] && resYMom<params["TOL"] && resMass<params["TOL"]) return true;
         return false;
 };
 
