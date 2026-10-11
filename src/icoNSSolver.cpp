@@ -67,13 +67,13 @@ icoNSSolver::icoNSSolver(){
                                                 infile1>>data2;
                                                 switch(stringToSolverType(data2)){
                                                         case(JACOBI_SOLVER):
-                                                                ls=new Jacobi(100,1E-8,1.0,vars["p'"],imx-1,jmx-1); 
+                                                                ls=new Jacobi(100,params["TOL"],1.0,vars["p'"],imx-1,jmx-1); 
                                                                 break;
                                                         case(GAUSS_SEIDEL_SOLVER):
-                                                                ls=new GaussSeidel(100,1E-8,1.0,vars["p'"],imx-1,jmx-1); 
+                                                                ls=new GaussSeidel(100,params["TOL"],1.0,vars["p'"],imx-1,jmx-1); 
                                                                 break;
                                                         case(BICONJUGATE_GRADIENT_SOLVER):
-                                                                ls=new biCGStab(100,1E-8,1.0,vars["p'"],imx-1,jmx-1);
+                                                                ls=new biCGStab(100,params["TOL"],1.0,vars["p'"],imx-1,jmx-1);
                                                                 break;
                                                         default:
                                                                 logger.log("Invalid linear solver name",1);
