@@ -364,7 +364,7 @@ Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,char di
         Vec2 ccDir(ccR.x-ccL.x,ccR.y-ccL.y);
         wp d=ccDir.norm2();
         ccDir/=d;
-
+        
         wp varL,varR;
         varL=dir=='x'?var(i-1,j):var(i,j-1);
         varR=var(i,j);

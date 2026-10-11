@@ -9,6 +9,7 @@ std::string settingsFile="system.dat";
 std::string initFile="init.dat";
 
 dictionary<std::string,wp>params;
+wp alpha=0.5;
 
 public:
 
