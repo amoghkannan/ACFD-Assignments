@@ -63,10 +63,10 @@ icoNSSolver::icoNSSolver(){
                                         setScheme(StringToschemeKey(data),StringToschemeVal(data1));
                                         switch(stringToSolverType(data2)){
                                                 case(JACOBI_SOLVER):
-                                                        ls=new Jacobi(500,1E-15,0.5,vars["p'"],imx-1,jmx-1); 
+                                                        ls=new Jacobi(500,1E-15,1.0,vars["p'"],imx-1,jmx-1); 
                                                         break;
                                                 case(GAUSS_SEIDEL_SOLVER):
-                                                        ls=new GaussSeidel(500,1E-15,0.5,vars["p'"],imx-1,jmx-1); 
+                                                        ls=new GaussSeidel(500,1E-15,1.0,vars["p'"],imx-1,jmx-1); 
                                                         break;
                                                 default:
                                                         logger.log("Invalid linear solver name",1);
@@ -151,9 +151,6 @@ void icoNSSolver::initialCondition(){
 
         infile.close();
 
-        IFaceMDot.initVal(params["RHO"]*params["UREF"]*mesh->normalsI(1,1).norm2());
-        JFaceMDot.initVal(params["RHO"]*params["VREF"]*mesh->normalsJ(1,1).norm2());
-
 };
 
 void icoNSSolver::applyBC(){
@@ -195,7 +192,73 @@ void icoNSSolver::applyBC(){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
                                         uWall=scheme.BCDict["u"+key].second;
                                         vWall=scheme.BCDict["v"+key].second;
+
+                                        if(key=="BCE" || key=="BCW"){
+                                                nx=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.x;
+                                                ny=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.y;
+                                                IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=0.0;
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                                nx=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.x;
+                                                ny=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.y;
+                                                JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=0.0;
+                                        };
+
+                                        S=sqrt(nx*nx+ny*ny);
+                                        nx=nx/S;
+                                        ny=ny/S;
+
+                                        l=Vec2((*mesh)(i+inc[key].first.first,j+inc[key].first.second),
+                                               (*mesh)(i+inc[key].second.first,j+inc[key].second.second));
+
+                                        d=Mesh::pDist(l,mesh->cc(i,j),Vec2(nx,ny));
+
+                                        //Momentum eqn
+                                        changeMatElement(i,j,i,j,mu*(1.0-nx*nx)*S/d,coeffs["u"]);
+                                        RHS["u"](i,j)+=(mu*(uWall*(1.0-nx*nx)+(vars["v"](i,j)-vWall)*nx*ny)*S/d);
+
+                                        changeMatElement(i,j,i,j,mu*(1.0-ny*ny)*S/d,coeffs["v"]);
+                                        RHS["v"](i,j)+=(mu*(vWall*(1.0-ny*ny)+(vars["u"](i,j)-uWall)*nx*ny)*S/d);
+
+                                };
+                        };
+
+                };
+
+                if(globalBCDict[key]=="INLET"){
+
+                        wp rho=params["RHO"];
+                        wp mDot;
+                        wp uFree,vFree;
+                        wp nx,ny,S;
+                        Vec2 l;
+                        wp d;
+                        wp mu=params["MU"];
+
+                        for(int j=lo[key].second;j<=hi[key].second;j++){
+                                for(int i=lo[key].first;i<=hi[key].first;i++){
+
+                                         //Convective flux
+                                         uFree=scheme.BCDict["u"+key].second;
+                                         vFree=scheme.BCDict["v"+key].second;
                                         
+                                        if(key=="BCW" || key=="BCE"){
+                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                              IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                                                         dotProduct(Vec2(uFree,vFree)));
+                                              JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                        };
+
+                                        for(auto key1:{"u","v"}){
+                                                 RHS[key1](i,j)-=mDot*scheme.BCDict[key1+key].second;
+                                        };
+
+                                        //Diffusive flux
+
                                         if(key=="BCE" || key=="BCW"){
                                                 nx=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.x;
                                                 ny=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.y;
@@ -214,45 +277,12 @@ void icoNSSolver::applyBC(){
 
                                         d=Mesh::pDist(l,mesh->cc(i,j),Vec2(nx,ny));
 
-                                        changeMatElement(i,j,i,j,mu*(1.0-nx*nx)*S/d,coeffs["u"]);
-                                        
-                                        RHS["u"](i,j)+=mu*(uWall*(1.0-nx*nx)+(vars["v"](i,j)-vWall)*nx*ny)*S/d;
-
-                                        changeMatElement(i,j,i,j,mu*(1.0-ny*ny)*S/d,coeffs["v"]);
-                                        RHS["v"](i,j)+=mu*(vWall*(1.0-ny*ny)+(vars["u"](i,j)-uWall)*nx*ny)*S/d;
-
-                                };
-                        };
-
-                };
-
-                if(globalBCDict[key]=="INLET"){
-
-                        wp rho=params["RHO"];
-                        wp mDot;
-                        wp uFree,vFree;
-
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
-
-                                         uFree=scheme.BCDict["u"+key].second;
-                                         vFree=scheme.BCDict["v"+key].second;
-
-                                        if(key=="BCW" || key=="BCE"){
-                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
-                                                                         dotProduct(Vec2(uFree,vFree)));
-                                        }
-                                        else if(key=="BCS" || key=="BCN"){
-                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
-                                                                         dotProduct(Vec2(uFree,vFree)));
-                                        };
-
-                                        for(auto key1:vars.getKeys()){
-                                                 if(key=="p") continue;
-                                                 RHS[key1](i,j)-=mDot*scheme.BCDict[key1+key].second;
-                                        };
-
-                                                
+                                        changeMatElement(i,j,i,j,mu*S/d,coeffs["u"]);
+                                        RHS["u"](i,j)+=mu*uFree*S/d;
+   
+                                        changeMatElement(i,j,i,j,mu*S/d,coeffs["v"]);
+                                        RHS["u"](i,j)+=mu*vFree*S/d;
+                                       
                                 };
                         };
 
@@ -262,28 +292,77 @@ void icoNSSolver::applyBC(){
 
                         wp rho=params["RHO"];
                         wp mDot;
-                        wp uFree,vFree;
+                        wp uFree,vFree,pFree;
+                        wp Du,Dv,Dc;
+                        wp S,nx,ny;
+                        Vec2 l;
+                        wp d;
 
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
-                                        
+                                       
+                                        //Convective flux
                                         uFree=vars["u"](i,j);
                                         vFree=vars["v"](i,j);
+                                        pFree=scheme.BCDict["p"+key].second;
 
                                         if(key=="BCW" || key=="BCE"){
                                               mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
+                                              IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         }
                                         else if(key=="BCS" || key=="BCN"){
                                               mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
+                                              JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         };
 
-                                        for(auto key1:vars.getKeys()){
-                                                 if(key=="p") continue;
+                                        for(auto key1:{"u","v"}){
                                                  changeMatElement(i,j,i,j,mDot,coeffs[key1]);
                                         };
-                                                
+                                         
+                                        //Diffusive flux
+                                        //Terms go to 0 because of extrapolation
+
+
+                                        //Pressure in momentum equation: Need to take outlet pressure into account when computing gradP
+                                        if(key=="BCE" || key=="BCW"){
+                                                nx=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.x;
+                                                ny=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.y;
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                                nx=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.x;
+                                                ny=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.y;
+                                        };
+
+                                        S=sqrt(nx*nx+ny*ny);
+                                        nx=nx/S;
+                                        ny=ny/S;
+
+                                        l=Vec2((*mesh)(i+inc[key].first.first,j+inc[key].first.second),
+                                               (*mesh)(i+inc[key].second.first,j+inc[key].second.second));
+
+                                        d=Mesh::pDist(l,mesh->cc(i,j),Vec2(nx,ny));
+
+                                        vars["gradPX"](i,j)=sig[key]*(pFree-vars["p"](i,j))*nx/d;
+                                        vars["gradPY"](i,j)=sig[key]*(pFree-vars["p"](i,j))*ny/d;
+
+                                        //Pressure correction eqn
+                                        Du=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
+                                        Dv=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
+                                        if(key=="BCW" || key=="BCE"){
+                                                S=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).norm2();
+                                                Dc=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                                   dotProduct(Vec2(Du,Dv))/S;
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                                S=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).norm2();
+                                                Dc=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                                   dotProduct(Vec2(Du,Dv))/S;
+                                        };
+
+                                        changeMatElement(i,j,i,j,-rho*Dc,coeffs["p'"]);
+
                                 };
                         };
 
@@ -355,15 +434,15 @@ void icoNSSolver::SIMPLEDriver(){
         logger.log("Cleared coeffs",1);
 
         //Compute coefficients
-
         computeDiffusiveFlux("u");
         computeDiffusiveFlux("v");
         computeConvectiveFlux();
-        computeGradP();
-        addPressureSource();
+        computeStoreGrad(vars["p"]);
 
         //Apply BC
         applyBC();
+
+        addPressureSource();
 
         logger.log("Solving x momentum",1);
         //Solve x momentum
@@ -383,7 +462,6 @@ void icoNSSolver::SIMPLEDriver(){
         logger.log("Solving pressure correction",1);
 
         //Solve pressure-correction eqn
-        vars["p'"].initVal(0.0);
         ls->setMatFunc(coeffs["p'"]);
         ls->setRHSFunc(RHS["p'"]);
         ls->solve(vars["p'"]);
@@ -392,15 +470,36 @@ void icoNSSolver::SIMPLEDriver(){
         correctMassFlux();
         correctVelocity();
 
-//        std::ofstream outfile("out.dat");
-//        for(int j=1;j<=vars["p"].intVect[1];j++){
-//                for(int i=1;i<=vars["p"].intVect[0];i++){
-//                        outfile<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["p"](i,j)<<std::endl; 
-//                 };
-//                 outfile<<std::endl;
-//        };
-//
-//        outfile.close();
+        std::ofstream outfile1("outu.dat");
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        outfile1<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["u"](i,j)<<std::endl; 
+                 };
+                 outfile1<<std::endl;
+        };
+
+        outfile1.close();
+
+        std::ofstream outfile2("outv.dat");
+        for(int j=1;j<=vars["v"].intVect[1];j++){
+                for(int i=1;i<=vars["v"].intVect[0];i++){
+                        outfile2<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["v"](i,j)<<std::endl; 
+                 };
+                 outfile2<<std::endl;
+        };
+
+        outfile2.close();
+
+        std::ofstream outfile3("outp.dat");
+        for(int j=1;j<=vars["p"].intVect[1];j++){
+                for(int i=1;i<=vars["p"].intVect[0];i++){
+                        outfile3<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["p"](i,j)<<std::endl; 
+                 };
+                 outfile3<<std::endl;
+        };
+
+        outfile3.close();
+
 };      
 
 void icoNSSolver::computeDiffusiveFlux(std::string varName){
@@ -421,7 +520,7 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
                         d=vCC.norm2();
                         E=mesh->normalsI(i,j).dotProduct(vCC)/d;
-                        vCD=mesh->normalsI(i,j)-vCC*E;
+                        vCD=mesh->normalsI(i,j)-vCC*(E/d);
                         T=vCD.norm2();
                         grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'x');
                         gradCD=grad.dotProduct(vCD);
@@ -447,7 +546,7 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
                         d=vCC.norm2();
                         E=mesh->normalsJ(i,j).dotProduct(vCC)/d;
-                        vCD=mesh->normalsJ(i,j)-vCC*E;
+                        vCD=mesh->normalsJ(i,j)-vCC*(E/d);
                         T=vCD.norm2();
                         grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'y');
                         gradCD=grad.dotProduct(vCD);
@@ -551,14 +650,69 @@ void icoNSSolver::computeConvectiveFlux(){
 
 };
 
-void icoNSSolver::computeGradP(){
+void icoNSSolver::computeStoreGrad(Grid<wp>&var){
 
-        Vec2 gradP;
-        for(int j=1;j<=vars["gradP"].intVect[1];j++){
-                for(int i=1;i<=vars["gradP"].intVect[0];i++){
-                        gradP=scheme.greenGaussCellBased(vars["p"],*mesh,i,j);
-                        vars["gradPX"](i,j)=gradP.dotProduct(Vec2(1.0,0.0));
-                        vars["gradPY"](i,j)=gradP.dotProduct(Vec2(0.0,1.0));
+        Vec2 grad;
+        wp gradPX,gradPY;
+        wp state;
+
+        Vec2 dirX,dirY;
+
+        dirX=Vec2(1.0,0.0);
+        dirY=Vec2(0.0,1.0);
+
+        for(int j=1;j<=vars["gradPX"].intVect[1];j++){
+                for(int i=1;i<=vars["gradPY"].intVect[0];i++){
+                        gradPX=0.0;
+                        gradPY=0.0;
+
+                        if(i>1){
+                                state=scheme.averageValue<wp>(vars["p'"](i-1,j),vars["p'"](i,j),*mesh,i,j,'x');
+                        }
+                        else{
+                                state=1.5*vars["p'"](i,j)-0.5*vars["p"](i+1,j);
+                        };
+
+                        gradPX-=state*mesh->normalsI(i,j).dotProduct(dirX);
+                        gradPY-=state*mesh->normalsI(i,j).dotProduct(dirY);
+
+                        if(i<vars["p'"].intVect[0]){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i+1,j),*mesh,i+1,j,'x');
+                        }
+                        else{
+                                state=1.5*vars["p'"](i,j)-0.5*vars["p"](i-1,j);
+                        };
+
+                        gradPX+=state*mesh->normalsI(i+1,j).dotProduct(dirX);
+                        gradPX+=state*mesh->normalsI(i+1,j).dotProduct(dirY);
+
+                        if(j>1){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j-1),vars["p'"](i,j),*mesh,i,j,'y');
+                        }
+                        else{
+                                state=1.5*vars["p'"](i,j)-0.5*vars["p"](i,j+1);
+                        };
+
+
+                        gradPX-=state*mesh->normalsJ(i,j).dotProduct(dirX);
+                        gradPY-=state*mesh->normalsJ(i,j).dotProduct(dirY);
+
+                        if(j<vars["p'"].intVect[1]){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i,j+1),*mesh,i,j+1,'y');
+                        }
+                        else{
+                                state=1.5*vars["p'"](i,j)-0.5*vars["p"](i,j-1);
+                        };
+
+                        gradPX+=state*mesh->normalsJ(i,j+1).dotProduct(dirX);
+                        gradPY+=state*mesh->normalsJ(i,j+1).dotProduct(dirY);
+
+                        gradPX/=mesh->volumes(i,j);
+                        gradPY/=mesh->volumes(i,j);
+
+                        vars["gradPX"](i,j)=gradPX;
+                        vars["gradPY"](i,j)=gradPY;
+
                 };
         };
 
@@ -596,7 +750,7 @@ void icoNSSolver::RhieChow(){
                        gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,'x')-
                                 Vec2(scheme.averageValue<wp>(vars["gradPX"](i-1,j),vars["gradPX"](i,j),*mesh,i,j,'x'),
                                      scheme.averageValue<wp>(vars["gradPY"](i-1,j),vars["gradPY"](i,j),*mesh,i,j,'x'));
-
+                       
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["u"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
                        df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
@@ -646,6 +800,7 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
        
         wp Ef,Df,d;
         Vec2 dCC;
+
         Node ccL,ccR;
         wp DLU,DRU,DLV,DRV;
 
@@ -666,11 +821,11 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
                            dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'x')*mesh->normalsI(i,j).en.y)/d;
 
                         Df=Ef/d;
-                        changeMatElement(i-1,j,i-1,j,-rho*Df,coeffs["p'"]);
-                        changeMatElement(i-1,j,i,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i-1,j,i-1,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i-1,j,i,j,-rho*Df,coeffs["p'"]);
 
-                        changeMatElement(i,j,i,j,-rho*Df,coeffs["p'"]);
-                        changeMatElement(i,j,i-1,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i-1,j,-rho*Df,coeffs["p'"]);
 
                 };
         };
@@ -691,11 +846,11 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
                            dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.y)/d;
 
                         Df=Ef/d;
-                        changeMatElement(i,j-1,i,j-1,-rho*Df,coeffs["p'"]);
-                        changeMatElement(i,j-1,i,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j-1,i,j-1,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j-1,i,j,-rho*Df,coeffs["p'"]);
 
-                        changeMatElement(i,j,i,j,-rho*Df,coeffs["p'"]);
-                        changeMatElement(i,j,i,j-1,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i,j,rho*Df,coeffs["p'"]);
+                        changeMatElement(i,j,i,j-1,-rho*Df,coeffs["p'"]);
 
                 };
         };
@@ -703,8 +858,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
         for(int j=1;j<=vars["p'"].intVect[1];j++){
                 for(int i=1;i<=vars["p'"].intVect[0];i++){
 
-                        RHS["p'"](i,j)-=IFaceMDot(i+1,j)-IFaceMDot(i,j)
-                                        +JFaceMDot(i,j+1)-JFaceMDot(i,j);
+                        RHS["p'"](i,j)-=(IFaceMDot(i+1,j)-IFaceMDot(i,j)
+                                        +JFaceMDot(i,j+1)-JFaceMDot(i,j));
                 };
         };
 
@@ -712,13 +867,133 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
 
 void icoNSSolver::correctPressure(){
 
+        wp rel=params["REL"];
+
+        for(int j=1;j<=vars["p"].intVect[1];j++){
+                for(int i=1;i<=vars["p"].intVect[0];i++){
+                        vars["p"](i,j)+=rel*vars["p'"](i,j);
+                };
+        };
+
 };
 
 void icoNSSolver::correctMassFlux(){
 
+        wp rho=params["RHO"];
+        wp dfL,dfR,df;
+        Vec2 gradCorr;
+        wp mDotCorrX,mDotCorrY;
+
+        for(int j=1;j<=IFaceMDot.intVect[1];j++){
+                for(int i=2;i<IFaceMDot.intVect[0];i++){
+
+                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'x');
+
+                       dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["u"]);
+                       dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
+                       
+                       mDotCorrX=rho*df*gradCorr.dotProduct(Vec2(1.0,0.0));
+
+                       dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
+                       dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
+
+                       mDotCorrY=rho*df*gradCorr.dotProduct(Vec2(0.0,1.0));
+
+                       IFaceMDot(i,j)-=mesh->normalsI(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
+                
+                };
+        };
+
+        for(int j=2;j<JFaceMDot.intVect[1];j++){
+                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+
+                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'y');
+
+                       dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["u"]);
+                       dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
+                       
+                       mDotCorrX=rho*df*gradCorr.dotProduct(Vec2(1.0,0.0));
+
+                       dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
+                       dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
+
+                       mDotCorrY=rho*df*gradCorr.dotProduct(Vec2(0.0,1.0));
+
+                       JFaceMDot(i,j)-=mesh->normalsJ(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
+
+                };
+        };
+
 };
 
 void icoNSSolver::correctVelocity(){
+
+        wp gradPPrimeX,gradPPrimeY;
+        wp state;
+        Vec2 dirX,dirY;
+
+        dirX=Vec2(1.0,0.0);
+        dirY=Vec2(0.0,1.0);
+
+        for(int j=1;j<=vars["p'"].intVect[1];j++){
+                for(int i=1;i<=vars["p'"].intVect[0];i++){
+
+                        gradPPrimeX=0.0;
+                        gradPPrimeY=0.0;
+
+                        if(i>1){
+                                state=scheme.averageValue<wp>(vars["p'"](i-1,j),vars["p'"](i,j),*mesh,i,j,'x');
+                        }
+                        else{
+                                state=vars["p'"](i,j);
+                        };
+
+                        gradPPrimeX-=state*mesh->normalsI(i,j).dotProduct(dirX);
+                        gradPPrimeY-=state*mesh->normalsI(i,j).dotProduct(dirY);
+
+                        if(i<vars["p'"].intVect[0]){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i+1,j),*mesh,i+1,j,'x');
+                        }
+                        else{
+                                state=vars["p'"](i,j);
+                        };
+
+                        gradPPrimeX+=state*mesh->normalsI(i+1,j).dotProduct(dirX);
+                        gradPPrimeX+=state*mesh->normalsI(i+1,j).dotProduct(dirY);
+
+                        if(j>1){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j-1),vars["p'"](i,j),*mesh,i,j,'y');
+                        }
+                        else{
+                                state=vars["p'"](i,j);
+                        };
+
+
+                        gradPPrimeX-=state*mesh->normalsJ(i,j).dotProduct(dirX);
+                        gradPPrimeY-=state*mesh->normalsJ(i,j).dotProduct(dirY);
+
+                        if(j<vars["p'"].intVect[1]){
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i,j+1),*mesh,i,j+1,'y');
+                        }
+                        else{
+                                state=vars["p'"](i,j);
+                        };
+
+                        gradPPrimeX+=state*mesh->normalsJ(i,j+1).dotProduct(dirX);
+                        gradPPrimeY+=state*mesh->normalsJ(i,j+1).dotProduct(dirY);
+
+                        gradPPrimeX/=mesh->volumes(i,j);
+                        gradPPrimeY/=mesh->volumes(i,j);
+
+                        vars["u"](i,j)-=(mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]))*gradPPrimeX;
+                        vars["v"](i,j)-=(mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]))*gradPPrimeY;
+
+                };
+        };
 
 
 };
