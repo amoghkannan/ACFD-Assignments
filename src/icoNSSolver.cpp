@@ -429,6 +429,51 @@ void icoNSSolver::lSolve(){
                 std::exit(-1);
         };
 
+        std::ofstream outfile1("outu.dat");
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        outfile1<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["u"](i,j)<<std::endl;
+                 };
+                 outfile1<<std::endl;
+        };
+
+        outfile1.close();
+
+        std::ofstream outfile2("outv.dat");
+        for(int j=1;j<=vars["v"].intVect[1];j++){
+                for(int i=1;i<=vars["v"].intVect[0];i++){
+                        outfile2<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["v"](i,j)<<std::endl;
+                 };
+                 outfile2<<std::endl;
+        };
+
+        outfile2.close();
+
+        wp vecNorm;
+        wp del=((*mesh)(2,1)-(*mesh)(1,1)).norm2();
+        
+        std::ofstream outfile3("outvel.dat");
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        vecNorm=sqrt(pow(vars["u"](i,j),2.0)+pow(vars["v"](i,j),2.0));
+                        outfile3<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["u"](i,j)*del/vecNorm
+                        <<"\t"<<vars["v"](i,j)*del/vecNorm<<std::endl;
+                 };
+                 outfile3<<std::endl;
+        };
+
+        outfile3.close();
+
+        std::ofstream outfile4("outp.dat");
+        for(int j=1;j<=vars["p"].intVect[1];j++){
+                for(int i=1;i<=vars["p"].intVect[0];i++){
+                        outfile4<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["p"](i,j)<<std::endl; 
+                 };
+                 outfile4<<std::endl;
+        };
+
+        outfile4.close();
+
         getResNorm();
 };
 
@@ -592,35 +637,6 @@ void icoNSSolver::SIMPLEDriver(){
         correctMassFlux();
         correctVelocity();
 
-        std::ofstream outfile1("outu.dat");
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
-                        outfile1<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["u"](i,j)<<std::endl; 
-                 };
-                 outfile1<<std::endl;
-        };
-
-        outfile1.close();
-
-        std::ofstream outfile2("outv.dat");
-        for(int j=1;j<=vars["v"].intVect[1];j++){
-                for(int i=1;i<=vars["v"].intVect[0];i++){
-                        outfile2<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["v"](i,j)<<std::endl; 
-                 };
-                 outfile2<<std::endl;
-        };
-
-        outfile2.close();
-
-        std::ofstream outfile3("outp.dat");
-        for(int j=1;j<=vars["p"].intVect[1];j++){
-                for(int i=1;i<=vars["p"].intVect[0];i++){
-                        outfile3<<mesh->cc(i,j).x<<"\t"<<mesh->cc(i,j).y<<"\t"<<vars["p"](i,j)<<std::endl; 
-                 };
-                 outfile3<<std::endl;
-        };
-
-        outfile3.close();
 
 };      
 
@@ -632,15 +648,6 @@ void icoNSSolver::PISODriver(){
         //Reset coefficients
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
-                        RHS["u"](i,j)=0.0;
-                        for(auto& l:coeffs["u"](i,j)){
-                                l.second=0.0;
-                        };
-
-                        RHS["v"](i,j)=0.0;
-                        for(auto& l:coeffs["v"](i,j)){
-                                l.second=0.0;
-                        };
 
                         RHS["p'"](i,j)=0.0;
                         for(auto& l:coeffs["p'"](i,j)){
@@ -650,34 +657,7 @@ void icoNSSolver::PISODriver(){
                 };
         };
 
-        //Compute coefficients
-        computeDiffusiveFlux("u");
-        computeDiffusiveFlux("v");
-
-        computeConvectiveFlux();
-        
         computeStoreGrad(vars["p"]);
-
-        //Apply BC
-        applyBC();
-
-        //Under-relax
-        wp ap;
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
-                        ap=findMatElement(i,j,i,j,coeffs["u"]);
-                        changeMatElement(i,j,i,j,ap*(1.0-alpha)/alpha,coeffs["u"]);
-                        RHS["u"](i,j)+=(1.0-alpha)*ap*vars["u"](i,j)/alpha;
-                };
-        };
-
-        for(int j=1;j<=vars["v"].intVect[1];j++){
-                for(int i=1;i<=vars["v"].intVect[0];i++){
-                        ap=findMatElement(i,j,i,j,coeffs["v"]);
-                        changeMatElement(i,j,i,j,ap*(1.0-alpha)/alpha,coeffs["v"]);
-                        RHS["v"](i,j)+=(1.0-alpha)*ap*vars["v"](i,j)/alpha;
-                };
-        };
 
         addPressureSource();
 

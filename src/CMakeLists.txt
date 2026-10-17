@@ -14,6 +14,7 @@ LinearSolvers/GMRES.cpp
 LinearSolvers/steepestDescent.cpp
 LinearSolvers/conjugateGradient.cpp
 LinearSolvers/biCGStab.cpp
+interface.cpp
 integrator.cpp
 solver.cpp
 LWESolver.cpp

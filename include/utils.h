@@ -6,6 +6,7 @@
 #include<utility>
 #include<iomanip>
 #include<chrono>
+#include<algorithm>
 
 #define wp long double
 
