@@ -43,11 +43,10 @@ Grid<wp>alphas; //Positions of interface
 Grid<wp>F; //Fluxes on I faces
 Grid<wp>G; //FLuxes on J faces
 Grid<int>cellClass;
-Mesh *mesh;
 
 icoNSSolver *s;
-Grid<wp> *IFaceMDot;
-Grid<wp> *JFaceMDot;
+Grid<wp> *IFaceContraVel;
+Grid<wp> *JFaceContraVel;
 
 std::string meshFile="mesh.dat";
 std::string ibFile="ib.dat";
@@ -73,6 +72,8 @@ Vec2 calcNormal(int i,int j); //Uses mixed-Young-Centred method
 wp calcAlpha(int i, int j, Vec2 m); //Piecewise linear interface calc for cell (i,j); returns alpha
 void PLIC();
 void computeFluxes(wp deltaT);
+bool isInside(Vec2 m, wp alpha, Node nd);
+wp enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords);
 
 void initialCondition() override;
 

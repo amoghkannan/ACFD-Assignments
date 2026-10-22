@@ -7,18 +7,19 @@ Interface::Interface(icoNSSolver& s_){
         readInInterface();
         setMesh(*s->mesh);
 
-        IFaceMDot=&s->IFaceMDot;
-        JFaceMDot=&s->JFaceMDot;
+        IFaceContraVel=&(s->IFaceContraVel);
+        JFaceContraVel=&(s->JFaceContraVel);
 
         setVar("phi",{CELL,CELL});
         setVar("f",{CELL,CELL});
-        
+       
         normals=Grid<Vec2>(mesh->box,{CELL,CELL});
         alphas=Grid<wp>(mesh->box,{CELL,CELL});
 
         F=Grid<wp>(mesh->box,{NODE,CELL});
         G=Grid<wp>(mesh->box,{CELL,NODE});
 
+        logger.log("Finished interface setup",1);
 };
 
 void Interface::readInInterface(){
@@ -498,14 +499,15 @@ void Interface::PLIC(){
                 };
         };
 
-
 };
 
 void Interface::computeFluxes(wp deltaT){
 
-        std::vector<Node>clippedVolume;
-        std::vector<Vec2>clipPolygon;
-        std::vector<Node>subjectPolygon;
+        std::array<Node,4>cellCoords;
+        std::vector<Node>cutCellCoords;
+
+        wp u,v;
+        Node currNode,nextNode;
 
         Vec2 currNormal;
         wp currAlpha;
@@ -523,37 +525,127 @@ void Interface::computeFluxes(wp deltaT){
                         currAlpha=alphas(i,j);
 
                         //Left face
-                        if((*IFaceMDot)(i,j)<0.0){
-
-                                clippedVolume.clear();
-                                subjectPolygon.clear();
-
-                                if(vars["f"](i,j)!=1.0){
-                                                                                
-                                }
-                                else{
+                        if((*IFaceContraVel)(i,j)<0.0){
+                                cutCellCoords.clear();
+                                cellCoords.clear();
                                 
-                                };
+                                u=fabs((*IFaceContraVel)(i,j));
+
+                                cellCoords={(*mesh)(i,j),
+                                            Node((*mesh)(i,j).x+u*deltaT,(*mesh)(i,j).y),
+                                            Node((*mesh)(i,j+1).x+u*deltaT,(*mesh)(i,j+1).y),
+                                            (*mesh)(i,j+1)};
+
+                                
+                                F(i,j)=enclosedArea(m,alpha,cellCoords);
 
                         };
 
                         //Right face
-                        if((*IFaceMDot)(i+1,j)>0.0){
+                        if((*IFaceContraVel)(i+1,j)>0.0){
+                                cutCellCoords.clear();
+                                cellCoords.clear();
+                                
+                                u=fabs((*IFaceContraVel)(i+1,j));
+
+                                cellCoords={Node((*mesh)(i+1,j).x-u*deltaT,(*mesh)(i+1,j).y),
+                                            (*mesh)(i+1,j),
+                                            (*mesh)(i+1,j+1),
+                                            Node((*mesh)(i+1,j+1).x-u*deltaT,(*mesh)(i+1,j+1).y)};
+                                                                                                
+                                
+                                F(i+1,j)=enclosedArea(m,alpha,cellCoords);
 
                         };
 
                         //Bottom face
-                        if((*JFaceMDot)(i,j)<0.0){
+                        if((*JFaceContraVel)(i,j)<0.0){
+                                cutCellCoords.clear();
+                                cellCoords.clear();
+                                
+                                v=fabs((*JFaceContraVel)(i,j));
+
+                                cellCoords={(*mesh)(i,j),
+                                            (*mesh)(i+1,j);
+                                            Node((*mesh)(i+1,j+1).x,(*mesh)(i+1,j+1).y+v*deltaT),
+                                            Node((*mesh)(i,j+1).x,(*mesh)(i,j+1).y+v*deltaT)};
+
+                                
+                                G(i,j)=enclosedArea(m,alpha,cellCoords);
 
                         };
 
                         //Top face
-                        if((*JFaceMDot)(i,j+1)>0.0){
+                        if((*JFaceContraVel)(i,j+1)>0.0){
+                                cutCellCoords.clear();
+                                cellCoords.clear();
+                                
+                                v=fabs((*JFaceContraVel)(i,j+1));
+
+                                cellCoords={Node((*mesh)(i,j+1).x,(*mesh)(i,j+1).y-v*deltaT),
+                                            Node((*mesh)(i+1,j+1).x,(*mesh)(i+1,j+1).y-v*deltaT),
+                                            (*mesh)(i+1,j+1),
+                                            (*mesh)(i,j+1)};
+                                
+                                G(i,j+1)=enclosedArea(m,alpha,cellCoords);
 
                         };
 
+
                 };
         };
+
+};
+
+bool Interface::isInside(Vec2 m, wp alpha, Node nd){
+        wp test=m.en.x*nd.x+m.en.y*nd.y-alpha;
+
+        if(alpha>0){
+                return test*alpha<0.0;
+        }
+        else{
+                return test*alpha>0.0;
+        };
+
+};
+
+wp Interface::enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords){
+      
+        std::vector<Node>cutCellCoords;
+
+        Node currNode,nextNode;
+        Node intersectNode;
+        Node p1,p2;
+        bool intersects;
+        
+        for(int i=0;i<=3;i++){
+                currNode=cellCoords[i];
+                nextNode=cellCoords[(i+1)%4];
+
+                if(isInside(currNormal,currAlpha,currNode)){
+                        cutCellCoords.push_back(currNode);
+                        
+                        if(!isInside(currNormal,currAlpha,currNode)){
+                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(0.0,alpha/m.en.y);
+                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,0.0);
+                                intersectNode=InfiniteEdgeIntersection(Vec2(p1,p2), Vec2(currNode,nextNode), intersects);
+                                cutCellCoords.push_back(intersectNode);
+                        };
+
+                }
+                else{
+                        if(isInside(currNormal,curAlpha,nextNode)){
+                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(0.0,alpha/m.en.y);
+                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,0.0);
+                                intersectNode=InfiniteEdgeIntersection(Vec2(p1,p2), Vec2(currNode,nextNode), intersects);
+                                cutCellCoords.push_back(intersectNode);
+                        };
+
+                };
+        
+        };
+
+        return shoelaceArea(cutCellCoords);
 
 };
 

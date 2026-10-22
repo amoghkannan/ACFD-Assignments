@@ -22,8 +22,8 @@ public:
 dictionary<std::string,std::string>globalBCDict;
 dictionary<std::string,Grid<boundMatRow>>coeffs;
 dictionary<std::string,Grid<wp>>RHS;
-Grid<wp>IFaceMDot;
-Grid<wp>JFaceMDot;
+Grid<wp>IFaceContraVel;
+Grid<wp>JFaceContraVel;
 
 icoNSSolver();
 void initialCondition() override;

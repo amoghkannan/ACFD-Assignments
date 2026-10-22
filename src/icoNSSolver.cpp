@@ -37,8 +37,8 @@ icoNSSolver::icoNSSolver(){
         coeffs["u"]=Grid<boundMatRow>(Box(imx,jmx,1,1,1,1),{CELL,CELL});
         coeffs["v"]=Grid<boundMatRow>(Box(imx,jmx,1,1,1,1),{CELL,CELL});
         coeffs["p'"]=Grid<boundMatRow>(Box(imx,jmx,1,1,1,1),{CELL,CELL});
-        IFaceMDot=Grid<wp>(Box(imx,jmx,1,1,1,1),{NODE,CELL});
-        JFaceMDot=Grid<wp>(Box(imx,jmx,1,1,1,1),{CELL,NODE});
+        IFaceContraVel=Grid<wp>(Box(imx,jmx,1,1,1,1),{NODE,CELL});
+        JFaceContraVel=Grid<wp>(Box(imx,jmx,1,1,1,1),{CELL,NODE});
 
         std::string data,data1,data2;
         wp dataNum;
@@ -159,16 +159,16 @@ void icoNSSolver::initialCondition(){
 
         infile.close();
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=1;i<=IFaceMDot.intVect[0];i++){
-                        IFaceMDot(i,j)=params["RHO"]*mesh->normalsI(i,j).dotProduct(Vec2(0.5*(vars["u"](i-1,j)+vars["u"](i,j)),
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=IFaceContraVel.intVect[0];i++){
+                        IFaceContraVel(i,j)=mesh->normalsI(i,j).dotProduct(Vec2(0.5*(vars["u"](i-1,j)+vars["u"](i,j)),
                                                                                    0.5*(vars["v"](i-1,j)+vars["v"](i,j))));
                 };
         };
 
-        for(int j=1;j<=JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
-                        JFaceMDot(i,j)=params["RHO"]*mesh->normalsJ(i,j).dotProduct(Vec2(0.5*(vars["u"](i,j-1)+vars["u"](i,j)),
+        for(int j=1;j<=JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
+                        JFaceContraVel(i,j)=mesh->normalsJ(i,j).dotProduct(Vec2(0.5*(vars["u"](i,j-1)+vars["u"](i,j)),
                                                                                    0.5*(vars["v"](i,j-1)+vars["v"](i,j))));
                 };
         };
@@ -221,12 +221,12 @@ void icoNSSolver::applyBC(){
                                         if(key=="BCE" || key=="BCW"){
                                                 nx=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.x;
                                                 ny=mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).en.y;
-                                                IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=0.0;
+                                                IFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=0.0;
                                         }
                                         else if(key=="BCS" || key=="BCN"){
                                                 nx=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.x;
                                                 ny=mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).en.y;
-                                                JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=0.0;
+                                                JFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=0.0;
                                         };
 
                                         S=sqrt(nx*nx+ny*ny);
@@ -269,14 +269,14 @@ void icoNSSolver::applyBC(){
                                          vFree=scheme.BCDict["v"+key].second;
                                         
                                         if(key=="BCW" || key=="BCE"){
-                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                              mDot=sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
-                                              IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                              IFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         }
                                         else if(key=="BCS" || key=="BCN"){
-                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                              mDot=sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
-                                              JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                              JFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         };
 
                                         for(auto key1:{"u","v"}){
@@ -333,14 +333,14 @@ void icoNSSolver::applyBC(){
                                         pFree=scheme.BCDict["p"+key].second;
 
                                         if(key=="BCW" || key=="BCE"){
-                                              mDot=rho*sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
+                                              mDot=sig[key]*(mesh->normalsI(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
-                                              IFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                              IFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         }
                                         else if(key=="BCS" || key=="BCN"){
-                                              mDot=rho*sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
+                                              mDot=sig[key]*(mesh->normalsJ(i+inc[key].first.first,j+inc[key].first.second).
                                                                          dotProduct(Vec2(uFree,vFree)));
-                                              JFaceMDot(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
+                                              JFaceContraVel(i+inc[key].first.first,j+inc[key].first.second)=sig[key]*mDot;
                                         };
 
                                         for(auto key1:{"u","v"}){
@@ -404,9 +404,9 @@ void icoNSSolver::applyBC(){
 
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
-                        mDot=IFaceMDot(i+1,j)-IFaceMDot(i,j)+JFaceMDot(i,j+1)-JFaceMDot(i,j);
-                        changeMatElement(i,j,i,j,-mDot,coeffs["u"]);
-                        changeMatElement(i,j,i,j,-mDot,coeffs["v"]);
+                      mDot=(IFaceContraVel(i+1,j)-IFaceContraVel(i,j)+JFaceContraVel(i,j+1)-JFaceContraVel(i,j))*params["RHO"];
+                      changeMatElement(i,j,i,j,-mDot,coeffs["u"]);
+                      changeMatElement(i,j,i,j,-mDot,coeffs["v"]);
                 };
         };
 
@@ -533,7 +533,7 @@ wp icoNSSolver::getResNorm(){
         res=0.0;
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
-                       tempRes=IFaceMDot(i+1,j)-IFaceMDot(i,j)+JFaceMDot(i,j+1)-JFaceMDot(i,j);
+                       tempRes=IFaceContraVel(i+1,j)-IFaceContraVel(i,j)+JFaceContraVel(i,j+1)-JFaceContraVel(i,j);
                        res+=pow(tempRes,2.0);
                 };
         };
@@ -732,8 +732,8 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
 
         wp mu=params["MU"];
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=2;i<IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=2;i<IFaceContraVel.intVect[0];i++){
                         pL=mesh->cc(i-1,j);
                         pR=mesh->cc(i,j);
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
@@ -758,8 +758,8 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
         };
 
 
-        for(int j=2;j<JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+        for(int j=2;j<JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
                         pL=mesh->cc(i,j-1);
                         pR=mesh->cc(i,j);
                         vCC=Vec2(pR.x-pL.x,pR.y-pL.y);
@@ -793,36 +793,36 @@ void icoNSSolver::computeConvectiveFlux(){
 
         wp uRecon,vRecon;
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=2;i<IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=2;i<IFaceContraVel.intVect[0];i++){
 
-                        recon=scheme.FOUReconstruction(IFaceMDot(i,j));
+                        recon=scheme.FOUReconstruction(IFaceContraVel(i,j));
                         
 
                         for(auto key:{"u","v"}){
                                for(auto r:recon){ 
-                                        changeMatElement(i-1,j,i+r.first,j,IFaceMDot(i,j)*r.second,coeffs[key]);
-                                        changeMatElement(i,j,i+r.first,j,-IFaceMDot(i,j)*r.second,coeffs[key]);
+                                  changeMatElement(i-1,j,i+r.first,j,params["RHO"]*IFaceContraVel(i,j)*r.second,coeffs[key]);
+                                  changeMatElement(i,j,i+r.first,j,-params["RHO"]*IFaceContraVel(i,j)*r.second,coeffs[key]);
                                };
 
                         };
 
-                        if(scheme.getScheme(faceReconstruction)==QUICK && i>2 && i<IFaceMDot.intVect[0]-1){
+                        if(scheme.getScheme(faceReconstruction)==QUICK && i>2 && i<IFaceContraVel.intVect[0]-1){
                               
                               for(auto key:{"u","v"}){
                                         for(auto r:recon){       
-                                                RHS[key](i-1,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
-                                                RHS[key](i,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                            RHS[key](i-1,j)+=vars[key](i+r.first,j)*params["RHO"]*IFaceContraVel(i,j)*r.second;
+                                            RHS[key](i,j)-=vars[key](i+r.first,j)*params["RHO"]*IFaceContraVel(i,j)*r.second;
                                         };
 
                               };
 
-                              recon=scheme.QUICKReconstruction(IFaceMDot(i,j));
+                              recon=scheme.QUICKReconstruction(IFaceContraVel(i,j));
 
                               for(auto key:{"u","v"}){
                                         for(auto r:recon){       
-                                                RHS[key](i-1,j)-=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
-                                                RHS[key](i,j)+=vars[key](i+r.first,j)*IFaceMDot(i,j)*r.second;
+                                           RHS[key](i-1,j)-=vars[key](i+r.first,j)*params["RHO"]*IFaceContraVel(i,j)*r.second;
+                                           RHS[key](i,j)+=vars[key](i+r.first,j)*params["RHO"]*IFaceContraVel(i,j)*r.second;
                                         };
 
                               };
@@ -832,34 +832,34 @@ void icoNSSolver::computeConvectiveFlux(){
                 };
         };
 
-        for(int j=2;j<JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+        for(int j=2;j<JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
-                        recon=scheme.FOUReconstruction(JFaceMDot(i,j));
+                        recon=scheme.FOUReconstruction(JFaceContraVel(i,j));
                         for(auto key:{"u","v"}){
                                for(auto r:recon){ 
-                                        changeMatElement(i,j-1,i,j+r.first,JFaceMDot(i,j)*r.second,coeffs[key]);
-                                        changeMatElement(i,j,i,j+r.first,-JFaceMDot(i,j)*r.second,coeffs[key]);
+                                  changeMatElement(i,j-1,i,j+r.first,params["RHO"]*JFaceContraVel(i,j)*r.second,coeffs[key]);
+                                  changeMatElement(i,j,i,j+r.first,-params["RHO"]*JFaceContraVel(i,j)*r.second,coeffs[key]);
                                };
                         };
 
 
-                        if(scheme.getScheme(faceReconstruction)==QUICK && j>2 && j<JFaceMDot.intVect[1]-1){
+                        if(scheme.getScheme(faceReconstruction)==QUICK && j>2 && j<JFaceContraVel.intVect[1]-1){
                               
                               for(auto key:{"u","v"}){
                                         for(auto r:recon){       
-                                                RHS[key](i,j-1)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
-                                                RHS[key](i,j)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                           RHS[key](i,j-1)+=vars[key](i,j+r.first)*params["RHO"]*JFaceContraVel(i,j)*r.second;
+                                           RHS[key](i,j)-=vars[key](i,j+r.first)*params["RHO"]*JFaceContraVel(i,j)*r.second;
                                         };
 
                               };
 
-                              recon=scheme.QUICKReconstruction(JFaceMDot(i,j));
+                              recon=scheme.QUICKReconstruction(JFaceContraVel(i,j));
                               
                               for(auto key:{"u","v"}){
                                         for(auto r:recon){       
-                                                RHS[key](i,j-1)-=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
-                                                RHS[key](i,j)+=vars[key](i,j+r.first)*JFaceMDot(i,j)*r.second;
+                                                RHS[key](i,j-1)-=vars[key](i,j+r.first)*JFaceContraVel(i,j)*r.second;
+                                                RHS[key](i,j)+=vars[key](i,j+r.first)*JFaceContraVel(i,j)*r.second;
                                         };
 
                               };
@@ -924,8 +924,8 @@ void icoNSSolver::RhieChow(){
 
         wp rho=params["RHO"];
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=2;i<IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=2;i<IFaceContraVel.intVect[0];i++){
 
                        gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,'x')-
                                 Vec2(scheme.averageValue<wp>(vars["gradPX"](i-1,j),vars["gradPX"](i,j),*mesh,i,j,'x'),
@@ -944,13 +944,13 @@ void icoNSSolver::RhieChow(){
                        interpV=interpV-df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
                        interpVelTimesArea=mesh->normalsI(i,j).dotProduct(Vec2(interpU,interpV));
-                       IFaceMDot(i,j)=interpVelTimesArea*rho;
+                       IFaceContraVel(i,j)=interpVelTimesArea;
 
                 };
         };
 
-        for(int j=2;j<JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+        for(int j=2;j<JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
                        gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,'y')-
                                 Vec2(scheme.averageValue<wp>(vars["gradPX"](i,j-1),vars["gradPX"](i,j),*mesh,i,j,'y'),
@@ -969,7 +969,7 @@ void icoNSSolver::RhieChow(){
                        interpV=interpV-df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
                        interpVelTimesArea=mesh->normalsJ(i,j).dotProduct(Vec2(interpU,interpV));
-                       JFaceMDot(i,j)=interpVelTimesArea*rho;
+                       JFaceContraVel(i,j)=interpVelTimesArea;
 
                 };
         };
@@ -986,8 +986,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
 
         wp rho=params["RHO"];
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=2;i<IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=2;i<IFaceContraVel.intVect[0];i++){
                         ccL=mesh->cc(i-1,j);
                         ccR=mesh->cc(i,j);
                         dCC=Vec2(ccR.x-ccL.x,ccR.y-ccL.y);
@@ -1010,8 +1010,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
                 };
         };
 
-        for(int j=2;j<JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+        for(int j=2;j<JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
                         ccL=mesh->cc(i,j-1);
                         ccR=mesh->cc(i,j);
@@ -1038,8 +1038,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
         for(int j=1;j<=vars["p'"].intVect[1];j++){
                 for(int i=1;i<=vars["p'"].intVect[0];i++){
 
-                        RHS["p'"](i,j)-=(IFaceMDot(i+1,j)-IFaceMDot(i,j)
-                                        +JFaceMDot(i,j+1)-JFaceMDot(i,j));
+                        RHS["p'"](i,j)-=(IFaceContraVel(i+1,j)-IFaceContraVel(i,j)
+                                        +JFaceContraVel(i,j+1)-JFaceContraVel(i,j))*params["RHO"];
                 };
         };
 
@@ -1059,13 +1059,12 @@ void icoNSSolver::correctPressure(){
 
 void icoNSSolver::correctMassFlux(){
 
-        wp rho=params["RHO"];
         wp dfL,dfR,df;
         Vec2 gradCorr;
         wp mDotCorrX,mDotCorrY;
 
-        for(int j=1;j<=IFaceMDot.intVect[1];j++){
-                for(int i=2;i<IFaceMDot.intVect[0];i++){
+        for(int j=1;j<=IFaceContraVel.intVect[1];j++){
+                for(int i=2;i<IFaceContraVel.intVect[0];i++){
 
                        gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'x');
 
@@ -1073,21 +1072,21 @@ void icoNSSolver::correctMassFlux(){
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
                        df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
                        
-                       mDotCorrX=rho*df*gradCorr.dotProduct(Vec2(1.0,0.0));
+                       mDotCorrX=df*gradCorr.dotProduct(Vec2(1.0,0.0));
 
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
                        df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
 
-                       mDotCorrY=rho*df*gradCorr.dotProduct(Vec2(0.0,1.0));
+                       mDotCorrY=df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
-                       IFaceMDot(i,j)-=mesh->normalsI(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
+                       IFaceContraVel(i,j)-=mesh->normalsI(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
                 
                 };
         };
 
-        for(int j=2;j<JFaceMDot.intVect[1];j++){
-                for(int i=1;i<=JFaceMDot.intVect[0];i++){
+        for(int j=2;j<JFaceContraVel.intVect[1];j++){
+                for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
                        gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'y');
 
@@ -1095,15 +1094,15 @@ void icoNSSolver::correctMassFlux(){
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
                        df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
                        
-                       mDotCorrX=rho*df*gradCorr.dotProduct(Vec2(1.0,0.0));
+                       mDotCorrX=df*gradCorr.dotProduct(Vec2(1.0,0.0));
 
                        dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
                        df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
 
-                       mDotCorrY=rho*df*gradCorr.dotProduct(Vec2(0.0,1.0));
+                       mDotCorrY=df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
-                       JFaceMDot(i,j)-=mesh->normalsJ(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
+                       JFaceContraVel(i,j)-=mesh->normalsJ(i,j).dotProduct(Vec2(mDotCorrX,mDotCorrY));
 
                 };
         };
