@@ -1,3 +1,4 @@
+#pragma once
 #include "solver.h"
 
 class icoNSSolver:public Solver{
@@ -16,6 +17,7 @@ Grid<wp>tempVar; //Needed for PISO
 wp resXMom,resYMom,resMass;
 
 public:
+
 
 dictionary<std::string,std::string>globalBCDict;
 dictionary<std::string,Grid<boundMatRow>>coeffs;

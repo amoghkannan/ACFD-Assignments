@@ -84,7 +84,7 @@ void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Impl
 
 //Finite volume
 template<typename T>
-T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
+static T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
         wp volL,volR;
 
         if(dir=='x'){
@@ -103,8 +103,8 @@ T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
 
 };
 
-Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
-Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
+static Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
+static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 

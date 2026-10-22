@@ -1,6 +1,8 @@
 #include"utils.h"
 #include"vars.h"
 #include"mesh.h"
+#include"scheme.h"
+#include"icoNSSolver.h"
 
 #define BIG 1E9
 #define SMALL 1E-15
@@ -35,21 +37,40 @@ int nIB;
 
 std::vector<interfaceLine>iblines;
 Grid<wp>f; //Volume fraction function
+Grid<Vec2>normals; //Normals to interface
+Grid<wp>alphas; //Positions of interface
+Grid<wp>F; //Fluxes on I faces
+Grid<wp>G; //FLuxes on J faces
 Grid<wp>phi; //Level set function
-Grid<wp>cellClass;
+Grid<int>cellClass;
 Mesh *mesh;
+
+Grid<wp> *IFaceMDot;
+Grid<wp> *JFaceMDot;
 
 std::string meshFile="mesh.dat";
 std::string ibFile="ib.dat";
 
 public:
 
-Interface(Mesh&);
+Interface(icoNSSolver&);
 void readInInterface();
 void readMesh(Mesh&);
 IBDistStat IBLineDist(Node nd, int idx);
 wp nearestIBLineDist(Node nd);
 void computeLevelSet();
+Node InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects);
+wp shoelaceArea(std::vector<Node>nds);
+bool isLeft(Node nd, Vec2 seg);
+std::vector<Node> SutherlandHodgman(std::vector<Vec2>&clipPolygon,std::vector<Node>&subjectPolygon);
+//Polygon clipping algorithm used to initialize volume fraction field for VoF; see:
+//https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
 void initializeVolumeFractionField();
+Vec2 calcYoungNormal(int i,int j);
+Vec2 calcHtFuncNormal(int i,int j,char dir); 
+Vec2 calcNormal(int i,int j); //Uses mixed-Young-Centred method 
+wp calcAlpha(int i, int j, Vec2 m); //Piecewise linear interface calc for cell (i,j); returns alpha
+void PLIC();
+void computeFluxes();
 
 };

@@ -14,12 +14,13 @@ LinearSolvers/GMRES.cpp
 LinearSolvers/steepestDescent.cpp
 LinearSolvers/conjugateGradient.cpp
 LinearSolvers/biCGStab.cpp
-interface.cpp
-integrator.cpp
 solver.cpp
+integrator.cpp
 LWESolver.cpp
 PoissonSolver.cpp
 icoNSSolver.cpp
+comNSSolver.cpp
+interface.cpp
 )
 
 target_include_directories(my_objects PUBLIC ${CMAKE_SOURCE_DIR}/include)  
