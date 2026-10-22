@@ -1,51 +1,24 @@
 #include"interface.h"
 
-Interface::Interface(icoNSSolver& s){
+Interface::Interface(icoNSSolver& s_){
         logger.log("Initializing interface",1);
 
+        s=&s_;
         readInInterface();
-        readMesh(*s.mesh);
+        setMesh(*s->mesh);
 
-        IFaceMDot=&s.IFaceMDot;
-        JFaceMDot=&s.JFaceMDot;
+        IFaceMDot=&s->IFaceMDot;
+        JFaceMDot=&s->JFaceMDot;
 
-        phi=Grid<wp>(mesh->box,{CELL,CELL});
-        f=Grid<wp>(mesh->box,{CELL,CELL});
+        setVar("phi",{CELL,CELL});
+        setVar("f",{CELL,CELL});
+        
         normals=Grid<Vec2>(mesh->box,{CELL,CELL});
         alphas=Grid<wp>(mesh->box,{CELL,CELL});
+
         F=Grid<wp>(mesh->box,{NODE,CELL});
         G=Grid<wp>(mesh->box,{CELL,NODE});
 
-        f.initVal(0.0);
-
-        computeLevelSet();
-
-        initializeVolumeFractionField();
-
-        std::ofstream outfile("levelSet.dat");
-        for(int j=1;j<=phi.intVect[1];j++){
-                for(int i=1;i<=phi.intVect[0];i++){
-                        if(phi(i,j)==BIG) continue;
-                        outfile<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<phi(i,j)<<std::endl;
-                };
-                outfile<<std::endl;
-        };
-
-        outfile.close();
-
-        std::ofstream outfile1("volumeFraction.dat");
-        for(int j=1;j<=f.intVect[1];j++){
-                for(int i=1;i<=f.intVect[0];i++){
-                        outfile1<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<f(i,j)<<std::endl;
-                };
-                outfile1<<std::endl;
-        };
-
-        outfile1.close();
-
-        PLIC();
-
-        std::cout<<normals(2,2).en.x<<"\t"<<normals(2,2).en.y<<std::endl;
 };
 
 void Interface::readInInterface(){
@@ -182,14 +155,14 @@ void Interface::computeLevelSet(){
        yMax=1.2*yMax;
        Node cc; 
 
-        for(int j=1;j<=phi.intVect[1];j++){
-                for(int i=1;i<=phi.intVect[0];i++){
+        for(int j=1;j<=vars["phi"].intVect[1];j++){
+                for(int i=1;i<=vars["phi"].intVect[0];i++){
                        cc=mesh->cc(i,j);
                        if(cc.x>=xMin && cc.x<=xMax && cc.y>=yMin && cc.y<=yMax){
-                                phi(i,j)=nearestIBLineDist(cc);
+                                vars["phi"](i,j)=nearestIBLineDist(cc);
                        }
                        else{
-                                phi(i,j)=BIG;
+                                vars["phi"](i,j)=BIG;
                        };
                 };
         };
@@ -305,9 +278,9 @@ void Interface::initializeVolumeFractionField(){
                 subjectPolygon.push_back(iblines[n].l.st);
         };
 
-        for(int j=1;j<=f.intVect[1];j++){
-                for(int i=1;i<=f.intVect[0];i++){
-                        if(phi(i,j)==BIG) continue;
+        for(int j=1;j<=vars["f"].intVect[1];j++){
+                for(int i=1;i<=vars["f"].intVect[0];i++){
+                        if(vars["phi"](i,j)==BIG) continue;
 
                         clipPolygon.clear();
                         clipPolygon.push_back(Vec2((*mesh)(i,j),(*mesh)(i+1,j)));
@@ -318,7 +291,7 @@ void Interface::initializeVolumeFractionField(){
                         outputList=SutherlandHodgman(clipPolygon,subjectPolygon);
                         wp fCurr=shoelaceArea(outputList)/mesh->volumes(i,j);
 
-                        f(i,j)=fCurr==0.0?(phi(i,j)>0.0?0.0:1.0):fCurr;
+                        vars["f"](i,j)=fCurr==0.0?(vars["phi"](i,j)>0.0?0.0:1.0):fCurr;
 
                 };
         };
@@ -326,7 +299,7 @@ void Interface::initializeVolumeFractionField(){
 };
 
 Vec2 Interface::calcYoungNormal(int i, int j){
-        return Scheme::greenGaussCellBased(f,*mesh,i,j)*(-1.0);
+        return Scheme::greenGaussCellBased(vars["f"],*mesh,i,j)*(-1.0);
 };
 
 Vec2 Interface::calcHtFuncNormal(int i, int j, char dir){
@@ -341,12 +314,12 @@ Vec2 Interface::calcHtFuncNormal(int i, int j, char dir){
         if(dir=='x'){
                 for(int j1=j-1;j1<=j+1;j1++){
                         hL=0.5*(mesh->normalsJ(i-1,j1).norm2()+mesh->normalsJ(i-1,j1+1).norm2());
-                        CL+=f(i-1,j1)*mesh->volumes(i-1,j1)/hL;
+                        CL+=vars["f"](i-1,j1)*mesh->volumes(i-1,j1)/hL;
                         hR=0.5*(mesh->normalsJ(i+1,j1).norm2()+mesh->normalsJ(i+1,j1+1).norm2());
-                        CR+=f(i+1,j1)*mesh->volumes(i+1,j1)/hR;
+                        CR+=vars["f"](i+1,j1)*mesh->volumes(i+1,j1)/hR;
                 };
                 
-                sgn=f(i,j)-f(i,j+1);
+                sgn=vars["f"](i,j)-vars["f"](i,j+1);
                 sgn=sgn>0.0?1.0:-1.0;
                 m=-(CR-CL)/(mesh->cc(i+1,j).x-mesh->cc(i-1,j).x);
                 m/=sgn;
@@ -355,11 +328,11 @@ Vec2 Interface::calcHtFuncNormal(int i, int j, char dir){
         else if(dir=='y'){
                 for(int i1=i-1;i1<=i+1;i1++){
                         hL=0.5*(mesh->normalsI(i1,j-1).norm2()+mesh->normalsI(i1+1,j-1).norm2());
-                        CL+=f(i1,j-1)*mesh->volumes(i1,j-1)/hL;
+                        CL+=vars["f"](i1,j-1)*mesh->volumes(i1,j-1)/hL;
                         hR=0.5*(mesh->normalsI(i1,j+1).norm2()+mesh->normalsI(i1+1,j+1).norm2());
-                        CR+=f(i1,j+1)*mesh->volumes(i1,j+1)/hR;
+                        CR+=vars["f"](i1,j+1)*mesh->volumes(i1,j+1)/hR;
                 };
-                sgn=f(i,j)-f(i+1,j);
+                sgn=vars["f"](i,j)-vars["f"](i+1,j);
                 sgn=sgn>0.0?1.0:-1.0;
                 m=-(CR-CL)/(mesh->cc(i,j+1).y-mesh->cc(i,j-1).y);
                 m/=sgn;
@@ -395,7 +368,7 @@ Vec2 Interface::calcNormal(int i, int j){
 };
 
 wp Interface::calcAlpha(int i, int j, Vec2 m){
-        wp fCurr=f(i,j);
+        wp fCurr=vars["f"](i,j);
         
         bool didSwitch=false;
 
@@ -518,7 +491,7 @@ void Interface::PLIC(){
 
         for(int j=2;j<normals.intVect[1];j++){
                 for(int i=2;i<normals.intVect[0];i++){
-                        if(f(i,j)>0.0 && f(i,j)<1.0){
+                        if(vars["f"](i,j)>0.0 && vars["f"](i,j)<1.0){
                                 normals(i,j)=calcNormal(i,j);
                                 alphas(i,j)=calcAlpha(i,j,normals(i,j));
                         };
@@ -528,7 +501,7 @@ void Interface::PLIC(){
 
 };
 
-void Interface::computeFluxes(){
+void Interface::computeFluxes(wp deltaT){
 
         std::vector<Node>clippedVolume;
         std::vector<Vec2>clipPolygon;
@@ -540,15 +513,27 @@ void Interface::computeFluxes(){
         F.initVal(0.0);
         G.initVal(0.0);
 
-        for(int j=1;j<=f.intVect[1];j++){
-                for(int i=1;i<=f.intVect[0];i++){
-                        if(f(i,j)==0.0) continue;
+        wp sweptVolume;
+
+        for(int j=1;j<=vars["f"].intVect[1];j++){
+                for(int i=1;i<=vars["f"].intVect[0];i++){
+                        if(vars["f"](i,j)==0.0) continue;
 
                         currNormal=normals(i,j);
                         currAlpha=alphas(i,j);
 
                         //Left face
                         if((*IFaceMDot)(i,j)<0.0){
+
+                                clippedVolume.clear();
+                                subjectPolygon.clear();
+
+                                if(vars["f"](i,j)!=1.0){
+                                                                                
+                                }
+                                else{
+                                
+                                };
 
                         };
 
@@ -570,5 +555,74 @@ void Interface::computeFluxes(){
                 };
         };
 
+};
+
+void Interface::initialCondition(){
+        vars["f"].initVal(0.0);
+
+        computeLevelSet();
+
+        initializeVolumeFractionField();
+
+        std::ofstream outfile("levelSet.dat");
+        for(int j=1;j<=vars["phi"].intVect[1];j++){
+                for(int i=1;i<=vars["phi"].intVect[0];i++){
+                        if(vars["phi"](i,j)==BIG) continue;
+                        outfile<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<vars["phi"](i,j)<<std::endl;
+                };
+                outfile<<std::endl;
+        };
+
+        outfile.close();
+
+        std::ofstream outfile1("volumeFraction.dat");
+        for(int j=1;j<=vars["f"].intVect[1];j++){
+                for(int i=1;i<=vars["f"].intVect[0];i++){
+                        outfile1<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<vars["f"](i,j)<<std::endl;
+                };
+                outfile1<<std::endl;
+        };
+
+        outfile1.close();
+
+        PLIC();
+
+};
+
+
+void Interface::applyBC(){
+
+};
+
+void Interface::QDot(){
+
+};
+
+void Interface::computeTimeStep(Grid<wp>& dt){
+
+};
+
+void Interface::updateVars(Grid<wp>& dt, wp storeFactor){
+
+};
+
+void Interface::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore){
+
+};
+
+void Interface::updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore){
+
+};
+
+wp Interface::getResNorm(){
+
+};
+
+void Interface::getResidual(){
+
+};
+
+bool Interface::isConverged(){
+        return s->isConverged();
 };
 

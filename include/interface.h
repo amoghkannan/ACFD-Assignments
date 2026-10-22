@@ -1,7 +1,9 @@
+#pragma once
 #include"utils.h"
 #include"vars.h"
 #include"mesh.h"
 #include"scheme.h"
+#include"solver.h"
 #include"icoNSSolver.h"
 
 #define BIG 1E9
@@ -30,21 +32,20 @@ struct IBDistStat{
         };
 };
 
-class Interface{
+class Interface: public Solver{
 
 private:
 int nIB;
 
 std::vector<interfaceLine>iblines;
-Grid<wp>f; //Volume fraction function
 Grid<Vec2>normals; //Normals to interface
 Grid<wp>alphas; //Positions of interface
 Grid<wp>F; //Fluxes on I faces
 Grid<wp>G; //FLuxes on J faces
-Grid<wp>phi; //Level set function
 Grid<int>cellClass;
 Mesh *mesh;
 
+icoNSSolver *s;
 Grid<wp> *IFaceMDot;
 Grid<wp> *JFaceMDot;
 
@@ -71,6 +72,25 @@ Vec2 calcHtFuncNormal(int i,int j,char dir);
 Vec2 calcNormal(int i,int j); //Uses mixed-Young-Centred method 
 wp calcAlpha(int i, int j, Vec2 m); //Piecewise linear interface calc for cell (i,j); returns alpha
 void PLIC();
-void computeFluxes();
+void computeFluxes(wp deltaT);
+
+void initialCondition() override;
+
+void applyBC() override;
+
+void QDot() override;
+
+void computeTimeStep(Grid<wp>& dt) override;
+
+void updateVars(Grid<wp>& dt, wp storeFactor) override;
+
+void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore) override;
+
+void updateVars(Grid<wp>& dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore) override;
+
+wp getResNorm() override;
+void getResidual() override;
+
+bool isConverged() override;
 
 };
