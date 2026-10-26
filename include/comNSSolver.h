@@ -26,6 +26,7 @@ dictionary<std::string,wp>res;
 dictionary<std::string,wp>resScale;
 
 dictionary<std::string,std::string>globalBCDict;
+dictionary<std::string,wp>zeroFluxBC;
 
 comNSSolver();
 void initialCondition() override;
@@ -42,7 +43,6 @@ bool isConverged() override;
 
 void reconstructStates();
 void computeFluxes();
-void zeroFluxBC();
 std::vector<wp>conservativeToPrimitive(std::vector<wp>qc);
 std::vector<wp>primitiveToConservative(std::vector<wp>qp);
 

@@ -442,8 +442,9 @@ void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR
 
 
 //Flux calc schemes
-void Scheme::ausmFlux(dictionary<std::string,wp>& params, int i, int j,dictionary<std::string,Grid<wp>>&flux, 
-dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, Vec2& normal){
+void Scheme::ausmFlux(dictionary<std::string,wp>& params, dictionary<std::string, wp>&zeroFluxBC, int i, int j,
+dictionary<std::string,Grid<wp>>&flux,dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
+Vec2& normal, char dir){
 
         Vec2 nHat;
         wp S;
@@ -495,6 +496,11 @@ dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR
         flux["v"](i,j)=0.0;
         flux["p"](i,j)=0.0;
 
+        if(dir='x' && i==1 && zeroFluxBC["BCW"]==0.0) goto pf;
+        if(dir='x' && i==flux["u"].intVect[0] && zeroFluxBC["BCE"]==0.0) goto pf;
+        if(dir='y' && j==1 && zeroFluxBC["BCS"]==0.0) goto pf;
+        if(dir='y' && j==flux["u"].intVect[1] && zeroFluxBC["BCN"]==0.0) goto pf;
+
         flux["rho"](i,j)=flux["rho"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL;
         flux["u"](i,j)=flux["u"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["u"](i,j);
         flux["v"](i,j)=flux["v"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["v"](i,j);
@@ -504,6 +510,8 @@ dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR
         flux["u"](i,j)=flux["u"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["u"](i,j);
         flux["v"](i,j)=flux["v"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["v"](i,j);
         flux["p"](i,j)=flux["p"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*h0R;
+
+        pf:
 
         flux["u"](i,j)=flux["u"](i,j)+DL*stateL["p"](i,j)*normal.en.x;
         flux["v"](i,j)=flux["v"](i,j)+DR*stateR["p"](i,j)*normal.en.y;

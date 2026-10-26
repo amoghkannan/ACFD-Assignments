@@ -222,6 +222,11 @@ void comNSSolver::applyBC(){
         inc["BCN"]={0,1};
         sig["BCN"]=1.0;
 
+        zeroFluxBC["BCS"]=1.0;
+        zeroFluxBC["BCN"]=1.0;
+        zeroFluxBC["BCE"]=1.0;
+        zeroFluxBC["BCW"]=1.0;
+
         wp rhoTemp,uTemp,vTemp,pTemp;
         wp velParallel,velNormal;
         wp S;
@@ -230,7 +235,9 @@ void comNSSolver::applyBC(){
 
         for(auto key:globalBCDict.getKeys()){
                 if(globalBCDict[key]=="SLIPWALL"){
-                        
+                       
+                        zeroFluxBC[key]=0.0;
+
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
@@ -282,6 +289,8 @@ void comNSSolver::applyBC(){
                 };
 
                 if(globalBCDict[key]=="NOSLIPWALL"){
+
+                        zeroFluxBC[key]=0.0;
 
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
@@ -361,10 +370,10 @@ void comNSSolver::applyBC(){
 };
 
 void comNSSolver::QDot(){
+       
        applyBC();
        reconstructStates();
        computeFluxes();
-       zeroFluxBC();
        getResidual();
         
 };
@@ -424,7 +433,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
 
                         dt(i,j)=dt(i,j)+(contraVel+c)*S;
 
-                        dt(i,j)=params["CFL"]*mesh->volumes(i,j)/dt(i,j);
+                        dt(i,j)=mesh->volumes(i,j)/dt(i,j);
 
                 };
         };
@@ -453,14 +462,135 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
 };
 
 void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
+        
+        std::vector<wp>qp;
+        std::vector<wp>qc;
+
+        std::vector<std::string>keys=vars.getKeys();
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qp={vars["rho"](i,j),vars["u"](i,j),vars["v"](i,j),vars["p"](i,j)};
+                        qc=primitiveToConservative(qp);
+
+                        vars["rho"](i,j)=qc[0];
+                        vars["u"](i,j)=qc[1];
+                        vars["v"](i,j)=qc[2];
+                        vars["p"](i,j)=qc[3];
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+
+                        for(auto key:keys){
+                                vars[key](i,j)=vars[key](i,j)+varsDot[key](i,j)*(dt(i,j)*storeFactor);
+                        };
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qc={vars["rho"](i,j),vars["u"](i,j),vars["v"](i,j),vars["p"](i,j)};
+                        qp=conservativeToPrimitive(qc);
+
+                        vars["rho"](i,j)=qp[0];
+                        vars["u"](i,j)=qp[1];
+                        vars["v"](i,j)=qp[2];
+                        vars["p"](i,j)=qp[3];
+
+                };
+        };
 
 };
 
 void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>& uStore){
+        std::vector<wp>qp;
+        std::vector<wp>qc;
+
+        std::vector<std::string>keys=vars.getKeys();
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
+                        qc=primitiveToConservative(qp);
+
+                        vars["rho"](i,j)=qc[0];
+                        vars["u"](i,j)=qc[1];
+                        vars["v"](i,j)=qc[2];
+                        vars["p"](i,j)=qc[3];
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+
+                        for(auto key:keys){
+                                vars[key](i,j)=vars[key](i,j)+varsDot[key](i,j)*(dt(i,j)*storeFactor);
+                        };
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qc={vars["rho"](i,j),vars["u"](i,j),vars["v"](i,j),vars["p"](i,j)};
+                        qp=conservativeToPrimitive(qc);
+
+                        vars["rho"](i,j)=qp[0];
+                        vars["u"](i,j)=qp[1];
+                        vars["v"](i,j)=qp[2];
+                        vars["p"](i,j)=qp[3];
+
+                };
+        };
 
 };
 
 void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore){
+        std::vector<wp>qp;
+        std::vector<wp>qc;
+
+        std::vector<std::string>keys=vars.getKeys();
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
+                        qc=primitiveToConservative(qp);
+
+                        vars["rho"](i,j)=qc[0];
+                        vars["u"](i,j)=qc[1];
+                        vars["v"](i,j)=qc[2];
+                        vars["p"](i,j)=qc[3];
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+
+                        for(int n=0;n<keys.size();n++){
+                                vars[keys[n]](i,j)=vars[keys[n]](i,j)+rStore[n](i,j)*(dt(i,j)*storeFactor);
+                        };
+
+                };
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        qc={vars["rho"](i,j),vars["u"](i,j),vars["v"](i,j),vars["p"](i,j)};
+                        qp=conservativeToPrimitive(qc);
+
+                        vars["rho"](i,j)=qp[0];
+                        vars["u"](i,j)=qp[1];
+                        vars["v"](i,j)=qp[2];
+                        vars["p"](i,j)=qp[3];
+
+                };
+        };
 
 };
 
@@ -545,59 +675,14 @@ void comNSSolver::computeFluxes(){
                 
                 for(int j=1;j<=vars["u"].intVect[1];j++){
                         for(int i=1;i<=vars["u"].intVect[0]+1;i++){
-                                scheme.ausmFlux(params,i,j,F,x_qp_left,x_qp_right,mesh->normalsI(i,j));
+                                scheme.ausmFlux(params,zeroFluxBC,i,j,F,x_qp_left,x_qp_right,mesh->normalsI(i,j),'x');
                         };
                 };
 
                 for(int j=1;j<=vars["u"].intVect[1]+1;j++){
                         for(int i=1;i<=vars["u"].intVect[0];i++){
-                                scheme.ausmFlux(params,i,j,G,y_qp_left,y_qp_right,mesh->normalsJ(i,j));
+                                scheme.ausmFlux(params,zeroFluxBC,i,j,G,y_qp_left,y_qp_right,mesh->normalsJ(i,j),'y');
                         };
-                };
-
-        };
-
-};
-
-void comNSSolver::zeroFluxBC(){
-
-        dictionary<std::string,std::pair<int,int>>lo;
-        dictionary<std::string,std::pair<int,int>>hi;
-     
-        lo["BCW"]={1,1};
-        hi["BCW"]={1,mesh->box.jmx-1};
-
-        lo["BCE"]={mesh->box.imx,1};
-        hi["BCE"]={mesh->box.imx,mesh->box.jmx-1};
-
-        lo["BCS"]={1,1};
-        hi["BCS"]={mesh->box.imx-1,1};
-
-        lo["BCN"]={1,mesh->box.jmx};
-        hi["BCN"]={mesh->box.imx-1,mesh->box.jmx};
-
-        for(auto key:globalBCDict.getKeys()){
-
-                if(globalBCDict[key]=="SLIPWALL" || globalBCDict[key]=="NOSLIPWALL"){
-                        
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
-        
-                                        if(key=="BCW" || key=="BCS"){
-                                                for(auto var:F.getKeys()){
-                                                        F[var](i,j)=0.0;
-                                                };
-
-                                        }
-                                        else if(key=="BCS" || key=="BCN"){
-                                                for(auto var:G.getKeys()){
-                                                        G[var](i,j)=0.0;
-                                                };
-                                        };
-
-                                };
-                        };
-
                 };
 
         };

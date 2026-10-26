@@ -118,8 +118,9 @@ std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, char dir);
 
 //Flux calc schemes
-void ausmFlux(dictionary<std::string,wp>&params, int i, int j,dictionary<std::string,Grid<wp>>&flux,
-dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, Vec2& normal);
+void ausmFlux(dictionary<std::string,wp>&params, dictionary<std::string, wp>&zeroFluxBC, int i, int j, 
+dictionary<std::string,Grid<wp>>&flux,dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
+Vec2& normal, char dir);
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;
