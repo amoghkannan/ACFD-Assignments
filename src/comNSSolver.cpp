@@ -35,6 +35,8 @@ comNSSolver::comNSSolver(){
                 x_qp_right[key]=Grid<wp>(mesh->box,{NODE,CELL});
                 y_qp_left[key]=Grid<wp>(mesh->box,{CELL,NODE});
                 y_qp_right[key]=Grid<wp>(mesh->box,{CELL,NODE});
+                F[key]=Grid<wp>(mesh->box,{NODE,CELL});
+                G[key]=Grid<wp>(mesh->box,{CELL,NODE});
         };
 
         std::string data,data1,data2;
@@ -146,6 +148,13 @@ comNSSolver::comNSSolver(){
                };
         };
         infile1.close();
+
+        resScale["rho"]=params["RHOINF"]*Vec2(params["UINF"],params["VINF"]).norm2();
+        resScale["u"]=params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),2.0);
+        resScale["v"]=params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),2.0);
+        resScale["p"]=0.5*params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),3.0)
+                      +params["GM"]*params["PINF"]/(params["GM"]-1.0);
+
 
 };
 
@@ -352,7 +361,12 @@ void comNSSolver::applyBC(){
 };
 
 void comNSSolver::QDot(){
-
+       applyBC();
+       reconstructStates();
+       computeFluxes();
+       zeroFluxBC();
+       getResidual();
+        
 };
 
 void comNSSolver::lSolve(){
@@ -451,24 +465,142 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
 };
 
 wp comNSSolver::getResNorm(){
+        
+        std::vector<std::string>keys=vars.getKeys();
+
+        for(auto key:keys){
+                res[key]=0.0;
+        };
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        for(auto key:keys){
+                                res[key]=res[key]+pow(varsDot[key](i,j),2.0);
+                        };
+                };
+        };
+
+        for(auto key:keys){
+                res[key]=sqrt(res[key])/resScale[key];
+        };
 
 };
 
 void comNSSolver::getResidual(){
 
+        std::vector<std::string>keys=vars.getKeys();
+
+        for(int j=1;j<=vars["u"].intVect[1];j++){
+                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        for(auto key:keys){
+                                varsDot[key](i,j)=-(F[key](i+1,j)-F[key](i,j)+G[key](i,j+1)-G[key](i,j))/mesh->volumes(i,j);
+                        };
+                };
+        };
+
 };
 
 bool comNSSolver::isConverged(){
-        return false;
+        std::vector<std::string>keys=vars.getKeys();
+
+        wp conv=0.0;
+
+        for(auto key:keys){
+                conv=conv+pow(res[key],2.0);
+        };
+
+        return sqrt(conv)<params["TOL"];
+
 };
 
 void comNSSolver::reconstructStates(){
+        
+        std::vector<std::string>keys=vars.getKeys();
 
+        if(scheme.getScheme(stateReconstruction)==NONE){
+                
+                for(int j=1;j<=vars["u"].intVect[1];j++){
+                        for(int i=1;i<=vars["u"].intVect[0]+1;i++){
+                                for(auto key:keys){ 
+                                        scheme.defaultReconstruction(vars[key],x_qp_left[key],x_qp_right[key],i,j,'x');
+                                };
+                        };
+                };
+
+                for(int j=1;j<=vars["u"].intVect[1]+1;j++){
+                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                                for(auto key:keys){ 
+                                        scheme.defaultReconstruction(vars[key],y_qp_left[key],y_qp_right[key],i,j,'y');
+                                };
+                        };
+                };
+
+        };
 
 };
 
 void comNSSolver::computeFluxes(){
 
+        if(scheme.getScheme(fluxCalc)==AUSM){
+                
+                for(int j=1;j<=vars["u"].intVect[1];j++){
+                        for(int i=1;i<=vars["u"].intVect[0]+1;i++){
+                                scheme.ausmFlux(params,i,j,F,x_qp_left,x_qp_right,mesh->normalsI(i,j));
+                        };
+                };
+
+                for(int j=1;j<=vars["u"].intVect[1]+1;j++){
+                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                                scheme.ausmFlux(params,i,j,G,y_qp_left,y_qp_right,mesh->normalsJ(i,j));
+                        };
+                };
+
+        };
+
+};
+
+void comNSSolver::zeroFluxBC(){
+
+        dictionary<std::string,std::pair<int,int>>lo;
+        dictionary<std::string,std::pair<int,int>>hi;
+     
+        lo["BCW"]={1,1};
+        hi["BCW"]={1,mesh->box.jmx-1};
+
+        lo["BCE"]={mesh->box.imx,1};
+        hi["BCE"]={mesh->box.imx,mesh->box.jmx-1};
+
+        lo["BCS"]={1,1};
+        hi["BCS"]={mesh->box.imx-1,1};
+
+        lo["BCN"]={1,mesh->box.jmx};
+        hi["BCN"]={mesh->box.imx-1,mesh->box.jmx};
+
+        for(auto key:globalBCDict.getKeys()){
+
+                if(globalBCDict[key]=="SLIPWALL" || globalBCDict[key]=="NOSLIPWALL"){
+                        
+                        for(int j=lo[key].second;j<=hi[key].second;j++){
+                                for(int i=lo[key].first;i<=hi[key].first;i++){
+        
+                                        if(key=="BCW" || key=="BCS"){
+                                                for(auto var:F.getKeys()){
+                                                        F[var](i,j)=0.0;
+                                                };
+
+                                        }
+                                        else if(key=="BCS" || key=="BCN"){
+                                                for(auto var:G.getKeys()){
+                                                        G[var](i,j)=0.0;
+                                                };
+                                        };
+
+                                };
+                        };
+
+                };
+
+        };
 
 };
 

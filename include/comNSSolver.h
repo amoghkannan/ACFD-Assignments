@@ -19,6 +19,12 @@ dictionary<std::string,Grid<wp>>x_qp_right;
 dictionary<std::string,Grid<wp>>y_qp_left;
 dictionary<std::string,Grid<wp>>y_qp_right;
 
+dictionary<std::string,Grid<wp>>F;
+dictionary<std::string,Grid<wp>>G;
+
+dictionary<std::string,wp>res;
+dictionary<std::string,wp>resScale;
+
 dictionary<std::string,std::string>globalBCDict;
 
 comNSSolver();
@@ -36,6 +42,7 @@ bool isConverged() override;
 
 void reconstructStates();
 void computeFluxes();
+void zeroFluxBC();
 std::vector<wp>conservativeToPrimitive(std::vector<wp>qc);
 std::vector<wp>primitiveToConservative(std::vector<wp>qp);
 

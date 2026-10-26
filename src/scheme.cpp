@@ -427,6 +427,20 @@ std::vector<std::pair<int,wp>>Scheme::QUICKReconstruction(wp& massFlux){
 
 };
 
+void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, char dir){
+
+        if(dir=='x'){
+                stateL(i,j)=var(i-1,j);
+                stateR(i,j)=var(i,j);
+        }
+        else if(dir=='y'){
+                stateL(i,j)=var(i,j-1);
+                stateR(i,j)=var(i,j);
+        };
+
+};
+
+
 //Flux calc schemes
 void Scheme::ausmFlux(dictionary<std::string,wp>& params, int i, int j,dictionary<std::string,Grid<wp>>&flux, 
 dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, Vec2& normal){

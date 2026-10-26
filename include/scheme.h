@@ -115,8 +115,7 @@ static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
-void defaultReconstruction();
-void MUSCLReconstruction();
+void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, char dir);
 
 //Flux calc schemes
 void ausmFlux(dictionary<std::string,wp>&params, int i, int j,dictionary<std::string,Grid<wp>>&flux,
