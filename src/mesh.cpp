@@ -10,8 +10,8 @@ void Mesh::calcVolumes(){
 
         volumes=Grid<wp>(box,{CELL,CELL});
         
-        for(int j=1;j<box.jmx;j++){
-                for(int i=1;i<box.imx;i++){
+        for(int j=1-box.bufS;j<box.jmx+box.bufN;j++){
+                for(int i=1-box.bufW;i<box.imx+box.bufE;i++){
                         volumes(i,j)=calcVolume({(*this)(i,j),(*this)(i+1,j),(*this)(i+1,j+1),(*this)(i,j+1)});
                 };
         };
@@ -22,17 +22,14 @@ void Mesh::calcAreas(){
 
         normalsI=Grid<Vec2>(box,{NODE,CELL});
        
-        Vec2 tempVec;
         Node tempNode;
 
         logger.log("Debug: Calculating Ifaces areas",1);
 
-        for(int j=1;j<intVect[1];j++){
-                for(int i=1;i<=intVect[0];i++){
+        for(int j=1-box.bufS;j<intVect[1]+box.bufN;j++){
+                for(int i=1-box.bufW;i<=intVect[0]+box.bufE;i++){
                         tempNode=(*this)(i,j+1)-(*this)(i,j);
-                        normalsI(i,j)=Vec2(tempNode.y,-tempNode.x);
-                        tempVec=Vec2(cc(i-1,j),cc(i,j));
-                        if(normalsI(i,j).dotProduct(tempVec)<0) normalsI(i,j)=-normalsI(i,j);
+                        normalsI(i,j)=Vec2(tempNode.y,-tempNode.x); //TODO: What if increasing i is decreasing x
                 };
         };
         
@@ -40,12 +37,10 @@ void Mesh::calcAreas(){
 
         logger.log("Debug: Calculating Jfaces areas",1);
 
-        for(int j=1;j<=intVect[1];j++){
-                for(int i=1;i<intVect[0];i++){
+        for(int j=1-box.bufS;j<=intVect[1]+box.bufN;j++){
+                for(int i=1-box.bufW;i<intVect[0]+box.bufE;i++){
                         tempNode=(*this)(i+1,j)-(*this)(i,j);
                         normalsJ(i,j)=Vec2(-tempNode.y,tempNode.x);
-                        tempVec=Vec2(cc(i,j-1),cc(i,j));
-                        if(normalsJ(i,j).dotProduct(tempVec)<0) normalsJ(i,j)=-normalsJ(i,j);
                 };
         };
 

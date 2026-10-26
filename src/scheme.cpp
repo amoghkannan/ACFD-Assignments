@@ -7,12 +7,16 @@ BCType StringToBCType(std::string str){
 
         if(str=="neumann") return neumann;
 
+        if(str=="extrapolate") return extrapolate;
+
         logger.log("Invalid BC type",1);
         return invalidBCType; 
 };
 
 schemeKey StringToschemeKey(std::string str){
         if(str=="timeStepping") return timeStepping;
+        
+        if(str=="timeSteppingLocality") return timeSteppingLocality;
 
         if(str=="derivativeX") return derivativeX;
 
@@ -26,6 +30,10 @@ schemeKey StringToschemeKey(std::string str){
 
         if(str=="faceReconstruction") return faceReconstruction;
 
+        if(str=="stateReconstruction") return stateReconstruction;
+
+        if(str=="fluxCalc") return fluxCalc;
+
         if(str=="multigrid") return multigrid;
 
         if(str=="PVCoupling") return PVCoupling;
@@ -38,7 +46,11 @@ schemeVal StringToschemeVal(std::string str){
         if(str=="EULER") return EULER;
 
         if(str=="RK4") return RK4;
-        
+
+        if(str=="LOCAL") return LOCAL;
+
+        if(str=="GLOBAL") return GLOBAL;
+
         if(str=="LINEARSOLVER") return LINEARSOLVER;
 
         if(str=="FOU") return FOU;
@@ -50,6 +62,12 @@ schemeVal StringToschemeVal(std::string str){
         if(str=="V_CYCLE") return V_CYCLE;
 
         if(str=="W_CYCLE") return W_CYCLE;
+
+        if(str=="NONE") return NONE;
+
+        if(str=="MUSCL") return MUSCL;
+
+        if(str=="AUSM") return AUSM;
 
         if(str=="SIMPLE") return SIMPLE;
 
@@ -406,6 +424,75 @@ std::vector<std::pair<int,wp>>Scheme::QUICKReconstruction(wp& massFlux){
         };
 
         return ans;
+
+};
+
+//Flux calc schemes
+void Scheme::ausmFlux(dictionary<std::string,wp>& params, int i, int j,dictionary<std::string,Grid<wp>>&flux, 
+dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, Vec2& normal){
+
+        Vec2 nHat;
+        wp S;
+        wp contraVelL,contraVelR,cL,cR,cM;
+        wp ML,MR;
+        wp alphaLPlus,alphaRMinus;
+        wp betaL,betaR;
+        wp DLPlus,DRMinus;
+        wp DL,DR;
+        wp cvlPlus,cvlMinus;
+        wp h0L,h0R;
+
+        S=normal.norm2();
+        nHat=normal/S;
+
+        cL=sqrt(params["GM"]*stateL["p"](i,j)/stateL["rho"](i,j));
+        cR=sqrt(params["GM"]*stateR["p"](i,j)/stateR["rho"](i,j));
+        cM=0.5*(cL+cR);
+
+        contraVelL=nHat.dotProduct(Vec2(stateL["u"](i,j),stateL["v"](i,j)));
+        contraVelR=nHat.dotProduct(Vec2(stateR["u"](i,j),stateR["v"](i,j)));
+        ML=contraVelL/cM;
+        MR=contraVelR/cM;
+
+        alphaLPlus=0.5*(1.0+sign(ML));
+        alphaRMinus=0.5*(1.0-sign(MR));
+
+        betaL=-std::max((wp)0.0,1.0-floor(fabs(ML)));
+        betaR=-std::max((wp)0.0,1.0-floor(fabs(MR)));
+
+        DLPlus=0.25*(1.0+ML)*(1.0+ML)*(2.0-ML);
+        DRMinus=0.25*(MR-1.0)*(MR-1.0)*(2.0+MR);
+
+        DL=alphaLPlus*(1.0+betaL)-betaL*DLPlus;
+        DR=alphaRMinus*(1.0+betaR)-betaR*DRMinus;
+
+        cvlPlus=alphaLPlus*(1.0+betaL)*ML-0.25*betaL*(1.0+ML)*(1.0+ML);
+        cvlMinus=alphaRMinus*(1.0+betaR)*MR+0.25*betaR*(MR-1.0)*(MR-1.0);
+
+        h0L=(params["GM"]/(params["GM"]-1.0))*stateL["p"](i,j)/stateL["rho"](i,j);
+        h0L=h0L+0.5*(pow(stateL["u"](i,j),2.0)+pow(stateL["v"](i,j),2.0));
+
+        h0R=(params["GM"]/(params["GM"]-1.0))*stateR["p"](i,j)/stateR["rho"](i,j);
+        h0R=h0R+0.5*(pow(stateR["u"](i,j),2.0)+pow(stateR["v"](i,j),2.0));
+
+
+        flux["rho"](i,j)=0.0;
+        flux["u"](i,j)=0.0;
+        flux["v"](i,j)=0.0;
+        flux["p"](i,j)=0.0;
+
+        flux["rho"](i,j)=flux["rho"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL;
+        flux["u"](i,j)=flux["u"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["u"](i,j);
+        flux["v"](i,j)=flux["v"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["v"](i,j);
+        flux["p"](i,j)=flux["p"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*h0L;
+
+        flux["rho"](i,j)=flux["rho"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR;
+        flux["u"](i,j)=flux["u"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["u"](i,j);
+        flux["v"](i,j)=flux["v"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["v"](i,j);
+        flux["p"](i,j)=flux["p"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*h0R;
+
+        flux["u"](i,j)=flux["u"](i,j)+DL*stateL["p"](i,j)*normal.en.x;
+        flux["v"](i,j)=flux["v"](i,j)+DR*stateR["p"](i,j)*normal.en.y;
 
 };
 

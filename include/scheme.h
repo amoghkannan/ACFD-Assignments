@@ -9,6 +9,7 @@ enum BCType{
         periodic,
         dirichlet,
         neumann,
+        extrapolate,
         invalidBCType
 };
 
@@ -16,6 +17,7 @@ BCType StringToBCType(std::string str);
 
 enum schemeKey{
         timeStepping,
+        timeSteppingLocality,
         derivativeX,
         derivativeY,
         derivativeXX,
@@ -23,6 +25,8 @@ enum schemeKey{
         derivativeXY,
         multigrid,
         faceReconstruction,
+        stateReconstruction,
+        fluxCalc,
         PVCoupling,
         invalidSchemeKey
 };
@@ -32,12 +36,17 @@ schemeKey StringToschemeKey(std::string str);
 enum schemeVal{
         EULER,
         RK4,
+        LOCAL,
+        GLOBAL,
         LINEARSOLVER,
         FOU, //First-order upwind
         QUICK,
         C4,   //Fourth-order compact,
         V_CYCLE,
         W_CYCLE,
+        NONE,
+        MUSCL,
+        AUSM,
         SIMPLE,
         PISO,
         INVALIDSCHEMEVAL
@@ -48,8 +57,6 @@ schemeVal StringToschemeVal(std::string str);
 class Scheme{
 
 private:
-
-
 
 //TDMA coefficients
 wp *a=nullptr;
@@ -107,6 +114,13 @@ static Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
 static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
+
+void defaultReconstruction();
+void MUSCLReconstruction();
+
+//Flux calc schemes
+void ausmFlux(dictionary<std::string,wp>&params, int i, int j,dictionary<std::string,Grid<wp>>&flux,
+dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, Vec2& normal);
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;

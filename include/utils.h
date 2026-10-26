@@ -7,8 +7,11 @@
 #include<iomanip>
 #include<chrono>
 #include<algorithm>
+#include<unordered_map>
 
 #define wp long double
+#define BIG 1E9
+#define SMALL 1E-15
 
 using Point=std::pair<int,int> ;
 using boundMatEntry=std::pair<Point,wp>;
@@ -22,51 +25,43 @@ extern Logger logger;
 #define LOGCODE 2
 #endif
 
+wp sign(wp in);
+
 template<typename key, typename val>
 class dictionary{
 
 private:
 
 std::vector<key> keys;
-std::vector<val> vals;
+
+std::unordered_map<key,val>data;
 
 public:
 
 val& operator[](key keyIn){
 
-        int counter=0;
-        int n=vals.size();
-        
-        for(int i=0; i<n;i++){
-                key currKey=keys[i];
-
-                if(currKey==keyIn){
-                        return vals[counter];
-                };
-
-                counter=counter+1;
+        auto it=data.find(keyIn);
+        if(it==data.end()){
+                keys.push_back(keyIn);
         };
-        
-        keys.resize(n+1);
-        keys[n]=keyIn;
-        vals.resize(n+1);
-        return vals[n];
 
+        return data[keyIn];
 };
 
 val& operator()(int ind){
 
-        return vals[ind];
+        return data[keys[ind]]; 
 
 };
 
 bool hasKey(key keyIn){
-        
-        for(auto keyIter:keys){
-                if(keyIter==keyIn) return true;
+       
+        auto it=data.find(keyIn);
+        if(it==data.end()){
+                return false;
         };
 
-        return false;
+        return true;
 };
 
 std::vector<key>getKeys(){

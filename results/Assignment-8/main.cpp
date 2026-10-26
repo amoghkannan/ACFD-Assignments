@@ -9,10 +9,12 @@ int main(void){
         icoNSSolver solver;
 
         Interface inter(solver);
+
         Integrator I;
-        I.maxSteps=5000;
-        I.dumpSteps=5000;
+        I.maxSteps=1;
+        I.dumpSteps=1;
         I.addSolver(solver,"NS");
+        I.integrate();
 
         return 0;
 }

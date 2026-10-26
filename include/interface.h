@@ -6,8 +6,6 @@
 #include"solver.h"
 #include"icoNSSolver.h"
 
-#define BIG 1E9
-#define SMALL 1E-15
 
 struct interfaceLine{
         Vec2 l;
@@ -73,7 +71,7 @@ wp calcAlpha(int i, int j, Vec2 m); //Piecewise linear interface calc for cell (
 void PLIC();
 void computeFluxes(wp deltaT);
 bool isInside(Vec2 m, wp alpha, Node nd);
-wp enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords);
+wp enclosedArea(Vec2 m, wp alpha, std::array<Node,4>cellCoords);
 
 void initialCondition() override;
 

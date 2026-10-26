@@ -504,18 +504,14 @@ void Interface::PLIC(){
 void Interface::computeFluxes(wp deltaT){
 
         std::array<Node,4>cellCoords;
-        std::vector<Node>cutCellCoords;
 
         wp u,v;
-        Node currNode,nextNode;
 
         Vec2 currNormal;
         wp currAlpha;
 
         F.initVal(0.0);
         G.initVal(0.0);
-
-        wp sweptVolume;
 
         for(int j=1;j<=vars["f"].intVect[1];j++){
                 for(int i=1;i<=vars["f"].intVect[0];i++){
@@ -526,8 +522,6 @@ void Interface::computeFluxes(wp deltaT){
 
                         //Left face
                         if((*IFaceContraVel)(i,j)<0.0){
-                                cutCellCoords.clear();
-                                cellCoords.clear();
                                 
                                 u=fabs((*IFaceContraVel)(i,j));
 
@@ -537,14 +531,12 @@ void Interface::computeFluxes(wp deltaT){
                                             (*mesh)(i,j+1)};
 
                                 
-                                F(i,j)=enclosedArea(m,alpha,cellCoords);
+                                F(i,j)=(enclosedArea(currNormal,currAlpha,cellCoords))/deltaT;
 
                         };
 
                         //Right face
                         if((*IFaceContraVel)(i+1,j)>0.0){
-                                cutCellCoords.clear();
-                                cellCoords.clear();
                                 
                                 u=fabs((*IFaceContraVel)(i+1,j));
 
@@ -554,31 +546,27 @@ void Interface::computeFluxes(wp deltaT){
                                             Node((*mesh)(i+1,j+1).x-u*deltaT,(*mesh)(i+1,j+1).y)};
                                                                                                 
                                 
-                                F(i+1,j)=enclosedArea(m,alpha,cellCoords);
+                                F(i+1,j)=(enclosedArea(currNormal,currAlpha,cellCoords))/deltaT;
 
                         };
 
                         //Bottom face
                         if((*JFaceContraVel)(i,j)<0.0){
-                                cutCellCoords.clear();
-                                cellCoords.clear();
                                 
                                 v=fabs((*JFaceContraVel)(i,j));
 
                                 cellCoords={(*mesh)(i,j),
-                                            (*mesh)(i+1,j);
-                                            Node((*mesh)(i+1,j+1).x,(*mesh)(i+1,j+1).y+v*deltaT),
+                                            (*mesh)(i+1,j),
+                                            Node((*mesh)(i+1,j+1).x,(*mesh)(i+1,j).y+v*deltaT),
                                             Node((*mesh)(i,j+1).x,(*mesh)(i,j+1).y+v*deltaT)};
 
                                 
-                                G(i,j)=enclosedArea(m,alpha,cellCoords);
+                                G(i,j)=(enclosedArea(currNormal,currAlpha,cellCoords))/deltaT;
 
                         };
 
                         //Top face
                         if((*JFaceContraVel)(i,j+1)>0.0){
-                                cutCellCoords.clear();
-                                cellCoords.clear();
                                 
                                 v=fabs((*JFaceContraVel)(i,j+1));
 
@@ -587,10 +575,9 @@ void Interface::computeFluxes(wp deltaT){
                                             (*mesh)(i+1,j+1),
                                             (*mesh)(i,j+1)};
                                 
-                                G(i,j+1)=enclosedArea(m,alpha,cellCoords);
+                                G(i,j+1)=(enclosedArea(currNormal,currAlpha,cellCoords))/deltaT;
 
                         };
-
 
                 };
         };
@@ -601,15 +588,15 @@ bool Interface::isInside(Vec2 m, wp alpha, Node nd){
         wp test=m.en.x*nd.x+m.en.y*nd.y-alpha;
 
         if(alpha>0){
-                return test*alpha<0.0;
+                return test*alpha>0.0;
         }
         else{
-                return test*alpha>0.0;
+                return test*alpha<0.0;
         };
 
 };
 
-wp Interface::enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords){
+wp Interface::enclosedArea(Vec2 m, wp alpha, std::array<Node,4>cellCoords){
       
         std::vector<Node>cutCellCoords;
 
@@ -617,26 +604,29 @@ wp Interface::enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords){
         Node intersectNode;
         Node p1,p2;
         bool intersects;
-        
+       
+        Vec2 currNormal;
+        wp currAlpha;
+
         for(int i=0;i<=3;i++){
                 currNode=cellCoords[i];
                 nextNode=cellCoords[(i+1)%4];
 
-                if(isInside(currNormal,currAlpha,currNode)){
+                if(isInside(m,alpha,currNode)){
                         cutCellCoords.push_back(currNode);
-                        
-                        if(!isInside(currNormal,currAlpha,currNode)){
-                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(0.0,alpha/m.en.y);
-                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,0.0);
+                       
+                        if(!isInside(m,alpha,currNode)){
+                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(1.0,alpha/m.en.y);
+                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,1.0);
                                 intersectNode=InfiniteEdgeIntersection(Vec2(p1,p2), Vec2(currNode,nextNode), intersects);
                                 cutCellCoords.push_back(intersectNode);
                         };
 
                 }
                 else{
-                        if(isInside(currNormal,curAlpha,nextNode)){
-                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(0.0,alpha/m.en.y);
-                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,0.0);
+                        if(isInside(m,alpha,nextNode)){
+                                p1=m.en.x!=0.0?Node((alpha/m.en.x),0.0):Node(1.0,alpha/m.en.y);
+                                p2=m.en.y!=0.0?Node(0.0,alpha/m.en.y):Node(alpha/m.en.x,1.0);
                                 intersectNode=InfiniteEdgeIntersection(Vec2(p1,p2), Vec2(currNode,nextNode), intersects);
                                 cutCellCoords.push_back(intersectNode);
                         };
@@ -645,7 +635,7 @@ wp Interface::enclosedArea(Vec2 m, wp alpha, std::vector<Node>cellCoords){
         
         };
 
-        return shoelaceArea(cutCellCoords);
+        return fabs(shoelaceArea(cutCellCoords));
 
 };
 
