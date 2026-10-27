@@ -9,7 +9,7 @@
 #include<algorithm>
 #include<unordered_map>
 
-#define wp long double
+#define wp double
 #define BIG 1E9
 #define SMALL 1E-15
 

@@ -79,11 +79,15 @@ void Integrator::integrate(){
        int notConvergedCounter;
 
         while(nSteps<maxSteps){
-               logger.log("Time step number: "+std::to_string(nSteps),LOGCODE);
+               logger.log("Time step number: "+std::to_string(nSteps),1);
                notConvergedCounter=0;
                for(int i=0;i<nSolvers;i++){
                         if(converged[i]) continue;
+
+                        solvers(i)->getResNorm();
+                        
                         notConvergedCounter++;
+
                         if(solvers(i)->getScheme().hasScheme(multigrid)){
                                 multigridController(solvers(i),1);
                         }
@@ -114,6 +118,7 @@ void Integrator::integrate(){
 };
 
 void Integrator::rk4(Solver *s){
+
 
         s->computeTimeStep(deltaT);
         s->QDot();
@@ -203,38 +208,85 @@ void Integrator::multigridController(Solver *s, int level){
 
 void Integrator::dumpSolution(Solver *s, int ID){
 
+        std::vector<std::string>nodalVariablesList;
+        std::vector<std::string>cellcenteredVariablesList;
+
+        for(auto key:s->vars.getKeys()){
+                if(s->vars[key].indexType[0]==NODE && s->vars[key].indexType[1]==NODE){
+                        nodalVariablesList.push_back(key);
+                };
+                if(s->vars[key].indexType[0]==CELL && s->vars[key].indexType[1]==CELL){
+                        cellcenteredVariablesList.push_back(key);
+                };
+        };
+
         std::ofstream outputfile("s_"+std::to_string(ID)+"_dump_"+std::to_string(dumpNumber)+".dat");
         
         outputfile<<"variables = x y z"<<std::endl;
-        int nVars=s->nVars;
+        int nVars=nodalVariablesList.size()+cellcenteredVariablesList.size();
 
         std::array<int,6> dims=s->mesh->size();
 
         int imx=dims[0];
         int jmx=dims[1];
 
-        for(auto key:s->vars.getKeys()){
+        for(auto key:nodalVariablesList){
                 outputfile<<key<<std::endl;       
         };
 
-        outputfile<<"zone T=block0000 i="<<std::to_string(imx)<<" j="<<std::to_string(jmx)<<" k="<<std::to_string(1)<<
-                " Datapacking=Block"<<std::endl;
-        outputfile<<"Varlocation=([1-"<<std::to_string(nVars+3)<<"]=Nodal)"<<std::endl;
-        outputfile<<"STRANDID="<<std::to_string(dumpNumber)<<std::endl;
-
-        for(int j=1;j<=jmx;j++){
-           for(int i=1;i<=imx;i++){
-                outputfile<<(*(s->getMesh()))(i,j).x<<"\t"<<(*(s->getMesh()))(i,j).y<<"\t"<<0.0<<std::endl;
-           }
+        for(auto key:cellcenteredVariablesList){
+                outputfile<<key<<std::endl;       
         };
 
-        for(int n=0;n<nVars;n++){
+        outputfile<<"zone T=block0000 i="<<std::to_string(imx)<<" j="<<std::to_string(jmx)<<" k="<<std::to_string(2)<<
+                " Datapacking=Block"<<std::endl;
+        outputfile<<"Varlocation=([1-"<<std::to_string(nodalVariablesList.size()+3)<<"]=Nodal)"<<std::endl;
+        outputfile<<"Varlocation=(["<<std::to_string(nodalVariablesList.size()+4)<<"-"<<
+        std::to_string(nodalVariablesList.size()+3+cellcenteredVariablesList.size())<<"]=CELLCENTERED)"<<std::endl;
+        outputfile<<"STRANDID="<<std::to_string(dumpNumber)<<std::endl;
+        outputfile<<"SOLUTIONTIME="<<std::to_string(dumpNumber)<<std::endl;
 
-           for(int j=1;j<=jmx;j++){
-              for(int i=1;i<=imx;i++){
-                   outputfile<<s->vars(n)(i,j)<<std::endl;
+        for(int k=1;k<=2;k++){
+                for(int j=1;j<=jmx;j++){
+                        for(int i=1;i<=imx;i++){
+                                outputfile<<(*(s->getMesh()))(i,j).x<<std::endl;
+                        }
+                };
+        };
+
+        for(int k=1;k<=2;k++){
+                for(int j=1;j<=jmx;j++){
+                        for(int i=1;i<=imx;i++){
+                                outputfile<<(*(s->getMesh()))(i,j).y<<std::endl;
+                        }
+                };
+        };
+
+        for(int k=1;k<=2;k++){
+                for(int j=1;j<=jmx;j++){
+                        for(int i=1;i<=imx;i++){
+                                outputfile<<k<<std::endl;
+                        }
+                };
+        };
+
+        for(auto key:nodalVariablesList){
+                for(int k=1;k<=2;k++){
+                        for(int j=1;j<=s->vars[key].intVect[1];j++){
+                                for(int i=1;i<=s->vars[key].intVect[0];i++){
+                                        outputfile<<s->vars[key](i,j)<<std::endl;
+                                };
+                        };
+                }; 
+        };
+
+        for(auto key:cellcenteredVariablesList){
+             for(int j=1;j<=s->vars[key].intVect[1];j++){
+              for(int i=1;i<=s->vars[key].intVect[0];i++){
+                   outputfile<<s->vars[key](i,j)<<std::endl;
               }
            };
+   
         };
 
         outputfile.close();

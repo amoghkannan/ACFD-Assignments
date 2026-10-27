@@ -427,24 +427,18 @@ std::vector<std::pair<int,wp>>Scheme::QUICKReconstruction(wp& massFlux){
 
 };
 
-void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, char dir){
+void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, std::pair<int,int>flags){
 
-        if(dir=='x'){
-                stateL(i,j)=var(i-1,j);
-                stateR(i,j)=var(i,j);
-        }
-        else if(dir=='y'){
-                stateL(i,j)=var(i,j-1);
-                stateR(i,j)=var(i,j);
-        };
+        stateL(i,j)=var(i-flags.first,j-flags.second);
+        stateR(i,j)=var(i,j);
 
 };
 
 
 //Flux calc schemes
-void Scheme::ausmFlux(dictionary<std::string,wp>& params, dictionary<std::string, wp>&zeroFluxBC, int i, int j,
-dictionary<std::string,Grid<wp>>&flux,dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
-Vec2& normal, char dir){
+void Scheme::ausmFlux(dictionary<std::string,wp>& params, std::pair<bool, bool>zeroFluxBC, Grid<Vec2>&normals,
+dictionary<std::string,Grid<wp>>&flux, dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR,
+std::pair<int,int>flags){
 
         Vec2 nHat;
         wp S;
@@ -456,65 +450,92 @@ Vec2& normal, char dir){
         wp DL,DR;
         wp cvlPlus,cvlMinus;
         wp h0L,h0R;
+        wp gm=params["GM"];
+        wp RGas=params["RGAS"];
 
-        S=normal.norm2();
-        nHat=normal/S;
+        Grid<wp>&rhoL=stateL["rho"];
+        Grid<wp>&uL=stateL["u"];
+        Grid<wp>&vL=stateL["v"];
+        Grid<wp>&pL=stateL["p"];
+        Grid<wp>&rhoR=stateR["rho"];
+        Grid<wp>&uR=stateR["u"];
+        Grid<wp>&vR=stateR["v"];
+        Grid<wp>&pR=stateR["p"];
 
-        cL=sqrt(params["GM"]*stateL["p"](i,j)/stateL["rho"](i,j));
-        cR=sqrt(params["GM"]*stateR["p"](i,j)/stateR["rho"](i,j));
-        cM=0.5*(cL+cR);
+        Grid<wp>&rhoFlux=flux["rho"];
+        Grid<wp>&uFlux=flux["u"];
+        Grid<wp>&vFlux=flux["v"];
+        Grid<wp>&pFlux=flux["p"];
 
-        contraVelL=nHat.dotProduct(Vec2(stateL["u"](i,j),stateL["v"](i,j)));
-        contraVelR=nHat.dotProduct(Vec2(stateR["u"](i,j),stateR["v"](i,j)));
-        ML=contraVelL/cM;
-        MR=contraVelR/cM;
+        for(int j=1;j<=uFlux.intVect[1];j++){
+                for(int i=1;i<=uFlux.intVect[0];i++){
 
-        alphaLPlus=0.5*(1.0+sign(ML));
-        alphaRMinus=0.5*(1.0-sign(MR));
+                        S=normals(i,j).norm2();
+                        nHat=normals(i,j)/S;
 
-        betaL=-std::max((wp)0.0,1.0-floor(fabs(ML)));
-        betaR=-std::max((wp)0.0,1.0-floor(fabs(MR)));
+                        cL=sqrt(gm*pL(i,j)/rhoL(i,j));
+                        cR=sqrt(gm*pR(i,j)/rhoR(i,j));
+                        cM=0.5*(cL+cR);
 
-        DLPlus=0.25*(1.0+ML)*(1.0+ML)*(2.0-ML);
-        DRMinus=0.25*(MR-1.0)*(MR-1.0)*(2.0+MR);
+                        contraVelL=nHat.dotProduct(Vec2(uL(i,j),vL(i,j)));
+                        contraVelR=nHat.dotProduct(Vec2(uR(i,j),vR(i,j)));
+                        ML=contraVelL/cM;
+                        MR=contraVelR/cM;
+                        
+                        alphaLPlus=0.5*(1.0+sign(ML));
+                        alphaRMinus=0.5*(1.0-sign(MR));
 
-        DL=alphaLPlus*(1.0+betaL)-betaL*DLPlus;
-        DR=alphaRMinus*(1.0+betaR)-betaR*DRMinus;
+                        betaL=-std::max((wp)0.0,1.0-floor(fabs(ML)));
+                        betaR=-std::max((wp)0.0,1.0-floor(fabs(MR)));
 
-        cvlPlus=alphaLPlus*(1.0+betaL)*ML-0.25*betaL*(1.0+ML)*(1.0+ML);
-        cvlMinus=alphaRMinus*(1.0+betaR)*MR+0.25*betaR*(MR-1.0)*(MR-1.0);
+                        DLPlus=0.25*(1.0+ML)*(1.0+ML)*(2.0-ML);
+                        DRMinus=0.25*(MR-1.0)*(MR-1.0)*(2.0+MR);
 
-        h0L=(params["GM"]/(params["GM"]-1.0))*stateL["p"](i,j)/stateL["rho"](i,j);
-        h0L=h0L+0.5*(pow(stateL["u"](i,j),2.0)+pow(stateL["v"](i,j),2.0));
+                        DL=alphaLPlus*(1.0+betaL)-betaL*DLPlus;
+                        DR=alphaRMinus*(1.0+betaR)-betaR*DRMinus;
 
-        h0R=(params["GM"]/(params["GM"]-1.0))*stateR["p"](i,j)/stateR["rho"](i,j);
-        h0R=h0R+0.5*(pow(stateR["u"](i,j),2.0)+pow(stateR["v"](i,j),2.0));
+                        cvlPlus=alphaLPlus*(1.0+betaL)*ML-0.25*betaL*(1.0+ML)*(1.0+ML);
+                        cvlMinus=alphaRMinus*(1.0+betaR)*MR+0.25*betaR*(MR-1.0)*(MR-1.0);
 
+                        h0L=(gm/(gm-1.0))*pL(i,j)/rhoL(i,j);
+                        h0L=h0L+0.5*(pow(uL(i,j),2.0)+pow(vL(i,j),2.0));
 
-        flux["rho"](i,j)=0.0;
-        flux["u"](i,j)=0.0;
-        flux["v"](i,j)=0.0;
-        flux["p"](i,j)=0.0;
+                        h0R=(gm/(gm-1.0))*pR(i,j)/rhoR(i,j);
+                        h0R=h0R+0.5*(pow(uR(i,j),2.0)+pow(vR(i,j),2.0));
 
-        if(dir='x' && i==1 && zeroFluxBC["BCW"]==0.0) goto pf;
-        if(dir='x' && i==flux["u"].intVect[0] && zeroFluxBC["BCE"]==0.0) goto pf;
-        if(dir='y' && j==1 && zeroFluxBC["BCS"]==0.0) goto pf;
-        if(dir='y' && j==flux["u"].intVect[1] && zeroFluxBC["BCN"]==0.0) goto pf;
+                        rhoFlux(i,j)=0.0;
+                        uFlux(i,j)=0.0;
+                        vFlux(i,j)=0.0;
+                        pFlux(i,j)=0.0;
 
-        flux["rho"](i,j)=flux["rho"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL;
-        flux["u"](i,j)=flux["u"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["u"](i,j);
-        flux["v"](i,j)=flux["v"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*stateL["v"](i,j);
-        flux["p"](i,j)=flux["p"](i,j)+S*stateL["rho"](i,j)*cvlPlus*cL*h0L;
+                        if(flags.first==1){
+                                if(i==1 && zeroFluxBC.first) goto pf;
+                                if(i==uFlux.intVect[0] && zeroFluxBC.second) goto pf;
 
-        flux["rho"](i,j)=flux["rho"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR;
-        flux["u"](i,j)=flux["u"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["u"](i,j);
-        flux["v"](i,j)=flux["v"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*stateR["v"](i,j);
-        flux["p"](i,j)=flux["p"](i,j)+S*stateR["rho"](i,j)*cvlMinus*cR*h0R;
+                        }
+                        else if(flags.second==1){
+                                if(j==1 && zeroFluxBC.first) goto pf;
+                                if(j==uFlux.intVect[1] && zeroFluxBC.second) goto pf;
+                        };
 
-        pf:
+                        rhoFlux(i,j)+=S*rhoL(i,j)*cvlPlus*cL;
+                        uFlux(i,j)+=S*rhoL(i,j)*cvlPlus*cL*uL(i,j);
+                        vFlux(i,j)+=S*rhoL(i,j)*cvlPlus*cL*vL(i,j);
+                        pFlux(i,j)+=S*rhoL(i,j)*cvlPlus*cL*h0L;
 
-        flux["u"](i,j)=flux["u"](i,j)+DL*stateL["p"](i,j)*normal.en.x;
-        flux["v"](i,j)=flux["v"](i,j)+DR*stateR["p"](i,j)*normal.en.y;
+                        rhoFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR;
+                        uFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR*uR(i,j);
+                        vFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR*vR(i,j);
+                        pFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR*h0R;
+
+                        pf:
+                        uFlux(i,j)=uFlux(i,j)+DL*pL(i,j)*normals(i,j).en.x;
+                        vFlux(i,j)=vFlux(i,j)+DR*pR(i,j)*normals(i,j).en.y;
+
+                };
+
+        };
+
 
 };
 

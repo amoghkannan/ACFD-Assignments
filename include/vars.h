@@ -131,7 +131,8 @@ std::array<int,6> Grid<T>::size(){
 
 template<typename T>
 T& Grid<T>::operator()(int i,int j){
-        
+       
+        #ifdef DEBUG
         if(i<1-box.bufW || i>intVect[0]+box.bufE){
                 std::cout<<"Invalid I index, exiting";
                 std::exit(-1);
@@ -141,6 +142,7 @@ T& Grid<T>::operator()(int i,int j){
                 std::cout<<"Invalid J index, exiting";
                 std::exit(-1);
         };
+        #endif
 
         return data[(j+box.bufS-1)*(intVect[0]+box.bufE+box.bufW)+i+box.bufW-1];
 };

@@ -115,12 +115,12 @@ static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
-void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, char dir);
+void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, std::pair<int,int>flags);
 
 //Flux calc schemes
-void ausmFlux(dictionary<std::string,wp>&params, dictionary<std::string, wp>&zeroFluxBC, int i, int j, 
-dictionary<std::string,Grid<wp>>&flux,dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
-Vec2& normal, char dir);
+void ausmFlux(dictionary<std::string,wp>&params, std::pair<bool,bool>zeroFluxBC, Grid<Vec2>&normals, 
+dictionary<std::string,Grid<wp>>&flux, dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
+std::pair<int,int>flags);
 
 ~Scheme(){
         if(a!=nullptr) delete[] a;
