@@ -43,7 +43,7 @@ bool isConverged() override;
 
 void reconstructStates();
 void computeFluxes();
-std::vector<wp>conservativeToPrimitive(std::vector<wp>qc, wp gm, wp RGas);
-std::vector<wp>primitiveToConservative(std::vector<wp>qp, wp gm, wp RGas);
+void conservativeToPrimitive(std::vector<wp>&qc, wp gm, wp RGas);
+void primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas);
 
 };

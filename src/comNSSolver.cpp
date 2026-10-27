@@ -205,26 +205,31 @@ void comNSSolver::applyBC(){
         dictionary<std::string,std::pair<int,int>>lo;
         dictionary<std::string,std::pair<int,int>>hi;
         dictionary<std::string,std::pair<int,int>>inc;
+        dictionary<std::string,std::pair<int,int>>inc1;
         dictionary<std::string,wp>sig;
      
         lo["BCW"]={1,1};
         hi["BCW"]={1,mesh->box.jmx-1};
         inc["BCW"]={-1,0};
+        inc1["BCW"]={0,0};
         sig["BCW"]=-1.0;
 
         lo["BCE"]={mesh->box.imx-1,1};
         hi["BCE"]={mesh->box.imx-1,mesh->box.jmx-1};
         inc["BCE"]={1,0};
+        inc1["BCE"]={1,0};
         sig["BCE"]=1.0;
 
         lo["BCS"]={1,1};
         hi["BCS"]={mesh->box.imx-1,1};
         inc["BCS"]={0,-1};
+        inc1["BCS"]={0,0};
         sig["BCS"]=-1.0;
 
         lo["BCN"]={1,mesh->box.jmx-1};
         hi["BCN"]={mesh->box.imx-1,mesh->box.jmx-1};
         inc["BCN"]={0,1};
+        inc1["BCN"]={0,1};
         sig["BCN"]=1.0;
 
         zeroFluxBC["BCS"]=false;
@@ -242,8 +247,20 @@ void comNSSolver::applyBC(){
         Grid<wp>&u=vars["u"];
         Grid<wp>&v=vars["v"];
         Grid<wp>&p=vars["p"];
+        Grid<Vec2>*normals;
 
         for(auto key:globalBCDict.getKeys()){
+
+                std::pair<int,int>incC=inc[key];
+                std::pair<int,int>incN=inc1[key];
+
+                if(key=="BCW" || key=="BCE"){
+                        normals=&(mesh->normalsI);
+                }
+                else if(key=="BCS" || key=="BCN"){
+                        normals=&(mesh->normalsJ);
+                };
+
                 if(globalBCDict[key]=="SLIPWALL"){
                        
                         zeroFluxBC[key]=true;
@@ -253,45 +270,20 @@ void comNSSolver::applyBC(){
 
                                         uTemp=u(i,j);
                                         vTemp=v(i,j);
-                                        
-                                        if(key=="BCW"){
-                                                S=mesh->normalsI(i,j).norm2();
-                                                nHat=mesh->normalsI(i,j)/S;
-                                                pHat=Vec2((*mesh)(i,j+1).x-(*mesh)(i,j).x,
-                                                          (*mesh)(i,j+1).y-(*mesh)(i,j).y);
-                                                pHat=pHat/S;
-                                        }
-                                        else if(key=="BCE"){
-                                                S=mesh->normalsI(i+1,j).norm2();
-                                                nHat=mesh->normalsI(i+1,j)/S;
-                                                pHat=Vec2((*mesh)(i+1,j+1).x-(*mesh)(i+1,j).x,
-                                                          (*mesh)(i+1,j+1).y-(*mesh)(i+1,j).y);
-                                                pHat=pHat/S;
-                                        }
-                                        else if(key=="BCS"){
-                                                S=mesh->normalsJ(i,j).norm2();
-                                                nHat=mesh->normalsJ(i,j)/S;
-                                                pHat=Vec2((*mesh)(i+1,j).x-(*mesh)(i,j).x,
-                                                          (*mesh)(i+1,j).y-(*mesh)(i,j).y);
-                                                pHat=pHat/S;
-                                        }
-                                        else if(key=="BCN"){
-                                                S=mesh->normalsJ(i,j+1).norm2();
-                                                nHat=mesh->normalsJ(i,j+1)/S;
-                                                pHat=Vec2((*mesh)(i+1,j+1).x-(*mesh)(i,j+1).x,
-                                                          (*mesh)(i+1,j+1).y-(*mesh)(i,j+1).y);
-                                                pHat=pHat/S;
-                                        };
+                                       
+                                        S=(*normals)(i,j).norm2();
+                                        nHat=(*normals)(i,j)/S;
+                                        pHat=Vec2(nHat.en.y,-nHat.en.x);
 
                                         velNormal=Vec2(uTemp,vTemp).dotProduct(nHat);
                                         velParallel=Vec2(uTemp,vTemp).dotProduct(pHat);
 
                                         velNet=(pHat*velParallel)-(nHat*velNormal);
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rho(i,j);
-                                        u(i+inc[key].first,j+inc[key].second)=velNet.en.x;
-                                        v(i+inc[key].first,j+inc[key].second)=velNet.en.y;
-                                        p(i+inc[key].first,j+inc[key].second)=p(i,j);
+                                        rho(i+incC.first,j+incC.second)=rho(i,j);
+                                        u(i+incC.first,j+incC.second)=velNet.en.x;
+                                        v(i+incC.first,j+incC.second)=velNet.en.y;
+                                        p(i+incC.first,j+incC.second)=p(i,j);
 
                                 };
                         };
@@ -305,10 +297,10 @@ void comNSSolver::applyBC(){
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rho(i,j);
-                                        u(i+inc[key].first,j+inc[key].second)=-u(i,j);
-                                        v(i+inc[key].first,j+inc[key].second)=-v(i,j);
-                                        p(i+inc[key].first,j+inc[key].second)=p(i,j);
+                                        rho(i+incC.first,j+incC.second)=rho(i,j);
+                                        u(i+incC.first,j+incC.second)=-u(i,j);
+                                        v(i+incC.first,j+incC.second)=-v(i,j);
+                                        p(i+incC.first,j+incC.second)=p(i,j);
 
                                 };
                         };
@@ -325,10 +317,10 @@ void comNSSolver::applyBC(){
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rhoIn;
-                                        u(i+inc[key].first,j+inc[key].second)=uIn;
-                                        v(i+inc[key].first,j+inc[key].second)=vIn;
-                                        p(i+inc[key].first,j+inc[key].second)=pIn;
+                                        rho(i+incC.first,j+incC.second)=rhoIn;
+                                        u(i+incC.first,j+incC.second)=uIn;
+                                        v(i+incC.first,j+incC.second)=vIn;
+                                        p(i+incC.first,j+incC.second)=pIn;
 
                                 };
                         };
@@ -340,10 +332,10 @@ void comNSSolver::applyBC(){
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rho(i,j);
-                                        u(i+inc[key].first,j+inc[key].second)=u(i,j);
-                                        v(i+inc[key].first,j+inc[key].second)=v(i,j);
-                                        p(i+inc[key].first,j+inc[key].second)=p(i,j);
+                                        rho(i+incC.first,j+incC.second)=rho(i,j);
+                                        u(i+incC.first,j+incC.second)=u(i,j);
+                                        v(i+incC.first,j+incC.second)=v(i,j);
+                                        p(i+incC.first,j+incC.second)=p(i,j);
 
                                 };
                         };
@@ -359,10 +351,10 @@ void comNSSolver::applyBC(){
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rhoIn;
-                                        u(i+inc[key].first,j+inc[key].second)=uIn;
-                                        v(i+inc[key].first,j+inc[key].second)=vIn;
-                                        p(i+inc[key].first,j+inc[key].second)=p(i,j);
+                                        rho(i+incC.first,j+incC.second)=rhoIn;
+                                        u(i+incC.first,j+incC.second)=uIn;
+                                        v(i+incC.first,j+incC.second)=vIn;
+                                        p(i+incC.first,j+incC.second)=p(i,j);
 
                                 };
                         };
@@ -376,10 +368,10 @@ void comNSSolver::applyBC(){
                         for(int j=lo[key].second;j<=hi[key].second;j++){
                                 for(int i=lo[key].first;i<=hi[key].first;i++){
 
-                                        rho(i+inc[key].first,j+inc[key].second)=rho(i,j);
-                                        u(i+inc[key].first,j+inc[key].second)=u(i,j);
-                                        v(i+inc[key].first,j+inc[key].second)=v(i,j);
-                                        p(i+inc[key].first,j+inc[key].second)=pIn;
+                                        rho(i+incC.first,j+incC.second)=rho(i,j);
+                                        u(i+incC.first,j+incC.second)=u(i,j);
+                                        v(i+incC.first,j+incC.second)=v(i,j);
+                                        p(i+incC.first,j+incC.second)=pIn;
 
                                 };
                         };
@@ -506,20 +498,22 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qp={rho(i,j),u(i,j),v(i,j),p(i,j)};
-                        qc=primitiveToConservative(qp,gm,RGas);
+                        primitiveToConservative(qp,gm,RGas);
 
-                        rho(i,j)=qc[0];
-                        u(i,j)=qc[1];
-                        v(i,j)=qc[2];
-                        p(i,j)=qc[3];
+                        rho(i,j)=qp[0];
+                        u(i,j)=qp[1];
+                        v(i,j)=qp[2];
+                        p(i,j)=qp[3];
 
                 };
         };
 
         for(auto key:keys){
+                Grid<wp>&currVar=vars[key];
+                Grid<wp>&currVarsDot=varsDot[key];
                 for(int j=1;j<=vars["u"].intVect[1];j++){
                         for(int i=1;i<=vars["u"].intVect[0];i++){
-                                vars[key](i,j)=vars[key](i,j)+varsDot[key](i,j)*(dt(i,j)*storeFactor);
+                                currVar(i,j)+=currVarsDot(i,j)*(dt(i,j)*storeFactor);
                         };
 
                 };
@@ -528,12 +522,12 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
-                        qp=conservativeToPrimitive(qc,gm,RGas);
+                        conservativeToPrimitive(qc,gm,RGas);
 
-                        rho(i,j)=qp[0];
-                        u(i,j)=qp[1];
-                        v(i,j)=qp[2];
-                        p(i,j)=qp[3];
+                        rho(i,j)=qc[0];
+                        u(i,j)=qc[1];
+                        v(i,j)=qc[2];
+                        p(i,j)=qc[3];
 
                 };
         };
@@ -557,17 +551,19 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
-                        qc=primitiveToConservative(qp,gm,RGas);
+                        primitiveToConservative(qp,gm,RGas);
 
-                        rho(i,j)=qc[0];
-                        u(i,j)=qc[1];
-                        v(i,j)=qc[2];
-                        p(i,j)=qc[3];
+                        rho(i,j)=qp[0];
+                        u(i,j)=qp[1];
+                        v(i,j)=qp[2];
+                        p(i,j)=qp[3];
 
                 };
         };
 
         for(auto key:keys){
+                Grid<wp>&currVar=vars[key];
+                Grid<wp>&currVarsDot=varsDot[key];
                 for(int j=1;j<=vars["u"].intVect[1];j++){
                         for(int i=1;i<=vars["u"].intVect[0];i++){
                                 vars[key](i,j)=vars[key](i,j)+varsDot[key](i,j)*(dt(i,j)*storeFactor);
@@ -579,12 +575,12 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
-                        qp=conservativeToPrimitive(qc,gm,RGas);
+                        conservativeToPrimitive(qc,gm,RGas);
 
-                        rho(i,j)=qp[0];
-                        u(i,j)=qp[1];
-                        v(i,j)=qp[2];
-                        p(i,j)=qp[3];
+                        rho(i,j)=qc[0];
+                        u(i,j)=qc[1];
+                        v(i,j)=qc[2];
+                        p(i,j)=qc[3];
 
                 };
         };
@@ -608,21 +604,22 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
-                        qc=primitiveToConservative(qp,gm,RGas);
+                        primitiveToConservative(qp,gm,RGas);
 
-                        rho(i,j)=qc[0];
-                        u(i,j)=qc[1];
-                        v(i,j)=qc[2];
-                        p(i,j)=qc[3];
+                        rho(i,j)=qp[0];
+                        u(i,j)=qp[1];
+                        v(i,j)=qp[2];
+                        p(i,j)=qp[3];
 
                 };
         };
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
 
-                        for(int n=0;n<keys.size();n++){
-                                vars[keys[n]](i,j)=vars[keys[n]](i,j)+rStore[n](i,j)*(dt(i,j)*storeFactor);
+        for(int n=0;n<keys.size();n++){
+                Grid<wp>&currVar=vars[keys[n]];
+                for(int j=1;j<=vars["u"].intVect[1];j++){
+                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                                currVar(i,j)=currVar(i,j)+rStore[n](i,j)*(dt(i,j)*storeFactor);
                         };
 
                 };
@@ -631,12 +628,12 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(int j=1;j<=vars["u"].intVect[1];j++){
                 for(int i=1;i<=vars["u"].intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
-                        qp=conservativeToPrimitive(qc,gm,RGas);
+                        conservativeToPrimitive(qc,gm,RGas);
 
-                        rho(i,j)=qp[0];
-                        u(i,j)=qp[1];
-                        v(i,j)=qp[2];
-                        p(i,j)=qp[3];
+                        rho(i,j)=qc[0];
+                        u(i,j)=qc[1];
+                        v(i,j)=qc[2];
+                        p(i,j)=qc[3];
 
                 };
         };
@@ -711,19 +708,26 @@ void comNSSolver::reconstructStates(){
         std::vector<std::string>keys=vars.getKeys();
 
         if(scheme.getScheme(stateReconstruction)==NONE){
-                
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0]+1;i++){
-                                for(auto key:keys){ 
-                                        scheme.defaultReconstruction(vars[key],x_qp_left[key],x_qp_right[key],i,j,{1,0});
+               
+               for(auto key:keys){
+                        Grid<wp>&currVar=vars[key];
+                        Grid<wp>&currStateL=x_qp_left[key];
+                        Grid<wp>&currStateR=x_qp_right[key];
+                        for(int j=1;j<=vars["u"].intVect[1];j++){
+                                for(int i=1;i<=vars["u"].intVect[0]+1;i++){
+                                        scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{1,0});
                                 };
                         };
                 };
+                
 
-                for(int j=1;j<=vars["u"].intVect[1]+1;j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
-                                for(auto key:keys){ 
-                                        scheme.defaultReconstruction(vars[key],y_qp_left[key],y_qp_right[key],i,j,{0,1});
+                for(auto key:keys){
+                        Grid<wp>&currVar=vars[key];
+                        Grid<wp>&currStateL=y_qp_left[key];
+                        Grid<wp>&currStateR=y_qp_right[key];
+                        for(int j=1;j<=vars["u"].intVect[1]+1;j++){
+                                for(int i=1;i<=vars["u"].intVect[0];i++){
+                                        scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{0,1});
                                 };
                         };
                 };
@@ -743,35 +747,30 @@ void comNSSolver::computeFluxes(){
 
 };
 
-std::vector<wp> comNSSolver::conservativeToPrimitive(std::vector<wp>qc, wp gm, wp RGas){
-        std::vector<wp>qp;
-        qp.resize(4);
-
+void comNSSolver::conservativeToPrimitive(std::vector<wp>&qc, wp gm, wp RGas){
+        
         wp cvT;
+        
+        qc[1]=qc[1]/qc[0];
+        qc[2]=qc[2]/qc[0];
+        cvT=(qc[3]/qc[0])-0.5*(qc[1]*qc[1]+qc[2]*qc[2]);
+        qc[3]=qc[0]*cvT*(gm-1.0);
 
-        qp[0]=qc[0];
-        qp[1]=qc[1]/qc[0];
-        qp[2]=qc[2]/qc[0];
-        cvT=(qc[3]/qc[0])-0.5*(qp[1]*qp[1]+qp[2]*qp[2]);
-        qp[3]=qp[0]*cvT*(gm-1.0);
-
-        return qp;
 
 };
 
-std::vector<wp> comNSSolver::primitiveToConservative(std::vector<wp>qp, wp gm, wp RGas){
-        std::vector<wp>qc;
-        qc.resize(4);
-
+void comNSSolver::primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas){
+        
         wp T;
 
-        qc[0]=qp[0];
-        qc[1]=qp[0]*qp[1];
-        qc[2]=qp[0]*qp[2];
-        T=qp[3]/(RGas*qp[0]);
-        qc[3]=qp[0]*((RGas/(gm-1.0))*T+0.5*(qp[1]*qp[1]+qp[2]*qp[2]));
+        wp u=qp[1];
+        wp v=qp[2];
 
-        return qc;
+        qp[1]=qp[0]*qp[1];
+        qp[2]=qp[0]*qp[2];
+        T=qp[3]/(RGas*qp[0]);
+        qp[3]=qp[0]*((RGas/(gm-1.0))*T+0.5*(u*u+v*v));
+
 
 };
 
