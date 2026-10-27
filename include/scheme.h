@@ -28,6 +28,7 @@ enum schemeKey{
         stateReconstruction,
         fluxCalc,
         PVCoupling,
+        interfaceConfig,
         invalidSchemeKey
 };
 
@@ -49,6 +50,9 @@ enum schemeVal{
         AUSM,
         SIMPLE,
         PISO,
+        IBM,
+        VOF,
+        LEVELSET,
         INVALIDSCHEMEVAL
 };
 

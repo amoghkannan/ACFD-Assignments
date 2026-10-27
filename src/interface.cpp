@@ -1,23 +1,50 @@
 #include"interface.h"
 
-Interface::Interface(icoNSSolver& s_){
+Interface::Interface(Solver& s_){
         logger.log("Initializing interface",1);
 
         s=&s_;
-        readInInterface();
         setMesh(*s->mesh);
 
-        IFaceContraVel=&(s->IFaceContraVel);
-        JFaceContraVel=&(s->JFaceContraVel);
-
-        setVar("phi",{CELL,CELL});
-        setVar("f",{CELL,CELL});
+        std::ifstream infile("interface.dat");
        
-        normals=Grid<Vec2>(mesh->box,{CELL,CELL});
-        alphas=Grid<wp>(mesh->box,{CELL,CELL});
+        std::string data,data1,data2;
+        wp dataNum;
 
-        F=Grid<wp>(mesh->box,{NODE,CELL});
-        G=Grid<wp>(mesh->box,{CELL,NODE});
+        logger.log("Reading input files",1);
+        while(infile>>data){
+                if(data.front()=='#') continue;
+                
+                if(data=="INTERFACECONFIG"){
+                                logger.log("Reading interface configuration",1);
+                                while(infile>>data){
+                                        if(data.front()=='#') break;
+                                        infile>>data1;
+                                        setScheme(StringToschemeKey(data),StringToschemeVal(data1));
+                                };
+                }
+        };
+
+        infile.close();
+
+        readInInterface();
+        
+        setVar("phi",{CELL,CELL});
+        
+        if(scheme.getScheme(interfaceConfig)==VOF){
+                setVar("f",{CELL,CELL});
+                normals=Grid<Vec2>(mesh->box,{CELL,CELL});
+                alphas=Grid<wp>(mesh->box,{CELL,CELL});
+                F=Grid<wp>(mesh->box,{NODE,CELL});
+                G=Grid<wp>(mesh->box,{CELL,NODE});
+        }
+        else if(scheme.getScheme(interfaceConfig)==IBM){
+                vars["phi"].initVal(BIG);
+                cellClass=Grid<int>(mesh->box,{CELL,CELL});
+                computeLevelSet();
+                classifyCells();
+                IDBandCells();
+        };
 
         logger.log("Finished interface setup",1);
 };
@@ -75,13 +102,15 @@ IBDistStat Interface::IBLineDist(Node nd, int idx){
         return ans;
 };
 
-wp Interface::nearestIBLineDist(Node nd){
+std::tuple<wp,int,Vec2> Interface::nearestIBLineDist(Node nd){
 
         IBDistStat ans;
         
         IBDistStat currAns(0.0,0.0,BIG,Node(0.0,0.0));
         int currIdx=-1;
 
+        std::tuple<wp,int,Vec2>ret;
+        
         for(int i=0;i<nIB;i++){
                 ans=IBLineDist(nd,i);
 
@@ -91,6 +120,9 @@ wp Interface::nearestIBLineDist(Node nd){
                 };
         };
 
+        std::get<0>(ret)=currAns.beta;
+        std::get<1>(ret)=currIdx;
+        std::get<2>(ret)=iblines[currIdx].n;
 
         if(currAns.alpha<0.0 || currAns.alpha>1.0){ //Need for pseudonormal
 
@@ -107,7 +139,11 @@ wp Interface::nearestIBLineDist(Node nd){
 
                 if(altAns.dist==currAns.dist && altAns.alpha>=0.0 && altAns.alpha<=1.0){ //TODO: Check whether bug in FEST3D too
                         currAns=altAns;
-                        return currAns.beta;
+                        std::get<0>(ret)=currAns.beta;
+                        std::get<1>(ret)=idx2;
+                        std::get<2>(ret)=iblines[idx2].n;
+
+                        return ret;
                 };
 
                 nl=(iblines[idx1].n+iblines[idx2].n)*0.5;
@@ -128,10 +164,13 @@ wp Interface::nearestIBLineDist(Node nd){
 
                 currAns.beta=currAns.dist*currAns.beta/fabs(currAns.beta);
 
+                std::get<0>(ret)=currAns.beta;
+                std::get<1>(ret)=currIdx;
+                std::get<2>(ret)=nl;
+
         };
 
-        return currAns.beta;
-
+        return ret;
 };
 
 void Interface::computeLevelSet(){
@@ -160,11 +199,74 @@ void Interface::computeLevelSet(){
                 for(int i=1;i<=vars["phi"].intVect[0];i++){
                        cc=mesh->cc(i,j);
                        if(cc.x>=xMin && cc.x<=xMax && cc.y>=yMin && cc.y<=yMax){
-                                vars["phi"](i,j)=nearestIBLineDist(cc);
+                                auto ret=nearestIBLineDist(cc);
+                                vars["phi"](i,j)=std::get<0>(ret);
                        }
                        else{
                                 vars["phi"](i,j)=BIG;
                        };
+                };
+        };
+
+};
+
+void Interface::classifyCells(){
+       
+        Grid<wp>&phi=vars["phi"];
+
+        for(int j=1;j<=vars["phi"].intVect[1];j++){
+                for(int i=1;i<=vars["phi"].intVect[0];i++){
+                        if(phi(i,j)>=0.0) cellClass(i,j)=0;
+                        if(phi(i,j)<0.0) cellClass(i,j)=-1;
+                };
+        };
+
+};
+
+void Interface::IDBandCells(){
+        
+        IBDistStat stat;
+
+        for(int j=1;j<=cellClass.intVect[1];j++){
+                for(int i=1;i<=cellClass.intVect[0];i++){
+                        
+                        bool fieldNeighbour=false;
+
+                        if(cellClass(i,j)==-1){
+
+                                if(cellClass(i-1,j)==0){
+                                        fieldNeighbour=true;
+                                        auto ret=nearestIBLineDist(((*mesh)(i,j)+(*mesh)(i,j+1))*0.5);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i-1,j,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'x'));
+                                };
+
+                                if(cellClass(i+1,j)==0){
+                                        fieldNeighbour=true;
+                                        auto ret=nearestIBLineDist(((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i+1,j,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'x'));
+                                };
+        
+                                if(cellClass(i,j-1)==0){
+                                        fieldNeighbour=true;
+                                        auto ret=nearestIBLineDist(((*mesh)(i,j)+(*mesh)(i+1,j))*0.5);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j-1,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'y'));
+                                };
+
+                                if(cellClass(i,j+1)==0){
+                                        fieldNeighbour=true;
+                                        auto ret=nearestIBLineDist(((*mesh)(i,j+1)+(*mesh)(i+1,j+1))*0.5);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j+1,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'y'));
+                                };
+                
+                                if(fieldNeighbour){
+                                       cellClass(i,j)=-2;
+                                       bandcells.emplace_back(interfaceCell(i,j)); 
+                                }
+                                else{
+                                       interiorcells.emplace_back(interfaceCell(i,j)); 
+                                };
+
+                        };
                 };
         };
 
@@ -645,27 +747,6 @@ void Interface::initialCondition(){
         computeLevelSet();
 
         initializeVolumeFractionField();
-
-        std::ofstream outfile("levelSet.dat");
-        for(int j=1;j<=vars["phi"].intVect[1];j++){
-                for(int i=1;i<=vars["phi"].intVect[0];i++){
-                        if(vars["phi"](i,j)==BIG) continue;
-                        outfile<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<vars["phi"](i,j)<<std::endl;
-                };
-                outfile<<std::endl;
-        };
-
-        outfile.close();
-
-        std::ofstream outfile1("volumeFraction.dat");
-        for(int j=1;j<=vars["f"].intVect[1];j++){
-                for(int i=1;i<=vars["f"].intVect[0];i++){
-                        outfile1<<(*mesh)(i,j).x<<"\t"<<(*mesh)(i,j).y<<"\t"<<vars["f"](i,j)<<std::endl;
-                };
-                outfile1<<std::endl;
-        };
-
-        outfile1.close();
 
         PLIC();
 

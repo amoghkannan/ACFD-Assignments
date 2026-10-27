@@ -38,6 +38,8 @@ schemeKey StringToschemeKey(std::string str){
 
         if(str=="PVCoupling") return PVCoupling;
 
+        if(str=="interfaceConfig") return interfaceConfig;
+
         logger.log("Invalid scheme key",1);
         return invalidSchemeKey;
 };
@@ -72,6 +74,12 @@ schemeVal StringToschemeVal(std::string str){
         if(str=="SIMPLE") return SIMPLE;
 
         if(str=="PISO") return PISO;
+
+        if(str=="IBM") return IBM;
+
+        if(str=="VOF") return VOF;
+
+        if(str=="LEVELSET") return LEVELSET;
 
         logger.log("Invalid scheme val",1);
         return INVALIDSCHEMEVAL;

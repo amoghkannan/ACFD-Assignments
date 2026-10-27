@@ -14,6 +14,25 @@ struct interfaceLine{
         interfaceLine(Vec2 l_, Vec2 n_): l(l_),n(n_){};
 };
 
+struct interfaceCell{
+        int i,j;
+
+        interfaceCell(int i_, int j_): i(i_),j(j_){};
+};
+
+struct interfaceFace{
+        int bandcellI,bandcellJ;
+        int fieldcellI,fieldcellJ;
+        int nearestIBLineInd;
+        wp nearestIBLineDist;
+        Vec2 n;
+        char faceType;
+        
+        interfaceFace(int bI,int bJ,int fI,int fJ,wp nIBD,int nIB,Vec2 n_,char fT):
+        bandcellI(bI),bandcellJ(bJ),fieldcellI(fI),fieldcellJ(fJ),nearestIBLineDist(nIBD),nearestIBLineInd(nIB),n(n_),faceType(fT){};
+
+};
+
 struct IBDistStat{
         wp alpha;
         wp beta;
@@ -36,13 +55,17 @@ private:
 int nIB;
 
 std::vector<interfaceLine>iblines;
+std::vector<interfaceCell>bandcells;
+std::vector<interfaceCell>interiorcells;
+std::vector<interfaceFace>bandfaces;
+
 Grid<Vec2>normals; //Normals to interface
 Grid<wp>alphas; //Positions of interface
 Grid<wp>F; //Fluxes on I faces
 Grid<wp>G; //FLuxes on J faces
 Grid<int>cellClass;
 
-icoNSSolver *s;
+Solver *s;
 Grid<wp> *IFaceContraVel;
 Grid<wp> *JFaceContraVel;
 
@@ -51,12 +74,14 @@ std::string ibFile="ib.dat";
 
 public:
 
-Interface(icoNSSolver&);
+Interface(Solver&);
 void readInInterface();
 void readMesh(Mesh&);
 IBDistStat IBLineDist(Node nd, int idx);
-wp nearestIBLineDist(Node nd);
+std::tuple<wp,int,Vec2> nearestIBLineDist(Node nd); //Nearest ibline (signed) dist, index, normal
 void computeLevelSet();
+void classifyCells();
+void IDBandCells();
 Node InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects);
 wp shoelaceArea(std::vector<Node>nds);
 bool isLeft(Node nd, Vec2 seg);
