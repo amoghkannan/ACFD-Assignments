@@ -45,6 +45,29 @@ Interface::Interface(Solver& s_){
                 computeLevelSet();
                 classifyCells();
                 IDBandCells();
+
+                std::ofstream outfile1("sdf.dat");
+                for(int j=1;j<=cellClass.intVect[1];j++){
+                        for(int i=1;i<=cellClass.intVect[0];i++){
+                                outfile1<<i<<"\t"<<j<<"\t"<<vars["phi"](i,j)<<std::endl;        
+                        };
+                };
+                outfile1.close();
+
+                std::ofstream outfile2("cell_class.dat");
+                for(int j=1;j<=cellClass.intVect[1];j++){
+                        for(int i=1;i<=cellClass.intVect[0];i++){
+                                outfile2<<i<<"\t"<<j<<"\t"<<cellClass(i,j)<<std::endl;        
+                        };
+                };
+                outfile2.close();
+
+                std::ofstream outfile3("bandfaces.dat");
+                for(auto face:bandfaces){
+                                outfile3<<face.fc.x<<"\t"<<face.fc.y<<"\t"<<face.stat.n.en.x<<"\t"<<face.stat.n.en.y<<std::endl;        
+                };
+                outfile3.close();
+
         };
 
         logger.log("Finished interface setup",1);
@@ -121,7 +144,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
         };
 
         nearestIBStat ret;
-        ret.dist=currAns.dist*currAns.beta;
+        ret.dist=currAns.dist*currAns.beta/(fabs(currAns.beta)+SMALL);
         ret.touchPoint=currAns.touchPoint;
         ret.nearestIBLineInd=currIdx;
         ret.n=iblines[currIdx].n;
@@ -141,7 +164,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
 
                 if(altAns.dist==currAns.dist && altAns.alpha>=0.0 && altAns.alpha<=1.0){ //TODO: Check whether bug in FEST3D too
                         currAns=altAns;
-                        ret.dist=currAns.dist*currAns.beta;
+                        ret.dist=currAns.dist*currAns.beta/(fabs(currAns.beta)+SMALL);
                         ret.touchPoint=currAns.touchPoint;
                         ret.nearestIBLineInd=idx2;
                         ret.n=iblines[idx2].n;
@@ -165,7 +188,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
                 
                 currAns.beta=nl.dotProduct(Vec2(currAns.touchPoint,nd));
 
-                currAns.beta=currAns.dist*currAns.beta/fabs(currAns.beta);
+                currAns.beta=currAns.dist*currAns.beta/(fabs(currAns.beta)+SMALL);
 
                 ret.dist=currAns.dist*currAns.beta;
                 ret.touchPoint=currAns.touchPoint;
@@ -238,28 +261,28 @@ void Interface::IDBandCells(){
 
                         if(cellClass(i,j)==-1){
 
-                                if(cellClass(i-1,j)==0){
+                                if(cellClass(i-1,j)==0 && i-1>=1){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j)+(*mesh)(i,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
                                         bandfaces.emplace_back(interfaceFace(i,j,i-1,j,i,j,fc,'x',ret));
                                 };
 
-                                if(cellClass(i+1,j)==0){
+                                if(cellClass(i+1,j)==0 && i+1>=cellClass.intVect[0]){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
                                         bandfaces.emplace_back(interfaceFace(i,j,i+1,j,i+1,j,fc,'x',ret));
                                 };
         
-                                if(cellClass(i,j-1)==0){
+                                if(cellClass(i,j-1)==0 && j-1>=1){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j)+(*mesh)(i+1,j))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
                                         bandfaces.emplace_back(interfaceFace(i,j,i,j-1,i,j,fc,'y',ret));
                                 };
 
-                                if(cellClass(i,j+1)==0){
+                                if(cellClass(i,j+1)==0 && j+1<=cellClass.intVect[1]){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j+1)+(*mesh)(i+1,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
@@ -427,7 +450,7 @@ dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l)
                pAvg=0.0;
                rhoAvg=0.0;
 
-               if(cellClass(icell-1,jcell)==0){
+               if(cellClass(icell-1,jcell)==0 && icell-1>=1){
                         uAvg=uAvg+2.0*uxL(icell,jcell)-u(icell-1,jcell);
                         vAvg=vAvg+2.0*vxL(icell,jcell)-v(icell-1,jcell);
                         pAvg=pAvg+p(icell-1,jcell);
@@ -435,7 +458,7 @@ dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l)
                         counter=counter+1;
                };
 
-               if(cellClass(icell+1,jcell)==0){
+               if(cellClass(icell+1,jcell)==0 && icell+1<=u.intVect[0]){
                         uAvg=uAvg+2.0*uxL(icell+1,jcell)-u(icell+1,jcell);
                         vAvg=vAvg+2.0*vxL(icell+1,jcell)-v(icell+1,jcell);
                         pAvg=pAvg+p(icell+1,jcell);
@@ -443,7 +466,7 @@ dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l)
                         counter=counter+1;
                };
 
-               if(cellClass(icell,jcell-1)==0){
+               if(cellClass(icell,jcell-1)==0 && jcell-1>=1){
                         uAvg=uAvg+2.0*uyL(icell,jcell)-u(icell,jcell-1);
                         vAvg=vAvg+2.0*vyL(icell,jcell)-v(icell,jcell-1);
                         pAvg=pAvg+p(icell,jcell-1);
@@ -451,7 +474,7 @@ dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l)
                         counter=counter+1;
                };
 
-               if(cellClass(icell,jcell+1)==0){
+               if(cellClass(icell,jcell+1)==0 && jcell+1<=u.intVect[1]){
                         uAvg=uAvg+2.0*uyL(icell,jcell+1)-u(icell,jcell+1);
                         vAvg=vAvg+2.0*vyL(icell,jcell+1)-v(icell,jcell+1);
                         pAvg=pAvg+p(icell,jcell+1);

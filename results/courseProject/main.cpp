@@ -17,7 +17,7 @@ int main(void){
         std::ofstream outfile("out.dat");
         for(int j=1;j<=solver.vars["u"].intVect[1];j++){
                 for(int i=1;i<=solver.vars["u"].intVect[0];i++){
-                        outfile<<i<<"\t"<<j<<"\t"<<solver.vars["rho"](i,j)<<std::endl;        
+                        outfile<<i<<"\t"<<j<<"\t"<<In.cellClass(i,j)<<std::endl;        
                 };
                 outfile<<std::endl;
         };
