@@ -15,7 +15,7 @@ Interface::Interface(Solver& s_){
         while(infile>>data){
                 if(data.front()=='#') continue;
                 
-                if(data=="INTERFACECONFIG"){
+                if(data=="CONFIG"){
                                 logger.log("Reading interface configuration",1);
                                 while(infile>>data){
                                         if(data.front()=='#') break;
@@ -41,12 +41,14 @@ Interface::Interface(Solver& s_){
         else if(scheme.getScheme(interfaceConfig)==IBM){
                 vars["phi"].initVal(BIG);
                 cellClass=Grid<int>(mesh->box,{CELL,CELL});
+                cellClass.initVal(0);
                 computeLevelSet();
                 classifyCells();
                 IDBandCells();
         };
 
         logger.log("Finished interface setup",1);
+
 };
 
 void Interface::readInInterface(){
@@ -102,15 +104,13 @@ IBDistStat Interface::IBLineDist(Node nd, int idx){
         return ans;
 };
 
-std::tuple<wp,int,Vec2> Interface::nearestIBLineDist(Node nd){
+nearestIBStat Interface::nearestIBLineDist(Node nd){
 
         IBDistStat ans;
         
         IBDistStat currAns(0.0,0.0,BIG,Node(0.0,0.0));
         int currIdx=-1;
 
-        std::tuple<wp,int,Vec2>ret;
-        
         for(int i=0;i<nIB;i++){
                 ans=IBLineDist(nd,i);
 
@@ -120,9 +120,11 @@ std::tuple<wp,int,Vec2> Interface::nearestIBLineDist(Node nd){
                 };
         };
 
-        std::get<0>(ret)=currAns.beta;
-        std::get<1>(ret)=currIdx;
-        std::get<2>(ret)=iblines[currIdx].n;
+        nearestIBStat ret;
+        ret.dist=currAns.dist;
+        ret.touchPoint=currAns.touchPoint;
+        ret.nearestIBLineInd=currIdx;
+        ret.n=iblines[currIdx].n;
 
         if(currAns.alpha<0.0 || currAns.alpha>1.0){ //Need for pseudonormal
 
@@ -139,9 +141,9 @@ std::tuple<wp,int,Vec2> Interface::nearestIBLineDist(Node nd){
 
                 if(altAns.dist==currAns.dist && altAns.alpha>=0.0 && altAns.alpha<=1.0){ //TODO: Check whether bug in FEST3D too
                         currAns=altAns;
-                        std::get<0>(ret)=currAns.beta;
-                        std::get<1>(ret)=idx2;
-                        std::get<2>(ret)=iblines[idx2].n;
+                        ret.touchPoint=currAns.touchPoint;
+                        ret.nearestIBLineInd=idx2;
+                        ret.n=iblines[idx2].n;
 
                         return ret;
                 };
@@ -164,9 +166,10 @@ std::tuple<wp,int,Vec2> Interface::nearestIBLineDist(Node nd){
 
                 currAns.beta=currAns.dist*currAns.beta/fabs(currAns.beta);
 
-                std::get<0>(ret)=currAns.beta;
-                std::get<1>(ret)=currIdx;
-                std::get<2>(ret)=nl;
+                ret.dist=currAns.dist;
+                ret.touchPoint=currAns.touchPoint;
+                ret.nearestIBLineInd=currIdx;
+                ret.n=nl;
 
         };
 
@@ -199,8 +202,8 @@ void Interface::computeLevelSet(){
                 for(int i=1;i<=vars["phi"].intVect[0];i++){
                        cc=mesh->cc(i,j);
                        if(cc.x>=xMin && cc.x<=xMax && cc.y>=yMin && cc.y<=yMax){
-                                auto ret=nearestIBLineDist(cc);
-                                vars["phi"](i,j)=std::get<0>(ret);
+                                nearestIBStat ret=nearestIBLineDist(cc);
+                                vars["phi"](i,j)=ret.dist;
                        }
                        else{
                                 vars["phi"](i,j)=BIG;
@@ -224,8 +227,9 @@ void Interface::classifyCells(){
 };
 
 void Interface::IDBandCells(){
-        
-        IBDistStat stat;
+       
+        Node fc;
+        Node tp;
 
         for(int j=1;j<=cellClass.intVect[1];j++){
                 for(int i=1;i<=cellClass.intVect[0];i++){
@@ -236,26 +240,30 @@ void Interface::IDBandCells(){
 
                                 if(cellClass(i-1,j)==0){
                                         fieldNeighbour=true;
-                                        auto ret=nearestIBLineDist(((*mesh)(i,j)+(*mesh)(i,j+1))*0.5);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i-1,j,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'x'));
+                                        fc=((*mesh)(i,j)+(*mesh)(i,j+1))*0.5;
+                                        nearestIBStat ret=nearestIBLineDist(fc);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i-1,j,fc,'x',ret));
                                 };
 
                                 if(cellClass(i+1,j)==0){
                                         fieldNeighbour=true;
-                                        auto ret=nearestIBLineDist(((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i+1,j,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'x'));
+                                        fc=((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5;
+                                        nearestIBStat ret=nearestIBLineDist(fc);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i+1,j,fc,'x',ret));
                                 };
         
                                 if(cellClass(i,j-1)==0){
                                         fieldNeighbour=true;
-                                        auto ret=nearestIBLineDist(((*mesh)(i,j)+(*mesh)(i+1,j))*0.5);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i,j-1,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'y'));
+                                        fc=((*mesh)(i,j)+(*mesh)(i+1,j))*0.5;
+                                        nearestIBStat ret=nearestIBLineDist(fc);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j-1,fc,'y',ret));
                                 };
 
                                 if(cellClass(i,j+1)==0){
                                         fieldNeighbour=true;
-                                        auto ret=nearestIBLineDist(((*mesh)(i,j+1)+(*mesh)(i+1,j+1))*0.5);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i,j+1,std::get<0>(ret),std::get<1>(ret),std::get<2>(ret),'y'));
+                                        fc=((*mesh)(i,j+1)+(*mesh)(i+1,j+1))*0.5;
+                                        nearestIBStat ret=nearestIBLineDist(fc);
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j+1,fc,'y',ret));
                                 };
                 
                                 if(fieldNeighbour){
@@ -270,6 +278,47 @@ void Interface::IDBandCells(){
                 };
         };
 
+};
+
+IBInterpStat Interface::IBInterp(interfaceFace& f, Grid<wp>& u, Grid<wp>& v){
+        IBInterpStat ans;
+
+        int ic=f.fieldcellI;
+        int jc=f.fieldcellJ;
+
+        int is=ic-1<1?1:ic-1;
+        int js=jc-1<1?1:jc-1;
+
+        int ie=ic+1>u.intVect[0]?u.intVect[0]:ic+1;
+        int je=jc+1>u.intVect[1]?1:jc+1;
+
+        ans.interpU=0.0;
+        ans.interpV=0.0;
+        ans.delf=0.0;
+        wp wtSum=0.0;
+        wp currWt;
+        Node tp=f.stat.touchPoint;
+        Vec2 n=f.stat.n;
+
+        for(int j=js;j<=je;j++){
+                for(int i=is;i<=ie;i++){
+                        Node cc=mesh->cc(i,j);
+                        Vec2 vec(cc.x-tp.x,cc.y-tp.y);
+                        wp dPar=vec.dotProduct(n);
+                        wp dPer=(vec-n*dPar).norm2();
+                        currWt=1.0/(dPer+SMALL);
+                        ans.interpU=ans.interpU+u(i,j)*currWt;
+                        ans.interpV=ans.interpV+v(i,j)*currWt;
+                        ans.delf=ans.delf+dPar*currWt;
+                        wtSum=wtSum+currWt;
+                };
+        };
+
+        ans.interpU=ans.interpU/wtSum;
+        ans.interpV=ans.interpV/wtSum;
+        ans.delf=ans.delf/wtSum;
+
+        return ans;
 };
 
 Node Interface::InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects){

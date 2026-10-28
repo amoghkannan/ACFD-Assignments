@@ -50,7 +50,6 @@ Scheme& getScheme();
 
 virtual ~Solver(){
         logger.log("Debug: Destroying solver",1);
-        delete mesh;
         delete coarser;
         delete finer;
         delete ls;
