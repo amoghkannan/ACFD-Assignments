@@ -12,7 +12,7 @@
 
 #define wp double
 #define BIG 1E9
-#define SMALL 1E-15
+#define SMALL 1E-14
 
 using Point=std::pair<int,int> ;
 using boundMatEntry=std::pair<Point,wp>;

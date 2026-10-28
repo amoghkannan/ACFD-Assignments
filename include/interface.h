@@ -36,12 +36,14 @@ struct nearestIBStat{
 struct interfaceFace{
         int bandcellI,bandcellJ;
         int fieldcellI,fieldcellJ;
+        int bandfaceI, bandfaceJ;
         Node fc;
         char faceType;
         nearestIBStat stat;
 
-        interfaceFace(int bI,int bJ,int fI,int fJ,Node fc_,char fT,nearestIBStat stat_):
-        bandcellI(bI),bandcellJ(bJ),fieldcellI(fI),fieldcellJ(fJ),fc(fc_),faceType(fT),stat(stat_){};
+        interfaceFace(int bI,int bJ,int fI,int fJ,int bfI,int bfJ,Node fc_,char fT,nearestIBStat stat_):
+        bandcellI(bI),bandcellJ(bJ),fieldcellI(fI),fieldcellJ(fJ),bandfaceI(bfI),bandfaceJ(bfJ),
+        fc(fc_),faceType(fT),stat(stat_){};
 
 };
 
@@ -71,8 +73,18 @@ struct IBInterpStat{
 class Interface: public Solver{
 
 private:
-int nIB;
 
+
+Solver *s;
+Grid<wp> *IFaceContraVel;
+Grid<wp> *JFaceContraVel;
+
+std::string meshFile="mesh.dat";
+std::string ibFile="ib.dat";
+
+public:
+
+int nIB;
 std::vector<interfaceLine>iblines;
 std::vector<interfaceCell>bandcells;
 std::vector<interfaceCell>interiorcells;
@@ -84,15 +96,6 @@ Grid<wp>F; //Fluxes on I faces
 Grid<wp>G; //FLuxes on J faces
 Grid<int>cellClass;
 
-Solver *s;
-Grid<wp> *IFaceContraVel;
-Grid<wp> *JFaceContraVel;
-
-std::string meshFile="mesh.dat";
-std::string ibFile="ib.dat";
-
-public:
-
 Interface(Solver&);
 void readInInterface();
 void readMesh(Mesh&);
@@ -102,6 +105,14 @@ void computeLevelSet();
 void classifyCells();
 void IDBandCells();
 IBInterpStat IBInterp(interfaceFace&f, Grid<wp>&u, Grid<wp>&v);
+void setSlipVelocityFace(Grid<wp>&u, Grid<wp>&v,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&x_qp_r,
+dictionary<std::string,Grid<wp>>&y_qp_l,dictionary<std::string,Grid<wp>>&y_qp_r);
+void setPressureDensityFace(Grid<wp>&rho, Grid<wp>&p,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&x_qp_r,
+dictionary<std::string,Grid<wp>>&y_qp_l,dictionary<std::string,Grid<wp>>&y_qp_r);
+void resetBandInteriorCells(dictionary<std::string,wp>&params,Grid<wp>&rho,Grid<wp>&u, Grid<wp>&v, Grid<wp>&p,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l);
 Node InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects);
 wp shoelaceArea(std::vector<Node>nds);
 bool isLeft(Node nd, Vec2 seg);

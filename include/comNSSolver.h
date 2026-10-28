@@ -1,4 +1,5 @@
 #include "solver.h"
+#include"interface.h"
 
 class comNSSolver:public Solver{
 
@@ -8,11 +9,14 @@ std::string meshFile="mesh.dat";
 std::string settingsFile="system.dat";
 std::string initFile="init.dat";
 
-dictionary<std::string,wp>params;
 
 wp resXMom,resYMom,resMass,resEnergy;
 
 public:
+
+dictionary<std::string,wp>params;
+
+Interface *in=nullptr;
 
 dictionary<std::string,Grid<wp>>x_qp_left;
 dictionary<std::string,Grid<wp>>x_qp_right;
@@ -21,6 +25,9 @@ dictionary<std::string,Grid<wp>>y_qp_right;
 
 dictionary<std::string,Grid<wp>>F;
 dictionary<std::string,Grid<wp>>G;
+
+Grid<wp>temperature;
+Grid<wp>mu;
 
 dictionary<std::string,wp>res;
 dictionary<std::string,wp>resScale;

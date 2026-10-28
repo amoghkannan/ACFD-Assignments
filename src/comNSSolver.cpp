@@ -149,6 +149,11 @@ comNSSolver::comNSSolver(){
         };
         infile1.close();
 
+        if(params["MUREF"]!=0.0){
+                mu=Grid<wp>(mesh->box,{CELL,CELL});
+                temperature=Grid<wp>(mesh->box,{CELL,CELL});
+        };
+
         res["rho"]=0.0;
         res["u"]=0.0;
         res["v"]=0.0;
@@ -532,6 +537,10 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
                 };
         };
 
+        if(scheme.getScheme(interfaceConfig)==IBM){
+                in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
+        };
+
 };
 
 void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>& uStore){
@@ -585,6 +594,10 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
                 };
         };
 
+        if(scheme.getScheme(interfaceConfig)==IBM){
+                in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
+        };
+
 };
 
 void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>& uStore, std::vector<Grid<wp>>& rStore){
@@ -636,6 +649,10 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
                         p(i,j)=qc[3];
 
                 };
+        };
+
+        if(scheme.getScheme(interfaceConfig)==IBM){
+                in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
         };
 
 };
@@ -732,6 +749,12 @@ void comNSSolver::reconstructStates(){
                         };
                 };
 
+        };
+
+
+        if(scheme.getScheme(interfaceConfig)==IBM){
+                 in->setSlipVelocityFace(vars["u"],vars["v"],x_qp_left,x_qp_right,y_qp_left,y_qp_right);
+                 in->setPressureDensityFace(vars["rho"],vars["p"],x_qp_left,x_qp_right,y_qp_left,y_qp_right);
         };
 
 };

@@ -121,7 +121,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
         };
 
         nearestIBStat ret;
-        ret.dist=currAns.dist;
+        ret.dist=currAns.dist*currAns.beta;
         ret.touchPoint=currAns.touchPoint;
         ret.nearestIBLineInd=currIdx;
         ret.n=iblines[currIdx].n;
@@ -141,6 +141,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
 
                 if(altAns.dist==currAns.dist && altAns.alpha>=0.0 && altAns.alpha<=1.0){ //TODO: Check whether bug in FEST3D too
                         currAns=altAns;
+                        ret.dist=currAns.dist*currAns.beta;
                         ret.touchPoint=currAns.touchPoint;
                         ret.nearestIBLineInd=idx2;
                         ret.n=iblines[idx2].n;
@@ -166,7 +167,7 @@ nearestIBStat Interface::nearestIBLineDist(Node nd){
 
                 currAns.beta=currAns.dist*currAns.beta/fabs(currAns.beta);
 
-                ret.dist=currAns.dist;
+                ret.dist=currAns.dist*currAns.beta;
                 ret.touchPoint=currAns.touchPoint;
                 ret.nearestIBLineInd=currIdx;
                 ret.n=nl;
@@ -229,7 +230,6 @@ void Interface::classifyCells(){
 void Interface::IDBandCells(){
        
         Node fc;
-        Node tp;
 
         for(int j=1;j<=cellClass.intVect[1];j++){
                 for(int i=1;i<=cellClass.intVect[0];i++){
@@ -242,28 +242,28 @@ void Interface::IDBandCells(){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j)+(*mesh)(i,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i-1,j,fc,'x',ret));
+                                        bandfaces.emplace_back(interfaceFace(i,j,i-1,j,i,j,fc,'x',ret));
                                 };
 
                                 if(cellClass(i+1,j)==0){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i+1,j,fc,'x',ret));
+                                        bandfaces.emplace_back(interfaceFace(i,j,i+1,j,i+1,j,fc,'x',ret));
                                 };
         
                                 if(cellClass(i,j-1)==0){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j)+(*mesh)(i+1,j))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i,j-1,fc,'y',ret));
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j-1,i,j,fc,'y',ret));
                                 };
 
                                 if(cellClass(i,j+1)==0){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i,j+1)+(*mesh)(i+1,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);
-                                        bandfaces.emplace_back(interfaceFace(i,j,i,j+1,fc,'y',ret));
+                                        bandfaces.emplace_back(interfaceFace(i,j,i,j+1,i,j+1,fc,'y',ret));
                                 };
                 
                                 if(fieldNeighbour){
@@ -290,7 +290,7 @@ IBInterpStat Interface::IBInterp(interfaceFace& f, Grid<wp>& u, Grid<wp>& v){
         int js=jc-1<1?1:jc-1;
 
         int ie=ic+1>u.intVect[0]?u.intVect[0]:ic+1;
-        int je=jc+1>u.intVect[1]?1:jc+1;
+        int je=jc+1>u.intVect[1]?u.intVect[1]:jc+1;
 
         ans.interpU=0.0;
         ans.interpV=0.0;
@@ -302,8 +302,10 @@ IBInterpStat Interface::IBInterp(interfaceFace& f, Grid<wp>& u, Grid<wp>& v){
 
         for(int j=js;j<=je;j++){
                 for(int i=is;i<=ie;i++){
+                        if(cellClass(i,j)<0) continue;
                         Node cc=mesh->cc(i,j);
                         Vec2 vec(cc.x-tp.x,cc.y-tp.y);
+                        if(vec.dotProduct(n)<0) continue;
                         wp dPar=vec.dotProduct(n);
                         wp dPer=(vec-n*dPar).norm2();
                         currWt=1.0/(dPer+SMALL);
@@ -319,6 +321,165 @@ IBInterpStat Interface::IBInterp(interfaceFace& f, Grid<wp>& u, Grid<wp>& v){
         ans.delf=ans.delf/wtSum;
 
         return ans;
+};
+
+void Interface::setSlipVelocityFace(Grid<wp>&u, Grid<wp>&v,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&x_qp_r,
+dictionary<std::string,Grid<wp>>&y_qp_l,dictionary<std::string,Grid<wp>>&y_qp_r)
+{
+        Grid<wp>&uxL=x_qp_l["u"];
+        Grid<wp>&vxL=x_qp_l["v"];
+        Grid<wp>&uxR=x_qp_r["u"];
+        Grid<wp>&vxR=x_qp_r["v"];
+
+        Grid<wp>&uyL=y_qp_l["u"];
+        Grid<wp>&vyL=y_qp_l["v"];
+        Grid<wp>&uyR=y_qp_r["u"];
+        Grid<wp>&vyR=y_qp_r["v"];
+
+        for(auto& face:bandfaces){
+               int iface=face.bandfaceI;
+               int jface=face.bandfaceJ;
+               IBInterpStat stat=IBInterp(face,u,v);
+
+               wp uInterp=stat.interpU;
+               wp vInterp=stat.interpV;
+               wp delf=stat.delf;
+               wp dface=face.stat.dist;
+
+               Vec2 velInterp(uInterp,vInterp);
+               Vec2 velFace=velInterp-face.stat.n*(velInterp.dotProduct(face.stat.n)*(1.0-(dface/delf)));
+
+               if(face.faceType=='x'){
+                        uxL(iface,jface)=velFace.en.x;
+                        vxL(iface,jface)=velFace.en.y;
+                        uxR(iface,jface)=velFace.en.x;
+                        vxR(iface,jface)=velFace.en.y;
+               }
+               else{
+                        uyL(iface,jface)=velFace.en.x;
+                        vyL(iface,jface)=velFace.en.y;
+                        uyR(iface,jface)=velFace.en.x;
+                        vyR(iface,jface)=velFace.en.y;
+               };
+
+        };
+
+};
+
+void Interface::setPressureDensityFace(Grid<wp>&rho, Grid<wp>&p,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&x_qp_r,
+dictionary<std::string,Grid<wp>>&y_qp_l,dictionary<std::string,Grid<wp>>&y_qp_r)
+{
+        Grid<wp>&pxL=x_qp_l["p"];
+        Grid<wp>&rhoxL=x_qp_l["rho"];
+        Grid<wp>&pxR=x_qp_r["p"];
+        Grid<wp>&rhoxR=x_qp_r["rho"];
+
+        Grid<wp>&pyL=y_qp_l["p"];
+        Grid<wp>&rhoyL=y_qp_l["rho"];
+        Grid<wp>&pyR=y_qp_r["p"];
+        Grid<wp>&rhoyR=y_qp_r["rho"];
+
+        for(auto& face:bandfaces){
+               int iface=face.bandfaceI;
+               int jface=face.bandfaceJ;
+               int ifield=face.fieldcellI;
+               int jfield=face.fieldcellJ;
+
+               if(face.faceType=='x'){
+                        pxL(iface,jface)=p(ifield,jfield);
+                        rhoxL(iface,jface)=rho(ifield,jfield);
+                        pxR(iface,jface)=p(ifield,jfield);
+                        rhoxR(iface,jface)=rho(ifield,jfield);
+               }
+               else{
+                        pyL(iface,jface)=p(ifield,jfield);
+                        rhoyL(iface,jface)=rho(ifield,jfield);
+                        pyR(iface,jface)=p(ifield,jfield);
+                        rhoyR(iface,jface)=rho(ifield,jfield);
+               };
+
+        };
+
+};
+
+void Interface::resetBandInteriorCells(dictionary<std::string,wp>&params,Grid<wp>&rho,Grid<wp>&u,Grid<wp>&v,Grid<wp>&p,
+dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l)
+{
+
+        Grid<wp>&uxL=x_qp_l["u"];
+        Grid<wp>&vxL=x_qp_l["v"];
+
+        Grid<wp>&uyL=y_qp_l["u"];
+        Grid<wp>&vyL=y_qp_l["v"];
+
+        for(auto& cell:bandcells){
+               int icell=cell.i;
+               int jcell=cell.j;
+
+               int counter=0;
+               
+               wp uAvg,vAvg,pAvg,rhoAvg;
+               
+               uAvg=0.0;
+               vAvg=0.0;
+               pAvg=0.0;
+               rhoAvg=0.0;
+
+               if(cellClass(icell-1,jcell)==0){
+                        uAvg=uAvg+2.0*uxL(icell,jcell)-u(icell-1,jcell);
+                        vAvg=vAvg+2.0*vxL(icell,jcell)-v(icell-1,jcell);
+                        pAvg=pAvg+p(icell-1,jcell);
+                        rhoAvg=rhoAvg+rho(icell-1,jcell);
+                        counter=counter+1;
+               };
+
+               if(cellClass(icell+1,jcell)==0){
+                        uAvg=uAvg+2.0*uxL(icell+1,jcell)-u(icell+1,jcell);
+                        vAvg=vAvg+2.0*vxL(icell+1,jcell)-v(icell+1,jcell);
+                        pAvg=pAvg+p(icell+1,jcell);
+                        rhoAvg=rhoAvg+rho(icell+1,jcell);
+                        counter=counter+1;
+               };
+
+               if(cellClass(icell,jcell-1)==0){
+                        uAvg=uAvg+2.0*uyL(icell,jcell)-u(icell,jcell-1);
+                        vAvg=vAvg+2.0*vyL(icell,jcell)-v(icell,jcell-1);
+                        pAvg=pAvg+p(icell,jcell-1);
+                        rhoAvg=rhoAvg+rho(icell,jcell-1);
+                        counter=counter+1;
+               };
+
+               if(cellClass(icell,jcell+1)==0){
+                        uAvg=uAvg+2.0*uyL(icell,jcell+1)-u(icell,jcell+1);
+                        vAvg=vAvg+2.0*vyL(icell,jcell+1)-v(icell,jcell+1);
+                        pAvg=pAvg+p(icell,jcell+1);
+                        rhoAvg=rhoAvg+rho(icell,jcell+1);
+                        counter=counter+1;
+               };
+
+               u(icell,jcell)=uAvg/counter;
+               v(icell,jcell)=vAvg/counter;
+               rho(icell,jcell)=rhoAvg/counter;
+               p(icell,jcell)=pAvg/counter;
+
+        };
+
+        wp rhoinf=params["RHOINF"];
+        wp pinf=params["PINF"];
+
+        for(auto& cell:interiorcells){
+               int icell=cell.i;
+               int jcell=cell.j;
+
+               u(icell,jcell)=0.0;
+               v(icell,jcell)=0.0;
+               rho(icell,jcell)=rhoinf;
+               p(icell,jcell)=pinf;
+
+        };
+
 };
 
 Node Interface::InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects){

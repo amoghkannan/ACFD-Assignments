@@ -27,6 +27,7 @@ enum schemeKey{
         faceReconstruction,
         stateReconstruction,
         fluxCalc,
+        viscosityLaw,
         PVCoupling,
         interfaceConfig,
         invalidSchemeKey
@@ -45,14 +46,16 @@ enum schemeVal{
         C4,   //Fourth-order compact,
         V_CYCLE,
         W_CYCLE,
-        NONE,
         MUSCL,
         AUSM,
+        CONSTANT,
+        SUTHERLANDLAW,
         SIMPLE,
         PISO,
         IBM,
         VOF,
         LEVELSET,
+        NONE,
         INVALIDSCHEMEVAL
 };
 
@@ -116,6 +119,7 @@ static T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
 
 static Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
 static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
+static void calcViscositySutherland(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature);
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
@@ -124,6 +128,10 @@ void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i,
 //Flux calc schemes
 void ausmFlux(dictionary<std::string,wp>&params, std::pair<bool,bool>zeroFluxBC, Grid<Vec2>&normals, 
 dictionary<std::string,Grid<wp>>&flux, dictionary<std::string,Grid<wp>>&stateL, dictionary<std::string,Grid<wp>>&stateR, 
+std::pair<int,int>flags);
+
+void viscousFlux(dictionary<std::string,wp>&params, Mesh& mesh,Grid<wp>&mu, 
+dictionary<std::string,Grid<wp>>&flux, dictionary<std::string,Grid<wp>>&state,Grid<wp>&temperature, 
 std::pair<int,int>flags);
 
 ~Scheme(){

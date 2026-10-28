@@ -34,6 +34,8 @@ schemeKey StringToschemeKey(std::string str){
 
         if(str=="fluxCalc") return fluxCalc;
 
+        if(str=="viscosityLaw") return viscosityLaw;
+
         if(str=="multigrid") return multigrid;
 
         if(str=="PVCoupling") return PVCoupling;
@@ -65,11 +67,13 @@ schemeVal StringToschemeVal(std::string str){
 
         if(str=="W_CYCLE") return W_CYCLE;
 
-        if(str=="NONE") return NONE;
-
         if(str=="MUSCL") return MUSCL;
 
         if(str=="AUSM") return AUSM;
+
+        if(str=="CONSTANT") return CONSTANT;
+
+        if(str=="SUTHERLANDLAW") return SUTHERLANDLAW;
 
         if(str=="SIMPLE") return SIMPLE;
 
@@ -80,6 +84,8 @@ schemeVal StringToschemeVal(std::string str){
         if(str=="VOF") return VOF;
 
         if(str=="LEVELSET") return LEVELSET;
+
+        if(str=="NONE") return NONE;
 
         logger.log("Invalid scheme val",1);
         return INVALIDSCHEMEVAL;
@@ -402,6 +408,21 @@ Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,char di
         return grad;
 };
 
+void Scheme::calcViscositySutherland(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature){
+        wp muref=params["MUREF"];
+        wp tref=params["TREF"];
+        wp tsutherland=params["TSUTHERLAND"];
+        wp rgas=params["RGAS"];
+
+        for(int j=1;j<=viscosity.intVect[1];j++){
+                for(int i=1;i<=viscosity.intVect[0];i++){
+                        wp t=temperature(i,j);
+                        viscosity(i,j)=muref*pow(t/tref,1.5)*(tref+tsutherland)/(t+tsutherland);
+                };
+        };
+
+};
+
 std::vector<std::pair<int,wp>>Scheme::FOUReconstruction(wp& massFlux){
         
         std::vector<std::pair<int,wp>>ans;
@@ -546,4 +567,61 @@ std::pair<int,int>flags){
 
 
 };
+
+void Scheme::viscousFlux(dictionary<std::string,wp>&params, Mesh& mesh, Grid<wp>&mu, dictionary<std::string,Grid<wp>>&flux, 
+dictionary<std::string,Grid<wp>>&state,Grid<wp>&temperature,std::pair<int,int>flags){
+
+        Grid<wp>&uFlux=flux["u"];
+        Grid<wp>&vFlux=flux["v"];
+        Grid<wp>&pFlux=flux["p"];
+
+        Grid<wp>&rho=state["rho"];
+        Grid<wp>&u=state["u"];
+        Grid<wp>&v=state["v"];
+        Grid<wp>&p=state["p"];
+
+        Grid<Vec2>&normals=flags.first==1?mesh.normalsI:mesh.normalsJ;
+        Vec2 n;
+
+        wp tau11,tau12,tau22;
+        Vec2 gradU,gradV,gradT;
+        wp dUdx,dUdy,dVdx,dVdy,dTdx,dTdy;
+        wp muAvg;
+        wp kappaAvg;
+        wp Pr=params["PRANDTLNUMBER"];
+        wp cp=params["GM"]*params["RGAS"]/(params["GM"]-1.0);
+
+        char dir=flags.first==1?'x':'y';
+
+        for(int j=1;j<=uFlux.intVect[1];j++){
+                for(int i=1;i<=uFlux.intVect[0];i++){
+                        gradU=adjustedFaceGradient(u,mesh,i,j,dir);
+                        gradV=adjustedFaceGradient(v,mesh,i,j,dir);
+                        gradT=adjustedFaceGradient(temperature,mesh,i,j,dir);
+
+                        dUdx=gradU.en.x;
+                        dUdy=gradU.en.y;
+                        dVdx=gradU.en.x;
+                        dVdy=gradU.en.y;
+                        dTdx=gradT.en.x;
+                        dTdx=gradT.en.y;
+
+                        muAvg=0.5*(mu(i,j)+mu(i-flags.first,j-flags.second));
+                        tau11=muAvg*dUdx;
+                        tau12=muAvg*0.5*(dUdy+dVdx);
+                        tau22=muAvg*dVdy;
+
+                        kappaAvg=(cp/Pr)*muAvg;
+
+                        n=normals(i,j);
+                        
+                        uFlux(i,j)=uFlux(i,j)-tau11*n.en.x-tau12*n.en.y;
+                        vFlux(i,j)=vFlux(i,j)-tau12*n.en.x-tau22*n.en.y;
+                        pFlux(i,j)=pFlux(i,j)-tau12*n.en.x-tau22*n.en.y;
+
+                };
+        };
+
+};
+
 
