@@ -268,7 +268,7 @@ void Interface::IDBandCells(){
                                         bandfaces.emplace_back(interfaceFace(i,j,i-1,j,i,j,fc,'x',ret));
                                 };
 
-                                if(cellClass(i+1,j)==0 && i+1>=cellClass.intVect[0]){
+                                if(cellClass(i+1,j)==0 && i+1<=cellClass.intVect[0]){
                                         fieldNeighbour=true;
                                         fc=((*mesh)(i+1,j)+(*mesh)(i+1,j+1))*0.5;
                                         nearestIBStat ret=nearestIBLineDist(fc);

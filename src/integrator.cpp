@@ -67,7 +67,7 @@ void Integrator::takeTimeStep(Solver *solver){
 
 void Integrator::integrate(){
 
-        auto start=std::chrono::high_resolution_clock::now();
+       auto start=std::chrono::high_resolution_clock::now();
 
        for(int i=0;i<nSolvers;i++){
                 solvers(i)->initialCondition();
@@ -271,19 +271,21 @@ void Integrator::dumpSolution(Solver *s, int ID){
         };
 
         for(auto key:nodalVariablesList){
+                Grid<wp>&currVar=s->vars[key];
                 for(int k=1;k<=2;k++){
                         for(int j=1;j<=s->vars[key].intVect[1];j++){
                                 for(int i=1;i<=s->vars[key].intVect[0];i++){
-                                        outputfile<<s->vars[key](i,j)<<std::endl;
+                                        outputfile<<currVar(i,j)<<std::endl;
                                 };
                         };
                 }; 
         };
 
         for(auto key:cellcenteredVariablesList){
+             Grid<wp>&currVar=s->vars[key];
              for(int j=1;j<=s->vars[key].intVect[1];j++){
               for(int i=1;i<=s->vars[key].intVect[0];i++){
-                   outputfile<<s->vars[key](i,j)<<std::endl;
+                   outputfile<<currVar(i,j)<<std::endl;
               }
            };
    

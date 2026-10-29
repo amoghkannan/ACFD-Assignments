@@ -173,31 +173,36 @@ void comNSSolver::initialCondition(){
         std::ifstream infile(initFile);
         std::string temp;
 
+        Grid<wp>&rho=vars["rho"];
+        Grid<wp>&u=vars["u"];
+        Grid<wp>&v=vars["v"];
+        Grid<wp>&p=vars["p"];
+
         infile>>temp;
-        for(int j=1;j<=vars["rho"].intVect[1];j++){
-                for(int i=1;i<=vars["rho"].intVect[0];i++){
-                        infile>>vars["rho"](i,j);
+        for(int j=1;j<=rho.intVect[1];j++){
+                for(int i=1;i<=rho.intVect[0];i++){
+                        infile>>rho(i,j);
                 };
         };
 
         infile>>temp;
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
-                        infile>>vars["u"](i,j);
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
+                        infile>>u(i,j);
                 };
         };
 
         infile>>temp;
-        for(int j=1;j<=vars["v"].intVect[1];j++){
-                for(int i=1;i<=vars["v"].intVect[0];i++){
-                        infile>>vars["v"](i,j);
+        for(int j=1;j<=v.intVect[1];j++){
+                for(int i=1;i<=v.intVect[0];i++){
+                        infile>>v(i,j);
                 };
         };
 
         infile>>temp;
-        for(int j=1;j<=vars["p"].intVect[1];j++){
-                for(int i=1;i<=vars["p"].intVect[0];i++){
-                        infile>>vars["p"](i,j);
+        for(int j=1;j<=p.intVect[1];j++){
+                for(int i=1;i<=p.intVect[0];i++){
+                        infile>>p(i,j);
                 };
         };
 
@@ -412,8 +417,8 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
         Grid<wp>&v=vars["v"];
         Grid<wp>&p=vars["p"];
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         
                         dt(i,j)=0.0;
                         
@@ -465,16 +470,16 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
         if(scheme.getScheme(timeSteppingLocality)==GLOBAL){
                 wp mindt=BIG;
 
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
                              
                              if(dt(i,j)<mindt) mindt=dt(i,j);   
 
                         };
                 };
 
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
                              
                                 dt(i,j)=mindt;
 
@@ -500,8 +505,8 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qp={rho(i,j),u(i,j),v(i,j),p(i,j)};
                         primitiveToConservative(qp,gm,RGas);
 
@@ -516,16 +521,16 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         for(auto key:keys){
                 Grid<wp>&currVar=vars[key];
                 Grid<wp>&currVarsDot=varsDot[key];
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
                                 currVar(i,j)+=currVarsDot(i,j)*(dt(i,j)*storeFactor);
                         };
 
                 };
         };
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
                         conservativeToPrimitive(qc,gm,RGas);
 
@@ -557,8 +562,8 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
                         primitiveToConservative(qp,gm,RGas);
 
@@ -573,16 +578,16 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(auto key:keys){
                 Grid<wp>&currVar=vars[key];
                 Grid<wp>&currVarsDot=varsDot[key];
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
-                                vars[key](i,j)=vars[key](i,j)+varsDot[key](i,j)*(dt(i,j)*storeFactor);
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
+                                currVar(i,j)=currVar(i,j)+currVarsDot(i,j)*(dt(i,j)*storeFactor);
                         };
 
                 };
         };
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
                         conservativeToPrimitive(qc,gm,RGas);
 
@@ -614,8 +619,8 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
                         primitiveToConservative(qp,gm,RGas);
 
@@ -630,16 +635,17 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
 
         for(int n=0;n<keys.size();n++){
                 Grid<wp>&currVar=vars[keys[n]];
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
-                                currVar(i,j)=currVar(i,j)+rStore[n](i,j)*(dt(i,j)*storeFactor);
+                Grid<wp>&currRStore=rStore[n];
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
+                                currVar(i,j)=currVar(i,j)+currRStore(i,j)*(dt(i,j)*storeFactor);
                         };
 
                 };
         };
 
-        for(int j=1;j<=vars["u"].intVect[1];j++){
-                for(int i=1;i<=vars["u"].intVect[0];i++){
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
                         conservativeToPrimitive(qc,gm,RGas);
 
@@ -668,8 +674,8 @@ wp comNSSolver::getResNorm(){
         for(auto key:keys){
                 wp&resLocal=res[key];
                 Grid<wp>&varsDotLocal=varsDot[key];
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                for(int j=1;j<=varsDotLocal.intVect[1];j++){
+                        for(int i=1;i<=varsDotLocal.intVect[0];i++){
                                 resLocal=resLocal+pow(varsDotLocal(i,j)*mesh->volumes(i,j),2.0);
                         };
                 };
@@ -698,8 +704,8 @@ void comNSSolver::getResidual(){
                 Grid<wp>&varsDotLocal=varsDot[key];
                 Grid<wp>&FLocal=F[key];
                 Grid<wp>&GLocal=G[key];
-                for(int j=1;j<=vars["u"].intVect[1];j++){
-                        for(int i=1;i<=vars["u"].intVect[0];i++){
+                for(int j=1;j<=varsDotLocal.intVect[1];j++){
+                        for(int i=1;i<=varsDotLocal.intVect[0];i++){
                                 varsDotLocal(i,j)=-(FLocal(i+1,j)-FLocal(i,j)+GLocal(i,j+1)-GLocal(i,j))/mesh->volumes(i,j);
                         };
                 };
@@ -730,8 +736,8 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=x_qp_left[key];
                         Grid<wp>&currStateR=x_qp_right[key];
-                        for(int j=1;j<=vars["u"].intVect[1];j++){
-                                for(int i=1;i<=vars["u"].intVect[0]+1;i++){
+                        for(int j=1;j<=currVar.intVect[1];j++){
+                                for(int i=1;i<=currVar.intVect[0]+1;i++){
                                         scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{1,0});
                                 };
                         };
@@ -742,8 +748,8 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=y_qp_left[key];
                         Grid<wp>&currStateR=y_qp_right[key];
-                        for(int j=1;j<=vars["u"].intVect[1]+1;j++){
-                                for(int i=1;i<=vars["u"].intVect[0];i++){
+                        for(int j=1;j<=currVar.intVect[1]+1;j++){
+                                for(int i=1;i<=currVar.intVect[0];i++){
                                         scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{0,1});
                                 };
                         };
