@@ -32,7 +32,7 @@ schemeKey StringToschemeKey(std::string str){
 
         if(str=="stateReconstruction") return stateReconstruction;
 
-        if(str=="uselimiter") return useLimiter;
+        if(str=="useLimiter") return useLimiter;
 
         if(str=="fluxCalc") return fluxCalc;
 
