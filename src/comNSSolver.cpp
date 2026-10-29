@@ -762,7 +762,7 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currStateL=x_qp_left[key];
                         Grid<wp>&currStateR=x_qp_right[key];
                         for(int j=1;j<=currVar.intVect[1];j++){
-                                for(int i=1;i<=currVar.intVect[0]+1;i++){
+                                for(int i=2;i<=currVar.intVect[0];i++){
                                         scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{1,0},MUSCLLIMITER);
                                 };
                         };
@@ -773,7 +773,7 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=y_qp_left[key];
                         Grid<wp>&currStateR=y_qp_right[key];
-                        for(int j=1;j<=currVar.intVect[1]+1;j++){
+                        for(int j=2;j<=currVar.intVect[1];j++){
                                 for(int i=1;i<=currVar.intVect[0];i++){
                                         scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{0,1},MUSCLLIMITER);
                                 };

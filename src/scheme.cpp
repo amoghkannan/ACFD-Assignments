@@ -476,15 +476,15 @@ int i, int j, std::pair<int,int>flags, bool lim){
         wp r1=var(i,j)-var(i-flags.first,j-flags.second);
         wp r2=var(i-flags.first,j-flags.second)-var(i-2*flags.first,j-2*flags.second);
 
-        stateL(i,j)=stateL(i,j) //Must have already done defaultReconstruction
-        +0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2
-        +0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1;
+        stateL(i,j)=var(i-flags.first,j-flags.second)
+        +0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1
+        +0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2;
 
         r2=var(i+flags.first,j+flags.second)-var(i,j);
 
-        stateR(i,j)=stateR(i,j) //Must have already done defaultReconstruction
-        -0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2
-        -0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1;
+        stateR(i,j)=var(i,j)
+        -0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1
+        -0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2;
 
 };
 
@@ -495,9 +495,19 @@ wp Scheme::korenLimiter(wp rNum, wp rDenom, bool lim){
 
        wp r=rNum/rDenom;
 
-       if(!lim) return r;
-
+       if(!lim) return 1.0;
        return std::max(0.0,std::min({2.0*r,(1.0+2.0*r)/3.0,2.0})); 
+};
+
+wp Scheme::vanalbadaLimiter(wp rNum, wp rDenom, bool lim){
+       
+       wp sig=rDenom<0.0?-1.0:1.0;
+       rDenom=rDenom+sig*SMALL;
+
+       wp r=rNum/rDenom;
+       
+       if(!lim) return 1.0;
+       return (r+r*r)/(1.0+r*r); 
 };
 
 //Flux calc schemes
