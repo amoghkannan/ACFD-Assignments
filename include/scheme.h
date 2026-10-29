@@ -26,6 +26,7 @@ enum schemeKey{
         multigrid,
         faceReconstruction,
         stateReconstruction,
+        useLimiter,
         fluxCalc,
         viscosityLaw,
         PVCoupling,
@@ -55,6 +56,8 @@ enum schemeVal{
         IBM,
         VOF,
         LEVELSET,
+        YES,
+        NO,
         NONE,
         INVALIDSCHEMEVAL
 };
@@ -124,6 +127,8 @@ std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);
 
 void defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, std::pair<int,int>flags);
+void musclReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, int i, int j, std::pair<int,int>flags,bool lim);
+wp korenLimiter(wp rNum, wp rDenom, bool lim);
 
 //Flux calc schemes
 void ausmFlux(dictionary<std::string,wp>&params, std::pair<bool,bool>zeroFluxBC, Grid<Vec2>&normals, 

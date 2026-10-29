@@ -32,6 +32,8 @@ schemeKey StringToschemeKey(std::string str){
 
         if(str=="stateReconstruction") return stateReconstruction;
 
+        if(str=="uselimiter") return useLimiter;
+
         if(str=="fluxCalc") return fluxCalc;
 
         if(str=="viscosityLaw") return viscosityLaw;
@@ -84,6 +86,10 @@ schemeVal StringToschemeVal(std::string str){
         if(str=="VOF") return VOF;
 
         if(str=="LEVELSET") return LEVELSET;
+
+        if(str=="YES") return YES;
+
+        if(str=="NO") return NO;
 
         if(str=="NONE") return NONE;
 
@@ -463,6 +469,36 @@ void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR
 
 };
 
+void Scheme::musclReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, 
+int i, int j, std::pair<int,int>flags, bool lim){
+        wp kappa=1.0/3.0; //3rd order
+
+        wp r1=var(i,j)-var(i-flags.first,j-flags.second);
+        wp r2=var(i-flags.first,j-flags.second)-var(i-2*flags.first,j-2*flags.second);
+
+        stateL(i,j)=stateL(i,j) //Must have already done defaultReconstruction
+        +0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2
+        +0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1;
+
+        r2=var(i+flags.first,j+flags.second)-var(i,j);
+
+        stateR(i,j)=stateR(i,j) //Must have already done defaultReconstruction
+        -0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2
+        -0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1;
+
+};
+
+wp Scheme::korenLimiter(wp rNum, wp rDenom, bool lim){
+       
+       wp sig=rDenom<0.0?-1.0:1.0;
+       rDenom=rDenom+sig*SMALL;
+
+       wp r=rNum/rDenom;
+
+       if(!lim) return r;
+
+       return std::max(0.0,std::min({2.0*r,(1.0+2.0*r)/3.0,2.0})); 
+};
 
 //Flux calc schemes
 void Scheme::ausmFlux(dictionary<std::string,wp>& params, std::pair<bool, bool>zeroFluxBC, Grid<Vec2>&normals,
@@ -503,7 +539,6 @@ std::pair<int,int>flags){
                         nHat=normals(i,j)/S;
 
                         cL=sqrt(gm*pL(i,j)/rhoL(i,j));
-                        cR=sqrt(gm*pR(i,j)/rhoR(i,j));
                         cM=0.5*(cL+cR);
 
                         contraVelL=nHat.dotProduct(Vec2(uL(i,j),vL(i,j)));

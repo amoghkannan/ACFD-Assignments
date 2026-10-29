@@ -730,15 +730,40 @@ void comNSSolver::reconstructStates(){
         
         std::vector<std::string>keys=vars.getKeys();
 
-        if(scheme.getScheme(stateReconstruction)==NONE){
-               
-               for(auto key:keys){
+        for(auto key:keys){
+                 Grid<wp>&currVar=vars[key];
+                 Grid<wp>&currStateL=x_qp_left[key];
+                 Grid<wp>&currStateR=x_qp_right[key];
+                 for(int j=1;j<=currVar.intVect[1];j++){
+                         for(int i=1;i<=currVar.intVect[0]+1;i++){
+                                 scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{1,0});
+                         };
+                 };
+         };
+         
+
+         for(auto key:keys){
+                 Grid<wp>&currVar=vars[key];
+                 Grid<wp>&currStateL=y_qp_left[key];
+                 Grid<wp>&currStateR=y_qp_right[key];
+                 for(int j=1;j<=currVar.intVect[1]+1;j++){
+                         for(int i=1;i<=currVar.intVect[0];i++){
+                                 scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{0,1});
+                         };
+                 };
+         };
+
+         if(scheme.getScheme(stateReconstruction)==MUSCL){
+                
+                bool MUSCLLIMITER=scheme.getScheme(useLimiter)==YES;
+
+                for(auto key:keys){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=x_qp_left[key];
                         Grid<wp>&currStateR=x_qp_right[key];
                         for(int j=1;j<=currVar.intVect[1];j++){
                                 for(int i=1;i<=currVar.intVect[0]+1;i++){
-                                        scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{1,0});
+                                        scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{1,0},MUSCLLIMITER);
                                 };
                         };
                 };
@@ -750,13 +775,13 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currStateR=y_qp_right[key];
                         for(int j=1;j<=currVar.intVect[1]+1;j++){
                                 for(int i=1;i<=currVar.intVect[0];i++){
-                                        scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{0,1});
+                                        scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{0,1},MUSCLLIMITER);
                                 };
                         };
                 };
+              
 
-        };
-
+         };
 
         if(scheme.getScheme(interfaceConfig)==IBM){
                  in->setSlipVelocityFace(vars["u"],vars["v"],x_qp_left,x_qp_right,y_qp_left,y_qp_right);
