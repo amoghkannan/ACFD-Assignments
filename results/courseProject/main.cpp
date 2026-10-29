@@ -11,9 +11,9 @@ int main(void){
         //solver.in=&In;
         
         Integrator I;
-        I.setCFL(0.5);
+        I.setCFL(1.0);
         I.maxSteps=20000;
-        I.dumpSteps=1000;
+        I.dumpSteps=10000;
         I.addSolver(solver,"NS");
         I.integrate();
 

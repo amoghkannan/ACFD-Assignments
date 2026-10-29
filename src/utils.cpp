@@ -1,7 +1,6 @@
 #include"utils.h"
 
 wp sign(wp in){
-        if(in==0.0) return in;
-        return in/fabs(in);
+        return in>=0.0?1.0:-1.0;
 };
 

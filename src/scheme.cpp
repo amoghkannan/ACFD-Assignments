@@ -471,20 +471,21 @@ void Scheme::defaultReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR
 
 void Scheme::musclReconstruction(Grid<wp>&var, Grid<wp>&stateL,Grid<wp>&stateR, 
 int i, int j, std::pair<int,int>flags, bool lim){
-        wp kappa=1.0/3.0; //3rd order
+        //wp kappa=1.0/3.0 //3rd order
+        wp kappa=-1.0; //2nd order
 
         wp r1=var(i,j)-var(i-flags.first,j-flags.second);
         wp r2=var(i-flags.first,j-flags.second)-var(i-2*flags.first,j-2*flags.second);
 
         stateL(i,j)=var(i-flags.first,j-flags.second)
-        +0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1
-        +0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2;
+        +0.25*(1.0+kappa)*vanalbadaLimiter(r2,r1,lim)*r1
+        +0.25*(1.0-kappa)*vanalbadaLimiter(r1,r2,lim)*r2;
 
         r2=var(i+flags.first,j+flags.second)-var(i,j);
 
         stateR(i,j)=var(i,j)
-        -0.25*(1.0+kappa)*korenLimiter(r2,r1,lim)*r1
-        -0.25*(1.0-kappa)*korenLimiter(r1,r2,lim)*r2;
+        -0.25*(1.0+kappa)*vanalbadaLimiter(r2,r1,lim)*r1
+        -0.25*(1.0-kappa)*vanalbadaLimiter(r1,r2,lim)*r2;
 
 };
 
@@ -524,6 +525,8 @@ std::pair<int,int>flags){
         wp DLPlus,DRMinus;
         wp DL,DR;
         wp cvlPlus,cvlMinus;
+        wp clsPlus,clsMinus;
+
         wp h0L,h0R;
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
@@ -560,8 +563,8 @@ std::pair<int,int>flags){
                         alphaLPlus=0.5*(1.0+sign(ML));
                         alphaRMinus=0.5*(1.0-sign(MR));
 
-                        betaL=-std::max((wp)0.0,1.0-floor(fabs(ML)));
-                        betaR=-std::max((wp)0.0,1.0-floor(fabs(MR)));
+                        betaL=-std::max((wp)0.0,1.0-std::floor(fabs(ML)));
+                        betaR=-std::max((wp)0.0,1.0-std::floor(fabs(MR)));
 
                         DLPlus=0.25*(1.0+ML)*(1.0+ML)*(2.0-ML);
                         DRMinus=0.25*(MR-1.0)*(MR-1.0)*(2.0+MR);
@@ -571,6 +574,11 @@ std::pair<int,int>flags){
 
                         cvlPlus=alphaLPlus*(1.0+betaL)*ML-0.25*betaL*(1.0+ML)*(1.0+ML);
                         cvlMinus=alphaRMinus*(1.0+betaR)*MR+0.25*betaR*(MR-1.0)*(MR-1.0);
+
+                        clsPlus=std::max(0.0,cvlPlus+cvlMinus);
+                        clsMinus=std::min(0.0,cvlPlus+cvlMinus);
+                        cvlPlus=clsPlus;
+                        cvlMinus=clsMinus;
 
                         h0L=(gm/(gm-1.0))*pL(i,j)/rhoL(i,j);
                         h0L=h0L+0.5*(pow(uL(i,j),2.0)+pow(vL(i,j),2.0));
@@ -584,13 +592,16 @@ std::pair<int,int>flags){
                         pFlux(i,j)=0.0;
 
                         if(flags.first==1){
-                                if(i==1 && zeroFluxBC.first) goto pf;
-                                if(i==uFlux.intVect[0] && zeroFluxBC.second) goto pf;
-
+                                if((i==1 && zeroFluxBC.first) || (i==uFlux.intVect[0] && zeroFluxBC.second)){
+                                        cL=0.0;
+                                        cR=0.0;
+                                };
                         }
                         else if(flags.second==1){
-                                if(j==1 && zeroFluxBC.first) goto pf;
-                                if(j==uFlux.intVect[1] && zeroFluxBC.second) goto pf;
+                                if((j==1 && zeroFluxBC.first) || (j==uFlux.intVect[1] && zeroFluxBC.second)){
+                                        cL=0.0;
+                                        cR=0.0;
+                                };
                         };
 
                         rhoFlux(i,j)+=S*rhoL(i,j)*cvlPlus*cL;
@@ -603,8 +614,9 @@ std::pair<int,int>flags){
                         vFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR*vR(i,j);
                         pFlux(i,j)+=S*rhoR(i,j)*cvlMinus*cR*h0R;
 
-                        pf:
                         uFlux(i,j)=uFlux(i,j)+DL*pL(i,j)*normals(i,j).en.x;
+                        uFlux(i,j)=uFlux(i,j)+DR*pR(i,j)*normals(i,j).en.x;
+                        vFlux(i,j)=vFlux(i,j)+DL*pL(i,j)*normals(i,j).en.y;
                         vFlux(i,j)=vFlux(i,j)+DR*pR(i,j)*normals(i,j).en.y;
 
                 };

@@ -163,7 +163,7 @@ comNSSolver::comNSSolver(){
         resScale["u"]=params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),2.0);
         resScale["v"]=params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),2.0);
         resScale["p"]=0.5*params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),3.0)
-                      +params["GM"]*params["PINF"]/(params["GM"]-1.0);
+                      +params["GM"]*params["PINF"]*Vec2(params["UINF"],params["VINF"]).norm2()/(params["GM"]-1.0);
 
 
 };
@@ -281,8 +281,8 @@ void comNSSolver::applyBC(){
                                         uTemp=u(i,j);
                                         vTemp=v(i,j);
                                        
-                                        S=(*normals)(i,j).norm2();
-                                        nHat=(*normals)(i,j)/S;
+                                        S=(*normals)(i+incN.first,j+incN.second).norm2();
+                                        nHat=(*normals)(i+incN.first,j+incN.second)/S;
                                         pHat=Vec2(nHat.en.y,-nHat.en.x);
 
                                         velNormal=Vec2(uTemp,vTemp).dotProduct(nHat);
@@ -398,7 +398,7 @@ void comNSSolver::QDot(){
        reconstructStates();
        computeFluxes();
        getResidual();
-        
+    
 };
 
 void comNSSolver::lSolve(){
@@ -543,6 +543,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         };
 
         if(scheme.getScheme(interfaceConfig)==IBM){
+                logger.log("Band cell reset",1);
                 in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
         };
 
@@ -600,6 +601,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         };
 
         if(scheme.getScheme(interfaceConfig)==IBM){
+                logger.log("Band cell reset",1);
                 in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
         };
 
@@ -658,6 +660,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         };
 
         if(scheme.getScheme(interfaceConfig)==IBM){
+                logger.log("Band cell reset",1);
                 in->resetBandInteriorCells(params,vars["rho"],vars["u"],vars["v"],vars["p"],x_qp_left,y_qp_left);
         };
 
@@ -784,6 +787,7 @@ void comNSSolver::reconstructStates(){
          };
 
         if(scheme.getScheme(interfaceConfig)==IBM){
+                 logger.log("Forcing",1);
                  in->setSlipVelocityFace(vars["u"],vars["v"],x_qp_left,x_qp_right,y_qp_left,y_qp_right);
                  in->setPressureDensityFace(vars["rho"],vars["p"],x_qp_left,x_qp_right,y_qp_left,y_qp_right);
         };
