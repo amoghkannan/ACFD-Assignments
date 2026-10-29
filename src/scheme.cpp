@@ -539,6 +539,7 @@ std::pair<int,int>flags){
                         nHat=normals(i,j)/S;
 
                         cL=sqrt(gm*pL(i,j)/rhoL(i,j));
+                        cR=sqrt(gm*pR(i,j)/rhoR(i,j));
                         cM=0.5*(cL+cR);
 
                         contraVelL=nHat.dotProduct(Vec2(uL(i,j),vL(i,j)));
