@@ -101,15 +101,10 @@ void ICD4(Grid<wp>& phi, Grid<wp>& derivative, Mesh& mesh, char dirFlag); //Impl
 
 //Finite volume
 template<typename T>
-static T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
+static T averageValue(T varL, T varR, Mesh&mesh, int i, int j, std::pair<int,int>flags){
         wp volL,volR;
 
-        if(dir=='x'){
-                volL=mesh.volumes(i-1,j);
-        }
-        else if(dir=='y'){
-                volL=mesh.volumes(i,j-1);
-        };
+        volL=mesh.volumes(i-flags.first,j-flags.second);
 
         volR=mesh.volumes(i,j);
 
@@ -121,7 +116,8 @@ static T averageValue(T varL, T varR, Mesh&mesh, int i, int j, char dir){
 };
 
 static Vec2 greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j);
-static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, char dir);
+static Vec2 adjustedFaceGradient(Grid<wp>&var, Mesh&mesh, int i, int j, std::pair<int,int>flags);
+static void calcViscosityConstant(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature);
 static void calcViscositySutherland(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature);
 std::vector<std::pair<int,wp>>FOUReconstruction(wp& massFlux);
 std::vector<std::pair<int,wp>>QUICKReconstruction(wp& massFlux);

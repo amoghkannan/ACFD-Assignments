@@ -354,64 +354,66 @@ Vec2 Scheme::greenGaussCellBased(Grid<wp>&var,Mesh&mesh, int i, int j){
 
         Vec2 currGrad(0.0,0.0);
 
-        if(i-1>=1){
-                currGrad=currGrad-(mesh.normalsI(i,j)*averageValue<wp>(var(i-1,j),var(i,j),mesh,i,j,'x'));
-        }
-        else{
-                currGrad=currGrad-(mesh.normalsI(i,j)*var(i,j));
-        };
+        currGrad=currGrad-(mesh.normalsI(i,j)*averageValue<wp>(var(i-1,j),var(i,j),mesh,i,j,{1,0}));
 
-        if(i+1<=var.intVect[0]){
-                currGrad=currGrad+(mesh.normalsI(i+1,j)*averageValue<wp>(var(i,j),var(i+1,j),mesh,i+1,j,'x'));
-        }
-        else{
-                currGrad=currGrad+(mesh.normalsI(i+1,j)*var(i,j));
-        };
+        currGrad=currGrad+(mesh.normalsI(i+1,j)*averageValue<wp>(var(i,j),var(i+1,j),mesh,i+1,j,{1,0}));
 
-        if(j-1>=1){
-                currGrad=currGrad-(mesh.normalsJ(i,j)*averageValue<wp>(var(i,j-1),var(i,j),mesh,i,j,'y'));
-        }
-        else{
-                currGrad=currGrad-(mesh.normalsJ(i,j)*var(i,j));
-        };
+        currGrad=currGrad-(mesh.normalsJ(i,j)*averageValue<wp>(var(i,j-1),var(i,j),mesh,i,j,{0,1}));
 
-        if(j+1<=var.intVect[1]){
-                currGrad=currGrad+(mesh.normalsJ(i,j+1)*averageValue<wp>(var(i,j),var(i,j+1),mesh,i,j+1,'y'));
-        }
-        else{
-                currGrad=currGrad+(mesh.normalsJ(i,j+1)*var(i,j));
-        };
+        currGrad=currGrad+(mesh.normalsJ(i,j+1)*averageValue<wp>(var(i,j),var(i,j+1),mesh,i,j+1,{0,1}));
                         
         currGrad/=mesh.volumes(i,j);
 
         return currGrad;
 };
 
-Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,char dir){
-
-        Vec2 gradL,gradR,grad;
-
-        gradL=dir=='x'?greenGaussCellBased(var,mesh,i-1,j):greenGaussCellBased(var,mesh,i,j-1);
-        gradR=greenGaussCellBased(var,mesh,i,j);
-
-        grad=averageValue<Vec2>(gradL,gradR,mesh,i,j,dir);
+Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,std::pair<int,int>flags){
 
         Node ccL,ccR;
 
-        ccL=dir=='x'?mesh.cc(i-1,j):mesh.cc(i,j-1);
+        ccL=mesh.cc(i-flags.first,j-flags.second);
         ccR=mesh.cc(i,j);
 
         Vec2 ccDir(ccR.x-ccL.x,ccR.y-ccL.y);
         wp d=ccDir.norm2();
         ccDir/=d;
-        
+
         wp varL,varR;
-        varL=dir=='x'?var(i-1,j):var(i,j-1);
+        varL=var(i-flags.first,j-flags.second);
         varR=var(i,j);
+
+        Vec2 gradL,gradR,grad;
+        bool cond1=(flags.first==1 && i==1) || (flags.second==1 && j==1);
+        bool cond2=(flags.first==1 && i==mesh.intVect[0]) || (flags.second==1 && j==mesh.intVect[1]);
+
+        if(!cond1) gradL=greenGaussCellBased(var,mesh,i-flags.first,j-flags.second);
+        if(!cond2) gradR=greenGaussCellBased(var,mesh,i,j);
+
+        if(cond1){
+                gradL=gradR;
+        };
+        
+        if(cond2){
+                gradR=gradL;
+        };
+
+        grad=averageValue<Vec2>(gradL,gradR,mesh,i,j,flags);
+
 
         grad=grad+ccDir*((varR-varL)/d-grad.dotProduct(ccDir));
 
         return grad;
+};
+
+void Scheme::calcViscosityConstant(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature){
+        wp muref=params["MUREF"];
+
+        for(int j=0;j<=viscosity.intVect[1]+1;j++){
+                for(int i=0;i<=viscosity.intVect[0]+1;i++){
+                        viscosity(i,j)=muref;
+                };
+        };
+
 };
 
 void Scheme::calcViscositySutherland(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature){
@@ -420,8 +422,8 @@ void Scheme::calcViscositySutherland(dictionary<std::string,wp>&params, Grid<wp>
         wp tsutherland=params["TSUTHERLAND"];
         wp rgas=params["RGAS"];
 
-        for(int j=1;j<=viscosity.intVect[1];j++){
-                for(int i=1;i<=viscosity.intVect[0];i++){
+        for(int j=0;j<=viscosity.intVect[1]+1;j++){
+                for(int i=0;i<=viscosity.intVect[0]+1;i++){
                         wp t=temperature(i,j);
                         viscosity(i,j)=muref*pow(t/tref,1.5)*(tref+tsutherland)/(t+tsutherland);
                 };
@@ -646,36 +648,42 @@ dictionary<std::string,Grid<wp>>&state,Grid<wp>&temperature,std::pair<int,int>fl
         wp dUdx,dUdy,dVdx,dVdy,dTdx,dTdy;
         wp muAvg;
         wp kappaAvg;
+        wp uAvg,vAvg;
         wp Pr=params["PRANDTLNUMBER"];
         wp cp=params["GM"]*params["RGAS"]/(params["GM"]-1.0);
 
-        char dir=flags.first==1?'x':'y';
-
         for(int j=1;j<=uFlux.intVect[1];j++){
                 for(int i=1;i<=uFlux.intVect[0];i++){
-                        gradU=adjustedFaceGradient(u,mesh,i,j,dir);
-                        gradV=adjustedFaceGradient(v,mesh,i,j,dir);
-                        gradT=adjustedFaceGradient(temperature,mesh,i,j,dir);
+                        gradU=adjustedFaceGradient(u,mesh,i,j,flags);
+                        gradV=adjustedFaceGradient(v,mesh,i,j,flags);
+                        gradT=adjustedFaceGradient(temperature,mesh,i,j,flags);
 
                         dUdx=gradU.en.x;
                         dUdy=gradU.en.y;
-                        dVdx=gradU.en.x;
-                        dVdy=gradU.en.y;
+                        dVdx=gradV.en.x;
+                        dVdy=gradV.en.y;
                         dTdx=gradT.en.x;
-                        dTdx=gradT.en.y;
+                        dTdy=gradT.en.y;
 
                         muAvg=0.5*(mu(i,j)+mu(i-flags.first,j-flags.second));
-                        tau11=muAvg*dUdx;
-                        tau12=muAvg*0.5*(dUdy+dVdx);
-                        tau22=muAvg*dVdy;
+                        tau11=2.0*muAvg*dUdx-(2.0/3.0)*muAvg*(dUdx+dVdy);
+                        tau12=muAvg*(dUdy+dVdx);
+                        tau22=2.0*muAvg*dVdy-(2.0/3.0)*muAvg*(dUdx+dVdy);
 
                         kappaAvg=(cp/Pr)*muAvg;
+        
+                        uAvg=0.5*(u(i,j)+u(i-flags.first,j-flags.second));
+                        vAvg=0.5*(v(i,j)+v(i-flags.first,j-flags.second));
 
                         n=normals(i,j);
                         
-                        uFlux(i,j)=uFlux(i,j)-tau11*n.en.x-tau12*n.en.y;
-                        vFlux(i,j)=vFlux(i,j)-tau12*n.en.x-tau22*n.en.y;
-                        pFlux(i,j)=pFlux(i,j)-tau12*n.en.x-tau22*n.en.y;
+                        uFlux(i,j)=uFlux(i,j)-(tau11*n.en.x+tau12*n.en.y);
+                        vFlux(i,j)=vFlux(i,j)-(tau12*n.en.x+tau22*n.en.y);
+                        pFlux(i,j)=pFlux(i,j)
+                                   -(tau11*n.en.x+tau12*n.en.y)*uAvg
+                                   -(tau12*n.en.x+tau22*n.en.y)*vAvg
+                                   -kappaAvg*dTdx*n.en.x
+                                   -kappaAvg*dTdy*n.en.y;
 
                 };
         };

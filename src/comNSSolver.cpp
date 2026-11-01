@@ -81,7 +81,7 @@ comNSSolver::comNSSolver(){
                                                 infile1>>dataNum;
                                                 scheme.BCDict["p"+data]={neumann,0.0};
                                         }
-                                        if(data1=="NOSLIPWALL"){
+                                        else if(data1=="NOSLIPWALL"){
                                                 globalBCDict[data]=data1;
                                                 infile1>>dataNum;
                                                 scheme.BCDict["rho"+data]={neumann,0.0};
@@ -149,9 +149,10 @@ comNSSolver::comNSSolver(){
         };
         infile1.close();
 
+
         if(params["MUREF"]!=0.0){
-                mu=Grid<wp>(mesh->box,{CELL,CELL});
                 temperature=Grid<wp>(mesh->box,{CELL,CELL});
+                mu=Grid<wp>(mesh->box,{CELL,CELL});
         };
 
         res["rho"]=0.0;
@@ -165,6 +166,35 @@ comNSSolver::comNSSolver(){
         resScale["p"]=0.5*params["RHOINF"]*pow(Vec2(params["UINF"],params["VINF"]).norm2(),3.0)
                       +params["GM"]*params["PINF"]*Vec2(params["UINF"],params["VINF"]).norm2()/(params["GM"]-1.0);
 
+
+        lo["BCW"]={1,1};
+        hi["BCW"]={1,mesh->box.jmx-1};
+        inc["BCW"]={-1,0};
+        inc1["BCW"]={0,0};
+        sig["BCW"]=-1.0;
+        
+        lo["BCE"]={mesh->box.imx-1,1};
+        hi["BCE"]={mesh->box.imx-1,mesh->box.jmx-1};
+        inc["BCE"]={1,0};
+        inc1["BCE"]={1,0};
+        sig["BCE"]=1.0;
+        
+        lo["BCS"]={1,1};
+        hi["BCS"]={mesh->box.imx-1,1};
+        inc["BCS"]={0,-1};
+        inc1["BCS"]={0,0};
+        sig["BCS"]=-1.0;
+        
+        lo["BCN"]={1,mesh->box.jmx-1};
+        hi["BCN"]={mesh->box.imx-1,mesh->box.jmx-1};
+        inc["BCN"]={0,1};
+        inc1["BCN"]={0,1};
+        sig["BCN"]=1.0;
+        
+        zeroFluxBC["BCS"]=false;
+        zeroFluxBC["BCN"]=false;
+        zeroFluxBC["BCE"]=false;
+        zeroFluxBC["BCW"]=false;
 
 };
 
@@ -208,44 +238,16 @@ void comNSSolver::initialCondition(){
 
         infile.close();
 
+        applyBC();
+
+        if(params["MUREF"]!=0.0){
+                computeTemperature(p,rho,params["RGAS"]);
+                computeViscosity();
+        };
+
 };
 
 void comNSSolver::applyBC(){
-
-        dictionary<std::string,std::pair<int,int>>lo;
-        dictionary<std::string,std::pair<int,int>>hi;
-        dictionary<std::string,std::pair<int,int>>inc;
-        dictionary<std::string,std::pair<int,int>>inc1;
-        dictionary<std::string,wp>sig;
-     
-        lo["BCW"]={1,1};
-        hi["BCW"]={1,mesh->box.jmx-1};
-        inc["BCW"]={-1,0};
-        inc1["BCW"]={0,0};
-        sig["BCW"]=-1.0;
-
-        lo["BCE"]={mesh->box.imx-1,1};
-        hi["BCE"]={mesh->box.imx-1,mesh->box.jmx-1};
-        inc["BCE"]={1,0};
-        inc1["BCE"]={1,0};
-        sig["BCE"]=1.0;
-
-        lo["BCS"]={1,1};
-        hi["BCS"]={mesh->box.imx-1,1};
-        inc["BCS"]={0,-1};
-        inc1["BCS"]={0,0};
-        sig["BCS"]=-1.0;
-
-        lo["BCN"]={1,mesh->box.jmx-1};
-        hi["BCN"]={mesh->box.imx-1,mesh->box.jmx-1};
-        inc["BCN"]={0,1};
-        inc1["BCN"]={0,1};
-        sig["BCN"]=1.0;
-
-        zeroFluxBC["BCS"]=false;
-        zeroFluxBC["BCN"]=false;
-        zeroFluxBC["BCE"]=false;
-        zeroFluxBC["BCW"]=false;
 
         wp rhoTemp,uTemp,vTemp,pTemp;
         wp velParallel,velNormal;
@@ -261,6 +263,8 @@ void comNSSolver::applyBC(){
 
         for(auto key:globalBCDict.getKeys()){
 
+                std::pair<int,int>loCurr=lo[key];
+                std::pair<int,int>hiCurr=hi[key];
                 std::pair<int,int>incC=inc[key];
                 std::pair<int,int>incN=inc1[key];
 
@@ -275,8 +279,8 @@ void comNSSolver::applyBC(){
                        
                         zeroFluxBC[key]=true;
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         uTemp=u(i,j);
                                         vTemp=v(i,j);
@@ -303,13 +307,15 @@ void comNSSolver::applyBC(){
                 if(globalBCDict[key]=="NOSLIPWALL"){
 
                         zeroFluxBC[key]=true;
+                        wp uWall=scheme.BCDict["u"+key].second;
+                        wp vWall=scheme.BCDict["v"+key].second;
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         rho(i+incC.first,j+incC.second)=rho(i,j);
-                                        u(i+incC.first,j+incC.second)=-u(i,j);
-                                        v(i+incC.first,j+incC.second)=-v(i,j);
+                                        u(i+incC.first,j+incC.second)=2.0*uWall-u(i,j);
+                                        v(i+incC.first,j+incC.second)=2.0*vWall-v(i,j);
                                         p(i+incC.first,j+incC.second)=p(i,j);
 
                                 };
@@ -324,8 +330,8 @@ void comNSSolver::applyBC(){
                         wp vIn=scheme.BCDict["v"+key].second;
                         wp pIn=scheme.BCDict["p"+key].second;
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         rho(i+incC.first,j+incC.second)=rhoIn;
                                         u(i+incC.first,j+incC.second)=uIn;
@@ -339,8 +345,8 @@ void comNSSolver::applyBC(){
 
                 if(globalBCDict[key]=="SUPERSONICOUTLET"){
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         rho(i+incC.first,j+incC.second)=rho(i,j);
                                         u(i+incC.first,j+incC.second)=u(i,j);
@@ -358,8 +364,8 @@ void comNSSolver::applyBC(){
                         wp uIn=scheme.BCDict["u"+key].second;
                         wp vIn=scheme.BCDict["v"+key].second;
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         rho(i+incC.first,j+incC.second)=rhoIn;
                                         u(i+incC.first,j+incC.second)=uIn;
@@ -375,8 +381,8 @@ void comNSSolver::applyBC(){
 
                         wp pIn=scheme.BCDict["p"+key].second;
 
-                        for(int j=lo[key].second;j<=hi[key].second;j++){
-                                for(int i=lo[key].first;i<=hi[key].first;i++){
+                        for(int j=loCurr.second;j<=hiCurr.second;j++){
+                                for(int i=loCurr.first;i<=hiCurr.first;i++){
 
                                         rho(i+incC.first,j+incC.second)=rho(i,j);
                                         u(i+incC.first,j+incC.second)=u(i,j);
@@ -397,6 +403,12 @@ void comNSSolver::QDot(){
        applyBC();
        reconstructStates();
        computeFluxes();
+       if(params["MUREF"]!=0.0){
+                computeTemperature(vars["p"],vars["rho"],params["RGAS"]);
+                computeViscosity();
+                scheme.viscousFlux(params,*mesh,mu,F,vars,temperature,{1,0});
+                scheme.viscousFlux(params,*mesh,mu,G,vars,temperature,{0,1});
+       };
        getResidual();
     
 };
@@ -408,9 +420,11 @@ void comNSSolver::lSolve(){
 void comNSSolver::computeTimeStep(Grid<wp>&dt){
 
         Vec2 nHat;
-        wp S;
+        wp S,V;
+        wp muF,rhoF;
         wp contraVel,c;
         wp gm=params["GM"];
+        wp pr=params["PRANDTLNUMBER"];
 
         Grid<wp>&rho=vars["rho"];
         Grid<wp>&u=vars["u"];
@@ -462,6 +476,57 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
 
                         dt(i,j)=dt(i,j)+(contraVel+c)*S;
 
+                };
+        };
+
+        if(params["MUREF"]!=0.0){
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
+                                
+                                //Left face
+                                S=mesh->normalsI(i,j).norm2();
+                                V=0.5*(mesh->volumes(i-1,j)+mesh->volumes(i,j));
+                                muF=0.5*(mu(i-1,j)+mu(i,j));
+                                rhoF=0.5*(rho(i-1,j)+rho(i,j));
+                                c=gm*muF*S/(V*pr*rhoF);
+
+                                dt(i,j)=dt(i,j)+c*S;
+
+                                //Right face
+                                S=mesh->normalsI(i+1,j).norm2();
+                                V=0.5*(mesh->volumes(i,j)+mesh->volumes(i+1,j));
+                                muF=0.5*(mu(i,j)+mu(i+1,j));
+                                rhoF=0.5*(rho(i,j)+rho(i+1,j));
+                                c=gm*muF*S/(V*pr*rhoF);
+
+                                dt(i,j)=dt(i,j)+c*S;
+
+                                //Bottom face
+                                S=mesh->normalsJ(i,j).norm2();
+                                V=0.5*(mesh->volumes(i,j-1)+mesh->volumes(i,j));
+                                muF=0.5*(mu(i,j-1)+mu(i,j));
+                                rhoF=0.5*(rho(i,j-1)+rho(i,j));
+                                c=gm*muF*S/(V*pr*rhoF);
+
+                                dt(i,j)=dt(i,j)+c*S;
+
+                                //Top face
+                                S=mesh->normalsJ(i,j+1).norm2();
+                                V=0.5*(mesh->volumes(i,j)+mesh->volumes(i,j+1));
+                                muF=0.5*(mu(i,j)+mu(i,j+1));
+                                rhoF=0.5*(rho(i,j)+rho(i,j+1));
+                                c=gm*muF*S/(V*pr*rhoF);
+
+                                dt(i,j)=dt(i,j)+c*S;
+
+                        };
+                };
+
+        };
+
+        for(int j=1;j<=u.intVect[1];j++){
+                for(int i=1;i<=u.intVect[0];i++){
+                        
                         dt(i,j)=mesh->volumes(i,j)/dt(i,j);
 
                 };
@@ -832,3 +897,29 @@ void comNSSolver::primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas){
 
 };
 
+void comNSSolver::computeTemperature(Grid<wp>&pressure,Grid<wp>&density,wp rgas){
+
+        for(int j=0;j<=temperature.intVect[1]+1;j++){
+                for(int i=0;i<=temperature.intVect[0]+1;i++){
+                        temperature(i,j)=pressure(i,j)/(density(i,j)*rgas);
+                };
+        };
+
+};
+
+void comNSSolver::computeViscosity(){
+       if(params["MUREF"]!=0.0){
+                switch(scheme.getScheme(viscosityLaw)){
+                        case(CONSTANT):
+                                scheme.calcViscosityConstant(params,mu,temperature);
+                                break;
+                        case(SUTHERLANDLAW):
+                                scheme.calcViscositySutherland(params,mu,temperature);
+                                break;
+                        default:
+                                logger.log("Invalid viscosity law",1);
+                                break;
+                };
+       };
+
+};

@@ -9,6 +9,12 @@ std::string meshFile="mesh.dat";
 std::string settingsFile="system.dat";
 std::string initFile="init.dat";
 
+dictionary<std::string,std::pair<int,int>>lo;
+dictionary<std::string,std::pair<int,int>>hi;
+dictionary<std::string,std::pair<int,int>>inc;
+dictionary<std::string,std::pair<int,int>>inc1;
+dictionary<std::string,wp>sig;
+
 
 wp resXMom,resYMom,resMass,resEnergy;
 
@@ -52,5 +58,6 @@ void reconstructStates();
 void computeFluxes();
 void conservativeToPrimitive(std::vector<wp>&qc, wp gm, wp RGas);
 void primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas);
-
+void computeTemperature(Grid<wp>&pressure,Grid<wp>&density,wp rgas);
+void computeViscosity();
 };

@@ -741,7 +741,7 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         E=mesh->normalsI(i,j).dotProduct(vCC)/d;
                         vCD=mesh->normalsI(i,j)-vCC*(E/d);
                         T=vCD.norm2();
-                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'x');
+                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,{1,0});
                         gradCD=grad.dotProduct(vCD);
 
                         //Update cell coefficients of i-1,j
@@ -767,7 +767,7 @@ void icoNSSolver::computeDiffusiveFlux(std::string varName){
                         E=mesh->normalsJ(i,j).dotProduct(vCC)/d;
                         vCD=mesh->normalsJ(i,j)-vCC*(E/d);
                         T=vCD.norm2();
-                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,'y');
+                        grad=scheme.adjustedFaceGradient(vars[varName],*mesh,i,j,{0,1});
                         gradCD=grad.dotProduct(vCD);
 
                         //Update cell coefficients of i,j-1
@@ -927,20 +927,20 @@ void icoNSSolver::RhieChow(){
         for(int j=1;j<=IFaceContraVel.intVect[1];j++){
                 for(int i=2;i<IFaceContraVel.intVect[0];i++){
 
-                       gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,'x')-
-                                Vec2(scheme.averageValue<wp>(vars["gradPX"](i-1,j),vars["gradPX"](i,j),*mesh,i,j,'x'),
-                                     scheme.averageValue<wp>(vars["gradPY"](i-1,j),vars["gradPY"](i,j),*mesh,i,j,'x'));
+                       gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,{1,0})-
+                                Vec2(scheme.averageValue<wp>(vars["gradPX"](i-1,j),vars["gradPX"](i,j),*mesh,i,j,{1,0}),
+                                     scheme.averageValue<wp>(vars["gradPY"](i-1,j),vars["gradPY"](i,j),*mesh,i,j,{1,0}));
                        
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["u"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
-                       interpU=scheme.averageValue<wp>(vars["u"](i-1,j),vars["u"](i,j),*mesh,i,j,'x');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{1,0});
+                       interpU=scheme.averageValue<wp>(vars["u"](i-1,j),vars["u"](i,j),*mesh,i,j,{1,0});
                        interpU=interpU-df*gradCorr.dotProduct(Vec2(1.0,0.0));
                        
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
-                       interpV=scheme.averageValue<wp>(vars["v"](i-1,j),vars["v"](i,j),*mesh,i,j,'x');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{1,0});
+                       interpV=scheme.averageValue<wp>(vars["v"](i-1,j),vars["v"](i,j),*mesh,i,j,{1,0});
                        interpV=interpV-df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
                        interpVelTimesArea=mesh->normalsI(i,j).dotProduct(Vec2(interpU,interpV));
@@ -952,20 +952,20 @@ void icoNSSolver::RhieChow(){
         for(int j=2;j<JFaceContraVel.intVect[1];j++){
                 for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
-                       gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,'y')-
-                                Vec2(scheme.averageValue<wp>(vars["gradPX"](i,j-1),vars["gradPX"](i,j),*mesh,i,j,'y'),
-                                     scheme.averageValue<wp>(vars["gradPY"](i,j-1),vars["gradPY"](i,j),*mesh,i,j,'y'));
+                       gradCorr=scheme.adjustedFaceGradient(vars["p"],*mesh,i,j,{0,1})-
+                                Vec2(scheme.averageValue<wp>(vars["gradPX"](i,j-1),vars["gradPX"](i,j),*mesh,i,j,{0,1}),
+                                     scheme.averageValue<wp>(vars["gradPY"](i,j-1),vars["gradPY"](i,j),*mesh,i,j,{0,1}));
 
                        dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["u"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
-                       interpU=scheme.averageValue<wp>(vars["u"](i,j-1),vars["u"](i,j),*mesh,i,j,'y');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{0,1});
+                       interpU=scheme.averageValue<wp>(vars["u"](i,j-1),vars["u"](i,j),*mesh,i,j,{0,1});
                        interpU=interpU-df*gradCorr.dotProduct(Vec2(1.0,0.0));
                        
                        dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
-                       interpV=scheme.averageValue<wp>(vars["v"](i,j-1),vars["v"](i,j),*mesh,i,j,'y');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{0,1});
+                       interpV=scheme.averageValue<wp>(vars["v"](i,j-1),vars["v"](i,j),*mesh,i,j,{0,1});
                        interpV=interpV-df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
                        interpVelTimesArea=mesh->normalsJ(i,j).dotProduct(Vec2(interpU,interpV));
@@ -997,8 +997,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
                         DLV=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
                         DRV=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
 
-                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'x')*mesh->normalsI(i,j).en.x+
-                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'x')*mesh->normalsI(i,j).en.y)/d;
+                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,{1,0})*mesh->normalsI(i,j).en.x+
+                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,{1,0})*mesh->normalsI(i,j).en.y)/d;
 
                         Df=Ef/d;
                         changeMatElement(i-1,j,i-1,j,rho*Df,coeffs["p'"]);
@@ -1022,8 +1022,8 @@ void icoNSSolver::assemblePressureCorrectionEqn(){
                         DLV=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
                         DRV=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
 
-                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.x+
-                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,'y')*mesh->normalsJ(i,j).en.y)/d;
+                        Ef=(dCC.en.x*scheme.averageValue<wp>(DLU,DRU,*mesh,i,j,{0,1})*mesh->normalsJ(i,j).en.x+
+                           dCC.en.y*scheme.averageValue<wp>(DLV,DRV,*mesh,i,j,{0,1})*mesh->normalsJ(i,j).en.y)/d;
 
                         Df=Ef/d;
                         changeMatElement(i,j-1,i,j-1,rho*Df,coeffs["p'"]);
@@ -1066,17 +1066,17 @@ void icoNSSolver::correctMassFlux(){
         for(int j=1;j<=IFaceContraVel.intVect[1];j++){
                 for(int i=2;i<IFaceContraVel.intVect[0];i++){
 
-                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'x');
+                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,{1,0});
 
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["u"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{1,0});
                        
                        mDotCorrX=df*gradCorr.dotProduct(Vec2(1.0,0.0));
 
                        dfL=mesh->volumes(i-1,j)/findMatElement(i-1,j,i-1,j,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'x');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{1,0});
 
                        mDotCorrY=df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
@@ -1088,17 +1088,17 @@ void icoNSSolver::correctMassFlux(){
         for(int j=2;j<JFaceContraVel.intVect[1];j++){
                 for(int i=1;i<=JFaceContraVel.intVect[0];i++){
 
-                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,'y');
+                       gradCorr=scheme.adjustedFaceGradient(vars["p'"],*mesh,i,j,{0,1});
 
                        dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["u"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["u"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{0,1});
                        
                        mDotCorrX=df*gradCorr.dotProduct(Vec2(1.0,0.0));
 
                        dfL=mesh->volumes(i,j-1)/findMatElement(i,j-1,i,j-1,coeffs["v"]);
                        dfR=mesh->volumes(i,j)/findMatElement(i,j,i,j,coeffs["v"]);
-                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,'y');
+                       df=scheme.averageValue<wp>(dfL,dfR,*mesh,i,j,{0,1});
 
                        mDotCorrY=df*gradCorr.dotProduct(Vec2(0.0,1.0));
 
@@ -1125,7 +1125,7 @@ void icoNSSolver::correctVelocity(){
                         gradPPrimeY=0.0;
 
                         if(i>1){
-                                state=scheme.averageValue<wp>(vars["p'"](i-1,j),vars["p'"](i,j),*mesh,i,j,'x');
+                                state=scheme.averageValue<wp>(vars["p'"](i-1,j),vars["p'"](i,j),*mesh,i,j,{1,0});
                         }
                         else{
                                 state=vars["p'"](i,j);
@@ -1135,7 +1135,7 @@ void icoNSSolver::correctVelocity(){
                         gradPPrimeY-=state*mesh->normalsI(i,j).dotProduct(dirY);
 
                         if(i<vars["p'"].intVect[0]){
-                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i+1,j),*mesh,i+1,j,'x');
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i+1,j),*mesh,i+1,j,{1,0});
                         }
                         else{
                                 state=vars["p'"](i,j);
@@ -1145,7 +1145,7 @@ void icoNSSolver::correctVelocity(){
                         gradPPrimeY+=state*mesh->normalsI(i+1,j).dotProduct(dirY);
 
                         if(j>1){
-                                state=scheme.averageValue<wp>(vars["p'"](i,j-1),vars["p'"](i,j),*mesh,i,j,'y');
+                                state=scheme.averageValue<wp>(vars["p'"](i,j-1),vars["p'"](i,j),*mesh,i,j,{0,1});
                         }
                         else{
                                 state=vars["p'"](i,j);
@@ -1156,7 +1156,7 @@ void icoNSSolver::correctVelocity(){
                         gradPPrimeY-=state*mesh->normalsJ(i,j).dotProduct(dirY);
 
                         if(j<vars["p'"].intVect[1]){
-                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i,j+1),*mesh,i,j+1,'y');
+                                state=scheme.averageValue<wp>(vars["p'"](i,j),vars["p'"](i,j+1),*mesh,i,j+1,{0,1});
                         }
                         else{
                                 state=vars["p'"](i,j);

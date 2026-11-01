@@ -273,8 +273,8 @@ void Integrator::dumpSolution(Solver *s, int ID){
         for(auto key:nodalVariablesList){
                 Grid<wp>&currVar=s->vars[key];
                 for(int k=1;k<=2;k++){
-                        for(int j=1;j<=s->vars[key].intVect[1];j++){
-                                for(int i=1;i<=s->vars[key].intVect[0];i++){
+                        for(int j=1;j<=currVar.intVect[1];j++){
+                                for(int i=1;i<=currVar.intVect[0];i++){
                                         outputfile<<currVar(i,j)<<std::endl;
                                 };
                         };
@@ -283,8 +283,8 @@ void Integrator::dumpSolution(Solver *s, int ID){
 
         for(auto key:cellcenteredVariablesList){
              Grid<wp>&currVar=s->vars[key];
-             for(int j=1;j<=s->vars[key].intVect[1];j++){
-              for(int i=1;i<=s->vars[key].intVect[0];i++){
+             for(int j=1;j<=currVar.intVect[1];j++){
+              for(int i=1;i<=currVar.intVect[0];i++){
                    outputfile<<currVar(i,j)<<std::endl;
               }
            };
