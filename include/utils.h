@@ -9,6 +9,9 @@
 #include<algorithm>
 #include<unordered_map>
 #include<tuple>
+#ifdef _OPENMP
+#include<omp.h>
+#endif
 
 #define wp double
 #define BIG 1E9

@@ -23,4 +23,5 @@ comNSSolver.cpp
 interface.cpp
 )
 
+target_link_libraries(my_objects PUBLIC OpenMP::OpenMP_CXX)
 target_include_directories(my_objects PUBLIC ${CMAKE_SOURCE_DIR}/include)  

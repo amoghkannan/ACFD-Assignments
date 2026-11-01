@@ -309,7 +309,7 @@ void comNSSolver::applyBC(){
                         zeroFluxBC[key]=true;
                         wp uWall=scheme.BCDict["u"+key].second;
                         wp vWall=scheme.BCDict["v"+key].second;
-
+                        
                         for(int j=loCurr.second;j<=hiCurr.second;j++){
                                 for(int i=loCurr.first;i<=hiCurr.first;i++){
 
@@ -431,6 +431,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
         Grid<wp>&v=vars["v"];
         Grid<wp>&p=vars["p"];
 
+        #pragma omp parallel for collapse(2) private(S,nHat,contraVel,c)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         
@@ -480,6 +481,8 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
         };
 
         if(params["MUREF"]!=0.0){
+
+                #pragma omp parallel for collapse(2) private(S,V,muF,rhoF,c)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                                 
@@ -524,6 +527,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
 
         };
 
+        #pragma omp parallel for collapse(2)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         
@@ -570,6 +574,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
+        #pragma omp parallel for collapse(2) private(qp)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qp={rho(i,j),u(i,j),v(i,j),p(i,j)};
@@ -586,6 +591,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
         for(auto key:keys){
                 Grid<wp>&currVar=vars[key];
                 Grid<wp>&currVarsDot=varsDot[key];
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                                 currVar(i,j)+=currVarsDot(i,j)*(dt(i,j)*storeFactor);
@@ -594,6 +600,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor){
                 };
         };
 
+        #pragma omp parallel for collapse(2) private(qc)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
@@ -628,6 +635,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
+        #pragma omp parallel for collapse(2) private(qp)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
@@ -644,6 +652,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(auto key:keys){
                 Grid<wp>&currVar=vars[key];
                 Grid<wp>&currVarsDot=varsDot[key];
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                                 currVar(i,j)=currVar(i,j)+currVarsDot(i,j)*(dt(i,j)*storeFactor);
@@ -652,6 +661,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
                 };
         };
 
+        #pragma omp parallel for collapse(2) private(qc)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
@@ -686,6 +696,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         wp gm=params["GM"];
         wp RGas=params["RGAS"];
 
+        #pragma omp parallel for collapse(2) private(qp)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qp={uStore[0](i,j),uStore[1](i,j),uStore[2](i,j),uStore[3](i,j)};
@@ -703,6 +714,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
         for(int n=0;n<keys.size();n++){
                 Grid<wp>&currVar=vars[keys[n]];
                 Grid<wp>&currRStore=rStore[n];
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                                 currVar(i,j)=currVar(i,j)+currRStore(i,j)*(dt(i,j)*storeFactor);
@@ -711,6 +723,7 @@ void comNSSolver::updateVars(Grid<wp>&dt, wp storeFactor, std::vector<Grid<wp>>&
                 };
         };
 
+        #pragma omp parallel for collapse(2) private(qc)
         for(int j=1;j<=u.intVect[1];j++){
                 for(int i=1;i<=u.intVect[0];i++){
                         qc={rho(i,j),u(i,j),v(i,j),p(i,j)};
@@ -742,6 +755,7 @@ wp comNSSolver::getResNorm(){
         for(auto key:keys){
                 wp&resLocal=res[key];
                 Grid<wp>&varsDotLocal=varsDot[key];
+                #pragma omp parallel for collapse(2) reduction(+:resLocal)
                 for(int j=1;j<=varsDotLocal.intVect[1];j++){
                         for(int i=1;i<=varsDotLocal.intVect[0];i++){
                                 resLocal=resLocal+pow(varsDotLocal(i,j)*mesh->volumes(i,j),2.0);
@@ -772,6 +786,7 @@ void comNSSolver::getResidual(){
                 Grid<wp>&varsDotLocal=varsDot[key];
                 Grid<wp>&FLocal=F[key];
                 Grid<wp>&GLocal=G[key];
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=varsDotLocal.intVect[1];j++){
                         for(int i=1;i<=varsDotLocal.intVect[0];i++){
                                 varsDotLocal(i,j)=-(FLocal(i+1,j)-FLocal(i,j)+GLocal(i,j+1)-GLocal(i,j))/mesh->volumes(i,j);
@@ -802,6 +817,7 @@ void comNSSolver::reconstructStates(){
                  Grid<wp>&currVar=vars[key];
                  Grid<wp>&currStateL=x_qp_left[key];
                  Grid<wp>&currStateR=x_qp_right[key];
+                 #pragma omp parallel for collapse(2)
                  for(int j=1;j<=currVar.intVect[1];j++){
                          for(int i=1;i<=currVar.intVect[0]+1;i++){
                                  scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{1,0});
@@ -814,6 +830,7 @@ void comNSSolver::reconstructStates(){
                  Grid<wp>&currVar=vars[key];
                  Grid<wp>&currStateL=y_qp_left[key];
                  Grid<wp>&currStateR=y_qp_right[key];
+                 #pragma omp parallel for collapse(2)
                  for(int j=1;j<=currVar.intVect[1]+1;j++){
                          for(int i=1;i<=currVar.intVect[0];i++){
                                  scheme.defaultReconstruction(currVar,currStateL,currStateR,i,j,{0,1});
@@ -829,6 +846,7 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=x_qp_left[key];
                         Grid<wp>&currStateR=x_qp_right[key];
+                        #pragma omp parallel for collapse(2)
                         for(int j=1;j<=currVar.intVect[1];j++){
                                 for(int i=2;i<=currVar.intVect[0];i++){
                                         scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{1,0},MUSCLLIMITER);
@@ -841,6 +859,7 @@ void comNSSolver::reconstructStates(){
                         Grid<wp>&currVar=vars[key];
                         Grid<wp>&currStateL=y_qp_left[key];
                         Grid<wp>&currStateR=y_qp_right[key];
+                        #pragma omp parallel for collapse(2)
                         for(int j=2;j<=currVar.intVect[1];j++){
                                 for(int i=1;i<=currVar.intVect[0];i++){
                                         scheme.musclReconstruction(currVar,currStateL,currStateR,i,j,{0,1},MUSCLLIMITER);
@@ -899,6 +918,7 @@ void comNSSolver::primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas){
 
 void comNSSolver::computeTemperature(Grid<wp>&pressure,Grid<wp>&density,wp rgas){
 
+        #pragma omp parallel for collapse(2)
         for(int j=0;j<=temperature.intVect[1]+1;j++){
                 for(int i=0;i<=temperature.intVect[0]+1;i++){
                         temperature(i,j)=pressure(i,j)/(density(i,j)*rgas);

@@ -408,6 +408,7 @@ Vec2 Scheme::adjustedFaceGradient(Grid<wp>&var, Mesh& mesh, int i, int j,std::pa
 void Scheme::calcViscosityConstant(dictionary<std::string,wp>&params, Grid<wp>&viscosity, Grid<wp>&temperature){
         wp muref=params["MUREF"];
 
+        #pragma omp parallel for collapse(2)
         for(int j=0;j<=viscosity.intVect[1]+1;j++){
                 for(int i=0;i<=viscosity.intVect[0]+1;i++){
                         viscosity(i,j)=muref;
@@ -547,6 +548,8 @@ std::pair<int,int>flags){
         Grid<wp>&vFlux=flux["v"];
         Grid<wp>&pFlux=flux["p"];
 
+        #pragma omp parallel for collapse(2) private(S,nHat,cL,cR,cM,contraVelL,contraVelR,ML,MR,alphaLPlus,alphaRMinus,\
+        betaL,betaR,DLPlus,DRMinus,DL,DR,cvlPlus,cvlMinus,clsPlus,clsMinus,h0L,h0R)
         for(int j=1;j<=uFlux.intVect[1];j++){
                 for(int i=1;i<=uFlux.intVect[0];i++){
 
@@ -652,6 +655,8 @@ dictionary<std::string,Grid<wp>>&state,Grid<wp>&temperature,std::pair<int,int>fl
         wp Pr=params["PRANDTLNUMBER"];
         wp cp=params["GM"]*params["RGAS"]/(params["GM"]-1.0);
 
+        #pragma omp parallel for collapse(2) private(gradU,gradV,gradT,dUdx,dUdy,dVdx,dVdy,dTdx,dTdy,muAvg,\
+        tau11,tau12,tau22,kappaAvg,uAvg,vAvg,n)
         for(int j=1;j<=uFlux.intVect[1];j++){
                 for(int i=1;i<=uFlux.intVect[0];i++){
                         gradU=adjustedFaceGradient(u,mesh,i,j,flags);

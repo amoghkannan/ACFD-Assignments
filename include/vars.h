@@ -177,13 +177,14 @@ void Grid<T>::operator=(const Grid<T>& otherGrid){
                 };
         };
 
+
 };
 
 template<typename T>
 void Grid<T>::operator+=(Grid<T>& otherGrid){
         if(box!=otherGrid.box || intVect!=otherGrid.intVect || indexType!=otherGrid.indexType)
         logger.log("Warning, adding non-equivalent fields!",1);
-
+       
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
                         (*this)(i,j) = (*this)(i,j) + otherGrid(i,j);
@@ -247,6 +248,7 @@ void Grid<T>::operator-(){
 
 template<typename T>
 void Grid<T>::operator*=(wp val){
+
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
                         (*this)(i,j) = (*this)(i,j) * val;
@@ -265,7 +267,9 @@ Grid<T> Grid<T>::operator*(wp val){
 
 template<typename T>
 void Grid<T>::operator/=(wp val){
+        #ifdef DEBUG
         if(val==0.0) logger.log("Error, grid division by 0",1);
+        #endif
 
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
@@ -276,11 +280,13 @@ void Grid<T>::operator/=(wp val){
 
 template<typename T>
 void Grid<T>::print(std::ostream& os){
+
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
                         os<<i<<"\t"<<j<<"\t"<<(*this)(i,j)<<std::endl;
                 };
         };
+
 };
 
 template<typename T>
@@ -303,7 +309,7 @@ wp Grid<T>::dotProduct(Grid<T>& otherGrid){
         logger.log("Warning, dot product of non-equivalent fields!",1);
 
         wp ans=0.0;
-
+        
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
                         ans=ans+(*this)(i,j)*otherGrid(i,j);
@@ -315,6 +321,7 @@ wp Grid<T>::dotProduct(Grid<T>& otherGrid){
 
 template<typename T>
 void Grid<T>::initVal(T val){
+
         for(int j=1;j<=intVect[1];j++){
                 for(int i=1;i<=intVect[0];i++){
                         (*this)(i,j)=val;
