@@ -18,6 +18,7 @@ class Solver{
 protected:
 
 public:
+int level=0;
 
 Mesh* mesh=nullptr;
 
@@ -25,6 +26,7 @@ Scheme scheme;
 
 //For multigrid
 std::vector<Grid<wp>>res_store;
+std::vector<Grid<wp>>u_store;
 Solver *coarser=nullptr;
 Solver *finer=nullptr;
 

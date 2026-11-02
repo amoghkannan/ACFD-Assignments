@@ -43,6 +43,7 @@ void integrate();
 //Time integration schemes
 
 void rk4(Solver *s);
+void rk4FAS(Solver *s);
 void euler(Solver *s);
 
 ~Integrator(){

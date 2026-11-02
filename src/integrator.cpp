@@ -89,7 +89,7 @@ void Integrator::integrate(){
                         notConvergedCounter++;
 
                         if(solvers(i)->getScheme().hasScheme(multigrid)){
-                                multigridController(solvers(i),1);
+                                multigridController(solvers(i),0);
                         }
                         else{
                                 takeTimeStep(solvers(i));
@@ -163,6 +163,68 @@ void Integrator::rk4(Solver *s){
 
 };
 
+void Integrator::rk4FAS(Solver *s){
+
+        s->computeTimeStep(deltaT);
+
+        s->QDot();
+
+        for(int i=0;i<s->nVars;i++){
+               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+        };
+
+        for(int i=0;i<s->nVars;i++){
+                uStore[i]=s->vars(i);
+        };
+
+        s->updateVars(deltaT,CFL*0.5);
+        
+        for(int i=0;i<s->nVars;i++){
+                (s->varsDot(i))/=6.0;
+                rStore[i]=(s->varsDot)(i);
+        };
+
+        s->QDot();
+
+        for(int i=0;i<s->nVars;i++){
+               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+        };
+
+        s->updateVars(deltaT,CFL*0.5,uStore);
+
+        for(int i=0;i<s->nVars;i++){
+                (s->varsDot)(i)/=3.0;
+                rStore[i]+=(s->varsDot)(i);
+        };
+
+        s->QDot();
+
+        for(int i=0;i<s->nVars;i++){
+               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+        };
+
+        s->updateVars(deltaT,CFL,uStore);
+
+        for(int i=0;i<s->nVars;i++){
+                (s->varsDot)(i)/=3.0;
+                rStore[i]+=(s->varsDot)(i);
+        };
+
+        s->QDot();
+
+        for(int i=0;i<s->nVars;i++){
+               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+        };
+
+        for(int i=0;i<s->nVars;i++){
+                (s->varsDot)(i)/=6.0;
+                rStore[i]+=(s->varsDot)(i);
+        };
+
+        s->updateVars(deltaT,CFL,uStore,rStore);
+
+};
+
 void Integrator::euler(Solver *s){
 
         s->computeTimeStep(deltaT);
@@ -200,9 +262,25 @@ void Integrator::multigridController(Solver *s, int level){
                         };
                         return;
                 case(FAS):
-                        takeTimeStep(s);
-                        takeTimeStep(s->coarser);
-                        s->coarser->getResNorm();
+                        s->getResNorm();
+                        for(int n=0;n<s->nVars;n++){
+                                Grid<wp>&currVar=s->vars(n);
+                                Grid<wp>&currUStore=s->u_store[n];
+                                for(int j=0;j<=currVar.intVect[1]+1;j++){
+                                        for(int i=0;i<=currVar.intVect[0]+1;i++){
+                                                currUStore(i,j)=currVar(i,j);
+                                        };
+                                };
+                        };
+                        rk4FAS(s);
+                        s->QDot();
+                        if(level!=maxMultigridLevel){
+                                s->coarser->QDot();
+                                s->restriction();
+                                multigridController(s->coarser,level+1);
+                        };
+                        if(level!=0) s->prolongation();
+                        logger.log("Level "+std::to_string(level),1);
                         return;
                 default:
                         logger.log("Error, invalid multigrid scheme",1);

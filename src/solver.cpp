@@ -133,8 +133,8 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                                 Node nd4=coarseMesh.cc(iCoarse,jCoarse+1);
                                 wp val4=coarseVar(iCoarse,jCoarse+1);
 
-                                fineVar(i,j)=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
-
+                                fineVar(i,j)+=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
+                        
                         };
                 };
 
@@ -150,20 +150,24 @@ void Solver::restriction(){
                         restrictVar(*mesh,vars[key],coarser->vars[key]);
                 };
 
+                int counter=0;
                 for(auto key:vars.getKeys()){
+                        Grid<wp>&coarseVarsStore=coarser->res_store[counter];
                         Grid<wp>&coarseVarsDot=coarser->varsDot[key];
                         Grid<wp>&fineVarsDot=varsDot[key];
                         for(int j=1;j<=coarseVarsDot.intVect[1];j++){
                                 for(int i=1;i<=coarseVarsDot.intVect[0];i++){
-                                        coarseVarsDot(i,j)=fineVarsDot(2*i-1,2*j-1)+fineVarsDot(2*i-1,2*j)
+                                        coarseVarsStore(i,j)=fineVarsDot(2*i-1,2*j-1)+fineVarsDot(2*i-1,2*j)
                                                            +fineVarsDot(2*i,2*j-1)+fineVarsDot(2*i,2*j);
+                                        coarseVarsStore(i,j)-=coarseVarsDot(i,j);
                                 };
                         };
+                        counter++;
                 };
 
         }
         else{
-                res_store.clear();
+                res_store.clear(); //TODO: Seems inefficient to clear every time step?
 
                 for(int i=0;i<nVars;i++){
                         res_store.push_back(varsDot(i));
@@ -183,8 +187,15 @@ void Solver::restriction(){
 
 void Solver::prolongation(){
 
-        for(auto key:vars.getKeys()){
-                prolongateVar(*(finer->mesh),(*mesh),finer->vars[key],vars[key]);
+        for(int n=0;n<nVars;n++){
+                Grid<wp>&currVar=vars(n);
+                Grid<wp>&currUStore=u_store[n];
+                for(int j=0;j<=currVar.intVect[1]+1;j++){
+                        for(int i=0;i<=currVar.intVect[0]+1;i++){
+                                currUStore(i,j)=currVar(i,j)-currUStore(i,j);
+                        };
+                };
+                prolongateVar(*(finer->mesh),(*mesh),finer->vars(n),currUStore);
         };
 
         if(getScheme().getScheme(multigrid)!=FAS){
@@ -214,6 +225,8 @@ wp Solver::bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd){
 
 wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
 
+        //Refer https://iquilezles.org/articles/ibilinear/
+
         nds[0]=nds[0]-nds[0];
         nds[1]=nds[1]-nds[0];
         nds[2]=nds[2]-nds[0];
@@ -223,20 +236,27 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
         wp beta=nds[2].y-nds[1].y-nds[3].y;
 
         wp coeffsA=alpha*nds[3].y-beta*nds[2].x;
-        coeffsA+=sign(coeffsA)*SMALL;
         wp coeffsB=nd.x*beta-nd.y*alpha-nds[3].x*nds[1].y+nds[1].x*nds[3].y;
         wp coeffsC=nd.x*nds[1].y-nd.y*nds[1].x;
 
         wp xi,eta;
         wp eta1,eta2;
 
+        wp D;
+
         if(fabs(coeffsA)<=10.0*SMALL){
                 eta=-coeffsC/coeffsB;
         }
         else{
-                eta1=0.5*(-coeffsB+sqrt(coeffsB*coeffsB-4*coeffsA*coeffsC))/coeffsA;
-                eta2=0.5*(-coeffsB-sqrt(coeffsB*coeffsB-4*coeffsA*coeffsC))/coeffsA;
-                eta=(eta1>=0.0 && eta1<=1.0)?eta1:eta2;
+                D=coeffsB*coeffsB-4.0*coeffsA*coeffsC;
+                if(D>=0.0){
+                        eta1=0.5*(-coeffsB+sqrt(D))/(coeffsA+sign(coeffsA)*SMALL);
+                        eta2=0.5*(-coeffsB-sqrt(D))/(coeffsA+sign(coeffsA)*SMALL);
+                        eta=(eta1>=0.0 && eta1<=1.0)?eta1:eta2;
+                }
+                else{
+                        return 0.25*(vals[0]+vals[1]+vals[2]+vals[3]);
+                };
         };      
 
         wp num,denom;

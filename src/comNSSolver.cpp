@@ -212,6 +212,11 @@ comNSSolver::comNSSolver(int level_,Mesh *mesh_){
                 computeViscosity();
         };
 
+        for(int i=0;i<nVars;i++){
+                res_store.push_back(vars["u"]);
+                u_store.push_back(vars["u"]);
+        };
+
 };
 
 void comNSSolver::initialCondition(){
@@ -436,7 +441,7 @@ void comNSSolver::QDot(){
                 scheme.viscousFlux(params,*mesh,mu,G,vars,temperature,{0,1});
        };
        getResidual();
-    
+
 };
 
 void comNSSolver::lSolve(){

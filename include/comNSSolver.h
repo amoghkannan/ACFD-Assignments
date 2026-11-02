@@ -5,8 +5,6 @@ class comNSSolver:public Solver{
 
 private:
 
-int level=0;
-
 std::string meshFile="mesh.dat";
 std::string settingsFile="system.dat";
 std::string initFile="init.dat";

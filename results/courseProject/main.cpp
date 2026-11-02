@@ -4,11 +4,12 @@
 #ifdef _OPENMP
 #include<omp.h>
 #endif
+#include<fenv.h>
 
 Logger logger;
 
 int main(void){
-        
+       feenableexcept(FE_INVALID); 
         comNSSolver solver;
         //Interface In(solver); 
         //solver.in=&In;
