@@ -230,7 +230,7 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
         wp xi,eta;
         wp eta1,eta2;
 
-        if(fabs(coeffsA)<SMALL){
+        if(fabs(coeffsA)<=10.0*SMALL){
                 eta=-coeffsC/coeffsB;
         }
         else{
@@ -239,11 +239,15 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
                 eta=(eta1>=0.0 && eta1<=1.0)?eta1:eta2;
         };      
 
-
         wp num,denom;
         num=nd.y-eta*nds[3].y;
         denom=nds[1].y+eta*(nds[2].y-nds[1].y-nds[3].y);
-        denom+=sign(denom)*SMALL;
+        
+        if(fabs(denom)<10.0*SMALL){
+                num=nd.x-eta*nds[3].x;
+                denom=nds[1].x+eta*(nds[2].x-nds[1].x-nds[3].x);
+        };
+
         xi=num/denom;
 
         return  vals[0]*(1.0-xi)*(1.0-eta)
