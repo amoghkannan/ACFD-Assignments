@@ -1,29 +1,36 @@
 #include"comNSSolver.h"
 
-comNSSolver::comNSSolver(){
-        std::ofstream outfile("res.dat");
+comNSSolver::comNSSolver(int level_,Mesh *mesh_){
+
+        level=level_;
+        std::ofstream outfile("res"+std::to_string(level)+".dat");
         outfile<<"Continuity\tXMom\tYMom\tEnergy"<<std::endl;
         outfile.close();
 
-        std::ifstream infile(meshFile);
-        int imx, jmx;
+        if(mesh_==nullptr){
+                std::ifstream infile(meshFile);
+                int imx, jmx;
 
-        infile>>imx>>jmx;
+                infile>>imx>>jmx;
 
-        mesh = new Mesh(Box(imx,jmx,1,1,1,1),{NODE,NODE});
+                mesh = new Mesh(Box(imx,jmx,1,1,1,1),{NODE,NODE});
 
-        for(int j=1;j<=jmx;j++){
-                for(int i=1;i<=imx;i++){
-                        infile>>(*mesh)(i,j).x>>(*mesh)(i,j).y;
+                for(int j=1;j<=jmx;j++){
+                        for(int i=1;i<=imx;i++){
+                                infile>>(*mesh)(i,j).x>>(*mesh)(i,j).y;
+                        };
                 };
+
+                infile.close();
+        }
+        else{
+                mesh=mesh_;
         };
 
         mesh->setGhostNodes();
         mesh->calcAreas();
         mesh->calcVolumes();
 
-        infile.close();
-      
         logger.log("Allocating memory",1);
         (*this).setVar("rho",{CELL,CELL});
         (*this).setVar("u",{CELL,CELL});
@@ -196,53 +203,59 @@ comNSSolver::comNSSolver(){
         zeroFluxBC["BCE"]=false;
         zeroFluxBC["BCW"]=false;
 
+        logger.log("Setup for level "+std::to_string(level)+" finished",1);
+
+        initialCondition();
+        applyBC();
+        if(params["MUREF"]!=0.0){
+                computeTemperature(vars["p"],vars["rho"],params["RGAS"]);
+                computeViscosity();
+        };
+
 };
 
 void comNSSolver::initialCondition(){
 
-        std::ifstream infile(initFile);
-        std::string temp;
+       Grid<wp>&rho=vars["rho"];
+       Grid<wp>&u=vars["u"];
+       Grid<wp>&v=vars["v"];
+       Grid<wp>&p=vars["p"];
 
-        Grid<wp>&rho=vars["rho"];
-        Grid<wp>&u=vars["u"];
-        Grid<wp>&v=vars["v"];
-        Grid<wp>&p=vars["p"];
+        if(level==0){
+                std::ifstream infile(initFile);
+                std::string temp;
 
-        infile>>temp;
-        for(int j=1;j<=rho.intVect[1];j++){
-                for(int i=1;i<=rho.intVect[0];i++){
-                        infile>>rho(i,j);
+
+                infile>>temp;
+                for(int j=1;j<=rho.intVect[1];j++){
+                        for(int i=1;i<=rho.intVect[0];i++){
+                                infile>>rho(i,j);
+                        };
                 };
-        };
 
-        infile>>temp;
-        for(int j=1;j<=u.intVect[1];j++){
-                for(int i=1;i<=u.intVect[0];i++){
-                        infile>>u(i,j);
+                infile>>temp;
+                for(int j=1;j<=u.intVect[1];j++){
+                        for(int i=1;i<=u.intVect[0];i++){
+                                infile>>u(i,j);
+                        };
                 };
-        };
 
-        infile>>temp;
-        for(int j=1;j<=v.intVect[1];j++){
-                for(int i=1;i<=v.intVect[0];i++){
-                        infile>>v(i,j);
+                infile>>temp;
+                for(int j=1;j<=v.intVect[1];j++){
+                        for(int i=1;i<=v.intVect[0];i++){
+                                infile>>v(i,j);
+                        };
                 };
-        };
 
-        infile>>temp;
-        for(int j=1;j<=p.intVect[1];j++){
-                for(int i=1;i<=p.intVect[0];i++){
-                        infile>>p(i,j);
+                infile>>temp;
+                for(int j=1;j<=p.intVect[1];j++){
+                        for(int i=1;i<=p.intVect[0];i++){
+                                infile>>p(i,j);
+                        };
                 };
-        };
 
-        infile.close();
+                infile.close();
 
-        applyBC();
-
-        if(params["MUREF"]!=0.0){
-                computeTemperature(p,rho,params["RGAS"]);
-                computeViscosity();
         };
 
 };
@@ -446,6 +459,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
                               +sqrt(gm*p(i,j)/rho(i,j)));
 
                         dt(i,j)=dt(i,j)+(contraVel+c)*S;
+
 
                         //Right face
                         S=mesh->normalsI(i+1,j).norm2();
@@ -767,7 +781,7 @@ wp comNSSolver::getResNorm(){
                 res[key]=sqrt(res[key])/resScale[key];
           };
 
-        std::ofstream outfile("res.dat",std::ios::app);
+        std::ofstream outfile("res"+std::to_string(level)+".dat",std::iostream::app);
 
         for(auto key:keys){
                 outfile<<res[key]<<"\t";
@@ -943,3 +957,30 @@ void comNSSolver::computeViscosity(){
        };
 
 };
+
+void comNSSolver::setupMultigrid(int maxlevel_){
+        if(level==maxlevel_) return;
+
+        Box newBox((mesh->box.imx+1)/2,(mesh->box.jmx+1)/2,mesh->box.bufW,mesh->box.bufE,mesh->box.bufS,mesh->box.bufN);
+        Mesh *newMesh=new Mesh(newBox,{NODE,NODE});
+        
+        for(int j=1;j<=newMesh->intVect[1];j++){
+                for(int i=1;i<=newMesh->intVect[0];i++){
+                        (*newMesh)(i,j)=(*mesh)(2*i-1,2*j-1);
+                };
+        };
+
+        coarser=new comNSSolver(level+1,newMesh);
+        coarser->finer=this;
+        restriction();
+        coarser->applyBC();
+        if(params["MUREF"]!=0.0){
+                (static_cast<comNSSolver*>(coarser))->computeTemperature(vars["p"],vars["rho"],params["RGAS"]);
+                (static_cast<comNSSolver*>(coarser))->computeViscosity();
+        };
+       
+        logger.log("Debug: multigrid level set up",1);
+        coarser->setupMultigrid(maxlevel_);
+
+};
+

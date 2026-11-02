@@ -5,6 +5,8 @@ class comNSSolver:public Solver{
 
 private:
 
+int level=0;
+
 std::string meshFile="mesh.dat";
 std::string settingsFile="system.dat";
 std::string initFile="init.dat";
@@ -41,7 +43,7 @@ dictionary<std::string,wp>resScale;
 dictionary<std::string,std::string>globalBCDict;
 dictionary<std::string,bool>zeroFluxBC;
 
-comNSSolver();
+comNSSolver(int level=0,Mesh *mesh=nullptr);
 void initialCondition() override;
 void applyBC() override;
 void QDot() override;
@@ -60,4 +62,7 @@ void conservativeToPrimitive(std::vector<wp>&qc, wp gm, wp RGas);
 void primitiveToConservative(std::vector<wp>&qp, wp gm, wp RGas);
 void computeTemperature(Grid<wp>&pressure,Grid<wp>&density,wp rgas);
 void computeViscosity();
+
+void setupMultigrid(int maxLevel) override;
+
 };

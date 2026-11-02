@@ -47,6 +47,7 @@ enum schemeVal{
         C4,   //Fourth-order compact,
         V_CYCLE,
         W_CYCLE,
+        FAS,
         MUSCL,
         AUSM,
         CONSTANT,

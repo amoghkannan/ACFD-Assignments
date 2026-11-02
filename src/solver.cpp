@@ -42,60 +42,49 @@ Scheme& Solver::getScheme(){
         return scheme;
 };
 
-Grid<wp> Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar){
-        Box coarseBox;
-        coarseBox.imx=(fineVar.box.imx+1)/2;
-        coarseBox.jmx=(fineVar.box.jmx+1)/2;
-        coarseBox.bufW=fineVar.box.bufW;
-        coarseBox.bufE=fineVar.box.bufE;
-        coarseBox.bufS=fineVar.box.bufS;
-        coarseBox.bufN=fineVar.box.bufN;
+void Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar){
 
         if(fineVar.indexType[0]==NODE && fineVar.indexType[1]==NODE){
 
-                Grid<wp> coarseVar(coarseBox,{NODE,NODE});
-        
-                for(int j=1;j<=fineVar.box.jmx;j+=2){
-                        for(int i=1;i<=fineVar.box.imx;i+=2){
-                                coarseVar((i+1)/2,(j+1)/2)=fineVar(i,j);
+                for(int j=1;j<=coarseVar.intVect[1];j++){
+                        for(int i=1;i<=coarseVar.intVect[0];i++){
+                                coarseVar(i,j)=fineVar(2*i-1,2*j-1);
                         };
                         
                 };
         
-                return coarseVar;
-
         }
         else if(fineVar.indexType[0]==CELL && fineVar.indexType[1]==CELL){
-                Grid<wp> coarseVar(coarseBox,{CELL,CELL});
-                if(fineMesh.volumes.trueSize==0) logger.log("Warning: Volumes uninitialized",1);
         
-                for(int j=1;j<=fineVar.intVect[1];j+=2){
-                        for(int i=1;i<=fineVar.intVect[0];i+=2){
-                                coarseVar((i+1)/2,(j+1)/2)=volumeAverage(fineMesh,fineVar,i,j);
+                for(int j=1;j<=coarseVar.intVect[1];j++){
+                        for(int i=1;i<=coarseVar.intVect[0];i++){
+                                coarseVar(i,j)=volumeAverage(fineMesh,fineVar,i,j);
                         };
-                        
                 };
         
-                return coarseVar;
         }
         else{
                 logger.log("Warning: face-based variables not supported for multigrid",1);
         };
+
 };
 
-wp Solver::volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int i,int j){
+wp Solver::volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int iCoarse,int jCoarse){
 
-        wp ans=fineVar(i,j)*fineMesh.volumes(i,j);
-        wp weights=fineMesh.volumes(i,j);
+        int i=iCoarse;
+        int j=jCoarse;
 
-        ans=ans+fineVar(i+1,j)*fineMesh.volumes(i+1,j);
-        weights=weights+fineMesh.volumes(i+1,j);
+        wp ans=fineVar(2*i-1,2*j-1)*fineMesh.volumes(2*i-1,2*j-1);
+        wp weights=fineMesh.volumes(2*i-1,2*j-1);
 
-        ans=ans+fineVar(i,j+1)*fineMesh.volumes(i,j+1);
-        weights=weights+fineMesh.volumes(i,j+1);
+        ans=ans+fineVar(2*i,2*j-1)*fineMesh.volumes(2*i,2*j-1);
+        weights=weights+fineMesh.volumes(2*i,2*j-1);
 
-        ans=ans+fineVar(i+1,j+1)*fineMesh.volumes(i+1,j+1);
-        weights=weights+fineMesh.volumes(i+1,j+1);
+        ans=ans+fineVar(2*i-1,2*j)*fineMesh.volumes(2*i-1,2*j);
+        weights=weights+fineMesh.volumes(2*i-1,2*j);
+
+        ans=ans+fineVar(2*i,2*j)*fineMesh.volumes(2*i,2*j);
+        weights=weights+fineMesh.volumes(2*i,2*j);
 
         return ans/weights;
 };
@@ -127,30 +116,25 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                 };
 
         }
+        
         else if(fineVar.indexType[0]==CELL && fineVar.indexType[1]==CELL){
-                for(int j=1;j<coarseVar.intVect[1];j++){
-                        for(int i=1;i<coarseVar.intVect[0];i++){
+                for(int j=1;j<=fineVar.intVect[1];j++){
+                        for(int i=1;i<=fineVar.intVect[0];i++){
+                               
+                                int iCoarse=(i+1)/2;
+                                int jCoarse=(j+1)/2;
 
-                                fineVar(2*i,2*j)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
-                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
-                                                                  {coarseVar(i,j),coarseVar(i+1,j),
-                                                                   coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   fineMesh.cc(2*i,2*j));
-                                fineVar(2*i+1,2*j)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
-                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
-                                                                  {coarseVar(i,j),coarseVar(i+1,j),
-                                                                   coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   fineMesh.cc(2*i+1,2*j));
-                                fineVar(2*i+1,2*j+1)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
-                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
-                                                                  {coarseVar(i,j),coarseVar(i+1,j),
-                                                                   coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   fineMesh.cc(2*i+1,2*j+1));
-                                fineVar(2*i,2*j+1)+=bilinearInterp4({coarseMesh.cc(i,j),coarseMesh.cc(i+1,j),
-                                                                   coarseMesh.cc(i+1,j+1),coarseMesh.cc(i,j+1)},
-                                                                  {coarseVar(i,j),coarseVar(i+1,j),
-                                                                   coarseVar(i+1,j+1),coarseVar(i,j+1)},
-                                                                   fineMesh.cc(2*i,2*j+1));
+                                Node nd1=coarseMesh.cc(iCoarse,jCoarse);
+                                wp val1=coarseVar(iCoarse,jCoarse);
+                                Node nd2=coarseMesh.cc(iCoarse+1,jCoarse);
+                                wp val2=coarseVar(iCoarse+1,jCoarse);
+                                Node nd3=coarseMesh.cc(iCoarse+1,jCoarse+1);
+                                wp val3=coarseVar(iCoarse+1,jCoarse+1);
+                                Node nd4=coarseMesh.cc(iCoarse,jCoarse+1);
+                                wp val4=coarseVar(iCoarse,jCoarse+1);
+
+                                fineVar(i,j)=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
+
                         };
                 };
 
@@ -158,32 +142,55 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
 
 };
 
-void Solver::restriction(std::vector<Grid<wp>>&R_store){
-        res_store.clear();
+void Solver::restriction(){
 
-        for(int i=0;i<nVars;i++){
-                res_store.push_back(varsDot(i));
-        };
-        
-        getResidual();
-        
-        for(auto key:vars.getKeys()){
-                coarser->vars[key]=restrictVar(*mesh,vars[key]);
-                coarser->vars[key].initVal(0.0);
-                coarser->varsDot[key]=restrictVar(*mesh,varsDot[key]);
-        };
+        if(getScheme().getScheme(multigrid)==FAS){
 
-        (coarser->ls)->setRHSFunc(coarser->varsDot(0));
+                for(auto key:vars.getKeys()){
+                        restrictVar(*mesh,vars[key],coarser->vars[key]);
+                };
+
+                for(auto key:vars.getKeys()){
+                        Grid<wp>&coarseVarsDot=coarser->varsDot[key];
+                        Grid<wp>&fineVarsDot=varsDot[key];
+                        for(int j=1;j<=coarseVarsDot.intVect[1];j++){
+                                for(int i=1;i<=coarseVarsDot.intVect[0];i++){
+                                        coarseVarsDot(i,j)=fineVarsDot(2*i-1,2*j-1)+fineVarsDot(2*i-1,2*j)
+                                                           +fineVarsDot(2*i,2*j-1)+fineVarsDot(2*i,2*j);
+                                };
+                        };
+                };
+
+        }
+        else{
+                res_store.clear();
+
+                for(int i=0;i<nVars;i++){
+                        res_store.push_back(varsDot(i));
+                };
+                
+                getResidual();
+                
+                for(auto key:vars.getKeys()){
+                        coarser->vars[key].initVal(0.0);
+                        restrictVar(*mesh,varsDot[key],coarser->varsDot[key]);
+                };
+
+                (coarser->ls)->setRHSFunc(coarser->varsDot(0));
+       };
+
 };
 
-void Solver::prolongation(std::vector<Grid<wp>>&R_store){
+void Solver::prolongation(){
 
         for(auto key:vars.getKeys()){
                 prolongateVar(*(finer->mesh),(*mesh),finer->vars[key],vars[key]);
         };
 
-        for(int i=0;i<nVars;i++){
-                finer->varsDot(i)=finer->res_store[i];
+        if(getScheme().getScheme(multigrid)!=FAS){
+                for(int i=0;i<nVars;i++){
+                        finer->varsDot(i)=finer->res_store[i];
+                };
         };
 
 };
@@ -207,23 +214,43 @@ wp Solver::bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd){
 
 wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
 
-        wp x_xi=nds[1].x-nds[0].x;
-        wp y_xi=nds[1].y-nds[0].y;
-        wp x_eta=nds[3].x-nds[0].x;
-        wp y_eta=nds[3].y-nds[0].y;
+        nds[0]=nds[0]-nds[0];
+        nds[1]=nds[1]-nds[0];
+        nds[2]=nds[2]-nds[0];
+        nds[3]=nds[3]-nds[0];
 
-        wp delta_x=nd.x-nds[0].x;
-        wp delta_y=nd.y-nds[0].y;
-        wp J=x_xi*y_eta-y_xi*x_eta;
+        wp alpha=nds[2].x-nds[1].x-nds[3].x;
+        wp beta=nds[2].y-nds[1].y-nds[3].y;
 
-        wp delta_xi=(y_eta*delta_x-x_eta*delta_y)/J;
-        wp delta_eta=(-y_xi*delta_x+x_xi*delta_y)/J;
+        wp coeffsA=alpha*nds[3].y-beta*nds[2].x;
+        coeffsA+=sign(coeffsA)*SMALL;
+        wp coeffsB=nd.x*beta-nd.y*alpha-nds[3].x*nds[1].y+nds[1].x*nds[3].y;
+        wp coeffsC=nd.x*nds[1].y-nd.y*nds[1].x;
+
+        wp xi,eta;
+        wp eta1,eta2;
+
+        if(fabs(coeffsA)<SMALL){
+                eta=-coeffsC/coeffsB;
+        }
+        else{
+                eta1=0.5*(-coeffsB+sqrt(coeffsB*coeffsB-4*coeffsA*coeffsC))/coeffsA;
+                eta2=0.5*(-coeffsB-sqrt(coeffsB*coeffsB-4*coeffsA*coeffsC))/coeffsA;
+                eta=(eta1>=0.0 && eta1<=1.0)?eta1:eta2;
+        };      
 
 
-        return vals[0]*(1.0-delta_xi)*(1.0-delta_eta)+
-               vals[1]*(delta_xi)*(1.0-delta_eta)+
-               vals[2]*(delta_xi)*(delta_eta)+
-               vals[3]*(1.0-delta_xi)*(delta_eta);
+        wp num,denom;
+        num=nd.y-eta*nds[3].y;
+        denom=nds[1].y+eta*(nds[2].y-nds[1].y-nds[3].y);
+        denom+=sign(denom)*SMALL;
+        xi=num/denom;
+
+        return  vals[0]*(1.0-xi)*(1.0-eta)
+                +vals[1]*(xi)*(1.0-eta)
+                +vals[2]*(xi)*(eta)
+                +vals[3]*(1.0-xi)*(eta);
+
 };
 
 

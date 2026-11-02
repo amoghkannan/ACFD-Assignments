@@ -34,7 +34,7 @@ void Integrator::addSolver(Solver& solverIn, std::string name){
         };
 
          if(newSolver->getScheme().schemeDict.hasKey(multigrid)){
-                newSolver->setupMultigrid(1,maxMultigridLevel);
+                newSolver->setupMultigrid(maxMultigridLevel);
         };
  
         converged.push_back(false);
@@ -178,10 +178,10 @@ void Integrator::multigridController(Solver *s, int level){
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
                                 logger.log("Multigrid level: "+std::to_string(level)+" restriction",1);
-                                s->restriction(rStore);
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
                                 logger.log("Multigrid level: "+std::to_string(level)+" prolongation",1);
-                                s->coarser->prolongation(rStore);
+                                s->coarser->prolongation();
                                 logger.log("Multigrid level: "+std::to_string(level)+" final relaxation",1);
                                 takeTimeStep(s);
                         };
@@ -189,15 +189,20 @@ void Integrator::multigridController(Solver *s, int level){
                 case(W_CYCLE):
                         takeTimeStep(s);
                         if(level!=maxMultigridLevel){
-                                s->restriction(rStore);
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
-                                s->coarser->prolongation(rStore);
+                                s->coarser->prolongation();
                                 takeTimeStep(s);
-                                s->restriction(rStore);
+                                s->restriction();
                                 multigridController(s->coarser,level+1);
-                                s->coarser->prolongation(rStore);
+                                s->coarser->prolongation();
                                 takeTimeStep(s);
                         };
+                        return;
+                case(FAS):
+                        takeTimeStep(s);
+                        takeTimeStep(s->coarser);
+                        s->coarser->getResNorm();
                         return;
                 default:
                         logger.log("Error, invalid multigrid scheme",1);

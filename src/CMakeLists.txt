@@ -17,7 +17,7 @@ LinearSolvers/biCGStab.cpp
 solver.cpp
 integrator.cpp
 LWESolver.cpp
-PoissonSolver.cpp
+#PoissonSolver.cpp
 icoNSSolver.cpp
 comNSSolver.cpp
 interface.cpp

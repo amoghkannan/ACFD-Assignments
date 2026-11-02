@@ -51,7 +51,6 @@ Scheme& getScheme();
 virtual ~Solver(){
         logger.log("Debug: Destroying solver",1);
         delete coarser;
-        delete finer;
         delete ls;
 };
 
@@ -77,12 +76,12 @@ virtual void getResidual()=0;
 virtual bool isConverged()=0;
 
 //For multigrid
-virtual void setupMultigrid(int level, int maxLevel){logger.log("Invalid multigrid setup",1);};
-Grid<wp> restrictVar(Mesh& fineMesh, Grid<wp>& fineVar);
+virtual void setupMultigrid(int maxLevel){logger.log("Invalid multigrid setup",1);};
+void restrictVar(Mesh& fineMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar);
 wp volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int i,int j);
 void prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, Grid<wp>& coarseVar);
-void restriction(std::vector<Grid<wp>>&R_store);
-void prolongation(std::vector<Grid<wp>>&R_store);
+void restriction();
+void prolongation();
 
 static wp bilinearInterp2(std::array<Node,2>nds,std::array<wp,2>vals,Node nd);
 static wp bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd);

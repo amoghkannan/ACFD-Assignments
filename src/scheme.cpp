@@ -69,6 +69,8 @@ schemeVal StringToschemeVal(std::string str){
 
         if(str=="W_CYCLE") return W_CYCLE;
 
+        if(str=="FAS") return FAS;
+
         if(str=="MUSCL") return MUSCL;
 
         if(str=="AUSM") return AUSM;
