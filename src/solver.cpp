@@ -121,8 +121,8 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                 for(int j=1;j<=fineVar.intVect[1];j++){
                         for(int i=1;i<=fineVar.intVect[0];i++){
                                
-                                int iCoarse=(i+1)/2;
-                                int jCoarse=(j+1)/2;
+                                int iCoarse=i/2;
+                                int jCoarse=j/2;
 
                                 Node nd1=coarseMesh.cc(iCoarse,jCoarse);
                                 wp val1=coarseVar(iCoarse,jCoarse);

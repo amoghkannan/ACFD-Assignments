@@ -409,6 +409,19 @@ void comNSSolver::applyBC(){
 
         };
 
+        std::vector<std::string>keys=vars.getKeys();
+
+        int imx=mesh->intVect[0];
+        int jmx=mesh->intVect[1];
+
+        for(auto key:keys){
+                Grid<wp>&currVar=vars[key];
+                currVar(0,0)=(currVar(1,1)+currVar(1,0)+currVar(0,1))/3.0;
+                currVar(imx,0)=(currVar(imx-1,0)+currVar(imx,1)+currVar(imx-1,1))/3.0;
+                currVar(imx,jmx)=(currVar(imx,jmx-1)+currVar(imx-1,jmx)+currVar(imx-1,jmx-1))/3.0;
+                currVar(0,jmx)=(currVar(0,jmx-1)+currVar(1,jmx)+currVar(1,jmx-1))/3.0;
+        };
+
 };
 
 void comNSSolver::QDot(){
