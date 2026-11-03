@@ -274,7 +274,6 @@ void Integrator::multigridController(Solver *s, int level){
                         };
                         rk4FAS(s);
                         if(level!=maxMultigridLevel){
-                                s->QDot();
                                 s->restriction();
                                 multigridController(s->coarser,level+1);
                         };

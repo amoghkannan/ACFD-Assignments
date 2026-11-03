@@ -788,15 +788,20 @@ wp comNSSolver::getResNorm(){
                 res[key]=0.0;
         };
 
+        int counter=0;
         for(auto key:keys){
                 wp&resLocal=res[key];
                 Grid<wp>&varsDotLocal=varsDot[key];
+                Grid<wp>&res_store_local=res_store[counter];
+
                 #pragma omp parallel for collapse(2) reduction(+:resLocal)
                 for(int j=1;j<=varsDotLocal.intVect[1];j++){
                         for(int i=1;i<=varsDotLocal.intVect[0];i++){
-                                resLocal=resLocal+pow(varsDotLocal(i,j)*mesh->volumes(i,j),2.0);
+                                resLocal=resLocal+pow((varsDotLocal(i,j)+res_store_local(i,j))*mesh->volumes(i,j),2.0);
                         };
                 };
+
+                counter++;
         };
 
         for(auto key:keys){
@@ -994,8 +999,8 @@ void comNSSolver::setupMultigrid(int maxlevel_){
 
         coarser=new comNSSolver(level+1,newMesh);
         coarser->finer=this;
-        QDot();
         restriction();
+        coarser->applyBC();
         if(params["MUREF"]!=0.0){
                 (static_cast<comNSSolver*>(coarser))->computeTemperature(vars["p"],vars["rho"],params["RGAS"]);
                 (static_cast<comNSSolver*>(coarser))->computeViscosity();

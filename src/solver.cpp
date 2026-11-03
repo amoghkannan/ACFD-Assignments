@@ -58,7 +58,7 @@ void Solver::restrictVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>& fineVar, Gr
         
                 for(int j=1;j<=coarseVar.intVect[1];j++){
                         for(int i=1;i<=coarseVar.intVect[0];i++){
-                                coarseVar(i,j)=volumeAverage(fineMesh,fineVar,i,j)/coarseMesh.volumes(i,j);
+                                coarseVar(i,j)=volumeAverage(fineMesh,coarseMesh,fineVar,i,j);
                         };
                 };
         
@@ -69,7 +69,7 @@ void Solver::restrictVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>& fineVar, Gr
 
 };
 
-wp Solver::volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int iCoarse,int jCoarse){
+wp Solver::volumeAverage(Mesh&fineMesh,Mesh&coarseMesh,Grid<wp>&fineVar,int iCoarse,int jCoarse){
 
         int i=iCoarse;
         int j=jCoarse;
@@ -82,7 +82,7 @@ wp Solver::volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int iCoarse,int jCoarse)
 
         ans=ans+fineVar(2*i,2*j)*fineMesh.volumes(2*i,2*j);
 
-        return ans;
+        return ans/coarseMesh.volumes(i,j);
 };
 
 void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, Grid<wp>& coarseVar){
@@ -146,20 +146,13 @@ void Solver::restriction(){
                         restrictVar(*mesh,*(coarser->mesh),vars[key],coarser->vars[key]);
                 };
 
+                QDot();
                 coarser->QDot();
 
                 int counter=0;
                 for(auto key:vars.getKeys()){
-                        Grid<wp>&coarseVarsStore=coarser->res_store[counter];
-                        Grid<wp>&coarseVarsDot=coarser->varsDot[key];
-                        Grid<wp>&fineVarsDot=varsDot[key];
-                        for(int j=1;j<=coarseVarsDot.intVect[1];j++){
-                                for(int i=1;i<=coarseVarsDot.intVect[0];i++){
-                                        coarseVarsStore(i,j)=fineVarsDot(2*i-1,2*j-1)+fineVarsDot(2*i-1,2*j)
-                                                           +fineVarsDot(2*i,2*j-1)+fineVarsDot(2*i,2*j);
-                                        coarseVarsStore(i,j)-=coarseVarsDot(i,j);
-                                };
-                        };
+                        restrictVar(*mesh,*(coarser->mesh),varsDot[key],coarser->res_store[counter]);
+                        coarser->res_store[counter]-=coarser->varsDot[key];
                         counter++;
                 };
 
