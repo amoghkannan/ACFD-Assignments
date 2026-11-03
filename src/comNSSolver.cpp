@@ -217,6 +217,10 @@ comNSSolver::comNSSolver(int level_,Mesh *mesh_){
                 u_store.push_back(vars["u"]);
         };
 
+        for(int i=0;i<nVars;i++){
+                res_store[i].initVal(0.0);
+        };
+
 };
 
 void comNSSolver::initialCondition(){

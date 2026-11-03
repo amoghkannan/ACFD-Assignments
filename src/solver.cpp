@@ -134,7 +134,7 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                                 wp val4=coarseVar(iCoarse,jCoarse+1);
 
                                 fineVar(i,j)+=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
-                        
+                       
                         };
                 };
 
@@ -192,10 +192,17 @@ void Solver::prolongation(){
                 Grid<wp>&currUStore=u_store[n];
                 for(int j=0;j<=currVar.intVect[1]+1;j++){
                         for(int i=0;i<=currVar.intVect[0]+1;i++){
-                                currUStore(i,j)=currVar(i,j)-currUStore(i,j);
+                                if(i==0 || i==currVar.intVect[0]+1 || j==0 || j==currVar.intVect[1]+1){
+                                        currUStore(i,j)=0.0;
+                                }
+                                else{
+                                        currUStore(i,j)=currVar(i,j)-currUStore(i,j);
+                                };
                         };
                 };
+
                 prolongateVar(*(finer->mesh),(*mesh),finer->vars(n),currUStore);
+        
         };
 
         if(getScheme().getScheme(multigrid)!=FAS){

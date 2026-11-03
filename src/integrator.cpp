@@ -170,7 +170,7 @@ void Integrator::rk4FAS(Solver *s){
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+               s->varsDot(i)+=s->res_store[i];
         };
 
         for(int i=0;i<s->nVars;i++){
@@ -200,7 +200,7 @@ void Integrator::rk4FAS(Solver *s){
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+               s->varsDot(i)+=s->res_store[i];
         };
 
         s->updateVars(deltaT,CFL,uStore);
@@ -213,7 +213,7 @@ void Integrator::rk4FAS(Solver *s){
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+               s->varsDot(i)+=s->res_store[i];
         };
 
         for(int i=0;i<s->nVars;i++){
@@ -273,8 +273,8 @@ void Integrator::multigridController(Solver *s, int level){
                                 };
                         };
                         rk4FAS(s);
-                        s->QDot();
                         if(level!=maxMultigridLevel){
+                                s->QDot();
                                 s->coarser->QDot();
                                 s->restriction();
                                 multigridController(s->coarser,level+1);
