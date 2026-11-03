@@ -68,7 +68,7 @@ void Integrator::takeTimeStep(Solver *solver){
 void Integrator::integrate(){
 
        auto start=std::chrono::high_resolution_clock::now();
-
+       
        for(int i=0;i<nSolvers;i++){
                 solvers(i)->initialCondition();
                 solvers(i)->applyBC();
@@ -85,7 +85,7 @@ void Integrator::integrate(){
                         if(converged[i]) continue;
 
                         solvers(i)->getResNorm();
-                        
+                         
                         notConvergedCounter++;
 
                         if(solvers(i)->getScheme().hasScheme(multigrid)){
@@ -272,7 +272,12 @@ void Integrator::multigridController(Solver *s, int level){
                                         };
                                 };
                         };
-                        rk4FAS(s);
+                        if(level==0){
+                                rk4(s);
+                        }
+                        else{
+                                rk4FAS(s);
+                        };
                         if(level!=maxMultigridLevel){
                                 s->restriction();
                                 multigridController(s->coarser,level+1);

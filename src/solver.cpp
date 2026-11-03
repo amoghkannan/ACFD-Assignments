@@ -210,6 +210,7 @@ void Solver::restriction(){
 
                 int counter=0;
                 for(auto key:vars.getKeys()){
+                        varsDot[key]+=res_store[counter];
                         restrictVar(*mesh,*(coarser->mesh),varsDot[key],coarser->res_store[counter]);
                         coarser->res_store[counter]-=coarser->varsDot[key];
                         counter++;

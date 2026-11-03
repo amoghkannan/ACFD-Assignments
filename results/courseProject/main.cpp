@@ -9,14 +9,13 @@ Logger logger;
 
 int main(void){
         comNSSolver solver;
-        //Interface In(solver); 
-        //solver.in=&In;
-        
+        Interface In(solver); 
+        solver.in=&In;
         Integrator I;
         I.setCFL(1.0);
         I.maxSteps=20000;
         I.dumpSteps=10000;
-        I.maxMultigridLevel=1;
+        I.maxMultigridLevel=4;
         I.addSolver(solver,"NS");
         I.integrate();
 

@@ -832,7 +832,12 @@ void comNSSolver::getResidual(){
                 #pragma omp parallel for collapse(2)
                 for(int j=1;j<=varsDotLocal.intVect[1];j++){
                         for(int i=1;i<=varsDotLocal.intVect[0];i++){
-                                varsDotLocal(i,j)=-(FLocal(i+1,j)-FLocal(i,j)+GLocal(i,j+1)-GLocal(i,j))/mesh->volumes(i,j);
+                                if(in->cellClass(i,j)==0){
+                                    varsDotLocal(i,j)=-(FLocal(i+1,j)-FLocal(i,j)+GLocal(i,j+1)-GLocal(i,j))/mesh->volumes(i,j);
+                                }
+                                else{
+                                    varsDotLocal(i,j)=0.0;
+                                };
                         };
                 };
         };
