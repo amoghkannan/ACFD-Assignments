@@ -536,36 +536,6 @@ Node Interface::InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects){
         return ans;
 };
 
-wp Interface::shoelaceArea(std::vector<Node>nds){
-        int n=nds.size();
-        if(n<3) return 0.0;
-
-        nds.push_back(nds[0]);
-
-        wp ans=0.0;
-
-        for(int i=0;i<n;i++){
-                ans=ans+nds[i].x*nds[i+1].y;
-                ans=ans-nds[i].y*nds[i+1].x;
-        };
-
-        return 0.5*fabs(ans);
-};
-
-bool Interface::isLeft(Node nd, Vec2 seg){
-        Vec2 v(seg.en,nd);
-
-        wp det11=seg.en.x-seg.st.x;
-        wp det12=seg.en.y-seg.st.y;
-        wp det21=v.en.x-v.st.x;
-        wp det22=v.en.y-v.st.y;
-
-        wp checker=det11*det22-det12*det21;
-
-        return checker>0.0;
-
-};
-
 std::vector<Node> Interface::SutherlandHodgman(std::vector<Vec2>&clipPolygon,std::vector<Node>&subjectPolygon){
         std::vector<Node>outputList;
         std::vector<Node>inputList;
@@ -586,14 +556,14 @@ std::vector<Node> Interface::SutherlandHodgman(std::vector<Vec2>&clipPolygon,std
 
                         Node intersectPoint=InfiniteEdgeIntersection(Vec2(prevPoint,currPoint),edge,intersects);
 
-                        if(isLeft(currPoint,edge)){
-                                if(!isLeft(prevPoint,edge)){
+                        if(Mesh::isLeft(currPoint,edge)){
+                                if(!Mesh::isLeft(prevPoint,edge)){
                                         outputList.push_back(intersectPoint);
                                 };
 
                                 outputList.push_back(currPoint);
                         }
-                        else if(isLeft(prevPoint,edge)){
+                        else if(Mesh::isLeft(prevPoint,edge)){
                                 outputList.push_back(intersectPoint);
                         };
 
@@ -625,7 +595,7 @@ void Interface::initializeVolumeFractionField(){
                         clipPolygon.push_back(Vec2((*mesh)(i,j+1),(*mesh)(i,j)));
 
                         outputList=SutherlandHodgman(clipPolygon,subjectPolygon);
-                        wp fCurr=shoelaceArea(outputList)/mesh->volumes(i,j);
+                        wp fCurr=Mesh::shoelaceArea(outputList)/mesh->volumes(i,j);
 
                         vars["f"](i,j)=fCurr==0.0?(vars["phi"](i,j)>0.0?0.0:1.0):fCurr;
 
@@ -970,7 +940,7 @@ wp Interface::enclosedArea(Vec2 m, wp alpha, std::array<Node,4>cellCoords){
         
         };
 
-        return fabs(shoelaceArea(cutCellCoords));
+        return fabs(Mesh::shoelaceArea(cutCellCoords));
 
 };
 

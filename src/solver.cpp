@@ -114,23 +114,91 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
         }
         
         else if(fineVar.indexType[0]==CELL && fineVar.indexType[1]==CELL){
+              int iCoarse;
+              int jCoarse;
+              
+              int i1,j1;
+              int i2,j2;
+              int i3,j3;
+              int i4,j4;
+
+              wp val1,val2,val3,val4;
+              Node nd1,nd2,nd3,nd4;
+              Node nd;
+
                 for(int j=1;j<=fineVar.intVect[1];j++){
                         for(int i=1;i<=fineVar.intVect[0];i++){
                                
-                                int iCoarse=i/2;
-                                int jCoarse=j/2;
+                                iCoarse=i/2;
+                                jCoarse=j/2;
 
-                                Node nd1=coarseMesh.cc(iCoarse,jCoarse);
-                                wp val1=coarseVar(iCoarse,jCoarse);
-                                Node nd2=coarseMesh.cc(iCoarse+1,jCoarse);
-                                wp val2=coarseVar(iCoarse+1,jCoarse);
-                                Node nd3=coarseMesh.cc(iCoarse+1,jCoarse+1);
-                                wp val3=coarseVar(iCoarse+1,jCoarse+1);
-                                Node nd4=coarseMesh.cc(iCoarse,jCoarse+1);
-                                wp val4=coarseVar(iCoarse,jCoarse+1);
+                                i1=iCoarse;
+                                j1=jCoarse;
 
-                                fineVar(i,j)+=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
-                       
+                                i2=iCoarse+1;
+                                j2=jCoarse;
+
+                                i3=iCoarse+1;
+                                j3=jCoarse+1;
+
+                                i4=iCoarse;
+                                j4=jCoarse+1;
+
+                                nd1=coarseMesh.cc(i1,j1);
+                                nd2=coarseMesh.cc(i2,j2);
+                                nd3=coarseMesh.cc(i3,j3);
+                                nd4=coarseMesh.cc(i4,j4);
+                                nd=fineMesh.cc(i,j);
+
+                                if(!Mesh::isLeft(nd,Vec2(nd1,nd2))){
+                                        j1-=1;
+                                        j2-=1;
+                                        nd1=coarseMesh.cc(i1,j1);
+                                        nd2=coarseMesh.cc(i2,j2);
+                                };
+
+                                if(!Mesh::isLeft(nd,Vec2(nd2,nd3))){
+                                        i2+=1;
+                                        i3+=1;
+                                        nd2=coarseMesh.cc(i2,j2);
+                                        nd3=coarseMesh.cc(i3,j3);
+                                };
+
+                                if(!Mesh::isLeft(nd,Vec2(nd3,nd4))){
+                                        j3+=1;
+                                        j4+=1;
+                                        nd3=coarseMesh.cc(i3,j3);
+                                        nd4=coarseMesh.cc(i4,j4);
+                                };
+
+                                if(!Mesh::isLeft(nd,Vec2(nd4,nd1))){
+                                        i4-=1;
+                                        i1-=1;
+                                        nd4=coarseMesh.cc(i4,j4);
+                                        nd1=coarseMesh.cc(i1,j1);
+                                };
+
+                                val1=coarseVar(i1,j1);
+                                val2=coarseVar(i2,j2);
+                                val3=coarseVar(i3,j3);
+                                val4=coarseVar(i4,j4);
+                                wp minVal=std::min({val1,val2,val3,val4});
+                                wp maxVal=std::max({val1,val2,val3,val4});
+
+                                wp ans=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
+
+                                if(ans<minVal || ans>maxVal){
+                                        std::cout<<"Warning, bilinear fail"<<std::endl;
+                                        std::cout<<nd1.x<<"\t"<<nd1.y<<std::endl;
+                                        std::cout<<nd2.x<<"\t"<<nd2.y<<std::endl;
+                                        std::cout<<nd3.x<<"\t"<<nd3.y<<std::endl;
+                                        std::cout<<nd4.x<<"\t"<<nd4.y<<std::endl;
+                                        std::cout<<nd.x<<"\t"<<nd.y<<std::endl;
+                                        std::exit(-1);
+                                };
+
+                                fineVar(i,j)+=ans;
+
                         };
                 };
 
@@ -225,6 +293,7 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
 
         //Refer https://iquilezles.org/articles/ibilinear/
 
+        nd=nd-nds[0];
         nds[0]=nds[0]-nds[0];
         nds[1]=nds[1]-nds[0];
         nds[2]=nds[2]-nds[0];
@@ -233,7 +302,7 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
         wp alpha=nds[2].x-nds[1].x-nds[3].x;
         wp beta=nds[2].y-nds[1].y-nds[3].y;
 
-        wp coeffsA=alpha*nds[3].y-beta*nds[2].x;
+        wp coeffsA=-beta*nds[3].x+alpha*nds[3].y;
         wp coeffsB=nd.x*beta-nd.y*alpha-nds[3].x*nds[1].y+nds[1].x*nds[3].y;
         wp coeffsC=nd.x*nds[1].y-nd.y*nds[1].x;
 

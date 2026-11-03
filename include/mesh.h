@@ -59,6 +59,9 @@ void operator*(Mesh& otherMesh)=delete;
 void operator/(Mesh& otherMesh)=delete;
 Node cc(int i, int j);
 static wp pDist(Vec2 line, Node point, Vec2 normal);
+static wp shoelaceArea(std::vector<Node>nds);
+static bool isLeft(Node nd, Vec2 seg);
+
 ~Mesh();
 
 };

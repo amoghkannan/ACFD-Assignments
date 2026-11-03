@@ -129,6 +129,36 @@ wp Mesh::pDist(Vec2 l, Node p, Vec2 n){
         return (Vec2(p,touchdown)).norm2();
 };
 
+wp Mesh::shoelaceArea(std::vector<Node>nds){
+        int n=nds.size();
+        if(n<3) return 0.0;
+
+        nds.push_back(nds[0]);
+
+        wp ans=0.0;
+
+        for(int i=0;i<n;i++){
+                ans=ans+nds[i].x*nds[i+1].y;
+                ans=ans-nds[i].y*nds[i+1].x;
+        };
+
+        return 0.5*fabs(ans);
+};
+
+bool Mesh::isLeft(Node nd, Vec2 seg){
+        Vec2 v(seg.en,nd);
+
+        wp det11=seg.en.x-seg.st.x;
+        wp det12=seg.en.y-seg.st.y;
+        wp det21=v.en.x-v.st.x;
+        wp det22=v.en.y-v.st.y;
+
+        wp checker=det11*det22-det12*det21;
+
+        return checker>0.0;
+
+};
+
 Mesh::~Mesh(){
 logger.log("Debug: destroying mesh",1);
 };

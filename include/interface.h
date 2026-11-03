@@ -114,8 +114,6 @@ dictionary<std::string,Grid<wp>>&y_qp_l,dictionary<std::string,Grid<wp>>&y_qp_r)
 void resetBandInteriorCells(dictionary<std::string,wp>&params,Grid<wp>&rho,Grid<wp>&u, Grid<wp>&v, Grid<wp>&p,
 dictionary<std::string,Grid<wp>>&x_qp_l,dictionary<std::string,Grid<wp>>&y_qp_l);
 Node InfiniteEdgeIntersection(Vec2 l1, Vec2 l2, bool& intersects);
-wp shoelaceArea(std::vector<Node>nds);
-bool isLeft(Node nd, Vec2 seg);
 std::vector<Node> SutherlandHodgman(std::vector<Vec2>&clipPolygon,std::vector<Node>&subjectPolygon);
 //Polygon clipping algorithm used to initialize volume fraction field for VoF; see:
 //https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
