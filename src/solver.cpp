@@ -185,17 +185,7 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                                 wp minVal=std::min({val1,val2,val3,val4});
                                 wp maxVal=std::max({val1,val2,val3,val4});
 
-                                wp ans=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},fineMesh.cc(i,j));
-
-                                if(ans<minVal || ans>maxVal){
-                                        std::cout<<"Warning, bilinear fail"<<std::endl;
-                                        std::cout<<nd1.x<<"\t"<<nd1.y<<std::endl;
-                                        std::cout<<nd2.x<<"\t"<<nd2.y<<std::endl;
-                                        std::cout<<nd3.x<<"\t"<<nd3.y<<std::endl;
-                                        std::cout<<nd4.x<<"\t"<<nd4.y<<std::endl;
-                                        std::cout<<nd.x<<"\t"<<nd.y<<std::endl;
-                                        std::exit(-1);
-                                };
+                                wp ans=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},nd);
 
                                 fineVar(i,j)+=ans;
 
@@ -294,10 +284,10 @@ wp Solver::bilinearInterp4(std::array<Node,4>nds,std::array<wp,4>vals,Node nd){
         //Refer https://iquilezles.org/articles/ibilinear/
 
         nd=nd-nds[0];
-        nds[0]=nds[0]-nds[0];
         nds[1]=nds[1]-nds[0];
         nds[2]=nds[2]-nds[0];
         nds[3]=nds[3]-nds[0];
+        nds[0]=nds[0]-nds[0];
 
         wp alpha=nds[2].x-nds[1].x-nds[3].x;
         wp beta=nds[2].y-nds[1].y-nds[3].y;
