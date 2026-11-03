@@ -994,8 +994,8 @@ void comNSSolver::setupMultigrid(int maxlevel_){
 
         coarser=new comNSSolver(level+1,newMesh);
         coarser->finer=this;
+        QDot();
         restriction();
-        coarser->applyBC();
         if(params["MUREF"]!=0.0){
                 (static_cast<comNSSolver*>(coarser))->computeTemperature(vars["p"],vars["rho"],params["RGAS"]);
                 (static_cast<comNSSolver*>(coarser))->computeViscosity();
