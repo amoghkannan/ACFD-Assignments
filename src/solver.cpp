@@ -42,7 +42,7 @@ Scheme& Solver::getScheme(){
         return scheme;
 };
 
-void Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar){
+void Solver::restrictVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar){
 
         if(fineVar.indexType[0]==NODE && fineVar.indexType[1]==NODE){
 
@@ -58,7 +58,7 @@ void Solver::restrictVar(Mesh& fineMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar){
         
                 for(int j=1;j<=coarseVar.intVect[1];j++){
                         for(int i=1;i<=coarseVar.intVect[0];i++){
-                                coarseVar(i,j)=volumeAverage(fineMesh,fineVar,i,j);
+                                coarseVar(i,j)=volumeAverage(fineMesh,fineVar,i,j)/coarseMesh.volumes(i,j);
                         };
                 };
         
@@ -75,18 +75,14 @@ wp Solver::volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int iCoarse,int jCoarse)
         int j=jCoarse;
 
         wp ans=fineVar(2*i-1,2*j-1)*fineMesh.volumes(2*i-1,2*j-1);
-        wp weights=fineMesh.volumes(2*i-1,2*j-1);
 
         ans=ans+fineVar(2*i,2*j-1)*fineMesh.volumes(2*i,2*j-1);
-        weights=weights+fineMesh.volumes(2*i,2*j-1);
 
         ans=ans+fineVar(2*i-1,2*j)*fineMesh.volumes(2*i-1,2*j);
-        weights=weights+fineMesh.volumes(2*i-1,2*j);
 
         ans=ans+fineVar(2*i,2*j)*fineMesh.volumes(2*i,2*j);
-        weights=weights+fineMesh.volumes(2*i,2*j);
 
-        return ans/weights;
+        return ans;
 };
 
 void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, Grid<wp>& coarseVar){
@@ -147,8 +143,10 @@ void Solver::restriction(){
         if(getScheme().getScheme(multigrid)==FAS){
 
                 for(auto key:vars.getKeys()){
-                        restrictVar(*mesh,vars[key],coarser->vars[key]);
+                        restrictVar(*mesh,*(coarser->mesh),vars[key],coarser->vars[key]);
                 };
+
+                coarser->QDot();
 
                 int counter=0;
                 for(auto key:vars.getKeys()){
@@ -177,7 +175,7 @@ void Solver::restriction(){
                 
                 for(auto key:vars.getKeys()){
                         coarser->vars[key].initVal(0.0);
-                        restrictVar(*mesh,varsDot[key],coarser->varsDot[key]);
+                        restrictVar(*mesh,*(coarser->mesh),varsDot[key],coarser->varsDot[key]);
                 };
 
                 (coarser->ls)->setRHSFunc(coarser->varsDot(0));

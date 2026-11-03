@@ -79,7 +79,7 @@ virtual bool isConverged()=0;
 
 //For multigrid
 virtual void setupMultigrid(int maxLevel){logger.log("Invalid multigrid setup",1);};
-static void restrictVar(Mesh& fineMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar);
+static void restrictVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>& fineVar, Grid<wp>&coarseVar);
 static wp volumeAverage(Mesh&fineMesh,Grid<wp>&fineVar,int i,int j);
 static void prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, Grid<wp>& coarseVar);
 void restriction();
