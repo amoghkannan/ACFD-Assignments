@@ -262,10 +262,10 @@ void Integrator::multigridController(Solver *s, int level){
                         };
                         return;
                 case(FAS):
-                        s->getResNorm();
                         for(int n=0;n<s->nVars;n++){
                                 Grid<wp>&currVar=s->vars(n);
                                 Grid<wp>&currUStore=s->u_store[n];
+                                #pragma omp parallel for collapse(2)
                                 for(int j=0;j<=currVar.intVect[1]+1;j++){
                                         for(int i=0;i<=currVar.intVect[0]+1;i++){
                                                 currUStore(i,j)=currVar(i,j);

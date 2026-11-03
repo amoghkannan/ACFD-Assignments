@@ -55,7 +55,8 @@ void Solver::restrictVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>& fineVar, Gr
         
         }
         else if(fineVar.indexType[0]==CELL && fineVar.indexType[1]==CELL){
-        
+       
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=coarseVar.intVect[1];j++){
                         for(int i=1;i<=coarseVar.intVect[0];i++){
                                 coarseVar(i,j)=volumeAverage(fineMesh,coarseMesh,fineVar,i,j);
@@ -126,6 +127,8 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
               Node nd1,nd2,nd3,nd4;
               Node nd;
 
+                #pragma omp parallel for collapse(2) private(iCoarse,jCoarse,i1,j1,i2,j2,i3,j3,i4,j4,\
+                nd1,nd2,nd3,nd4,nd,val1,val2,val3,val4)
                 for(int j=1;j<=fineVar.intVect[1];j++){
                         for(int i=1;i<=fineVar.intVect[0];i++){
                                
@@ -182,8 +185,6 @@ void Solver::prolongateVar(Mesh& fineMesh, Mesh& coarseMesh, Grid<wp>&fineVar, G
                                 val2=coarseVar(i2,j2);
                                 val3=coarseVar(i3,j3);
                                 val4=coarseVar(i4,j4);
-                                wp minVal=std::min({val1,val2,val3,val4});
-                                wp maxVal=std::max({val1,val2,val3,val4});
 
                                 wp ans=bilinearInterp4({nd1,nd2,nd3,nd4},{val1,val2,val3,val4},nd);
 
@@ -239,14 +240,10 @@ void Solver::prolongation(){
         for(int n=0;n<nVars;n++){
                 Grid<wp>&currVar=vars(n);
                 Grid<wp>&currUStore=u_store[n];
+                #pragma omp parallel for collapse(2)
                 for(int j=0;j<=currVar.intVect[1]+1;j++){
                         for(int i=0;i<=currVar.intVect[0]+1;i++){
-                                if(i==0 || i==currVar.intVect[0]+1 || j==0 || j==currVar.intVect[1]+1){
-                                        currUStore(i,j)=0.0;
-                                }
-                                else{
-                                        currUStore(i,j)=currVar(i,j)-currUStore(i,j);
-                                };
+                                currUStore(i,j)=currVar(i,j)-currUStore(i,j);
                         };
                 };
 
