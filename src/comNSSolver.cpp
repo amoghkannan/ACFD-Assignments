@@ -575,6 +575,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
         if(scheme.getScheme(timeSteppingLocality)==GLOBAL){
                 wp mindt=BIG;
 
+                #pragma omp parallel for collapse(2) reduction(min:mindt)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                              
@@ -583,6 +584,7 @@ void comNSSolver::computeTimeStep(Grid<wp>&dt){
                         };
                 };
 
+                #pragma omp parallel for collapse(2)
                 for(int j=1;j<=u.intVect[1];j++){
                         for(int i=1;i<=u.intVect[0];i++){
                              

@@ -187,7 +187,7 @@ void Integrator::rk4FAS(Solver *s){
         s->QDot();
 
         for(int i=0;i<s->nVars;i++){
-               s->varsDot(i)=s->varsDot(i)+s->res_store[i];
+               s->varsDot(i)+=s->res_store[i];
         };
 
         s->updateVars(deltaT,CFL*0.5,uStore);
